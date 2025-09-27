@@ -38,3 +38,20 @@ void supprimer_liste_distances(ListeDistances liste)
 {
     free(liste);
 }
+
+MatriceDistances creer_demie_matrice_distances(int nombre_points)
+{
+    int nombre_elements = (nombre_points * (nombre_points - 1)) / 2;
+    MatriceDistances matrice = malloc(nombre_elements * sizeof(distance));
+    if (matrice == NULL)
+    {
+        fprintf(stderr, "creer_liste_distances :\nEchec de l'allocation mémoire de la liste.\n");
+        exit(EXIT_FAILURE);
+    }
+    return matrice;
+}
+
+void supprimer_matrice_distances(MatriceDistances matrice)
+{
+    free(matrice);
+}
