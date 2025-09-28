@@ -18,7 +18,8 @@ int main(int argc, char **argv)
     // EXEMPLE
     char *nom_fichier = "data/rat783.tsp";
     Specification specification = lire_specification_tsp(nom_fichier);
-    TableauPoints tableau_points = lire_points_tsp(nom_fichier, specification.nombre_points);
+    TableauPoints tableau_points = creer_tableau_points(specification.nombre_points);
+    lire_points_tsp(nom_fichier, tableau_points);
     MatriceDistances matrice = creer_matrice(tableau_points, calculer_distance_euclidienne);
     remplir_matrice(matrice);
     afficher_specification(specification);

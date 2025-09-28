@@ -53,7 +53,7 @@ void supprimer_liste_distances(TableauDistances *tableau)
     tableau->distances = NULL;
 }
 
-size_t nombre_elements_matrice(size_t taille)
+size_t calculer_nombre_elements_matrice(size_t taille)
 {
     return (taille * (taille - 1)) / 2;
 }
@@ -62,7 +62,7 @@ MatriceDistances creer_matrice(TableauPoints tableau_points, calculer_distance c
 {
     MatriceDistances matrice;
     matrice.tableau_points = tableau_points;
-    size_t nombre_distances = nombre_elements_matrice(tableau_points.nombre_points);
+    size_t nombre_distances = calculer_nombre_elements_matrice(tableau_points.nombre_points);
     matrice.tableau_distances = creer_tableau_distances(nombre_distances, calculer_distance);
     return matrice;
 }
@@ -96,7 +96,7 @@ size_t obtenir_element_matrice(MatriceDistances matrice, size_t ligne, size_t co
                 "La ligne et/ou la colonne dépassent la taille de la matrice.\n");
         exit(EXIT_FAILURE);
     }
-    return nombre_elements_matrice(ligne) + colonne;
+    return calculer_nombre_elements_matrice(ligne) + colonne;
 }
 
 void remplir_matrice(MatriceDistances matrice)

@@ -11,6 +11,6 @@
 
 Specification lire_specification_tsp(char *nom_fichier);
 
-TableauPoints lire_points_tsp(char *nom_fichier, size_t nombre_points);
+void lire_points_tsp(char *nom_fichier, TableauPoints);
 
 #endif // LECTURE_DONNEE_H

@@ -58,7 +58,7 @@ Specification lire_specification_tsp(char *nom_fichier)
     return specification;
 }
 
-TableauPoints lire_points_tsp(char *nom_fichier, size_t nombre_points)
+void lire_points_tsp(char *nom_fichier, TableauPoints tableau)
 {
     FILE *fichier = fopen(nom_fichier, "r");
     if (fichier == NULL)
@@ -77,11 +77,9 @@ TableauPoints lire_points_tsp(char *nom_fichier, size_t nombre_points)
             break;
         }
     }
-    TableauPoints tableau = creer_tableau_points(nombre_points);
-    for (size_t i = 0; i < nombre_points; i++)
+    for (size_t i = 0; i < tableau.nombre_points; i++)
     {
         fscanf(fichier, "%*d%lf%lf", &(tableau.points[i].x), &(tableau.points[i].y));
     }
     fclose(fichier);
-    return tableau;
 }
