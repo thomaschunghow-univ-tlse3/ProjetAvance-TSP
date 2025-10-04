@@ -40,10 +40,22 @@ typedef struct
     TableauDistances tableau_distances;
 } MatriceDistances;
 
+
+typedef distance (*Retenue);
+
+typedef struct
+{
+	distance pireDistance;
+	distance meilleurDistance;
+} Extremite;
+
 MatriceDistances creer_matrice(TableauPoints, calculer_distance);
 void supprimer_matrice(MatriceDistances *);
 size_t obtenir_element_matrice(MatriceDistances, size_t ligne, size_t colonne);
-void remplir_matrice(MatriceDistances);
+void remplir_matrice(MatriceDistances matrice);
+//Extremite *remplir_matriceV2(MatriceDistances matrice);
+//Retenue *remplir_matriceV3(MatriceDistances matrice);
+void supprimer_extremite(Extremite *extremite);
 
 #define TAILLE_CHAMP_MAX 100
 typedef struct

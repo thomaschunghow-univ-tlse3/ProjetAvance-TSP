@@ -3,16 +3,16 @@
  */
 
 #include "affichage.h"
-
+#include <stdlib.h>
 #include <stdio.h>
 
 void afficher_specification(Specification specification)
 {
-    printf("%s\n"  // Nom
-           "%s\n"  // Type
+    printf("Nom : %s\n"  // Nom
+           "Type : %s\n"  // Type
            "%s\""  // Commentaire
-           "%ld\n" // Nombre de points
-           "%s\n", // Type de distance
+           "NB point : %ld\n" // Nombre de points
+           "type de distance %s\n", // Type de distance
            specification.nom,
            specification.type,
            specification.commentaire,
@@ -24,9 +24,10 @@ void afficher_liste_points(TableauPoints liste)
 {
     for (size_t i = 0; i < liste.nombre_points; i++)
     {
-        printf("%ld "   // Indice du point
-               "%lf "   // Coordonnée x
-               "%lf\n", // Coordonnée y
+		
+        printf("indice %ld "   // Indice du point
+               "x : %lf "   // Coordonnée x
+               "y : %lf\n", // Coordonnée y
                i + 1,
                liste.points[i].x,
                liste.points[i].y);
@@ -37,9 +38,13 @@ void afficher_matrice(MatriceDistances matrice)
 {
     for (size_t i = 0; i < matrice.tableau_distances.nombre_distances; i++)
     {
-        printf("%ld "   // Indice du point
-               "%lf\n", // Distance
+        printf("indice : %ld "   // Indice du point
+               "distance : %lf\n", // Distance
                i + 1,
                matrice.tableau_distances.distances[i]);
     }
 }
+
+/*void afficher_extremite(Extremite *extremite){
+	printf(" meilleure distance : %f, pire distance : %f\n",extremite -> meilleurDistance,extremite -> pireDistance);
+}*/

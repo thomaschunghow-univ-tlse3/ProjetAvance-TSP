@@ -23,8 +23,12 @@ int main(int argc, char **argv)
     MatriceDistances matrice = creer_matrice(tableau_points, calculer_distance_euclidienne);
     remplir_matrice(matrice);
     afficher_specification(specification);
+	
     afficher_liste_points(tableau_points);
+	
     afficher_matrice(matrice);
+	//afficher_extremite(extremite);
     supprimer_matrice(&matrice);
+	//supprimer_extremite(extremite);
     return EXIT_SUCCESS;
 }
