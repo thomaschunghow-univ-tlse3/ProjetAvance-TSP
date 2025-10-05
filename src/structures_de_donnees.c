@@ -67,14 +67,13 @@ MatriceDistances creer_matrice(TableauPoints tableau_points, calculer_distance c
     return matrice;
 }
 
-void supprimer_extremite(Extremite *extremite){
-	free(extremite);
-}
-
 void supprimer_matrice(MatriceDistances *matrice)
 {
+	printf("2\n");
     supprimer_tableau_points(&matrice->tableau_points);
+	printf("3\n");
     supprimer_liste_distances(&matrice->tableau_distances);
+	printf("3\n");
 }
 
 size_t obtenir_element_matrice(MatriceDistances matrice, size_t ligne, size_t colonne)
@@ -124,63 +123,4 @@ void remplir_matrice(MatriceDistances matrice){
     }
 
 }
-
-/*Extremite *remplir_matriceV2(MatriceDistances matrice)
-{
-    Point *points = matrice.tableau_points.points;
-    size_t nombre_points = matrice.tableau_points.nombre_points;
-    distance *distances = matrice.tableau_distances.distances;
-    calculer_distance calculer_distance = matrice.tableau_distances.calculer_distance;
-	
-	Extremite *extremite = malloc(sizeof(Extremite));
-	
-	distances[0] = calculer_distance(points[1], points[0]);
-	extremite -> pireDistance = distances[0];
-	extremite -> meilleurDistance = distances[0];
-	
-	
-	
-    size_t indice_matrice = 0;
-    for (size_t ligne = 0; ligne < nombre_points; ligne++)
-    {
-		
-        for (size_t colonne = 0; colonne < ligne; colonne++)
-        {
-			
-            distances[indice_matrice] = calculer_distance(points[ligne], points[colonne]);
-			if(distances[indice_matrice] < extremite -> meilleurDistance)
-				extremite -> meilleurDistance = distances[indice_matrice];
-			if(distances[indice_matrice] > extremite -> pireDistance)
-				extremite -> pireDistance = distances[indice_matrice];
-            indice_matrice++;
-        }
-    }
-	return extremite;
-}*/
-
-/*Retenue *remplir_matriceV3(MatriceDistances matrice)
-{
-    Point *points = matrice.tableau_points.points;
-    size_t nombre_points = matrice.tableau_points.nombre_points;
-    distance *distances = matrice.tableau_distances.distances;
-    calculer_distance calculer_distance = matrice.tableau_distances.calculer_distance;
-	
-	Retenue *retenue = malloc(sizeof(Retenue));
-	
-    size_t indice_matrice = 0;
-    for (size_t ligne = 0; ligne < nombre_points; ligne++)
-    {
-        for (size_t colonne = 0; colonne < ligne; colonne++)
-        {
-            distances[indice_matrice] = calculer_distance(points[ligne], points[colonne]);
-			if(distances[indice_matrice] < *retenue[ligne] )
-				*retenue[ligne] = distances[indice_matrice];
-	
-            indice_matrice++;
-        }
-		
-    }
-	return retenue;
-}*/
-
 

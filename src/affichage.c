@@ -10,9 +10,9 @@ void afficher_specification(Specification specification)
 {
     printf("Nom : %s\n"  // Nom
            "Type : %s\n"  // Type
-           "%s\""  // Commentaire
+           "Commentaire : %s\n"  // Commentaire
            "NB point : %ld\n" // Nombre de points
-           "type de distance %s\n", // Type de distance
+           "Type de distance %s\n", // Type de distance
            specification.nom,
            specification.type,
            specification.commentaire,
