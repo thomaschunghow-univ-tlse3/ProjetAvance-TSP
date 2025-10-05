@@ -13,17 +13,18 @@
 
 int main(int argc, char **argv)
 {
-	char *nom_fichier = "data/rat783.tsp";//argv[1];
+	char *nom_fichier ;//argv[1];
 	if(argc == 2){
-		//char *data = "data/"; strcat(char *dest,char *src) à utiliser pour concaténer 2 chaines
+		char data[25] = "data/"; 
 		
-		nom_fichier = argv[1];//utiliser data/ avant chaque fichier sinon erreur
-		printf("pensez à placer data/ avant le nom de fichier.\n");
+		nom_fichier = strcat(data,argv[1]);//strcat(char *dest,char *src) pour concaténer 2 chaines
+		//printf("pensez à placer data/ avant le nom de fichier.\n");
 	}
 	else if(argc>2){
 		perror("choisissez un seul fichier");
 		exit(1);
-	} 
+	}else
+		nom_fichier = "data/rat783.tsp";
 		
     /*(void)argc;
     (void)argv;*/

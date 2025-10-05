@@ -69,11 +69,9 @@ MatriceDistances creer_matrice(TableauPoints tableau_points, calculer_distance c
 
 void supprimer_matrice(MatriceDistances *matrice)
 {
-	printf("2\n");
     supprimer_tableau_points(&matrice->tableau_points);
-	printf("3\n");
     supprimer_liste_distances(&matrice->tableau_distances);
-	printf("3\n");
+	
 }
 
 size_t obtenir_element_matrice(MatriceDistances matrice, size_t ligne, size_t colonne)
