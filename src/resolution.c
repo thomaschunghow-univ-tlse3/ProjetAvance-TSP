@@ -6,14 +6,14 @@
 #include "calcul_distance.h"
 #include "lecture_donnees.h"
 #include "affichage.h"
+#include "traitement_options.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 
 int main(int argc, char **argv)
 {
-    (void)argc;
-    (void)argv;
+    traitement_options(argc, argv);
 
     // EXEMPLE
     char *nom_fichier = "data/rat783.tsp";
