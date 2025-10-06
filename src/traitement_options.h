@@ -7,7 +7,7 @@
 
 #include <stdbool.h>
 
-#define TAILLE_OPTIONS_MAX 200
+#define TAILLE_OPTIONS_MAX 100
 
 typedef enum
 {
@@ -23,10 +23,10 @@ typedef enum
 
 typedef struct
 {
-    bool fichier_entree_fourni;
-    bool fichier_sortie_fourni;
-    bool methode_calcul_fourni;
-    bool tournee_canonique;
+    bool est_donne_fichier_entree;
+    bool est_donne_fichier_sortie;
+    bool est_donne_methode_calcul;
+    bool est_donne_canonique;
 
     char nom_fichier_entree[TAILLE_OPTIONS_MAX];
     char nom_fichier_sortie[TAILLE_OPTIONS_MAX];

@@ -9,7 +9,7 @@
 
 void afficher_specification(Specification);
 
-void afficher_liste_points(TableauPoints);
+void afficher_tableau_points(TableauPoints);
 
 void afficher_matrice(MatriceDistances);
 

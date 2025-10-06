@@ -16,7 +16,7 @@ Specification lire_specification_tsp(char *nom_fichier)
     {
         fprintf(stderr,
                 "Erreur lire_specification_tsp :\n"
-                "Echec d'ouverture du fichier %s.\n",
+                "Echec d'ouverture du fichier '%s'.\n",
                 nom_fichier);
         exit(EXIT_FAILURE);
     }
@@ -39,7 +39,12 @@ Specification lire_specification_tsp(char *nom_fichier)
         }
         if (strstr(ligne, "COMMENT"))
         {
-            sscanf(ligne, "%*[^:]:%s", specification.commentaire);
+            char *deux_points;
+            if ((deux_points = strchr(ligne, ':')) != NULL)
+            {
+                strncpy(specification.commentaire, deux_points + 1, TAILLE_CHAMP_MAX);
+                // TODO supprimer_espaces_debut(specification.commentaire);
+            }
         }
         if (strstr(ligne, "DIMENSION"))
         {
@@ -65,7 +70,7 @@ void lire_points_tsp(char *nom_fichier, TableauPoints tableau)
     {
         fprintf(stderr,
                 "Erreur lire_points_tsp :\n"
-                "Echec d'ouverture du fichier %s.\n",
+                "Echec d'ouverture du fichier '%s'.\n",
                 nom_fichier);
         exit(EXIT_FAILURE);
     }

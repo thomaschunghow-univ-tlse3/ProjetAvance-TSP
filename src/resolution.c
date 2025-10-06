@@ -13,18 +13,16 @@
 
 int main(int argc, char **argv)
 {
-    traitement_options(argc, argv);
+    Options options = traitement_options(argc, argv);
 
-    // EXEMPLE
-    char *nom_fichier = "data/rat783.tsp";
-    Specification specification = lire_specification_tsp(nom_fichier);
-    TableauPoints tableau_points = creer_tableau_points(specification.nombre_points);
-    lire_points_tsp(nom_fichier, tableau_points);
-    MatriceDistances matrice = creer_matrice(tableau_points, calculer_distance_euclidienne);
-    remplir_matrice(matrice);
+    if (!options.est_donne_canonique)
+    {
+        exit(EXIT_SUCCESS);
+    }
+    Specification specification = lire_specification_tsp(options.nom_fichier_entree);
     afficher_specification(specification);
-    afficher_liste_points(tableau_points);
-    afficher_matrice(matrice);
-    supprimer_matrice(&matrice);
-    return EXIT_SUCCESS;
+    TableauPoints tableau_points = creer_tableau_points(specification.nombre_points);
+    lire_points_tsp(options.nom_fichier_entree, tableau_points);
+    // afficher_tableau_points(tableau_points);
+    exit(EXIT_SUCCESS);
 }

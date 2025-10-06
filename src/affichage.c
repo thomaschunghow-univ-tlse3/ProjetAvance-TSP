@@ -20,16 +20,16 @@ void afficher_specification(Specification specification)
            specification.type_distance);
 }
 
-void afficher_liste_points(TableauPoints liste)
+void afficher_tableau_points(TableauPoints tableau)
 {
-    for (size_t i = 0; i < liste.nombre_points; i++)
+    for (size_t i = 0; i < tableau.nombre_points; i++)
     {
         printf("%ld "   // Indice du point
                "%lf "   // Coordonnée x
                "%lf\n", // Coordonnée y
                i + 1,
-               liste.points[i].x,
-               liste.points[i].y);
+               tableau.points[i].x,
+               tableau.points[i].y);
     }
 }
 
