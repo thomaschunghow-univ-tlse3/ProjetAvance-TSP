@@ -26,35 +26,35 @@ Options initialiser_options()
 
 MethodeCalcul traitement_methode_calcul(char *nom)
 {
-    if (strncmp(nom, "bf", 2) == 0)
+    if (strcmp(nom, "bf") == 0)
     {
         return BF;
     }
-    if (strncmp(nom, "nn", 2) == 0)
+    if (strcmp(nom, "nn") == 0)
     {
         return NN;
     }
-    else if (strncmp(nom, "rw", 2) == 0)
+    if (strcmp(nom, "rw") == 0)
     {
         return RW;
     }
-    else if (strncmp(nom, "2optnn", 6) == 0)
+    if (strcmp(nom, "2optnn") == 0)
     {
         return NN2OPT;
     }
-    else if (strncmp(nom, "2optrw", 6) == 0)
+    if (strcmp(nom, "2optrw") == 0)
     {
         return RW2OPT;
     }
-    else if (strncmp(nom, "ga", 2) == 0)
+    if (strcmp(nom, "ga") == 0)
     {
         return GA;
     }
-    else if (strncmp(nom, "gadpx", 5) == 0)
+    if (strcmp(nom, "gadpx") == 0)
     {
         return GADPX;
     }
-    else if (strncmp(nom, "all", 3) == 0)
+    if (strcmp(nom, "all") == 0)
     {
         return ALL;
     }
