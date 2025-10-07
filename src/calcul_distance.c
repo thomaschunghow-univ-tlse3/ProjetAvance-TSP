@@ -10,12 +10,7 @@
 
 distance calculer_distance_euclidienne(Point A, Point B)
 {
-	int retour;
-	if((retour = hypot(B.x - A.x, B.y - A.y)) == -1){
-		perror("hypothénuse");
-		exit(0);
-	}
-    return retour;
+	return hypot(B.x - A.x, B.y - A.y);
 }
 
 double calcul_longitude_latitude(double point){

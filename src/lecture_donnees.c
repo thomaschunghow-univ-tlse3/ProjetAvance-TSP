@@ -54,7 +54,10 @@ Specification lire_specification_tsp(char *nom_fichier)
             break;
         }
     }
-    fclose(fichier);
+    if(fclose(fichier) == -1){
+		perror("fermeture fichier lire specification");
+		exit(0);
+	}
     return specification;
 }
 
@@ -81,5 +84,8 @@ void lire_points_tsp(char *nom_fichier, TableauPoints tableau)
     {
         fscanf(fichier, "%*d%lf%lf", &(tableau.points[i].x), &(tableau.points[i].y));
     }
-    fclose(fichier);
+    if(fclose(fichier) == -1){
+		perror("fermeture fichier lire point");
+		exit(0);
+	}
 }

@@ -13,6 +13,6 @@ void afficher_liste_points(TableauPoints);
 
 void afficher_matrice(MatriceDistances);
 
-//void afficher_extremite(Extremite *extremite);
+
 
 #endif // AFFICHAGE_H

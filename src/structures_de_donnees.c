@@ -102,7 +102,6 @@ size_t obtenir_element_matrice(MatriceDistances matrice, size_t ligne, size_t co
 }
 
 void remplir_matrice(MatriceDistances matrice){
-	
     Point *points = matrice.tableau_points.points;
     size_t nombre_points = matrice.tableau_points.nombre_points;
     distance *distances = matrice.tableau_distances.distances;
@@ -121,4 +120,5 @@ void remplir_matrice(MatriceDistances matrice){
     }
 
 }
+
 

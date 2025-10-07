@@ -45,6 +45,3 @@ void afficher_matrice(MatriceDistances matrice)
     }
 }
 
-/*void afficher_extremite(Extremite *extremite){
-	printf(" meilleure distance : %f, pire distance : %f\n",extremite -> meilleurDistance,extremite -> pireDistance);
-}*/
