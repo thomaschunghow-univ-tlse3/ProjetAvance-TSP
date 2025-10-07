@@ -1,5 +1,8 @@
 /*
+ * canonique.h
  *
+ * Ce module fournit une fonction permettant de générer
+ * une tournée canonique à partir d'une matrice de distances.
  */
 
 #ifndef CANONIQUE_H

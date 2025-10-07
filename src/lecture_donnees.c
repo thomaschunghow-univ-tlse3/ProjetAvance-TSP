@@ -1,5 +1,5 @@
 /*
- *
+ * lecture_donnees.c
  */
 
 #include "lecture_donnees.h"
@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#define TAILLE_LIGNE_MAX 100
 
 Specification initialiser_specification()
 {

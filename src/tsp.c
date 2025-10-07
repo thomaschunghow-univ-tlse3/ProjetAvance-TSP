@@ -1,5 +1,7 @@
 /*
- * Résolution du problème du voyageur de commerce.
+ * tsp.c
+ *
+ * Programme principal pour la résolution du problème du voyageur de commerce.
  */
 
 #include "structures_de_donnees.h"
@@ -11,6 +13,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+
+/* Exemple d'utilisation : /bin/tsp -f data/pr76.tsp -m bf -o bin/tsp.txt */
 
 int main(int argc, char **argv)
 {

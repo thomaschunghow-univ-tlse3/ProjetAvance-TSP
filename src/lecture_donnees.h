@@ -1,5 +1,9 @@
 /*
+ * lecture_donnees.h
  *
+ * Ce module permet :
+ * - La lecture de la spécification d'un fichier TSP,
+ * - La lecture des coordonnées des points et leur stockage dans un tableau dynamique.
  */
 
 #ifndef LECTURE_DONNEE_H
@@ -10,7 +14,6 @@
 
 #include <stdio.h>
 
-#define TAILLE_LIGNE_MAX 100
 #define TAILLE_CHAMP_MAX 100
 
 typedef struct

@@ -1,5 +1,5 @@
 /*
- *
+ * canonique.c
  */
 
 #include "canonique.h"

@@ -1,5 +1,7 @@
 /*
+ * calcul_distance.h
  *
+ * Ce module fournit les différentes méthodes de calcul de distance.
  */
 
 #ifndef CALCUL_DISTANCE_H

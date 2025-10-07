@@ -1,5 +1,11 @@
 /*
+ * structures_de_donnees.h
  *
+ * Ce module fournit :
+ *  - Les types de coordonnées et de distances,
+ *  - Les tableaux dynamiques de points et de distances (types abstraits),
+ *  - Les demi-matrices de distances (type abstrait),
+ *  - Les fonctions de création, accès, calcul et suppression de ces structures.
  */
 
 #ifndef STRUCTURES_DE_DONNEES_H
