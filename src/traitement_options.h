@@ -6,6 +6,7 @@
 #define TRAITEMENT_OPTIONS_H
 
 #include <stdbool.h>
+#include <stdio.h>
 
 #define TAILLE_OPTIONS_MAX 100
 
@@ -34,5 +35,10 @@ typedef struct
 } Options;
 
 Options traitement_options(int argc, char **argv);
+
+FILE *ouverture_entree(Options options);
+FILE *ouverture_sortie(Options options);
+void fermeture_entree(FILE *, Options options);
+void fermeture_sortie(FILE *, Options options);
 
 #endif // TRAITEMENT_OPTIONS_H

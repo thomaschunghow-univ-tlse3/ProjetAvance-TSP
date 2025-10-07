@@ -115,3 +115,62 @@ Options traitement_options(int argc, char **argv)
     }
     return options;
 }
+
+FILE *ouverture_entree(Options options)
+{
+    FILE *entree = fopen(options.nom_fichier_entree, "r");
+    if (entree == NULL)
+    {
+        fprintf(stderr,
+                "Erreur ouverture_entree :\n"
+                "Echec d'ouverture du fichier '%s'.\n",
+                options.nom_fichier_entree);
+        exit(EXIT_FAILURE);
+    }
+    return entree;
+}
+
+FILE *ouverture_sortie(Options options)
+{
+    FILE *sortie = stdout;
+    if (options.est_donne_fichier_sortie)
+    {
+        sortie = fopen(options.nom_fichier_sortie, "w");
+        if (sortie == NULL)
+        {
+            fprintf(stderr,
+                    "Erreur ouverture_sortie :\n"
+                    "Echec d'ouverture du fichier '%s'.\n",
+                    options.nom_fichier_sortie);
+            exit(EXIT_FAILURE);
+        }
+    }
+    return sortie;
+}
+
+void fermeture_entree(FILE *entree, Options options)
+{
+    if (fclose(entree) == EOF)
+    {
+        fprintf(stderr,
+                "Erreur fermeture_entree :\n"
+                "Echec de fermeture du fichier '%s'.\n",
+                options.nom_fichier_entree);
+        exit(EXIT_FAILURE);
+    }
+}
+void fermeture_sortie(FILE *sortie, Options options)
+{
+    if (sortie == stdout)
+    {
+        return;
+    }
+    if (fclose(sortie) == EOF)
+    {
+        fprintf(stderr,
+                "Erreur fermeture_sortie :\n"
+                "Echec de fermeture du fichier '%s'.\n",
+                options.nom_fichier_sortie);
+        exit(EXIT_FAILURE);
+    }
+}

@@ -7,6 +7,14 @@
 
 #include "structures_de_donnees.h"
 
-distance calculer_distance_euclidienne(Point A, Point B);
+typedef enum
+{
+    EUC_2D,
+    GEO,
+    ATT
+} TypeDistance;
+
+distance
+calculer_distance_euclidienne(Point A, Point B);
 
 #endif // CALCUL_DISTANCE_H

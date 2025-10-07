@@ -6,7 +6,7 @@ SRC_DIR := src
 BIN_DIR := bin
 SRCS := $(wildcard $(SRC_DIR)/*.c)
 OBJS := $(patsubst $(SRC_DIR)/%.c, $(BIN_DIR)/%.o, $(SRCS))
-TARGET := $(BIN_DIR)/resolution
+TARGET := $(BIN_DIR)/tsp
 
 all: $(TARGET)
 
@@ -20,7 +20,7 @@ $(BIN_DIR)/%.o: $(SRC_DIR)/%.c | $(BIN_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(BIN_DIR)/*.o $(TARGET)
+	rm -f $(BIN_DIR)/*
 	rmdir $(BIN_DIR)
 
 .PHONY: all clean

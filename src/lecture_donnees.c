@@ -8,20 +8,43 @@
 #include <stdlib.h>
 #include <string.h>
 
-Specification lire_specification_tsp(char *nom_fichier)
+Specification initialiser_specification()
 {
     Specification specification;
-    FILE *fichier = fopen(nom_fichier, "r");
-    if (fichier == NULL)
+    memset(specification.nom, '\0', TAILLE_CHAMP_MAX);
+    memset(specification.type, '\0', TAILLE_CHAMP_MAX);
+    memset(specification.commentaire, '\0', TAILLE_CHAMP_MAX);
+    specification.nombre_points = 0;
+    specification.type_distance = EUC_2D;
+    return specification;
+}
+
+TypeDistance methode_calcul_depuis_nom(char *nom)
+{
+    if (strstr(nom, "EUC_2D"))
     {
-        fprintf(stderr,
-                "Erreur lire_specification_tsp :\n"
-                "Echec d'ouverture du fichier '%s'.\n",
-                nom_fichier);
-        exit(EXIT_FAILURE);
+        return EUC_2D;
     }
+    if (strstr(nom, "GEO"))
+    {
+        return GEO;
+    }
+    if (strstr(nom, "ATT"))
+    {
+        return ATT;
+    }
+    fprintf(stderr,
+            "Erreur methode_calcul_depuis_nom :\n"
+            "Méthode de calcul non reconnue.\n");
+    exit(EXIT_FAILURE);
+}
+
+Specification lire_specification_tsp(FILE *entree)
+{
+    rewind(entree);
+    Specification specification = initialiser_specification();
     char ligne[TAILLE_LIGNE_MAX];
-    while (fgets(ligne, sizeof(ligne), fichier) != NULL)
+    while (fgets(ligne, TAILLE_LIGNE_MAX, entree) != NULL)
     {
         if (strlen(ligne) >= TAILLE_CHAMP_MAX)
         {
@@ -31,20 +54,15 @@ Specification lire_specification_tsp(char *nom_fichier)
         }
         if (strstr(ligne, "NAME"))
         {
-            sscanf(ligne, "%*[^:]:%s", specification.nom);
+            strcpy(specification.nom, ligne);
         }
         if (strstr(ligne, "TYPE"))
         {
-            sscanf(ligne, "%*[^:]:%s", specification.type);
+            strcpy(specification.type, ligne);
         }
         if (strstr(ligne, "COMMENT"))
         {
-            char *deux_points;
-            if ((deux_points = strchr(ligne, ':')) != NULL)
-            {
-                strncpy(specification.commentaire, deux_points + 1, TAILLE_CHAMP_MAX);
-                // TODO supprimer_espaces_debut(specification.commentaire);
-            }
+            strcpy(specification.commentaire, ligne);
         }
         if (strstr(ligne, "DIMENSION"))
         {
@@ -52,39 +70,31 @@ Specification lire_specification_tsp(char *nom_fichier)
         }
         if (strstr(ligne, "EDGE_WEIGHT_TYPE"))
         {
-            sscanf(ligne, "%*[^:]:%s", specification.type_distance);
+            specification.type_distance = methode_calcul_depuis_nom(ligne);
         }
         if (strstr(ligne, "NODE_COORD_SECTION"))
         {
             break;
         }
     }
-    fclose(fichier);
     return specification;
 }
 
-void lire_points_tsp(char *nom_fichier, TableauPoints tableau)
+void lire_points_tsp(FILE *entree, TableauPoints tableau)
 {
-    FILE *fichier = fopen(nom_fichier, "r");
-    if (fichier == NULL)
-    {
-        fprintf(stderr,
-                "Erreur lire_points_tsp :\n"
-                "Echec d'ouverture du fichier '%s'.\n",
-                nom_fichier);
-        exit(EXIT_FAILURE);
-    }
+    rewind(entree);
     char ligne[TAILLE_LIGNE_MAX];
-    while (fgets(ligne, sizeof(ligne), fichier) != NULL)
+    while (fgets(ligne, TAILLE_LIGNE_MAX, entree) != NULL)
     {
         if (strstr(ligne, "NODE_COORD_SECTION"))
         {
             break;
         }
     }
-    for (size_t i = 0; i < tableau.nombre_points; i++)
+    size_t nombre_points = taille_tableau_points(tableau);
+    for (size_t i = 0; i < nombre_points; i++)
     {
-        fscanf(fichier, "%*d%lf%lf", &(tableau.points[i].x), &(tableau.points[i].y));
+        Point *point = obtenir_element_tableau_points(tableau, i);
+        fscanf(entree, "%*d%lf%lf", &(point->x), &(point->y));
     }
-    fclose(fichier);
 }
