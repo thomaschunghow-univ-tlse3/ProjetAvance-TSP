@@ -36,7 +36,7 @@ int main(int argc, char **argv)
     Specification specification = lire_specification_tsp(nom_fichier);
     TableauPoints tableau_points = creer_tableau_points(specification.nombre_points);
     lire_points_tsp(nom_fichier, tableau_points);
-	MatriceDistances matrice; 
+	MatriceDistances matrice; //déterminisme du calcul
 	if(strcmp(specification.type_distance,"GEO"))//distance géographique
 		matrice = creer_matrice(tableau_points, calculer_distance_geographique);
 	else if(strcmp(specification.type_distance,"EUC_2D"))//distance euclidienne
@@ -49,6 +49,9 @@ int main(int argc, char **argv)
     remplir_matrice(matrice);
     afficher_specification(specification);
     afficher_liste_points(tableau_points);
+	Point point;
+	point.x = 191.0; point.y = 200.0; 
+	changerPoint(matrice, point, 279);
     afficher_matrice(matrice);
     supprimer_matrice(&matrice);
 	

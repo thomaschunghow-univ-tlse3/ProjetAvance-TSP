@@ -46,7 +46,7 @@ MatriceDistances creer_matrice(TableauPoints, calculer_distance);
 void supprimer_matrice(MatriceDistances *);
 size_t obtenir_element_matrice(MatriceDistances, size_t ligne, size_t colonne);
 void remplir_matrice(MatriceDistances matrice);
-
+void changerPoint(MatriceDistances matrice, Point point, size_t indice_point);
 
 #define TAILLE_CHAMP_MAX 100
 typedef struct

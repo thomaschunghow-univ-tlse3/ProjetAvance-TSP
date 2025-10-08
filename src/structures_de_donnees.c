@@ -121,4 +121,24 @@ void remplir_matrice(MatriceDistances matrice){
 
 }
 
+void modification_des_distances(MatriceDistances matrice, size_t colonne){
+	size_t indice_matrice;
+	Point *points = matrice.tableau_points.points;
+	distance *distances = matrice.tableau_distances.distances;
+	calculer_distance calcul_distance = matrice.tableau_distances.calculer_distance;
+	size_t nbPoint = matrice.tableau_points.nombre_points;
+	for(size_t ligne = 0; ligne < nbPoint; ligne++){
+		if(ligne > colonne){
+			indice_matrice = obtenir_element_matrice(matrice,ligne,colonne);
+			distances[indice_matrice] = calcul_distance(points[ligne], points[colonne]);
+		}else if(ligne < colonne){
+			indice_matrice = obtenir_element_matrice(matrice,colonne,ligne);
+			distances[indice_matrice] = calcul_distance(points[ligne], points[colonne]);
+		}
+	}
+}
 
+void changerPoint(MatriceDistances matrice, Point point, size_t indice_point){
+	matrice.tableau_points.points[indice_point] = point;
+	modification_des_distances(matrice,indice_point);
+}
