@@ -127,14 +127,13 @@ void modification_des_distances(MatriceDistances matrice, size_t colonne){
 	distance *distances = matrice.tableau_distances.distances;
 	calculer_distance calcul_distance = matrice.tableau_distances.calculer_distance;
 	size_t nbPoint = matrice.tableau_points.nombre_points;
-	for(size_t ligne = 0; ligne < nbPoint; ligne++){
+	for(size_t ligne = 0; ligne < nbPoint; ligne++){//parcours des points
 		if(ligne > colonne){
-			indice_matrice = obtenir_element_matrice(matrice,ligne,colonne);
-			distances[indice_matrice] = calcul_distance(points[ligne], points[colonne]);
+			indice_matrice = obtenir_element_matrice(matrice,ligne,colonne);//ligne,colonne
 		}else if(ligne < colonne){
-			indice_matrice = obtenir_element_matrice(matrice,colonne,ligne);
-			distances[indice_matrice] = calcul_distance(points[ligne], points[colonne]);
+			indice_matrice = obtenir_element_matrice(matrice,colonne,ligne);//colonne,ligne
 		}
+		distances[indice_matrice] = calcul_distance(points[ligne], points[colonne]);
 	}
 }
 

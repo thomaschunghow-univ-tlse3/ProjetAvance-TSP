@@ -49,9 +49,11 @@ int main(int argc, char **argv)
     remplir_matrice(matrice);
     afficher_specification(specification);
     afficher_liste_points(tableau_points);
+	
 	Point point;
 	point.x = 191.0; point.y = 200.0; 
 	changerPoint(matrice, point, 279);
+	
     afficher_matrice(matrice);
     supprimer_matrice(&matrice);
 	
