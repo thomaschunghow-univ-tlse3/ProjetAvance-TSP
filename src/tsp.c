@@ -57,7 +57,5 @@ int main(int argc, char **argv)
     fermeture_entree(entree, options);
     fermeture_sortie(sortie, options);
 
-    printf("%.40lf\n", 1 / sqrt(10));
-
     exit(EXIT_SUCCESS);
 }

@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <math.h>
 
+#define _USE_MATH_DEFINES
 #define INVERSE_RACINE_10 0.31622776601683794117
 
 calculer_distance liste_fonctions_calcul[] = {
