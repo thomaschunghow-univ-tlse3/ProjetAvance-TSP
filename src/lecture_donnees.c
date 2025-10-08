@@ -3,6 +3,7 @@
  */
 
 #include "lecture_donnees.h"
+#include "calcul_distance.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,23 +18,23 @@ Specification initialiser_specification()
     memset(specification.type, '\0', TAILLE_CHAMP_MAX);
     memset(specification.commentaire, '\0', TAILLE_CHAMP_MAX);
     specification.nombre_points = 0;
-    specification.type_distance = EUC_2D;
+    specification.calculer_distance = &calculer_distance_euclidienne;
     return specification;
 }
 
-TypeDistance methode_calcul_depuis_nom(char *nom)
+calculer_distance methode_calcul_depuis_nom(char *nom)
 {
     if (strstr(nom, "EUC_2D"))
     {
-        return EUC_2D;
+        return liste_fonctions_calcul[EUC_2D];
     }
     if (strstr(nom, "GEO"))
     {
-        return GEO;
+        return liste_fonctions_calcul[GEO];
     }
     if (strstr(nom, "ATT"))
     {
-        return ATT;
+        return liste_fonctions_calcul[ATT];
     }
     fprintf(stderr,
             "Erreur methode_calcul_depuis_nom :\n"
@@ -72,7 +73,7 @@ Specification lire_specification_tsp(FILE *entree)
         }
         if (strstr(ligne, "EDGE_WEIGHT_TYPE"))
         {
-            specification.type_distance = methode_calcul_depuis_nom(ligne);
+            specification.calculer_distance = methode_calcul_depuis_nom(ligne);
         }
         if (strstr(ligne, "NODE_COORD_SECTION"))
         {

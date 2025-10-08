@@ -10,11 +10,18 @@
 #include "affichage.h"
 #include "traitement_options.h"
 #include "canonique.h"
+#include "force_brute.h"
+#include "2_optimisation.h"
+#include "genetique.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 
-/* Exemple d'utilisation : /bin/tsp -f data/pr76.tsp -m bf -o bin/tsp.txt */
+#include <math.h>
+
+/* Exemple d'utilisation :
+ * make
+ * /bin/tsp -f data/pr76.tsp -m bf -o bin/tsp.txt -c */
 
 int main(int argc, char **argv)
 {
@@ -34,17 +41,23 @@ int main(int argc, char **argv)
     remplir_matrice(matrice);
     afficher_matrice(sortie, matrice);
 
-    TableauDistances tournee = tournee_canonique(matrice);
-    afficher_tournee(sortie, tournee);
+    if (options.est_donne_canonique)
+    {
+        TableauDistances tournee = tournee_canonique(matrice);
+        afficher_tournee(sortie, tournee);
 
-    distance somme = somme_tableau_distances(tournee);
-    fprintf(sortie, "Distance totale : %lf\n", somme);
+        distance somme = somme_tableau_distances(tournee);
+        fprintf(sortie, "Distance totale : %lf\n", somme);
+
+        supprimer_tableau_distances(&tournee);
+    }
 
     supprimer_matrice(&matrice);
-    supprimer_tableau_distances(&tournee);
 
     fermeture_entree(entree, options);
     fermeture_sortie(sortie, options);
+
+    printf("%.40lf\n", 1 / sqrt(10));
 
     exit(EXIT_SUCCESS);
 }

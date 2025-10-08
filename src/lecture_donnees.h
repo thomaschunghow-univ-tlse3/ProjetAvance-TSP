@@ -10,7 +10,6 @@
 #define LECTURE_DONNEE_H
 
 #include "structures_de_donnees.h"
-#include "calcul_distance.h"
 
 #include <stdio.h>
 
@@ -22,7 +21,7 @@ typedef struct
     char type[TAILLE_CHAMP_MAX];
     char commentaire[TAILLE_CHAMP_MAX];
     size_t nombre_points;
-    TypeDistance type_distance;
+    calculer_distance calculer_distance;
 } Specification;
 
 Specification lire_specification_tsp(FILE *fichier);
