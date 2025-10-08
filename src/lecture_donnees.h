@@ -21,7 +21,7 @@ typedef struct
     char type[TAILLE_CHAMP_MAX];
     char commentaire[TAILLE_CHAMP_MAX];
     size_t nombre_points;
-    calculer_distance calculer_distance;
+    fonction_calcul_distance fonction_calcul_distance;
 } Specification;
 
 Specification lire_specification_tsp(FILE *fichier);

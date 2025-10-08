@@ -18,11 +18,11 @@ Specification initialiser_specification()
     memset(specification.type, '\0', TAILLE_CHAMP_MAX);
     memset(specification.commentaire, '\0', TAILLE_CHAMP_MAX);
     specification.nombre_points = 0;
-    specification.calculer_distance = &calculer_distance_euclidienne;
+    specification.fonction_calcul_distance = &calculer_distance_euclidienne;
     return specification;
 }
 
-calculer_distance methode_calcul_depuis_nom(char *nom)
+fonction_calcul_distance methode_calcul_depuis_nom(char *nom)
 {
     if (strstr(nom, "EUC_2D"))
     {
@@ -73,7 +73,7 @@ Specification lire_specification_tsp(FILE *entree)
         }
         if (strstr(ligne, "EDGE_WEIGHT_TYPE"))
         {
-            specification.calculer_distance = methode_calcul_depuis_nom(ligne);
+            specification.fonction_calcul_distance = methode_calcul_depuis_nom(ligne);
         }
         if (strstr(ligne, "NODE_COORD_SECTION"))
         {

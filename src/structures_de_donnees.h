@@ -46,13 +46,13 @@ Point *obtenir_element_tableau_points(TableauPoints, size_t indice);
  * Contient aussi une fonction de calcul associée. */
 typedef struct tableau_distances *TableauDistances;
 
-typedef distance (*calculer_distance)(Point, Point);
+typedef distance (*fonction_calcul_distance)(Point, Point);
 
-TableauDistances creer_tableau_distances(size_t nombre_distances, calculer_distance);
+TableauDistances creer_tableau_distances(size_t nombre_distances, fonction_calcul_distance);
 void supprimer_tableau_distances(TableauDistances *);
 
 size_t taille_tableau_distances(TableauDistances);
-calculer_distance fonction_tableau_distances(TableauDistances);
+fonction_calcul_distance fonction_tableau_distances(TableauDistances);
 
 distance *obtenir_element_tableau_distances(TableauDistances, size_t indice);
 
@@ -80,7 +80,7 @@ typedef struct matrice_distances *MatriceDistances;
 /* La création de la demie-matrice n'initialise pas le tableau des distances.
  * Il revient à l'utilisateur de calculer élément par élément les distances souhaitées,
  * ou bien de calculer tout le tableau à l'aide de la fonction remplir. */
-MatriceDistances creer_matrice(TableauPoints, calculer_distance);
+MatriceDistances creer_matrice(TableauPoints, fonction_calcul_distance);
 /* La création de la demi-matrice établit un lien avec le tableau de points.
  * La destruction de la matrice entraîne également
  * la suppression du tableau de points associé,
@@ -92,6 +92,9 @@ TableauDistances tableau_distances_matrice(MatriceDistances);
 
 Point *obtenir_point_matrice(MatriceDistances, size_t indice);
 distance *obtenir_distance_matrice(MatriceDistances, size_t ligne, size_t colonne);
+size_t nombre_points_matrice(MatriceDistances);
+size_t nombre_distances_matrice(MatriceDistances);
+fonction_calcul_distance fonction_distance_matrice(MatriceDistances);
 
 void verifier_element_dans_matrice(size_t ligne, size_t taille_points, size_t colonne);
 

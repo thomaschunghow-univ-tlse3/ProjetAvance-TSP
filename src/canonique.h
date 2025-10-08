@@ -10,6 +10,10 @@
 
 #include "structures_de_donnees.h"
 
+#include <stdio.h>
+
 TableauDistances tournee_canonique(MatriceDistances);
+
+void traitement_canonique(FILE *sortie, MatriceDistances);
 
 #endif // CANONIQUE_H

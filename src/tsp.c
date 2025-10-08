@@ -37,19 +37,31 @@ int main(int argc, char **argv)
     lire_points_tsp(entree, tableau_points);
     afficher_tableau_points(sortie, tableau_points);
 
-    MatriceDistances matrice = creer_matrice(tableau_points, specification.calculer_distance);
+    MatriceDistances matrice = creer_matrice(tableau_points, specification.fonction_calcul_distance);
     remplir_matrice(matrice);
-    afficher_matrice(sortie, matrice);
 
     if (options.est_donne_canonique)
     {
-        TableauDistances tournee = tournee_canonique(matrice);
-        afficher_tournee(sortie, tournee);
-
-        distance somme = somme_tableau_distances(tournee);
-        fprintf(sortie, "Distance totale : %lf\n", somme);
-
-        supprimer_tableau_distances(&tournee);
+        traitement_canonique(sortie, matrice);
+    }
+    switch (options.methode_calcul)
+    {
+    case BF:
+        break;
+    case NN:
+        break;
+    case RW:
+        break;
+    case NN2OPT:
+        break;
+    case RW2OPT:
+        break;
+    case GA:
+        break;
+    case GADPX:
+        break;
+    case ALL:
+        break;
     }
 
     supprimer_matrice(&matrice);

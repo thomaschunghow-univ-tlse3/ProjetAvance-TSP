@@ -17,7 +17,7 @@ struct tableau_distances
 {
     size_t nombre_distances;
     distance *distances;
-    calculer_distance calculer_distance;
+    fonction_calcul_distance calculer_distance;
 };
 
 struct matrice_distances
@@ -65,7 +65,7 @@ Point *obtenir_element_tableau_points(TableauPoints tableau, size_t indice)
     return tableau->points + indice;
 }
 
-TableauDistances creer_tableau_distances(size_t nombre_distances, calculer_distance calculer_distance)
+TableauDistances creer_tableau_distances(size_t nombre_distances, fonction_calcul_distance calculer_distance)
 {
     TableauDistances tableau = malloc(sizeof(struct tableau_distances) + nombre_distances * sizeof(distance));
     if (tableau == NULL)
@@ -92,7 +92,7 @@ size_t taille_tableau_distances(TableauDistances tableau)
     return tableau->nombre_distances;
 }
 
-calculer_distance fonction_tableau_distances(TableauDistances tableau)
+fonction_calcul_distance fonction_tableau_distances(TableauDistances tableau)
 {
     return tableau->calculer_distance;
 }
@@ -148,7 +148,7 @@ void echanger(size_t *ligne, size_t *colonne)
     *colonne = temp;
 }
 
-MatriceDistances creer_matrice(TableauPoints tableau_points, calculer_distance calculer_distance)
+MatriceDistances creer_matrice(TableauPoints tableau_points, fonction_calcul_distance calculer_distance)
 {
     MatriceDistances matrice;
     matrice = malloc(sizeof(struct matrice_distances));
@@ -201,11 +201,26 @@ distance *obtenir_distance_matrice(MatriceDistances matrice, size_t ligne, size_
     return obtenir_element_tableau_distances(distances, obtenir_indice_matrice(ligne, colonne));
 }
 
+size_t nombre_points_matrice(MatriceDistances matrice)
+{
+    return taille_tableau_points(tableau_points_matrice(matrice));
+}
+
+size_t nombre_distances_matrice(MatriceDistances matrice)
+{
+    return taille_tableau_distances(tableau_distances_matrice(matrice));
+}
+
+fonction_calcul_distance fonction_distance_matrice(MatriceDistances matrice)
+{
+    return fonction_tableau_distances(tableau_distances_matrice(matrice));
+}
+
 void calculer_element_matrice(MatriceDistances matrice, size_t ligne, size_t colonne)
 {
     TableauPoints points = tableau_points_matrice(matrice);
     TableauDistances distances = tableau_distances_matrice(matrice);
-    calculer_distance calculer_distance = fonction_tableau_distances(distances);
+    fonction_calcul_distance calculer_distance = fonction_tableau_distances(distances);
 
     verifier_element_dans_matrice(taille_tableau_points(points), ligne, colonne);
 

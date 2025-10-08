@@ -22,6 +22,6 @@ distance calculer_distance_euclidienne_modifiee(Point A, Point B);
 
 /* Liste qui contient les trois pointeurs vers les trois fonctions de calcul de distances,
  * indexés selon l'ordre de l'énumération TypeDistance. */
-extern calculer_distance liste_fonctions_calcul[];
+extern fonction_calcul_distance liste_fonctions_calcul[];
 
 #endif // CALCUL_DISTANCE_H
