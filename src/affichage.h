@@ -20,6 +20,4 @@ void afficher_matrice(FILE *, MatriceDistances);
 
 void afficher_tournee(FILE *, TableauDistances);
 
-
-
 #endif // AFFICHAGE_H

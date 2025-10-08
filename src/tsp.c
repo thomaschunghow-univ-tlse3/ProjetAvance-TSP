@@ -37,7 +37,7 @@ int main(int argc, char **argv)
     lire_points_tsp(entree, tableau_points);
     afficher_tableau_points(sortie, tableau_points);
 
-    MatriceDistances matrice = creer_matrice(tableau_points, calculer_distance_euclidienne);
+    MatriceDistances matrice = creer_matrice(tableau_points, specification.calculer_distance);
     remplir_matrice(matrice);
     afficher_matrice(sortie, matrice);
 

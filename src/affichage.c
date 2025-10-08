@@ -47,8 +47,8 @@ void afficher_matrice(FILE *sortie, MatriceDistances matrice)
                     "(%ld "  // Ligne
                     "%ld) "  // Colonne
                     "%lf\n", // Distance
-                    ligne,
-                    colonne,
+                    ligne + 1,
+                    colonne + 1,
                     *distance);
         }
     }

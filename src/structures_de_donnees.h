@@ -16,9 +16,8 @@
 /* Définitions pour les types de coordonnées et de distances.
  * Cela permet de modifier facilement la précision numérique.
 
- * Si l'on change la précision numérique ici, il faut aussi changer
- * les fonctions d'arrondissement du module math.h
- * utilisées dans le module de calcul de distances. */
+ * Si l'on change la précision numérique ici, il faut aussi changer accordément
+ * le type dans le sprintf de la fonction de lecture des données. */
 
 typedef double coordonnee;
 typedef double distance;
