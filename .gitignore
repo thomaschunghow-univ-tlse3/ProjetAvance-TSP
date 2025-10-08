@@ -35,8 +35,6 @@
 *.i*86
 *.x86_64
 *.hex
-resolution
-bin
 
 # Debug files
 *.dSYM/
@@ -55,3 +53,12 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# Dossier d'exécutables
+bin
+
+# Executable
+resolution
+
+# Code Python
+code_python

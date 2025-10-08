@@ -1,47 +1,71 @@
 /*
- *
+ * affichage.c
  */
 
 #include "affichage.h"
-#include <stdlib.h>
-#include <stdio.h>
 
-void afficher_specification(Specification specification)
+#include <unistd.h>
+
+void afficher_specification(FILE *sortie, Specification specification)
 {
-    printf("Nom : %s\n"  // Nom
-           "Type : %s\n"  // Type
-           "Commentaire : %s\n"  // Commentaire
-           "NB point : %ld\n" // Nombre de points
-           "Type de distance %s\n", // Type de distance
-           specification.nom,
-           specification.type,
-           specification.commentaire,
-           specification.nombre_points,
-           specification.type_distance);
+    fprintf(sortie,
+            "%s\n"  // Nom
+            "%s\n"  // Type
+            "%s\n"  // Commentaire
+            "%ld\n" // Nombre de points
+            "%d\n", // Type de distance
+            specification.nom,
+            specification.type,
+            specification.commentaire,
+            specification.nombre_points,
+            specification.type_distance);
 }
 
-void afficher_liste_points(TableauPoints liste)
+void afficher_tableau_points(FILE *sortie, TableauPoints tableau)
 {
-    for (size_t i = 0; i < liste.nombre_points; i++)
+    size_t nombre_points = taille_tableau_points(tableau);
+    for (size_t i = 0; i < nombre_points; i++)
     {
-		
-        printf("indice %ld "   // Indice du point
-               "x : %lf "   // Coordonnée x
-               "y : %lf\n", // Coordonnée y
-               i + 1,
-               liste.points[i].x,
-               liste.points[i].y);
+        Point *point = obtenir_element_tableau_points(tableau, i);
+        fprintf(sortie,
+                "%ld "   // Indice du point
+                "%lf "   // Coordonnée x
+                "%lf\n", // Coordonnée y
+                i + 1,
+                point->x,
+                point->y);
     }
 }
 
-void afficher_matrice(MatriceDistances matrice)
+void afficher_matrice(FILE *sortie, MatriceDistances matrice)
 {
-    for (size_t i = 0; i < matrice.tableau_distances.nombre_distances; i++)
+    size_t nombre_points = taille_tableau_points(tableau_points_matrice(matrice));
+    for (size_t ligne = 0; ligne < nombre_points; ligne++)
     {
-        printf("indice : %ld "   // Indice du point
-               "distance : %lf\n", // Distance
-               i + 1,
-               matrice.tableau_distances.distances[i]);
+        for (size_t colonne = 0; colonne < ligne; colonne++)
+        {
+            distance *distance = obtenir_distance_matrice(matrice, ligne, colonne);
+            fprintf(sortie,
+                    "(%ld "  // Ligne
+                    "%ld) "  // Colonne
+                    "%lf\n", // Distance
+                    ligne,
+                    colonne,
+                    *distance);
+        }
     }
 }
 
+void afficher_tournee(FILE *sortie, TableauDistances tableau)
+{
+    size_t nombre_distances = taille_tableau_distances(tableau);
+    fprintf(sortie, "[");
+    for (size_t i = 0; i < nombre_distances - 1; i++)
+    {
+        distance distance = *obtenir_element_tableau_distances(tableau, i);
+        fprintf(sortie,
+                "%lf,\n",
+                distance);
+    }
+    fprintf(sortie, "]\n");
+}

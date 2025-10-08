@@ -1,5 +1,5 @@
 /*
- *
+ * structures_de_donnees.c
  */
 
 #include "structures_de_donnees.h"
@@ -7,12 +7,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+struct tableau_points
+{
+    size_t nombre_points;
+    Point *points;
+};
+
+struct tableau_distances
+{
+    size_t nombre_distances;
+    distance *distances;
+    calculer_distance calculer_distance;
+};
+
+struct matrice_distances
+{
+    TableauPoints tableau_points;
+    TableauDistances tableau_distances;
+};
+
 TableauPoints creer_tableau_points(size_t nombre_points)
 {
-    TableauPoints tableau;
-    tableau.nombre_points = nombre_points;
-    tableau.points = malloc(nombre_points * sizeof(Point));
-    if (tableau.points == NULL)
+    TableauPoints tableau = malloc(sizeof(struct tableau_points) + nombre_points * sizeof(Point));
+    if (tableau == NULL)
     {
         printf("DEBUG\n");
         fprintf(stderr,
@@ -20,62 +37,156 @@ TableauPoints creer_tableau_points(size_t nombre_points)
                 "Echec de l'allocation mémoire du tableau.\n");
         exit(EXIT_FAILURE);
     }
+    tableau->nombre_points = nombre_points;
+    tableau->points = (Point *)(tableau + 1);
     return tableau;
 }
 
 void supprimer_tableau_points(TableauPoints *tableau)
 {
-    free(tableau->points);
-    tableau->nombre_points = 0;
-    tableau->points = NULL;
+    free(*tableau);
+    *tableau = NULL;
+}
+
+size_t taille_tableau_points(TableauPoints tableau)
+{
+    return tableau->nombre_points;
+}
+
+Point *obtenir_element_tableau_points(TableauPoints tableau, size_t indice)
+{
+    if (indice >= taille_tableau_points(tableau))
+    {
+        fprintf(stderr,
+                "Erreur obtenir_element_tableau_points :\n"
+                "L'indice dépasse la taille du tableau.\n");
+        exit(EXIT_FAILURE);
+    }
+    return tableau->points + indice;
 }
 
 TableauDistances creer_tableau_distances(size_t nombre_distances, calculer_distance calculer_distance)
 {
-    TableauDistances tableau;
-    tableau.nombre_distances = nombre_distances;
-    tableau.calculer_distance = calculer_distance;
-    tableau.distances = malloc(nombre_distances * sizeof(distance));
-    if (tableau.distances == NULL)
+    TableauDistances tableau = malloc(sizeof(struct tableau_distances) + nombre_distances * sizeof(distance));
+    if (tableau == NULL)
     {
         fprintf(stderr,
                 "Erreur creer_tableau_distances :\n"
                 "Echec de l'allocation mémoire du tableau.\n");
         exit(EXIT_FAILURE);
     }
+    tableau->nombre_distances = nombre_distances;
+    tableau->calculer_distance = calculer_distance;
+    tableau->distances = (distance *)(tableau + 1);
     return tableau;
 }
 
-void supprimer_liste_distances(TableauDistances *tableau)
+void supprimer_tableau_distances(TableauDistances *tableau)
 {
-    free(tableau->distances);
-    tableau->nombre_distances = 0;
-    tableau->distances = NULL;
+    free(*tableau);
+    *tableau = NULL;
 }
 
-size_t calculer_nombre_elements_matrice(size_t taille)
+size_t taille_tableau_distances(TableauDistances tableau)
 {
-    return (taille * (taille - 1)) / 2;
+    return tableau->nombre_distances;
+}
+
+calculer_distance fonction_tableau_distances(TableauDistances tableau)
+{
+    return tableau->calculer_distance;
+}
+
+distance *obtenir_element_tableau_distances(TableauDistances tableau, size_t indice)
+{
+    if (indice >= taille_tableau_distances(tableau))
+    {
+        fprintf(stderr,
+                "Erreur obtenir_element_tableau_distances :\n"
+                "L'indice dépasse la taille du tableau.\n");
+        exit(EXIT_FAILURE);
+    }
+    return tableau->distances + indice;
+}
+
+distance somme_tableau_distances(TableauDistances tableau)
+{
+    distance somme = 0;
+    size_t taille_tableau = taille_tableau_distances(tableau);
+    for (size_t i = 0; i < taille_tableau; i++)
+    {
+        somme += *obtenir_element_tableau_distances(tableau, i);
+    }
+    return somme;
+}
+
+size_t nombre_elements_demie_matrice(size_t ligne)
+{
+    return (ligne * (ligne - 1)) / 2;
+}
+
+size_t obtenir_indice_matrice(size_t ligne, size_t colonne)
+{
+    return nombre_elements_demie_matrice(ligne) + colonne;
+}
+
+void verifier_element_dans_matrice(size_t taille_points, size_t ligne, size_t colonne)
+{
+    if (ligne >= taille_points || colonne >= taille_points)
+    {
+        fprintf(stderr,
+                "Erreur obtenir_distance_matrice :\n"
+                "La ligne et/ou la colonne dépassent la taille de la matrice.\n");
+        exit(EXIT_FAILURE);
+    }
+}
+
+void echanger(size_t *ligne, size_t *colonne)
+{
+    size_t temp = *ligne;
+    *ligne = *colonne;
+    *colonne = temp;
 }
 
 MatriceDistances creer_matrice(TableauPoints tableau_points, calculer_distance calculer_distance)
 {
     MatriceDistances matrice;
-    matrice.tableau_points = tableau_points;
-    size_t nombre_distances = calculer_nombre_elements_matrice(tableau_points.nombre_points);
-    matrice.tableau_distances = creer_tableau_distances(nombre_distances, calculer_distance);
+    matrice = malloc(sizeof(struct matrice_distances));
+    matrice->tableau_points = tableau_points;
+    size_t nombre_distances = nombre_elements_demie_matrice(taille_tableau_points(tableau_points));
+    matrice->tableau_distances = creer_tableau_distances(nombre_distances, calculer_distance);
     return matrice;
 }
 
 void supprimer_matrice(MatriceDistances *matrice)
 {
-    supprimer_tableau_points(&matrice->tableau_points);
-    supprimer_liste_distances(&matrice->tableau_distances);
-	
+    supprimer_tableau_points(&(*matrice)->tableau_points);
+    supprimer_tableau_distances(&(*matrice)->tableau_distances);
+    free(*matrice);
+    *matrice = NULL;
 }
 
-size_t obtenir_element_matrice(MatriceDistances matrice, size_t ligne, size_t colonne)
+TableauPoints tableau_points_matrice(MatriceDistances matrice)
 {
+    return matrice->tableau_points;
+}
+
+TableauDistances tableau_distances_matrice(MatriceDistances matrice)
+{
+    return matrice->tableau_distances;
+}
+
+Point *obtenir_point_matrice(MatriceDistances matrice, size_t indice)
+{
+    TableauPoints points = tableau_points_matrice(matrice);
+    return obtenir_element_tableau_points(points, indice);
+}
+
+distance *obtenir_distance_matrice(MatriceDistances matrice, size_t ligne, size_t colonne)
+{
+    TableauPoints points = tableau_points_matrice(matrice);
+    TableauDistances distances = tableau_distances_matrice(matrice);
+    verifier_element_dans_matrice(taille_tableau_points(points), ligne, colonne);
     if (ligne == colonne)
     {
         fprintf(stderr,
@@ -85,59 +196,64 @@ size_t obtenir_element_matrice(MatriceDistances matrice, size_t ligne, size_t co
     }
     if (ligne < colonne)
     {
-        fprintf(stderr,
-                "Erreur obtenir_element_matrice :\n"
-                "La ligne doit être strictement supérieure à la colonne, car la partie supérieur triangulaire de la matrice est vide.\n");
-        exit(EXIT_FAILURE);
+        echanger(&ligne, &colonne);
     }
-	size_t nbPoint = matrice.tableau_points.nombre_points;
-    if (ligne >= nbPoint  || colonne >= nbPoint)//matrice.tableau_points.nombre_points matrice.tableau_points.nombre_points
-    {
-        fprintf(stderr,
-                "Erreur obtenir_element_matrice :\n"
-                "La ligne et/ou la colonne dépassent la taille de la matrice.\n");
-        exit(EXIT_FAILURE);
-    }
-    return calculer_nombre_elements_matrice(ligne) + colonne;
+    return obtenir_element_tableau_distances(distances, obtenir_indice_matrice(ligne, colonne));
 }
 
-void remplir_matrice(MatriceDistances matrice){
-    Point *points = matrice.tableau_points.points;
-    size_t nombre_points = matrice.tableau_points.nombre_points;
-    distance *distances = matrice.tableau_distances.distances;
-    calculer_distance calculer_distance = matrice.tableau_distances.calculer_distance;
-	
-    size_t indice_matrice = 0;
+void calculer_element_matrice(MatriceDistances matrice, size_t ligne, size_t colonne)
+{
+    TableauPoints points = tableau_points_matrice(matrice);
+    TableauDistances distances = tableau_distances_matrice(matrice);
+    calculer_distance calculer_distance = fonction_tableau_distances(distances);
+
+    verifier_element_dans_matrice(taille_tableau_points(points), ligne, colonne);
+
+    Point point_ligne = *obtenir_element_tableau_points(points, ligne);
+    Point point_colonne = *obtenir_element_tableau_points(points, colonne);
+    distance distance_calculee = calculer_distance(point_ligne, point_colonne);
+
+    distance *distance_matrice = obtenir_element_tableau_distances(distances, obtenir_indice_matrice(ligne, colonne));
+    *distance_matrice = distance_calculee;
+}
+
+void remplir_matrice(MatriceDistances matrice)
+{
+    TableauPoints points = tableau_points_matrice(matrice);
+    size_t nombre_points = taille_tableau_points(points);
     for (size_t ligne = 0; ligne < nombre_points; ligne++)
     {
-		
+
         for (size_t colonne = 0; colonne < ligne; colonne++)
         {
-			
-            distances[indice_matrice] = calculer_distance(points[ligne], points[colonne]);
-            indice_matrice++;
+            calculer_element_matrice(matrice, ligne, colonne);
         }
     }
-
 }
 
-void modification_des_distances(MatriceDistances matrice, size_t colonne){
-	size_t indice_matrice;
-	Point *points = matrice.tableau_points.points;
-	distance *distances = matrice.tableau_distances.distances;
-	calculer_distance calcul_distance = matrice.tableau_distances.calculer_distance;
-	size_t nbPoint = matrice.tableau_points.nombre_points;
-	for(size_t ligne = 0; ligne < nbPoint; ligne++){//parcours des points
-		if(ligne > colonne){
-			indice_matrice = obtenir_element_matrice(matrice,ligne,colonne);//ligne,colonne
-		}else if(ligne < colonne){
-			indice_matrice = obtenir_element_matrice(matrice,colonne,ligne);//colonne,ligne
-		}
-		distances[indice_matrice] = calcul_distance(points[ligne], points[colonne]);
-	}
+void modification_des_distances(MatriceDistances matrice, size_t colonne)
+{
+    size_t indice_matrice;
+    Point *points = matrice.tableau_points.points;
+    distance *distances = matrice.tableau_distances.distances;
+    calculer_distance calcul_distance = matrice.tableau_distances.calculer_distance;
+    size_t nbPoint = matrice.tableau_points.nombre_points;
+    for (size_t ligne = 0; ligne < nbPoint; ligne++)
+    { // parcours des points
+        if (ligne > colonne)
+        {
+            indice_matrice = obtenir_element_matrice(matrice, ligne, colonne); // ligne,colonne
+        }
+        else if (ligne < colonne)
+        {
+            indice_matrice = obtenir_element_matrice(matrice, colonne, ligne); // colonne,ligne
+        }
+        distances[indice_matrice] = calcul_distance(points[ligne], points[colonne]);
+    }
 }
 
-void changerPoint(MatriceDistances matrice, Point point, size_t indice_point){
-	matrice.tableau_points.points[indice_point] = point;
-	modification_des_distances(matrice,indice_point);
+void changerPoint(MatriceDistances matrice, Point point, size_t indice_point)
+{
+    matrice.tableau_points.points[indice_point] = point;
+    modification_des_distances(matrice, indice_point);
 }
