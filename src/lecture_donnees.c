@@ -18,8 +18,23 @@ Specification initialiser_specification()
     memset(specification.type, '\0', TAILLE_CHAMP_MAX);
     memset(specification.commentaire, '\0', TAILLE_CHAMP_MAX);
     specification.nombre_points = 0;
-    specification.fonction_calcul_distance = &calculer_distance_euclidienne;
+    specification.calculer_distance = NULL;
     return specification;
+}
+
+void verifier_specification_valide(Specification specification)
+{
+    if (strcmp(specification.nom, "") == 0 ||
+        strcmp(specification.nom, "") == 0 ||
+        strcmp(specification.nom, "") == 0 ||
+        specification.nombre_points == 0 ||
+        specification.calculer_distance == NULL)
+    {
+        fprintf(stderr,
+                "Erreur verifier_specification_valide :\n"
+                "Un des champs de la spécification n'a pas été initialisé.\n");
+        exit(EXIT_FAILURE);
+    }
 }
 
 fonction_calcul_distance methode_calcul_depuis_nom(char *nom)
@@ -73,13 +88,14 @@ Specification lire_specification_tsp(FILE *entree)
         }
         if (strstr(ligne, "EDGE_WEIGHT_TYPE"))
         {
-            specification.fonction_calcul_distance = methode_calcul_depuis_nom(ligne);
+            specification.calculer_distance = methode_calcul_depuis_nom(ligne);
         }
         if (strstr(ligne, "NODE_COORD_SECTION"))
         {
             break;
         }
     }
+    verifier_specification_valide(specification);
     return specification;
 }
 

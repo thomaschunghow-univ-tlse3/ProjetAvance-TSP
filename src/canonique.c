@@ -9,7 +9,7 @@ TableauDistances tournee_canonique(MatriceDistances matrice)
 {
     size_t nombre_points = nombre_points_matrice(matrice);
     size_t nombre_distances = nombre_points - 1;
-    TableauDistances tournee = creer_tableau_distances(nombre_distances, fonction_tableau_distances(tableau_distances_matrice(matrice)));
+    TableauDistances tournee = creer_tableau_distances(nombre_distances, fonction_distance_matrice(matrice));
     for (size_t ligne = 0; ligne < nombre_distances; ligne++)
     {
         size_t colonne = ligne + 1;
