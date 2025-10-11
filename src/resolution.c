@@ -2,7 +2,7 @@
  * Résolution du problème du voyageur de commerce.
  */
 
-#include "structures_de_donnees.h"
+/*#include "structures_de_donnees.h"
 #include "calcul_distance.h"
 #include "lecture_donnees.h"
 #include "affichage.h"
@@ -29,8 +29,8 @@ int main(int argc, char **argv)
 	}else
 		nom_fichier = "data/rat783.tsp";
 		
-    /*(void)argc;
-    (void)argv;*/
+    (void)argc;
+    (void)argv;
 
     // EXEMPLE
     Specification specification = lire_specification_tsp(nom_fichier);
@@ -54,8 +54,9 @@ int main(int argc, char **argv)
 	point.x = 191.0; point.y = 200.0; 
 	changerPoint(matrice, point, 250);
 	
-    afficher_matrice(matrice);
+    afficher_matrice(nom_fichier,matrice);
     supprimer_matrice(&matrice);
 	
     return EXIT_SUCCESS;
 }
+*/
