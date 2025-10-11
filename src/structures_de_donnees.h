@@ -105,7 +105,10 @@ void calculer_element_matrice(MatriceDistances, size_t ligne, size_t colonne);
 /* Calcule la distance entre chaque coordoonnée de la matrice de distances
  * et la conserve dans le tableau de distances de la matrice. */
 void remplir_matrice(MatriceDistances);
+<<<<<<< HEAD
 
 void echangerPoint(MatriceDistances matrice, size_t ligne, size_t colonne);
+=======
+>>>>>>> 0a560aaf5ea1332064e0f1e84854d08b5306485f
 
 #endif // STRUCTURES_DE_DONNEES_H

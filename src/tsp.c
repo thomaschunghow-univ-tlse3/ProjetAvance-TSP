@@ -40,20 +40,30 @@ int main(int argc, char **argv)
     MatriceDistances matrice = creer_matrice(tableau_points, calculer_distance_euclidienne);
     remplir_matrice(matrice);
     afficher_matrice(sortie, matrice);
+<<<<<<< HEAD
 	
     if (options.est_donne_canonique)
     {
 		printf("%d\n",options.est_donne_canonique);
+=======
+
+    if (options.est_donne_canonique)
+    {
+>>>>>>> 0a560aaf5ea1332064e0f1e84854d08b5306485f
         TableauDistances tournee = tournee_canonique(matrice);
         afficher_tournee(sortie, tournee);
 
         distance somme = somme_tableau_distances(tournee);
         fprintf(sortie, "Distance totale : %lf\n", somme);
+<<<<<<< HEAD
 		printf("Distance totale : %lf\n", somme);
 		tournee = force_brute(tableau_points,calculer_distance_euclidienne);
 		somme = somme_tableau_distances(tournee);
 		printf("Distance totale : %lf\n", somme);
 		
+=======
+
+>>>>>>> 0a560aaf5ea1332064e0f1e84854d08b5306485f
         supprimer_tableau_distances(&tournee);
     }
 
