@@ -4,10 +4,7 @@
 
 #include "canonique.h"
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 0a560aaf5ea1332064e0f1e84854d08b5306485f
 TableauDistances tournee_canonique(MatriceDistances matrice)
 {
     size_t taille_points = taille_tableau_points(tableau_points_matrice(matrice));

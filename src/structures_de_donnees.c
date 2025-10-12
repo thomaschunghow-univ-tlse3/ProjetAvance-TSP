@@ -141,11 +141,7 @@ void verifier_element_dans_matrice(size_t taille_points, size_t ligne, size_t co
     }
 }
 
-<<<<<<< HEAD
 
-
-=======
->>>>>>> 0a560aaf5ea1332064e0f1e84854d08b5306485f
 void echanger(size_t *ligne, size_t *colonne)
 {
     size_t temp = *ligne;
@@ -235,7 +231,6 @@ void remplir_matrice(MatriceDistances matrice)
         }
     }
 }
-<<<<<<< HEAD
 
 void modification_des_distances(MatriceDistances matrice, size_t colonne){
 	size_t indice_matrice;
@@ -269,5 +264,4 @@ void echangerPoint(MatriceDistances matrice, size_t ligne, size_t colonne){
 		modification_des_distances(matrice,colonne);
 	}
 }
-=======
->>>>>>> 0a560aaf5ea1332064e0f1e84854d08b5306485f
+

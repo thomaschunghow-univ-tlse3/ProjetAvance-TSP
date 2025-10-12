@@ -48,17 +48,17 @@ distance calculer_distance_euclidienne_modifiee(Point A, Point B)
 {
 	distance difference_x = A.x - B.x;
 	distance difference_y = A.y - B.y;
-<<<<<<< HEAD
+
 	distance distance_approchee = hypot(difference_x, difference_y) * INVERSE_RACINE_10;
 
 	/* Si on change la précision de distance, il faut changer accordément la fonction d'arrondissement supérieur. */
 	distance distance_arrondie = ceil(distance_approchee);
-=======
-	distance distance_approchée = hypot(difference_x, difference_y) * INVERSE_RACINE_10;
+
+	distance_approchee = hypot(difference_x, difference_y) * INVERSE_RACINE_10;
 
 	/* Si on change la précision de distance, il faut changer accordément la fonction d'arrondissement supérieur. */
-	distance distance_arrondie = ceil(distance_approchée);
->>>>>>> 0a560aaf5ea1332064e0f1e84854d08b5306485f
+	distance_arrondie = ceil(distance_approchee);
+
 
 	return distance_arrondie;
 }

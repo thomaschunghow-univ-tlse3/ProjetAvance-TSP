@@ -17,6 +17,15 @@ void afficher_specification(FILE *sortie, Specification specification)
             specification.type,
             specification.commentaire,
             specification.nombre_points);
+	fprintf(stdout,
+            "%s\n"   // Nom
+            "%s\n"   // Type
+            "%s\n"   // Commentaire
+            "%ld\n", // Nombre de points
+            specification.nom,
+            specification.type,
+            specification.commentaire,
+            specification.nombre_points);
 }
 
 void afficher_tableau_points(FILE *sortie, TableauPoints tableau)
