@@ -47,6 +47,7 @@ int main(int argc, char **argv)
     switch (options.methode_calcul)
     {
     case BF:
+        traitement_bf(sortie, matrice);
         break;
     case NN:
         break;

@@ -245,3 +245,49 @@ void remplir_matrice(MatriceDistances matrice)
         }
     }
 }
+
+TableauIndices *creer_tableau_indices(size_t taille)
+{
+    TableauIndices *tab_indices = malloc(sizeof(TableauIndices));
+    tab_indices->taille = taille;
+    tab_indices->indices = malloc(sizeof(size_t) * taille);
+    for (size_t i = 0; i < taille; i++)
+    {
+        (tab_indices->indices)[i] = i; // initialisation avec la premeire permutation i.e l'ordre canonique de 1..n
+    }
+
+    return tab_indices;
+}
+
+void supprimer_tableau_indices(TableauIndices *tab_indices)
+{
+    if (tab_indices != NULL)
+    {
+        free(tab_indices->indices);
+        free(tab_indices);
+    }
+}
+
+void echanger_indices(TableauIndices *tab_indices, int i, int j)
+{
+    size_t temp = (tab_indices->indices)[i];
+    (tab_indices->indices)[i] = (tab_indices->indices)[j];
+    (tab_indices->indices)[j] = temp;
+}
+
+distance distance_totale_sequence(TableauIndices *tableau_indices, size_t nombre_points, MatriceDistances matrice)
+{
+    distance distance_tournee = 0;
+    for (size_t i = 0; i < nombre_points - 1; i++)
+    {
+        if ((tableau_indices->indices)[i] < (tableau_indices->indices)[i + 1])
+        {
+            distance_tournee += *obtenir_distance_matrice(matrice, (tableau_indices->indices)[i], (tableau_indices->indices)[i + 1]);
+        }
+        else
+        {
+            distance_tournee += *obtenir_distance_matrice(matrice, (tableau_indices->indices)[i + 1], (tableau_indices->indices)[i]);
+        }
+    }
+    return distance_tournee;
+}
