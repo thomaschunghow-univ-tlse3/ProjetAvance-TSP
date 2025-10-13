@@ -23,12 +23,13 @@ typedef double coordonnee;
 typedef double distance;
 
 /* Type abstrait representant la sequence des points d'une tournee */
-typedef struct permutation
+struct permutation
 {
-    size_t taille;
+    size_t nombre_indices;
     size_t *indices;
-} TableauIndices;
-// TODO : rendre la structure abstraite ET un pointeur
+};
+
+typedef struct permutation *Permutation;
 
 /* Définitions pour les tableaux de points. */
 
@@ -117,12 +118,14 @@ void calculer_element_matrice(MatriceDistances, size_t ligne, size_t colonne);
  * et la conserve dans le tableau de distances de la matrice. */
 void remplir_matrice(MatriceDistances);
 
-TableauIndices *creer_tableau_indices(size_t taille);
-void supprimer_tableau_indices(TableauIndices *tab_indices);
+/* Le tableau est créé et initialisé avec la première permutation
+ * de l'ordre lexical, i.e l'ordre canonique de 1 à n. */
+Permutation creer_permutation(size_t nombre_indices);
+void supprimer_permutation(Permutation *permutation);
 
-void echanger_indices(TableauIndices *tab_indices, int i, int j);
+void echanger_indices(Permutation permutation, int i, int j);
 
 /* calcule la distance totale d'une sequence de points d'une permutation*/
-distance distance_totale_sequence(TableauIndices *tableau_indices, MatriceDistances matrice);
+distance distance_totale_permutation(Permutation, MatriceDistances);
 
 #endif // STRUCTURES_DE_DONNEES_H

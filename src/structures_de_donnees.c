@@ -247,43 +247,49 @@ void remplir_matrice(MatriceDistances matrice)
     }
 }
 
-TableauIndices *creer_tableau_indices(size_t taille)
+Permutation creer_permutation(size_t nombre_indices)
 {
-    TableauIndices *tab_indices = malloc(sizeof(TableauIndices));
-    // TODO : malloc verifier adresse nulle
-    tab_indices->taille = taille;
-    tab_indices->indices = malloc(sizeof(size_t) * taille);
-    for (size_t i = 0; i < taille; i++)
+    Permutation permutation = malloc(sizeof(Permutation) + nombre_indices * sizeof(size_t));
+    permutation->nombre_indices = nombre_indices;
+    permutation->indices = (size_t *)permutation + 1;
+    for (size_t i = 0; i < nombre_indices; i++)
     {
-        (tab_indices->indices)[i] = i; // initialisation avec la premeire permutation i.e l'ordre canonique de 1..n
+        (permutation->indices)[i] = i;
     }
-
-    return tab_indices;
+    return permutation;
 }
 
-void supprimer_tableau_indices(TableauIndices *tab_indices)
+void verifier_permutation_non_vide(Permutation permutation)
 {
-    if (tab_indices == NULL)
+    if (permutation == NULL)
     {
+        fprintf(stderr,
+                "Erreur verifier_permutation_non_vide :\n"
+                "Permutation vide.\n");
         exit(EXIT_FAILURE);
     }
-    free(tab_indices->indices);
-    free(tab_indices);
 }
 
-void echanger_indices(TableauIndices *tab_indices, int i, int j)
+void supprimer_permutation(Permutation *permutation)
 {
-    size_t temp = (tab_indices->indices)[i];
-    (tab_indices->indices)[i] = (tab_indices->indices)[j];
-    (tab_indices->indices)[j] = temp;
+    verifier_permutation_non_vide(*permutation);
+    free(*permutation);
+    *permutation = NULL;
 }
 
-distance distance_totale_sequence(TableauIndices *tableau_indices, MatriceDistances matrice)
+void echanger_indices(Permutation permutation, int i, int j)
 {
-    distance distance_tournee = 0;
-    for (size_t i = 0; i < tableau_indices->taille - 1; i++)
+    size_t temp = permutation->indices[i];
+    permutation->indices[i] = permutation->indices[j];
+    permutation->indices[j] = temp;
+}
+
+distance distance_totale_permutation(Permutation permutation, MatriceDistances matrice)
+{
+    distance distance_totale = 0;
+    for (size_t i = 0; i < permutation->nombre_indices - 1; i++)
     {
-        distance_tournee += *obtenir_distance_matrice(matrice, (tableau_indices->indices)[i], (tableau_indices->indices)[i + 1]);
+        distance_totale += *obtenir_distance_matrice(matrice, permutation->indices[i], permutation->indices[i + 1]);
     }
-    return distance_tournee;
+    return distance_totale;
 }

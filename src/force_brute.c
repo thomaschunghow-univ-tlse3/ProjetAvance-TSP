@@ -17,29 +17,29 @@
  * calcule la permutation suivante de l'ordre lexicographique
  * et renvoie un boolean qui montre si la permutation suivante existe
  */
-bool permutation_suivante(TableauIndices *tableau_indices)
+bool permutation_suivante(Permutation permutation)
 {
 	// trouver le suffix non croissant
-	if (tableau_indices->taille == 0)
+	if (permutation->nombre_indices == 0)
 		return false;
-	size_t i = tableau_indices->taille - 1;
-	while (i > 0 && (tableau_indices->indices)[i - 1] >= (tableau_indices->indices)[i])
+	size_t i = permutation->nombre_indices - 1;
+	while (i > 0 && (permutation->indices)[i - 1] >= (permutation->indices)[i])
 		i--;
 	if (i == 0)
 		return false;
 
 	// trouver le successeur du pivot
-	size_t j = tableau_indices->taille - 1;
-	while ((tableau_indices->indices)[j] <= (tableau_indices->indices)[i - 1])
+	size_t j = permutation->nombre_indices - 1;
+	while ((permutation->indices)[j] <= (permutation->indices)[i - 1])
 		j--;
 
-	echanger_indices(tableau_indices, i - 1, j);
+	echanger_indices(permutation, i - 1, j);
 
 	// inverser le suffix
-	j = tableau_indices->taille - 1;
+	j = permutation->nombre_indices - 1;
 	while (i < j)
 	{
-		echanger_indices(tableau_indices, i, j);
+		echanger_indices(permutation, i, j);
 		i++;
 		j--;
 	}
@@ -50,9 +50,9 @@ bool permutation_suivante(TableauIndices *tableau_indices)
 distance brute_force(MatriceDistances matrice)
 {
 	size_t nombre_points = nombre_points_matrice(matrice);
-	TableauIndices *permutation_courante = creer_tableau_indices(nombre_points);
+	Permutation permutation_courante = creer_permutation(nombre_points);
 
-	distance d_courante = distance_totale_sequence(permutation_courante, matrice);
+	distance d_courante = distance_totale_permutation(permutation_courante, matrice);
 	distance d_minimale = d_courante;
 	printf("%lf\n", d_courante);
 
@@ -60,13 +60,13 @@ distance brute_force(MatriceDistances matrice)
 
 	while (permutation_suivante(permutation_courante))
 	{
-		distance d_courante = distance_totale_sequence(permutation_courante, matrice);
+		distance d_courante = distance_totale_permutation(permutation_courante, matrice);
 		if (d_courante < d_minimale)
 		{
 			d_minimale = d_courante;
 		}
 	}
-	supprimer_tableau_indices(permutation_courante);
+	supprimer_permutation(&permutation_courante);
 	return d_minimale;
 }
 
