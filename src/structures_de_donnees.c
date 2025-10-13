@@ -42,19 +42,33 @@ TableauPoints creer_tableau_points(size_t nombre_points)
     return tableau;
 }
 
+void verifier_tableau_points_non_vide(TableauPoints tableau)
+{
+    if (tableau == NULL)
+    {
+        fprintf(stderr,
+                "Erreur verifier_tableau_points_non_vide :\n"
+                "Tableau de points vide.\n");
+        exit(EXIT_FAILURE);
+    }
+}
+
 void supprimer_tableau_points(TableauPoints *tableau)
 {
+    verifier_tableau_points_non_vide(*tableau);
     free(*tableau);
     *tableau = NULL;
 }
 
 size_t taille_tableau_points(TableauPoints tableau)
 {
+    verifier_tableau_points_non_vide(tableau);
     return tableau->nombre_points;
 }
 
 Point *obtenir_element_tableau_points(TableauPoints tableau, size_t indice)
 {
+    verifier_tableau_points_non_vide(tableau);
     if (indice >= taille_tableau_points(tableau))
     {
         fprintf(stderr,
@@ -81,24 +95,39 @@ TableauDistances creer_tableau_distances(size_t nombre_distances, fonction_calcu
     return tableau;
 }
 
+void verifier_tableau_distances_non_vide(TableauDistances tableau)
+{
+    if (tableau == NULL)
+    {
+        fprintf(stderr,
+                "Erreur verifier_tableau_distances_non_vide :\n"
+                "Tableau de distances vide.\n");
+        exit(EXIT_FAILURE);
+    }
+}
+
 void supprimer_tableau_distances(TableauDistances *tableau)
 {
+    verifier_tableau_distances_non_vide(*tableau);
     free(*tableau);
     *tableau = NULL;
 }
 
 size_t taille_tableau_distances(TableauDistances tableau)
 {
+    verifier_tableau_distances_non_vide(tableau);
     return tableau->nombre_distances;
 }
 
 fonction_calcul_distance fonction_tableau_distances(TableauDistances tableau)
 {
+    verifier_tableau_distances_non_vide(tableau);
     return tableau->calculer_distance;
 }
 
 distance *obtenir_element_tableau_distances(TableauDistances tableau, size_t indice)
 {
+    verifier_tableau_distances_non_vide(tableau);
     if (indice >= taille_tableau_distances(tableau))
     {
         fprintf(stderr,
@@ -111,6 +140,7 @@ distance *obtenir_element_tableau_distances(TableauDistances tableau, size_t ind
 
 distance somme_tableau_distances(TableauDistances tableau)
 {
+    verifier_tableau_distances_non_vide(tableau);
     distance somme = 0;
     size_t taille_tableau = taille_tableau_distances(tableau);
     for (size_t i = 0; i < taille_tableau; i++)
@@ -125,9 +155,58 @@ size_t nombre_elements_demie_matrice(size_t ligne)
     return (ligne * (ligne - 1)) / 2;
 }
 
-size_t obtenir_indice_matrice(size_t ligne, size_t colonne)
+MatriceDistances creer_matrice(TableauPoints tableau_points, fonction_calcul_distance calculer_distance)
 {
-    return nombre_elements_demie_matrice(ligne) + colonne;
+    MatriceDistances matrice;
+    matrice = malloc(sizeof(struct matrice_distances));
+    matrice->tableau_points = tableau_points;
+    size_t nombre_distances = nombre_elements_demie_matrice(taille_tableau_points(tableau_points));
+    matrice->tableau_distances = creer_tableau_distances(nombre_distances, calculer_distance);
+    return matrice;
+}
+
+void verifier_matrice_non_vide(MatriceDistances matrice)
+{
+    if (matrice == NULL)
+    {
+        fprintf(stderr,
+                "Erreur verifier_matrice_non_vide :\n"
+                "Matrice de distances vide.\n");
+        exit(EXIT_FAILURE);
+    }
+}
+
+void supprimer_matrice(MatriceDistances *matrice)
+{
+    verifier_matrice_non_vide(*matrice);
+    TableauPoints points = tableau_points_matrice(*matrice);
+    verifier_tableau_points_non_vide(points);
+    TableauDistances distances = tableau_distances_matrice(*matrice);
+    verifier_tableau_distances_non_vide(distances);
+
+    supprimer_tableau_points(&points);
+    supprimer_tableau_distances(&distances);
+    free(*matrice);
+    *matrice = NULL;
+}
+
+TableauPoints tableau_points_matrice(MatriceDistances matrice)
+{
+    verifier_matrice_non_vide(matrice);
+    return matrice->tableau_points;
+}
+
+TableauDistances tableau_distances_matrice(MatriceDistances matrice)
+{
+    verifier_matrice_non_vide(matrice);
+    return matrice->tableau_distances;
+}
+
+Point *obtenir_point_matrice(MatriceDistances matrice, size_t indice)
+{
+    verifier_matrice_non_vide(matrice);
+    TableauPoints points = tableau_points_matrice(matrice);
+    return obtenir_element_tableau_points(points, indice);
 }
 
 void verifier_element_dans_matrice(size_t taille_points, size_t ligne, size_t colonne)
@@ -148,42 +227,14 @@ void echanger(size_t *ligne, size_t *colonne)
     *colonne = temp;
 }
 
-MatriceDistances creer_matrice(TableauPoints tableau_points, fonction_calcul_distance calculer_distance)
+size_t obtenir_indice_matrice(size_t ligne, size_t colonne)
 {
-    MatriceDistances matrice;
-    matrice = malloc(sizeof(struct matrice_distances));
-    matrice->tableau_points = tableau_points;
-    size_t nombre_distances = nombre_elements_demie_matrice(taille_tableau_points(tableau_points));
-    matrice->tableau_distances = creer_tableau_distances(nombre_distances, calculer_distance);
-    return matrice;
-}
-
-void supprimer_matrice(MatriceDistances *matrice)
-{
-    supprimer_tableau_points(&(*matrice)->tableau_points);
-    supprimer_tableau_distances(&(*matrice)->tableau_distances);
-    free(*matrice);
-    *matrice = NULL;
-}
-
-TableauPoints tableau_points_matrice(MatriceDistances matrice)
-{
-    return matrice->tableau_points;
-}
-
-TableauDistances tableau_distances_matrice(MatriceDistances matrice)
-{
-    return matrice->tableau_distances;
-}
-
-Point *obtenir_point_matrice(MatriceDistances matrice, size_t indice)
-{
-    TableauPoints points = tableau_points_matrice(matrice);
-    return obtenir_element_tableau_points(points, indice);
+    return nombre_elements_demie_matrice(ligne) + colonne;
 }
 
 distance *obtenir_distance_matrice(MatriceDistances matrice, size_t ligne, size_t colonne)
 {
+    verifier_matrice_non_vide(matrice);
     TableauPoints points = tableau_points_matrice(matrice);
     TableauDistances distances = tableau_distances_matrice(matrice);
     verifier_element_dans_matrice(taille_tableau_points(points), ligne, colonne);
