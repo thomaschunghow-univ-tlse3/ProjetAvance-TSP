@@ -17,7 +17,6 @@
  * calcule la permutation suivante de l'ordre lexicographique
  * et renvoie un boolean qui montre si la permutation suivante existe
  */
-
 bool permutation_suivante(TableauIndices *tableau_indices)
 {
 	// trouver le suffix non croissant
@@ -47,12 +46,13 @@ bool permutation_suivante(TableauIndices *tableau_indices)
 	return true;
 }
 
+// TODO : brute force renvoie la permutation
 distance brute_force(MatriceDistances matrice)
 {
 	size_t nombre_points = nombre_points_matrice(matrice);
 	TableauIndices *permutation_courante = creer_tableau_indices(nombre_points);
 
-	distance d_courante = distance_totale_sequence(permutation_courante, nombre_points, matrice);
+	distance d_courante = distance_totale_sequence(permutation_courante, matrice);
 	distance d_minimale = d_courante;
 	printf("%lf\n", d_courante);
 
@@ -60,7 +60,7 @@ distance brute_force(MatriceDistances matrice)
 
 	while (permutation_suivante(permutation_courante))
 	{
-		distance d_courante = distance_totale_sequence(permutation_courante, nombre_points, matrice);
+		distance d_courante = distance_totale_sequence(permutation_courante, matrice);
 		if (d_courante < d_minimale)
 		{
 			d_minimale = d_courante;

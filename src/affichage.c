@@ -58,7 +58,7 @@ void afficher_tournee(FILE *sortie, TableauDistances tableau)
 {
     size_t nombre_distances = taille_tableau_distances(tableau);
     fprintf(sortie, "[");
-    for (size_t i = 0; i < nombre_distances - 1; i++)
+    for (size_t i = 0; i < nombre_distances; i++)
     {
         distance distance = *obtenir_element_tableau_distances(tableau, i);
         fprintf(sortie,

@@ -31,17 +31,17 @@ int main(int argc, char **argv)
     FILE *sortie = ouverture_sortie(options);
 
     Specification specification = lire_specification_tsp(entree);
-    afficher_specification(sortie, specification);
 
     TableauPoints tableau_points = creer_tableau_points(specification.nombre_points);
     lire_points_tsp(entree, tableau_points);
-    afficher_tableau_points(sortie, tableau_points);
 
     MatriceDistances matrice = creer_matrice(tableau_points, specification.calculer_distance);
     remplir_matrice(matrice);
 
     if (options.est_donne_canonique)
     {
+        afficher_specification(sortie, specification);
+        afficher_tableau_points(sortie, tableau_points);
         traitement_canonique(sortie, matrice);
     }
     switch (options.methode_calcul)
