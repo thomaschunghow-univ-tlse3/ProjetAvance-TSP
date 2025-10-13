@@ -9,11 +9,10 @@
 #define CANONIQUE_H
 
 #include "structures_de_donnees.h"
+#include "traitement_calcul_tournee.h"
 
 #include <stdio.h>
 
-TableauDistances tournee_canonique(MatriceDistances);
-
-void traitement_canonique(FILE *sortie, MatriceDistances);
+Resultat calcul_tournee_canonique(MatriceDistances);
 
 #endif // CANONIQUE_H

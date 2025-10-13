@@ -23,7 +23,7 @@ typedef enum
     RW2OPT,
     GA,
     GADPX,
-    ALL
+    ALL,
 } MethodeCalcul;
 
 typedef struct

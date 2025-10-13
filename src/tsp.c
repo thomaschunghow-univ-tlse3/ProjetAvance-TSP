@@ -38,11 +38,12 @@ int main(int argc, char **argv)
     afficher_tableau_points(sortie, tableau_points);
 
     MatriceDistances matrice = creer_matrice(tableau_points, specification.calculer_distance);
-    remplir_matrice(matrice);
+
+    afficher_noms_champs(sortie);
 
     if (options.est_donne_canonique)
     {
-        traitement_canonique(sortie, matrice);
+        traitement(sortie, &calcul_tournee_canonique, options, matrice);
     }
     switch (options.methode_calcul)
     {

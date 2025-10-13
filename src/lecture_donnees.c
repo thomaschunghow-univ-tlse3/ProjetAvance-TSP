@@ -37,7 +37,7 @@ void verifier_specification_valide(Specification specification)
     }
 }
 
-fonction_calcul_distance methode_calcul_depuis_nom(char *nom)
+FonctionCalculDistance methode_calcul_depuis_nom(char *nom)
 {
     if (strstr(nom, "EUC_2D"))
     {

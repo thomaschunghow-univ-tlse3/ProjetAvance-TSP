@@ -12,10 +12,11 @@
 #define RACINE_10 3.16227766016837952279
 #define RAYON_TERRE 6378.388
 
-fonction_calcul_distance liste_fonctions_calcul[] = {
+FonctionCalculDistance liste_fonctions_calcul[] = {
 	calculer_distance_euclidienne,
 	calculer_distance_geographique,
-	calculer_distance_euclidienne_modifiee};
+	calculer_distance_euclidienne_modifiee,
+};
 
 distance calculer_distance_euclidienne(Point A, Point B)
 {
