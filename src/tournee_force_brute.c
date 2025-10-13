@@ -1,9 +1,10 @@
 /*
  *force_brute.c
  */
-#include "force_brute.h"
+
+#include "tournee_force_brute.h"
 #include "structures_de_donnees.h"
-#include "canonique.h"
+#include "tournee_canonique.h"
 #include "affichage.h"
 
 #include <stdio.h>

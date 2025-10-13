@@ -1,8 +1,8 @@
 /*
- * canonique.c
+ * tournee_canonique.c
  */
 
-#include "canonique.h"
+#include "tournee_canonique.h"
 #include "affichage.h"
 
 Resultat calcul_tournee_canonique(MatriceDistances matrice)

@@ -6,11 +6,11 @@
 
 #include "structures_de_donnees.h"
 #include "calcul_distance.h"
-#include "lecture_donnees.h"
+#include "traitement_lecture_donnees.h"
 #include "affichage.h"
 #include "traitement_options.h"
-#include "canonique.h"
-#include "force_brute.h"
+#include "tournee_canonique.h"
+#include "tournee_force_brute.h"
 #include "2_optimisation.h"
 #include "genetique.h"
 
