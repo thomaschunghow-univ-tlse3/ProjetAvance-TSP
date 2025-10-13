@@ -1,5 +1,4 @@
 /*
- * tournee_canonique.c
  */
 
 #include "tournee_canonique.h"

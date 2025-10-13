@@ -1,5 +1,4 @@
 /*
- * affichage.h
  *
  * Ce module fournit les différentes fonctions d'affichage.
  */
@@ -7,7 +6,7 @@
 #ifndef AFFICHAGE_H
 #define AFFICHAGE_H
 
-#include "structures_de_donnees.h"
+#include "structures_permutations.h"
 #include "traitement_lecture_donnees.h"
 #include "traitement_options.h"
 #include "traitement_calcul_tournee.h"

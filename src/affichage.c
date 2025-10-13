@@ -1,5 +1,4 @@
 /*
- * affichage.c
  */
 
 #include "affichage.h"

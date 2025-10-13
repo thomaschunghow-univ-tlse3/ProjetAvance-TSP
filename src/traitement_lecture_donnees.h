@@ -1,5 +1,4 @@
 /*
- * traitement_lecture_donnees.h
  *
  * Ce module permet :
  * - La lecture de la spécification d'un fichier TSP,
@@ -9,7 +8,7 @@
 #ifndef TRAITEMENT_LECTURE_DONNEES_H
 #define TRAITEMENT_LECTURE_DONNEES_H
 
-#include "structures_de_donnees.h"
+#include "structures_permutations.h"
 
 #include <stdio.h>
 

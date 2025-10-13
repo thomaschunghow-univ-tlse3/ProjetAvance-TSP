@@ -1,5 +1,4 @@
 /*
- * traitement_options.c
  */
 
 #include "traitement_options.h"

@@ -1,9 +1,8 @@
 /*
- * traitement_lecture_donnees.c
  */
 
 #include "traitement_lecture_donnees.h"
-#include "calcul_distance.h"
+#include "structures_calculs_distances.h"
 
 #include <stdio.h>
 #include <stdlib.h>

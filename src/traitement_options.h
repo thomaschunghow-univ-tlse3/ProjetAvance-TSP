@@ -1,5 +1,4 @@
 /*
- * traitement_options.h
  *
  * Ce module permet de lire et valider les arguments du programme,
  * d'ouvrir et de fermer les fichiers de manière sécurisée

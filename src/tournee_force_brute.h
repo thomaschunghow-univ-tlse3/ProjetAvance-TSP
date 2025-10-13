@@ -1,11 +1,10 @@
 /*
- *force_brute.h
  */
 
 #ifndef TOURNEE_FORCE_BRUTE_H
 #define TOURNEE_FORCE_BRUTE_H
 
-#include "structures_de_donnees.h"
+#include "structures_permutations.h"
 
 #include <stdio.h>
 #include <stdlib.h>

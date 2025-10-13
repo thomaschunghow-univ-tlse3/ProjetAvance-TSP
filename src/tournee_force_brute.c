@@ -1,9 +1,8 @@
 /*
- *force_brute.c
  */
 
 #include "tournee_force_brute.h"
-#include "structures_de_donnees.h"
+#include "structures_permutations.h"
 #include "tournee_canonique.h"
 #include "affichage.h"
 

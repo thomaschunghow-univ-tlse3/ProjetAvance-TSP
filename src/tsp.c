@@ -1,18 +1,16 @@
 /*
- * tsp.c
  *
  * Programme principal pour la résolution du problème du voyageur de commerce.
  */
 
-#include "structures_de_donnees.h"
-#include "calcul_distance.h"
+#include "structures_permutations.h"
 #include "traitement_lecture_donnees.h"
 #include "affichage.h"
 #include "traitement_options.h"
 #include "tournee_canonique.h"
 #include "tournee_force_brute.h"
-#include "2_optimisation.h"
-#include "genetique.h"
+#include "tournee_2_optimisation.h"
+#include "tournee_genetique.h"
 
 #include <stdio.h>
 #include <stdlib.h>

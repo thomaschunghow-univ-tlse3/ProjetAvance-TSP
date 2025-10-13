@@ -1,5 +1,4 @@
 /*
- * traitement_calcul_tournee.c
  */
 
 #include "traitement_calcul_tournee.h"

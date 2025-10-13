@@ -1,8 +1,7 @@
 /*
- * calcul_distance.c
  */
 
-#include "calcul_distance.h"
+#include "structures_calculs_distances.h"
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -1,11 +1,10 @@
 /*
- * traitement_calcul_tournee.h
  */
 
 #ifndef TRAITEMENT_CALCUL_TOURNEE_H
 #define TRAITEMENT_CALCUL_TOURNEE_H
 
-#include "structures_de_donnees.h"
+#include "structures_permutations.h"
 #include "traitement_options.h"
 
 #include <stdio.h>
