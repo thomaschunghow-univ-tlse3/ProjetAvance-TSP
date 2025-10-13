@@ -19,6 +19,6 @@ void afficher_specification(FILE *, Specification);
 void afficher_tableau_points(FILE *, TableauPoints);
 void afficher_matrice(FILE *, MatriceDistances);
 
-void afficher_tournee(FILE *, char *nom_fichier, MethodeCalcul methode, double temps, distance, Resultat);
+void afficher_tournee(FILE *, char *nom_fichier, MethodeCalcul methode, double temps, distance, Permutation);
 
 #endif // AFFICHAGE_H

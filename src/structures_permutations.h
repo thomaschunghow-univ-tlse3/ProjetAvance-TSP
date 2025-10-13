@@ -13,14 +13,19 @@
 #include "structures_matrices.h"
 
 #include <stddef.h>
+#include <stdbool.h>
 
 typedef struct permutation *Permutation;
 
+// TODO : Rendre abstrait, rajouter les fonctions qui renvoient le tableau d'indices et le nombre d'indices.
 struct permutation
 {
     size_t nombre_indices;
     size_t *indices;
 };
+
+// TODO : rajouter une fonction qui transforme une permutation en son tableau de points correspondant.
+TableauPoints transformer_permutation_en_points(Permutation permutation);
 
 /* Définition d'une permutation. */
 typedef struct permutation *Permutation;
@@ -34,5 +39,7 @@ void echanger_indices(Permutation permutation, int i, int j);
 
 /* calcule la distance totale d'une sequence de points d'une permutation*/
 distance distance_totale_permutation(Permutation, MatriceDistances);
+
+bool permutation_suivante(Permutation permutation);
 
 #endif // STRUCTURES_PERMUTATIONS_H

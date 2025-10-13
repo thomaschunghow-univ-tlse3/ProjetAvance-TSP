@@ -77,21 +77,23 @@ void afficher_tableau_distances(FILE *sortie, TableauDistances tableau)
     fprintf(sortie, "]\n");
 }
 
-// TODO : à décommenter après avoir implémenté le type permutation
-// void afficher_permutation(FILE *sortie, Permutation permutation)
-// {
-//     size_t nombre_points = taille_permutation(permutation);
-//     for (size_t i = 0; i < nombre_points - 1; i++)
-//     {
-//         fprintf(sortie, "%ld,", obtenir_element_permutation(permutation, i));
-//     }
-//     fprintf(sortie, "%ld] ;", obtenir_element_permutation(permutation, nombre_points - 1));
-// }
+void afficher_permutation(FILE *sortie, Permutation permutation)
+{
+    size_t nombre_points = permutation->nombre_indices;
+    for (size_t i = 0; i < nombre_points - 1; i++)
+    {
+        fprintf(sortie, "%ld,", permutation->indices[i]);
+    }
+    fprintf(sortie, "%ld] ;", permutation->indices[nombre_points - 1]);
+}
 
 void afficher_methode_calcul(FILE *sortie, MethodeCalcul methode)
 {
     switch (methode)
     {
+    case CANONIQUE:
+        fprintf(sortie, "canonique");
+        break;
     case BF:
         fprintf(sortie, "bf");
         break;
@@ -113,16 +115,16 @@ void afficher_methode_calcul(FILE *sortie, MethodeCalcul methode)
     case GADPX:
         fprintf(sortie, "gadpx");
         break;
-    case ALL:
+    default:
         fprintf(stderr,
                 "Erreur afficher_methode_calcul :\n"
-                "'all' n'est pas une méthode affichable.\n");
+                "La méthode choisie n'est pas une méthode affichable.\n");
         exit(EXIT_FAILURE);
     }
     fprintf(sortie, " ; ");
 }
 
-void afficher_tournee(FILE *sortie, char *nom_fichier, MethodeCalcul methode, double temps, distance distance_totale, Resultat resultat)
+void afficher_tournee(FILE *sortie, char *nom_fichier, MethodeCalcul methode, double temps, distance distance_totale, Permutation permutation)
 {
     fprintf(sortie, "%s ; ", nom_fichier);
 
@@ -132,8 +134,7 @@ void afficher_tournee(FILE *sortie, char *nom_fichier, MethodeCalcul methode, do
 
     fprintf(sortie, "%lf ; ", distance_totale);
 
-    (void)resultat;
-    // afficher_permutation(sortie, permutation);
+    afficher_permutation(sortie, permutation);
 
     fprintf(sortie, "\n");
 }

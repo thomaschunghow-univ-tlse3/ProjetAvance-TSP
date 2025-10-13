@@ -39,12 +39,12 @@ int main(int argc, char **argv)
 
     if (options.est_donne_canonique)
     {
-        // traitement(sortie, &calcul_tournee_canonique, options, matrice);
+        traitement(sortie, options.nom_fichier_entree, CANONIQUE, matrice);
     }
     switch (options.methode_calcul)
     {
     case BF:
-        // traitement_bf(sortie, matrice);
+        // traitement(sortie, options.nom_fichier_entree, BF, matrice);
         break;
     case NN:
         break;
@@ -59,6 +59,8 @@ int main(int argc, char **argv)
     case GADPX:
         break;
     case ALL:
+        break;
+    default:
         break;
     }
 

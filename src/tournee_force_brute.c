@@ -13,39 +13,6 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-/*
- * calcule la permutation suivante de l'ordre lexicographique
- * et renvoie un boolean qui montre si la permutation suivante existe
- */
-bool permutation_suivante(Permutation permutation)
-{
-	// trouver le suffix non croissant
-	if (permutation->nombre_indices == 0)
-		return false;
-	size_t i = permutation->nombre_indices - 1;
-	while (i > 0 && (permutation->indices)[i - 1] >= (permutation->indices)[i])
-		i--;
-	if (i == 0)
-		return false;
-
-	// trouver le successeur du pivot
-	size_t j = permutation->nombre_indices - 1;
-	while ((permutation->indices)[j] <= (permutation->indices)[i - 1])
-		j--;
-
-	echanger_indices(permutation, i - 1, j);
-
-	// inverser le suffix
-	j = permutation->nombre_indices - 1;
-	while (i < j)
-	{
-		echanger_indices(permutation, i, j);
-		i++;
-		j--;
-	}
-	return true;
-}
-
 // TODO : brute force renvoie la permutation
 distance brute_force(MatriceDistances matrice)
 {

@@ -15,8 +15,10 @@ typedef struct
     distance distance;
 } Resultat;
 
-typedef Resultat FonctionTraitement(MatriceDistances);
+typedef Resultat (*FonctionTraitement)(MatriceDistances);
 
-void traitement(FILE *sortie, FonctionTraitement, Options, MatriceDistances);
+extern FonctionTraitement liste_fonctions_traitement[];
+
+void traitement(FILE *sortie, char *nom_fichier, MethodeCalcul methode, MatriceDistances matrice);
 
 #endif // TRAITEMENT_CALCUL_TOURNEE_H

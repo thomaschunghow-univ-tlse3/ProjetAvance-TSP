@@ -3,16 +3,31 @@
 
 #include "traitement_calcul_tournee.h"
 #include "affichage.h"
+#include "tournee_canonique.h"
 
 #include <time.h>
 
-void traitement(FILE *sortie, FonctionTraitement fonction_traitement, Options options, MatriceDistances matrice)
+FonctionTraitement liste_fonctions_traitement[] = {
+    &calcul_tournee_canonique,
+    NULL, // &calcul_tournee_force_brute,
+    NULL, // &calcul_tournee_plus_proche_voisin,
+    NULL, // &calcul_tournee_marche_aleatoire,
+    NULL, // &calcul_tournee_2_optimisation_plus_proche_voisin,
+    NULL, // &calcul_tournee_2_optimisation_marche_aleatoire,
+    NULL, // &calcul_tournee_genetique_generique,
+    NULL, // &calcul_tournee_genetique_dpx,
+};
+
+void traitement(FILE *sortie, char *nom_fichier, MethodeCalcul methode, MatriceDistances matrice)
 {
     clock_t temps = clock();
+
+    FonctionTraitement fonction_traitement = liste_fonctions_traitement[methode];
     Resultat resultat = fonction_traitement(matrice);
+
     temps = clock() - temps;
     double temps_total = (double)temps;
     temps_total /= CLOCKS_PER_SEC;
-    distance distance_totale = 0; // TODO
-    afficher_tournee(sortie, options.nom_fichier_entree, options.methode_calcul, temps_total, distance_totale, resultat);
+
+    afficher_tournee(sortie, nom_fichier, methode, temps_total, resultat.distance, resultat.permutation);
 }

@@ -15,6 +15,7 @@
 
 typedef enum
 {
+    CANONIQUE,
     BF,
     NN,
     RW,
