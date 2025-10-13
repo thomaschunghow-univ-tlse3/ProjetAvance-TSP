@@ -44,21 +44,33 @@ int main(int argc, char **argv)
     switch (options.methode_calcul)
     {
     case BF:
-        // traitement(sortie, options.nom_fichier_entree, BF, matrice);
+        traitement(sortie, options.nom_fichier_entree, BF, matrice);
         break;
     case NN:
+        traitement(sortie, options.nom_fichier_entree, NN, matrice);
         break;
     case RW:
+        traitement(sortie, options.nom_fichier_entree, RW, matrice);
         break;
     case NN2OPT:
+        traitement(sortie, options.nom_fichier_entree, NN2OPT, matrice);
         break;
     case RW2OPT:
+        traitement(sortie, options.nom_fichier_entree, RW2OPT, matrice);
         break;
     case GA:
+        traitement(sortie, options.nom_fichier_entree, GA, matrice);
         break;
     case GADPX:
+        traitement(sortie, options.nom_fichier_entree, GADPX, matrice);
         break;
     case ALL:
+        traitement(sortie, options.nom_fichier_entree, NN, matrice);
+        traitement(sortie, options.nom_fichier_entree, RW, matrice);
+        traitement(sortie, options.nom_fichier_entree, NN2OPT, matrice);
+        traitement(sortie, options.nom_fichier_entree, RW2OPT, matrice);
+        traitement(sortie, options.nom_fichier_entree, GA, matrice);
+        traitement(sortie, options.nom_fichier_entree, GADPX, matrice);
         break;
     default:
         break;

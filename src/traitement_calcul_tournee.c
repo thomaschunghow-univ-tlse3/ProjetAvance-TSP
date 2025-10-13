@@ -8,14 +8,14 @@
 #include <time.h>
 
 FonctionTraitement liste_fonctions_traitement[] = {
-    &calcul_tournee_canonique,
-    NULL, // &calcul_tournee_force_brute,
-    NULL, // &calcul_tournee_plus_proche_voisin,
-    NULL, // &calcul_tournee_marche_aleatoire,
-    NULL, // &calcul_tournee_2_optimisation_plus_proche_voisin,
-    NULL, // &calcul_tournee_2_optimisation_marche_aleatoire,
-    NULL, // &calcul_tournee_genetique_generique,
-    NULL, // &calcul_tournee_genetique_dpx,
+    &calcul_tournee_canonique, // TODO : Remplacer par les bonnes fonctions quand c'est implémenté.
+    &calcul_tournee_canonique, // &calcul_tournee_force_brute,
+    &calcul_tournee_canonique, // &calcul_tournee_plus_proche_voisin,
+    &calcul_tournee_canonique, // &calcul_tournee_marche_aleatoire,
+    &calcul_tournee_canonique, // &calcul_tournee_2_optimisation_plus_proche_voisin,
+    &calcul_tournee_canonique, // &calcul_tournee_2_optimisation_marche_aleatoire,
+    &calcul_tournee_canonique, // &calcul_tournee_genetique_generique,
+    &calcul_tournee_canonique, // &calcul_tournee_genetique_dpx,
 };
 
 void traitement(FILE *sortie, char *nom_fichier, MethodeCalcul methode, MatriceDistances matrice)
