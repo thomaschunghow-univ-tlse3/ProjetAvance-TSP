@@ -26,14 +26,7 @@ struct matrice_distances
     TableauDistances tableau_distances;
 };
 
-struct permutation
-{
-    size_t nombre_indices;
-    size_t *indices;
-};
-
-TableauPoints
-creer_tableau_points(size_t nombre_points)
+TableauPoints creer_tableau_points(size_t nombre_points)
 {
     TableauPoints tableau = malloc(sizeof(struct tableau_points) + nombre_points * sizeof(Point));
     if (tableau == NULL)

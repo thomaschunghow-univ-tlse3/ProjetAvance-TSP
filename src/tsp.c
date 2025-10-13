@@ -21,7 +21,7 @@
 
 /* Exemple d'utilisation :
  * make
- * /bin/tsp -f data/pr76.tsp -m bf -o bin/tsp.txt -c */
+ * ./bin/tsp -f data/pr76.tsp -m bf -o bin/tsp.txt -c */
 
 int main(int argc, char **argv)
 {
@@ -41,12 +41,12 @@ int main(int argc, char **argv)
 
     if (options.est_donne_canonique)
     {
-        traitement(sortie, &calcul_tournee_canonique, options, matrice);
+        // traitement(sortie, &calcul_tournee_canonique, options, matrice);
     }
     switch (options.methode_calcul)
     {
     case BF:
-        traitement_bf(sortie, matrice);
+        // traitement_bf(sortie, matrice);
         break;
     case NN:
         break;
