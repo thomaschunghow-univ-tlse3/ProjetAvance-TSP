@@ -24,6 +24,15 @@ typedef struct permutation *Permutation;
 typedef double coordonnee;
 typedef double distance;
 
+/* Type abstrait representant la sequence des points d'une tournee */
+struct permutation
+{
+    size_t nombre_indices;
+    size_t *indices;
+};
+
+typedef struct permutation *Permutation;
+
 /* Définitions pour les tableaux de points. */
 
 typedef struct
@@ -91,6 +100,7 @@ TableauPoints tableau_points_matrice(MatriceDistances);
 TableauDistances tableau_distances_matrice(MatriceDistances);
 
 Point *obtenir_point_matrice(MatriceDistances, size_t indice);
+/* TODO : Rajouter le commentaire qui dit on s'en fiche de l'ordre ligne colonne, c'est fait auto*/
 distance *obtenir_distance_matrice(MatriceDistances, size_t ligne, size_t colonne);
 size_t nombre_points_matrice(MatriceDistances);
 size_t nombre_distances_matrice(MatriceDistances);
@@ -99,5 +109,15 @@ FonctionCalculDistance fonction_distance_matrice(MatriceDistances);
 void verifier_element_dans_matrice(size_t ligne, size_t taille_points, size_t colonne);
 
 size_t obtenir_indice_matrice(size_t ligne, size_t colonne);
+
+/* Le tableau est créé et initialisé avec la première permutation
+ * de l'ordre lexical, i.e l'ordre canonique de 1 à n. */
+Permutation creer_permutation(size_t nombre_indices);
+void supprimer_permutation(Permutation *permutation);
+
+void echanger_indices(Permutation permutation, int i, int j);
+
+/* calcule la distance totale d'une sequence de points d'une permutation*/
+distance distance_totale_permutation(Permutation, MatriceDistances);
 
 #endif // STRUCTURES_DE_DONNEES_H

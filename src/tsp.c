@@ -31,11 +31,9 @@ int main(int argc, char **argv)
     FILE *sortie = ouverture_sortie(options);
 
     Specification specification = lire_specification_tsp(entree);
-    afficher_specification(sortie, specification);
 
     TableauPoints tableau_points = creer_tableau_points(specification.nombre_points);
     lire_points_tsp(entree, tableau_points);
-    afficher_tableau_points(sortie, tableau_points);
 
     MatriceDistances matrice = creer_matrice(tableau_points, specification.calculer_distance);
 
@@ -48,6 +46,7 @@ int main(int argc, char **argv)
     switch (options.methode_calcul)
     {
     case BF:
+        traitement_bf(sortie, matrice);
         break;
     case NN:
         break;
