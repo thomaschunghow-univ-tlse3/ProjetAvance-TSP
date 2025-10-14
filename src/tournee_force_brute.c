@@ -13,14 +13,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-void afficher_tableau(const size_t *tableau, size_t taille)
-{
-	for (size_t i = 0; i < taille; i++)
-	{
-		printf("%zu ", tableau[i]);
-	}
-	printf("\n");
-}
+// fonction auxiliere qui copie un tab d'indices dans un TAD Permutation
 void copier_tableau(Permutation permutation, size_t *tabIndices)
 {
 	for (size_t i = 0; i < nombreIndices(permutation); i++)
@@ -28,7 +21,7 @@ void copier_tableau(Permutation permutation, size_t *tabIndices)
 		permutation->indices[i] = tabIndices[i];
 	}
 }
-// TODO : brute force renvoie la permutation
+
 Permutation brute_force(MatriceDistances matrice)
 {
 	size_t nombre_points = nombre_points_matrice(matrice);
