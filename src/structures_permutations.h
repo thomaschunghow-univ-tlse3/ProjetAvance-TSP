@@ -15,20 +15,20 @@
 #include <stddef.h>
 #include <stdbool.h>
 
-typedef struct permutation *Permutation;
-
-// TODO : Rendre abstrait, rajouter les fonctions qui renvoient le tableau d'indices et le nombre d'indices.
 struct permutation
 {
     size_t nombre_indices;
     size_t *indices;
 };
+/* Définition d'une permutation. */
+typedef struct permutation *Permutation;
+
+size_t nombreIndices(Permutation permutation);
+
+size_t *tabIndices(Permutation permutation);
 
 // TODO : rajouter une fonction qui transforme une permutation en son tableau de points correspondant.
 TableauPoints transformer_permutation_en_points(Permutation permutation);
-
-/* Définition d'une permutation. */
-typedef struct permutation *Permutation;
 
 /* Le tableau est créé et initialisé avec la première permutation
  * de l'ordre lexical, i.e l'ordre canonique de 1 à n. */

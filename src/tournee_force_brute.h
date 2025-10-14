@@ -5,6 +5,7 @@
 #define TOURNEE_FORCE_BRUTE_H
 
 #include "structures_permutations.h"
+#include "affichage.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,8 +14,8 @@
 #include <stddef.h>
 
 bool permutation_suivante(Permutation);
-distance brute_force(MatriceDistances matrice);
+Permutation brute_force(MatriceDistances matrice);
 
-void traitement_bf(FILE *sortie, MatriceDistances matrice);
+Resultat calcul_tournee_force_brute(MatriceDistances matrice);
 
 #endif // TOURNEE_FORCE_BRUTE_H

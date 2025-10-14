@@ -44,6 +44,24 @@ void supprimer_permutation(Permutation *permutation)
     *permutation = NULL;
 }
 
+size_t nombreIndices(Permutation permutation)
+{
+    verifier_permutation_non_vide(permutation);
+    return permutation->nombre_indices;
+}
+
+size_t *tabIndices(Permutation permutation)
+{
+    verifier_permutation_non_vide(permutation);
+    return permutation->indices;
+}
+
+TableauPoints transformer_permutation_en_points(Permutation permutation)
+{
+    verifier_permutation_non_vide(permutation);
+    return creer_tableau_points(permutation->nombre_indices);
+}
+
 void echanger_indices(Permutation permutation, int i, int j)
 {
     size_t temp = permutation->indices[i];
@@ -71,9 +89,9 @@ bool permutation_suivante(Permutation permutation)
     if (permutation->nombre_indices == 0)
         return false;
     size_t i = permutation->nombre_indices - 1;
-    while (i > 0 && (permutation->indices)[i - 1] >= (permutation->indices)[i])
+    while (i > 1 && (permutation->indices)[i - 1] >= (permutation->indices)[i])
         i--;
-    if (i == 0)
+    if (i == 1) // 1 au lieu de 0 parcequ'on commence toujours par le meme point
         return false;
 
     // trouver le successeur du pivot

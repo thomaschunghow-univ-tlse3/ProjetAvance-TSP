@@ -13,17 +13,30 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+void afficher_tableau(const size_t *tableau, size_t taille)
+{
+	for (size_t i = 0; i < taille; i++)
+	{
+		printf("%zu ", tableau[i]);
+	}
+	printf("\n");
+}
+void copier_tableau(Permutation permutation, size_t *tabIndices)
+{
+	for (size_t i = 0; i < nombreIndices(permutation); i++)
+	{
+		permutation->indices[i] = tabIndices[i];
+	}
+}
 // TODO : brute force renvoie la permutation
-distance brute_force(MatriceDistances matrice)
+Permutation brute_force(MatriceDistances matrice)
 {
 	size_t nombre_points = nombre_points_matrice(matrice);
 	Permutation permutation_courante = creer_permutation(nombre_points);
+	Permutation meilleure_permutation = creer_permutation(nombre_points);
 
 	distance d_courante = distance_totale_permutation(permutation_courante, matrice);
 	distance d_minimale = d_courante;
-	printf("%lf\n", d_courante);
-
-	printf("%lf\n", d_minimale);
 
 	while (permutation_suivante(permutation_courante))
 	{
@@ -31,14 +44,22 @@ distance brute_force(MatriceDistances matrice)
 		if (d_courante < d_minimale)
 		{
 			d_minimale = d_courante;
+			copier_tableau(meilleure_permutation, tabIndices(permutation_courante));
 		}
 	}
+
 	supprimer_permutation(&permutation_courante);
-	return d_minimale;
+	return meilleure_permutation;
 }
 
-void traitement_bf(FILE *sortie, MatriceDistances matrice)
+Resultat calcul_tournee_force_brute(MatriceDistances matrice)
 {
-	distance meilleure_distance = brute_force(matrice);
-	fprintf(sortie, "Distance minimale : %lf\n", meilleure_distance);
+	Permutation meilleure_permutation = brute_force(matrice);
+	distance meilleure_distance = distance_totale_permutation(meilleure_permutation, matrice);
+
+	Resultat resultat;
+	resultat.permutation = meilleure_permutation;
+	resultat.distance = meilleure_distance;
+
+	return resultat;
 }
