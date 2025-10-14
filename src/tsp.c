@@ -19,7 +19,7 @@
 
 /* Exemple d'utilisation :
  * make
- * ./bin/tsp -f data/pr76.tsp -m bf -o bin/tsp.txt -c */
+ * ./bin/tsp -f data/pr76.tsp -m bf -o bin/resultat.txt -c */
 
 int main(int argc, char **argv)
 {

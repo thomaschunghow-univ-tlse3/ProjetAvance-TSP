@@ -80,11 +80,12 @@ void afficher_tableau_distances(FILE *sortie, TableauDistances tableau)
 void afficher_permutation(FILE *sortie, Permutation permutation)
 {
     size_t nombre_points = permutation->nombre_indices;
+    fprintf(sortie, "[");
     for (size_t i = 0; i < nombre_points - 1; i++)
     {
-        fprintf(sortie, "%ld,", permutation->indices[i]);
+        fprintf(sortie, "%ld,", permutation->indices[i] + 1);
     }
-    fprintf(sortie, "%ld] ;", permutation->indices[nombre_points - 1]);
+    fprintf(sortie, "%ld] ;", permutation->indices[nombre_points - 1] + 1);
 }
 
 void afficher_methode_calcul(FILE *sortie, MethodeCalcul methode)
