@@ -14,7 +14,7 @@
 #include <stddef.h>
 
 bool permutation_suivante(Permutation);
-Permutation brute_force(MatriceDistances matrice);
+Resultat brute_force(MatriceDistances matrice);
 
 Resultat calcul_tournee_force_brute(MatriceDistances matrice);
 

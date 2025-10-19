@@ -36,6 +36,7 @@ int main(int argc, char **argv)
     MatriceDistances matrice = creer_matrice(tableau_points, specification.calculer_distance);
 
     afficher_noms_champs(sortie);
+    fflush(sortie);
 
     if (options.est_donne_canonique)
     {
