@@ -61,5 +61,5 @@ bin
 resolution
 
 # Code Python
-code_python
 .vscode/settings.json
+venv
