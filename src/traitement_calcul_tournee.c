@@ -31,4 +31,6 @@ void traitement(FILE *sortie, char *nom_fichier, MethodeCalcul methode, MatriceD
     temps_total /= CLOCKS_PER_SEC;
 
     afficher_tournee(sortie, nom_fichier, methode, temps_total, resultat.distance, resultat.permutation);
+
+    supprimer_permutation(&resultat.permutation);
 }
