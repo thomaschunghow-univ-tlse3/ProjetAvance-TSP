@@ -8,7 +8,7 @@
 
 void afficher_noms_champs(FILE *sortie)
 {
-    fprintf(sortie, "Instance ; Méthode ; Temps CPU (secondes) ; Longueur ; Tour\n");
+    fprintf(sortie, "Instance ; Méthode ; Temps CPU (secondes) ; Longueur ; Tour ;\n");
 }
 
 // DEBUG : à supprimer éventuellement
