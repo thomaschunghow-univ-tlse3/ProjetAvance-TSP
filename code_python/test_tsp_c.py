@@ -29,7 +29,7 @@ def extract_data(path,code,filename,method,distance_fct,coord,graphique):
         nom = lst[ind+1]
         algo = lst[ind+2]
         tps = eval(lst[ind+3]) # float
-        length = int(eval(lst[ind+4])) # int
+        length = eval(lst[ind+4]) # int
         tour = eval(lst[ind+5]) # liste
         l = fitness(tour,distance_fct,coord)
         v = valid(tour)
@@ -74,7 +74,7 @@ def tests_instances_list(instances_file,methods):
 # filename = "att10.tsp" #
 path = "./bin/" # adaptez à votre cas
 code = "tsp" # nom du programme C
-methods = ["-c","bf"]#"bf","gadpx"
+methods = ["bf", "-c"]#"bf","gadpx"
 
 #test_instance(filename,methods) # pour un seul appel
 tests_instances_list("./code_python/instances.txt",methods) # marche si le C marche

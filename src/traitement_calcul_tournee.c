@@ -7,6 +7,7 @@
 #include "tournee_force_brute.h"
 
 #include <time.h>
+#include <math.h>
 
 FonctionTraitement liste_fonctions_traitement[] = {
     &calcul_tournee_canonique,   // TODO : Remplacer par les bonnes fonctions quand c'est implémenté.

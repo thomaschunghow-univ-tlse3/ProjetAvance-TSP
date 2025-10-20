@@ -133,7 +133,7 @@ void afficher_tournee(FILE *sortie, char *nom_fichier, MethodeCalcul methode, do
 
     fprintf(sortie, "%lf ; ", temps);
 
-    fprintf(sortie, "%lf ; ", distance_totale);
+    fprintf(sortie, "%.17g ; ", distance_totale);
 
     afficher_permutation(sortie, permutation);
 
