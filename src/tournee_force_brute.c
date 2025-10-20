@@ -12,31 +12,20 @@
 
 #include <stdbool.h>
 #include <stddef.h>
-#include <signal.h> 
+#include <signal.h>
 
 static volatile sig_atomic_t flag = 0; // variable globale pour indiquer la réception du signal
 
 /*Permet de lever le drapeau d'interruption*/
-static void changement_etat(int sig) {
-	(void) sig; // éviter l'avertissement de variable non utilisée
-	flag = 1; // définir le drapeau lorsque le signal est reçu
-}
-
-
-// fonction auxiliere qui copie un tab d'indices dans un TAD Permutation
-void copier_tableau(Permutation permutation, size_t *tabIndices)
+static void changement_etat(int sig)
 {
-	for (size_t i = 0; i < nombreIndices(permutation); i++)
-	{
-		permutation->indices[i] = tabIndices[i];
-	}
+    (void)sig; // éviter l'avertissement de variable non utilisée
+    flag = 1;  // définir le drapeau lorsque le signal est reçu
 }
-
-
 
 Resultat brute_force(MatriceDistances matrice)
 {
-    signal(SIGINT, changement_etat); 
+    signal(SIGINT, changement_etat);
 
     size_t nombre_points = nombre_points_matrice(matrice);
     Permutation permutation_courante = creer_permutation(nombre_points);
@@ -49,59 +38,68 @@ Resultat brute_force(MatriceDistances matrice)
     bool stop = false;
     bool premiere_permutation = true;
 
-    do { // Utilisation d'un do-while pour inclure la première permutation
+    do
+    { // Utilisation d'un do-while pour inclure la première permutation
         d_courante = distance_totale_permutation(permutation_courante, matrice);
 
-        if (premiere_permutation) {
+        if (premiere_permutation)
+        {
             d_minimale = d_courante;
             d_maximal = d_courante;
-            copier_tableau(meilleure_permutation, tabIndices(permutation_courante)); 
+            copier_tableau(meilleure_permutation, permutation_courante);
             premiere_permutation = false;
         }
 
-        if(flag){
+        if (flag)
+        {
 
-			flag = 0; // Réinitialiser le drapeau
+            flag = 0; // Réinitialiser le drapeau
 
             printf("\n INTERRUPTION \n");
             printf("Pire distance trouvée   : %.2f\n", d_maximal);
             printf("Meilleure distance trouvée: %.2f\n", d_minimale);
             printf("Permutation actuelle    : %.2f\n", d_courante);
             fflush(stdout);
-            
+
             char reponse = ' ';
             int c;
-            
-			while(reponse != 'c' && reponse != 'C' && reponse != 's' && reponse != 'S'){
-             	printf("\nVeuillez entrer 'c' pour CONTINUER ou 's' pour STOPPER : ");
+
+            while (reponse != 'c' && reponse != 'C' && reponse != 's' && reponse != 'S')
+            {
+                printf("\nVeuillez entrer 'c' pour CONTINUER ou 's' pour STOPPER : ");
                 reponse = getchar(); // Lire le caractère de l'utilisateur
-                while ((c = getchar()) != '\n' && c != EOF); // Vider le buffer d'entrée
+                while ((c = getchar()) != '\n' && c != EOF)
+                    ; // Vider le buffer d'entrée
             }
 
-            if(reponse == 's' || reponse == 'S'){
+            if (reponse == 's' || reponse == 'S')
+            {
                 printf("Arrêt du calcul demandé\n");
                 stop = true;
             }
-            else if(reponse == 'c' || reponse == 'C'){
+            else if (reponse == 'c' || reponse == 'C')
+            {
                 printf("Reprise du calcul\n");
                 flag = 0;
                 signal(SIGINT, changement_etat);
             }
         }
 
-        if (d_courante < d_minimale) {
+        if (d_courante < d_minimale)
+        {
             d_minimale = d_courante;
-            copier_tableau(meilleure_permutation, tabIndices(permutation_courante));
+            copier_tableau(meilleure_permutation, permutation_courante);
         }
 
-        if (d_courante > d_maximal) {
+        if (d_courante > d_maximal)
+        {
             d_maximal = d_courante;
         }
 
     } while (permutation_suivante(permutation_courante) && !stop);
 
     supprimer_permutation(&permutation_courante);
-    signal(SIGINT, SIG_DFL);  
+    signal(SIGINT, SIG_DFL);
 
     Resultat resultat_final;
     resultat_final.permutation = meilleure_permutation;
@@ -112,5 +110,5 @@ Resultat brute_force(MatriceDistances matrice)
 
 Resultat calcul_tournee_force_brute(MatriceDistances matrice)
 {
-	return brute_force(matrice);
+    return brute_force(matrice);
 }

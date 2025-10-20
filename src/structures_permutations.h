@@ -15,11 +15,6 @@
 #include <stddef.h>
 #include <stdbool.h>
 
-struct permutation
-{
-    size_t nombre_indices;
-    size_t *indices;
-};
 /* Définition d'une permutation. */
 typedef struct permutation *Permutation;
 
@@ -41,5 +36,7 @@ void echanger_indices(Permutation permutation, int i, int j);
 distance distance_totale_permutation(Permutation, MatriceDistances);
 
 bool permutation_suivante(Permutation permutation);
+
+void copier_tableau(Permutation destination, Permutation source);
 
 #endif // STRUCTURES_PERMUTATIONS_H

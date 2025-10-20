@@ -6,6 +6,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+struct permutation
+{
+    size_t nombre_indices;
+    size_t *indices;
+};
+
 Permutation creer_permutation(size_t nombre_indices)
 {
     Permutation permutation = malloc(sizeof(struct permutation) + nombre_indices * sizeof(size_t));
@@ -111,4 +117,13 @@ bool permutation_suivante(Permutation permutation)
         j--;
     }
     return true;
+}
+
+// fonction auxiliere qui copie un tab d'indices dans un TAD Permutation
+void copier_tableau(Permutation destination, Permutation source)
+{
+    for (size_t i = 0; i < nombre_indices(destination); i++)
+    {
+        destination->indices[i] = source->indices[i];
+    }
 }

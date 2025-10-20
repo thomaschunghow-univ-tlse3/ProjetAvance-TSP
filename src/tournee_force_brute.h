@@ -13,9 +13,6 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-bool permutation_suivante(Permutation);
-Resultat brute_force(MatriceDistances matrice);
-
 Resultat calcul_tournee_force_brute(MatriceDistances matrice);
 
 #endif // TOURNEE_FORCE_BRUTE_H
