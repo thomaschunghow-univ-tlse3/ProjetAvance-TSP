@@ -76,6 +76,7 @@ distance distance_totale_permutation(Permutation permutation, MatriceDistances m
     {
         distance_totale += *obtenir_distance_matrice(matrice, permutation->indices[i], permutation->indices[i + 1]);
     }
+    distance_totale += *obtenir_distance_matrice(matrice, permutation->indices[0], permutation->indices[permutation->nombre_indices - 1]);
     return distance_totale;
 }
 
