@@ -23,9 +23,9 @@ struct permutation
 /* Définition d'une permutation. */
 typedef struct permutation *Permutation;
 
-size_t nombreIndices(Permutation permutation);
+size_t nombre_indices(Permutation permutation);
 
-size_t *tabIndices(Permutation permutation);
+size_t *tableau_indices(Permutation permutation);
 
 // TODO : rajouter une fonction qui transforme une permutation en son tableau de points correspondant.
 TableauPoints transformer_permutation_en_points(Permutation permutation);

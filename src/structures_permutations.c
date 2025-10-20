@@ -44,13 +44,13 @@ void supprimer_permutation(Permutation *permutation)
     *permutation = NULL;
 }
 
-size_t nombreIndices(Permutation permutation)
+size_t nombre_indices(Permutation permutation)
 {
     verifier_permutation_non_vide(permutation);
     return permutation->nombre_indices;
 }
 
-size_t *tabIndices(Permutation permutation)
+size_t *tableau_indices(Permutation permutation)
 {
     verifier_permutation_non_vide(permutation);
     return permutation->indices;

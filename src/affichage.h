@@ -18,6 +18,7 @@ void afficher_noms_champs(FILE *sortie);
 void afficher_specification(FILE *, Specification);
 void afficher_tableau_points(FILE *, TableauPoints);
 void afficher_matrice(FILE *, MatriceDistances);
+void afficher_permutation(FILE *sortie, Permutation);
 
 void afficher_tournee(FILE *, char *nom_fichier, MethodeCalcul methode, double temps, distance, Permutation);
 
