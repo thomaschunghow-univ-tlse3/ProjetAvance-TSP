@@ -1,7 +1,7 @@
 /*
  */
 
-#include "structures_calculs_distances.h"
+#include "calcul_distance.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,7 +11,7 @@
 #define RACINE_10 3.16227766016837952279
 #define RAYON_TERRE 6378.388
 
-FonctionCalculDistance liste_fonctions_calcul[] = {
+FonctionCalcul liste_fonctions_calcul[] = {
 	calculer_distance_euclidienne,
 	calculer_distance_geographique,
 	calculer_distance_euclidienne_modifiee,

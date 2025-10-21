@@ -4,9 +4,9 @@
 #include "tournee_canonique.h"
 #include "affichage.h"
 
-Resultat calcul_tournee_canonique(MatriceDistances matrice)
+Resultat calcul_tournee_canonique(MatriceDistance matrice)
 {
-    size_t nombre_points = nombre_points_matrice(matrice);
+    size_t nombre_points = matrice_nombre_points(matrice);
 
     Resultat resultat;
     resultat.permutation = creer_permutation(nombre_points);

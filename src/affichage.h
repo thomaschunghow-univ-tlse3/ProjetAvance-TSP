@@ -6,10 +6,10 @@
 #ifndef AFFICHAGE_H
 #define AFFICHAGE_H
 
-#include "structures_permutations.h"
-#include "traitement_lecture_donnees.h"
-#include "traitement_options.h"
-#include "traitement_calcul_tournee.h"
+#include "structure_permutation.h"
+#include "lecture_donnees.h"
+#include "options.h"
+#include "traitement_tournee.h"
 
 #include <stdio.h>
 

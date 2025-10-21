@@ -5,10 +5,10 @@
  * - La lecture des coordonnées des points et leur stockage dans un tableau dynamique.
  */
 
-#ifndef TRAITEMENT_LECTURE_DONNEES_H
-#define TRAITEMENT_LECTURE_DONNEES_H
+#ifndef LECTURE_DONNEES_H
+#define LECTURE_DONNEES_H
 
-#include "structures_permutations.h"
+#include "structure_permutation.h"
 
 #include <stdio.h>
 
@@ -20,11 +20,11 @@ typedef struct
     char type[TAILLE_CHAMP_MAX];
     char commentaire[TAILLE_CHAMP_MAX];
     size_t nombre_points;
-    FonctionCalculDistance calculer_distance;
+    FonctionCalcul calculer_distance;
 } Specification;
 
 Specification lire_specification_tsp(FILE *fichier);
 
-void lire_points_tsp(FILE *fichier, TableauPoints);
+void lire_points_tsp(FILE *fichier, TableauPoint);
 
-#endif // TRAITEMENT_LECTURE_DONNEES_H
+#endif // LECTURE_DONNEES_H

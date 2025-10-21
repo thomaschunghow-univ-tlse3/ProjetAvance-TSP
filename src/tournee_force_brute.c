@@ -2,7 +2,7 @@
  */
 
 #include "tournee_force_brute.h"
-#include "structures_permutations.h"
+#include "structure_permutation.h"
 #include "tournee_canonique.h"
 #include "affichage.h"
 
@@ -23,11 +23,11 @@ static void changement_etat(int sig)
     flag = 1;  // définir le drapeau lorsque le signal est reçu
 }
 
-Resultat brute_force(MatriceDistances matrice)
+Resultat brute_force(MatriceDistance matrice)
 {
     signal(SIGINT, changement_etat);
 
-    size_t nombre_points = nombre_points_matrice(matrice);
+    size_t nombre_points = matrice_nombre_points(matrice);
     Permutation permutation_courante = creer_permutation(nombre_points);
     Permutation meilleure_permutation = creer_permutation(nombre_points);
 
@@ -108,7 +108,7 @@ Resultat brute_force(MatriceDistances matrice)
     return resultat_final;
 }
 
-Resultat calcul_tournee_force_brute(MatriceDistances matrice)
+Resultat calcul_tournee_force_brute(MatriceDistance matrice)
 {
     return brute_force(matrice);
 }

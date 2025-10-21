@@ -5,8 +5,8 @@
  * et de convertir le nom d'une méthode de calcul en énumération interne.
  */
 
-#ifndef TRAITEMENT_OPTIONS_H
-#define TRAITEMENT_OPTIONS_H
+#ifndef OPTIONS_H
+#define OPTIONS_H
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -45,4 +45,4 @@ FILE *ouverture_sortie(Options options);
 void fermeture_entree(FILE *, Options options);
 void fermeture_sortie(FILE *, Options options);
 
-#endif // TRAITEMENT_OPTIONS_H
+#endif // OPTIONS_H

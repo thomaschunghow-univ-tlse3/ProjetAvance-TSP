@@ -1,8 +1,8 @@
 /*
  */
 
-#include "traitement_lecture_donnees.h"
-#include "structures_calculs_distances.h"
+#include "lecture_donnees.h"
+#include "calcul_distance.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -36,7 +36,7 @@ void verifier_specification_valide(Specification specification)
     }
 }
 
-FonctionCalculDistance methode_calcul_depuis_nom(char *nom)
+FonctionCalcul methode_calcul_depuis_nom(char *nom)
 {
     if (strstr(nom, "EUC_2D"))
     {
@@ -98,7 +98,7 @@ Specification lire_specification_tsp(FILE *entree)
     return specification;
 }
 
-void lire_points_tsp(FILE *entree, TableauPoints tableau)
+void lire_points_tsp(FILE *entree, TableauPoint tableau)
 {
     rewind(entree);
     char ligne[TAILLE_LIGNE_MAX];
@@ -109,10 +109,11 @@ void lire_points_tsp(FILE *entree, TableauPoints tableau)
             break;
         }
     }
-    size_t nombre_points = taille_tableau_points(tableau);
+    size_t nombre_points = tableau_point_obtenir_taille(tableau);
     for (size_t i = 0; i < nombre_points; i++)
     {
-        Point *point = obtenir_element_tableau_points(tableau, i);
-        fscanf(entree, "%*d%lf%lf", &(point->x), &(point->y));
+        Point point;
+        fscanf(entree, "%*d%lf%lf", &(point.x), &(point.y));
+        tableau_point_modifier_point(tableau, i, point);
     }
 }

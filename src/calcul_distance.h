@@ -3,10 +3,12 @@
  * Ce module fournit les différentes méthodes de calcul de distance.
  */
 
-#ifndef STRUCTURES_CALCULS_DISTANCES_H
-#define STRUCTURES_CALCULS_DISTANCES_H
+#ifndef CALCUL_DISTANCE_H
+#define CALCUL_DISTANCE_H
 
-#include "structures_permutations.h"
+#include "structure_permutation.h"
+
+typedef distance (*FonctionCalcul)(Point, Point);
 
 typedef enum
 {
@@ -21,6 +23,6 @@ distance calculer_distance_euclidienne_modifiee(Point A, Point B);
 
 /* Liste qui contient les trois pointeurs vers les trois fonctions de calcul de distances,
  * indexés selon l'ordre de l'énumération TypeDistance. */
-extern FonctionCalculDistance liste_fonctions_calcul[];
+extern FonctionCalcul liste_fonctions_calcul[];
 
-#endif // STRUCTURES_CALCULS_DISTANCES_H
+#endif // CALCUL_DISTANCE_H

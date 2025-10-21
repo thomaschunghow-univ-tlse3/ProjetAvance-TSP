@@ -7,11 +7,11 @@
 #ifndef TOURNEE_CANONIQUE_H
 #define TOURNEE_CANONIQUE_H
 
-#include "structures_permutations.h"
-#include "traitement_calcul_tournee.h"
+#include "structure_permutation.h"
+#include "traitement_tournee.h"
 
 #include <stdio.h>
 
-Resultat calcul_tournee_canonique(MatriceDistances);
+Resultat calcul_tournee_canonique(MatriceDistance);
 
 #endif // TOURNEE_CANONIQUE_H

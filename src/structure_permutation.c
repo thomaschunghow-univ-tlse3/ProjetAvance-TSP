@@ -1,7 +1,7 @@
 /*
  */
 
-#include "structures_permutations.h"
+#include "structure_permutation.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,7 +17,6 @@ Permutation creer_permutation(size_t nombre_indices)
     Permutation permutation = malloc(sizeof(struct permutation) + nombre_indices * sizeof(size_t));
     if (permutation == NULL)
     {
-        printf("DEBUG\n");
         fprintf(stderr,
                 "Erreur creer_permutation :\n"
                 "Echec de l'allocation mémoire de la permutation.\n");
@@ -62,10 +61,10 @@ size_t *tableau_indices(Permutation permutation)
     return permutation->indices;
 }
 
-TableauPoints transformer_permutation_en_points(Permutation permutation)
+TableauPoint transformer_permutation_en_points(Permutation permutation)
 {
     verifier_permutation_non_vide(permutation);
-    return creer_tableau_points(permutation->nombre_indices);
+    return tableau_point_creer(permutation->nombre_indices);
 }
 
 void echanger_indices(Permutation permutation, int i, int j)
@@ -75,14 +74,14 @@ void echanger_indices(Permutation permutation, int i, int j)
     permutation->indices[j] = temp;
 }
 
-distance distance_totale_permutation(Permutation permutation, MatriceDistances matrice)
+distance distance_totale_permutation(Permutation permutation, MatriceDistance matrice)
 {
     distance distance_totale = 0;
     for (size_t i = 0; i < permutation->nombre_indices - 1; i++)
     {
-        distance_totale += *obtenir_distance_matrice(matrice, permutation->indices[i], permutation->indices[i + 1]);
+        distance_totale += matrice_obtenir_distance(matrice, permutation->indices[i], permutation->indices[i + 1]);
     }
-    distance_totale += *obtenir_distance_matrice(matrice, permutation->indices[0], permutation->indices[permutation->nombre_indices - 1]);
+    distance_totale += matrice_obtenir_distance(matrice, permutation->indices[0], permutation->indices[permutation->nombre_indices - 1]);
     return distance_totale;
 }
 
