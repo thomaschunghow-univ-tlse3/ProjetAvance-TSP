@@ -1,11 +1,7 @@
 /*
  * structure_point.h
  *
- * Ce module fournit :
- *  - La définition d'une coordonnée,
- *  - La définition d'un point,
- *  - La définition d'un type abstrait de données, représentant un tableau de point,
- *  - Les fonctions de création, de suppression, et d'accès aux tableaux de point.
+ * Définitions et opérations sur les points et tableaux de point.
  */
 
 #ifndef STRUCTURE_POINT_H

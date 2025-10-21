@@ -1,4 +1,5 @@
 /*
+ * structure_permutation.c
  */
 
 #include "structure_permutation.h"
@@ -12,117 +13,162 @@ struct permutation
     size_t *indices;
 };
 
-Permutation creer_permutation(size_t nombre_indices)
+void permutation_initialiser(Permutation permutation)
 {
-    Permutation permutation = malloc(sizeof(struct permutation) + nombre_indices * sizeof(size_t));
-    if (permutation == NULL)
-    {
-        fprintf(stderr,
-                "Erreur creer_permutation :\n"
-                "Echec de l'allocation mémoire de la permutation.\n");
-        exit(EXIT_FAILURE);
-    }
-    permutation->nombre_indices = nombre_indices;
-    permutation->indices = (size_t *)(permutation + 1);
-    for (size_t i = 0; i < nombre_indices; i++)
+    for (size_t i = 0; i < permutation_obtenir_taille(permutation); i++)
     {
         permutation->indices[i] = i;
     }
+}
+
+Permutation permutation_creer(size_t nombre_indices)
+{
+    Permutation permutation = malloc(sizeof(struct permutation) +
+                                     nombre_indices * sizeof(size_t));
+
+    if (permutation == NULL)
+    {
+        fprintf(stderr,
+                "Erreur permutation_creer :\n"
+                "Echec de l'allocation mémoire de la permutation.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    permutation->nombre_indices = nombre_indices;
+    permutation->indices = (size_t *)(permutation + 1);
+
+    permutation_initialiser(permutation);
+
     return permutation;
 }
 
-void verifier_permutation_non_vide(Permutation permutation)
+void permutation_assert_non_vide(Permutation permutation)
 {
     if (permutation == NULL)
     {
         fprintf(stderr,
-                "Erreur verifier_permutation_non_vide :\n"
+                "Erreur permutation_assert_non_vide :\n"
                 "Permutation vide.\n");
         exit(EXIT_FAILURE);
     }
 }
 
-void supprimer_permutation(Permutation *permutation)
+void permutation_assert_indice_valide(Permutation permutation, size_t indice)
 {
-    verifier_permutation_non_vide(*permutation);
+    if (indice >= permutation_obtenir_taille(permutation))
+    {
+        fprintf(stderr,
+                "Erreur permutation_assert_indice_valide :\n"
+                "L'indice dépasse la taille de la permutation.\n");
+        exit(EXIT_FAILURE);
+    }
+}
+
+void permutation_supprimer(Permutation *permutation)
+{
+    permutation_assert_non_vide(*permutation);
+
     free(*permutation);
     *permutation = NULL;
 }
 
-size_t nombre_indices(Permutation permutation)
+size_t permutation_obtenir_taille(Permutation permutation)
 {
-    verifier_permutation_non_vide(permutation);
+    permutation_assert_non_vide(permutation);
+
     return permutation->nombre_indices;
 }
 
-size_t *tableau_indices(Permutation permutation)
+size_t permutation_obtenir_indice(Permutation permutation, size_t indice)
 {
-    verifier_permutation_non_vide(permutation);
-    return permutation->indices;
+    permutation_assert_non_vide(permutation);
+
+    return permutation->indices[indice];
 }
 
-TableauPoint transformer_permutation_en_points(Permutation permutation)
+void permutation_echanger_indices(Permutation permutation, int i, int j)
 {
-    verifier_permutation_non_vide(permutation);
-    return tableau_point_creer(permutation->nombre_indices);
+    permutation_assert_non_vide(permutation);
+
+    permutation_assert_indice_valide(permutation, i);
+    permutation_assert_indice_valide(permutation, j);
+
+    size_t *indices = permutation->indices;
+
+    size_t temp = indices[i];
+    indices[i] = indices[j];
+    indices[j] = temp;
 }
 
-void echanger_indices(Permutation permutation, int i, int j)
+distance permutation_calculer_distance_totale(Permutation permutation, MatriceDistance matrice)
 {
-    size_t temp = permutation->indices[i];
-    permutation->indices[i] = permutation->indices[j];
-    permutation->indices[j] = temp;
-}
+    permutation_assert_non_vide(permutation);
 
-distance distance_totale_permutation(Permutation permutation, MatriceDistance matrice)
-{
-    distance distance_totale = 0;
-    for (size_t i = 0; i < permutation->nombre_indices - 1; i++)
+    size_t nombre_indices = permutation_obtenir_taille(permutation);
+    size_t *indices = permutation->indices;
+
+    distance distance_totale = matrice_obtenir_distance(matrice, indices[0], indices[nombre_indices - 1]);
+    for (size_t i = 0; i < nombre_indices - 1; i++)
     {
-        distance_totale += matrice_obtenir_distance(matrice, permutation->indices[i], permutation->indices[i + 1]);
+        distance_totale += matrice_obtenir_distance(matrice, indices[i], indices[i + 1]);
     }
-    distance_totale += matrice_obtenir_distance(matrice, permutation->indices[0], permutation->indices[permutation->nombre_indices - 1]);
+
     return distance_totale;
 }
 
-/*
- * calcule la permutation suivante de l'ordre lexicographique
- * et renvoie un boolean qui montre si la permutation suivante existe
- */
-bool permutation_suivante(Permutation permutation)
+void permutation_copier(Permutation destination, Permutation source)
 {
-    // trouver le suffix non croissant
-    if (permutation->nombre_indices == 0)
-        return false;
-    size_t i = permutation->nombre_indices - 1;
-    while (i > 1 && (permutation->indices)[i - 1] >= (permutation->indices)[i])
-        i--;
-    if (i == 1) // 1 au lieu de 0 parcequ'on commence toujours par le meme point
-        return false;
-
-    // trouver le successeur du pivot
-    size_t j = permutation->nombre_indices - 1;
-    while ((permutation->indices)[j] <= (permutation->indices)[i - 1])
-        j--;
-
-    echanger_indices(permutation, i - 1, j);
-
-    // inverser le suffix
-    j = permutation->nombre_indices - 1;
-    while (i < j)
-    {
-        echanger_indices(permutation, i, j);
-        i++;
-        j--;
-    }
-    return true;
-}
-
-// fonction auxiliere qui copie un tab d'indices dans un TAD Permutation
-void copier_tableau(Permutation destination, Permutation source)
-{
-    for (size_t i = 0; i < nombre_indices(destination); i++)
+    for (size_t i = 0; i < permutation_obtenir_taille(destination); i++)
     {
         destination->indices[i] = source->indices[i];
     }
+}
+
+bool permutation_avancer(Permutation permutation)
+{
+    permutation_assert_non_vide(permutation);
+
+    size_t nombre_indices = permutation_obtenir_taille(permutation);
+    size_t *indices = permutation->indices;
+
+    if (nombre_indices == 0)
+    {
+        return false;
+    }
+
+    size_t pivot = nombre_indices - 1;
+
+    /* On cherche le plus petit indice, tel que ceux d'après déterminent une séquence strictement décroissante.
+     * Cette séquence s'appelle le suffixe. */
+    while (pivot > 1 && indices[pivot - 1] >= indices[pivot])
+    {
+        pivot--;
+    }
+
+    /* Si ce plus petit indice est 1, alors le tableau après le premier indice est totalement décroissant.
+     * On a donc atteint la dernière permutation. */
+    if (pivot == 1)
+    {
+        return false;
+    }
+
+    /* On cherche l’indice le plus petit du suffixe qui est plus grand que le pivot. */
+    size_t successeur = nombre_indices - 1;
+    while (indices[successeur] <= indices[pivot - 1])
+    {
+        successeur--;
+    }
+
+    permutation_echanger_indices(permutation, pivot - 1, successeur);
+
+    /* On inverse le suffixe. */
+    successeur = nombre_indices - 1;
+    while (pivot < successeur)
+    {
+        permutation_echanger_indices(permutation, pivot, successeur);
+        pivot++;
+        successeur--;
+    }
+
+    return true;
 }

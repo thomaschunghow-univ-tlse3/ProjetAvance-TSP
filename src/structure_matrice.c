@@ -1,4 +1,5 @@
 /*
+ * structure_matrice.c
  */
 
 #include "structure_matrice.h"
@@ -45,7 +46,7 @@ void matrice_assert_indice_valide(size_t taille_points, size_t ligne, size_t col
     if (ligne >= taille_points || colonne >= taille_points)
     {
         fprintf(stderr,
-                "Erreur matrice_obtenir_distance :\n"
+                "Erreur matrice_assert_indice_valide :\n"
                 "La ligne et/ou la colonne dépassent la taille de la matrice.\n");
         exit(EXIT_FAILURE);
     }
@@ -69,7 +70,7 @@ void demi_matrice_calculer_distance(MatriceDistance matrice, size_t ligne, size_
 {
     TableauPoint points = matrice_obtenir_tableau_point(matrice);
     TableauDistance distances = matrice_obtenir_tableau_distance(matrice);
-    FonctionCalcul calculer_distance = tableau_distance_fonction_calcul(distances);
+    FonctionCalcul calculer_distance = tableau_distance_obtenir_fonction_calcul(distances);
 
     matrice_assert_indice_valide(tableau_point_obtenir_taille(points), ligne, colonne);
 
@@ -83,7 +84,7 @@ void demi_matrice_calculer_distance(MatriceDistance matrice, size_t ligne, size_
 
 void matrice_remplir_distance(MatriceDistance matrice)
 {
-    size_t nombre_points = matrice_nombre_points(matrice);
+    size_t nombre_points = matrice_obtenir_nombre_points(matrice);
 
     for (size_t ligne = 0; ligne < nombre_points; ligne++)
     {
@@ -128,25 +129,25 @@ void matrice_supprimer(MatriceDistance *matrice)
     *matrice = NULL;
 }
 
-size_t matrice_nombre_points(MatriceDistance matrice)
+size_t matrice_obtenir_nombre_points(MatriceDistance matrice)
 {
     matrice_assert_non_vide(matrice);
 
     return tableau_point_obtenir_taille(matrice_obtenir_tableau_point(matrice));
 }
 
-size_t matrice_nombre_distances(MatriceDistance matrice)
+size_t matrice_obtenir_nombre_distances(MatriceDistance matrice)
 {
     matrice_assert_non_vide(matrice);
 
-    return tableau_distance_taille(matrice_obtenir_tableau_distance(matrice));
+    return tableau_distance_obtenir_taille(matrice_obtenir_tableau_distance(matrice));
 }
 
-FonctionCalcul matrice_fonction_calcul(MatriceDistance matrice)
+FonctionCalcul matrice_obtenir_fonction_calcul(MatriceDistance matrice)
 {
     matrice_assert_non_vide(matrice);
 
-    return tableau_distance_fonction_calcul(matrice_obtenir_tableau_distance(matrice));
+    return tableau_distance_obtenir_fonction_calcul(matrice_obtenir_tableau_distance(matrice));
 }
 
 Point matrice_obtenir_point(MatriceDistance matrice, size_t indice)
@@ -170,7 +171,7 @@ distance matrice_obtenir_distance(MatriceDistance matrice, size_t ligne, size_t 
     if (ligne == colonne)
     {
         fprintf(stderr,
-                "Erreur obtenir_element_matrice :\n"
+                "Erreur matrice_obtenir_distance :\n"
                 "La distance d'un point à lui-même ne fait pas partie de la demie-matrice, car nulle.\n");
         exit(EXIT_FAILURE);
     }

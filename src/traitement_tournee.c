@@ -77,5 +77,5 @@ void traitement(FILE *sortie, char *nom_fichier, MethodeCalcul methode, MatriceD
 
     afficher_tournee(sortie, nom_fichier, methode, temps_total, resultat.distance, resultat.permutation);
 
-    supprimer_permutation(&resultat.permutation);
+    permutation_supprimer(&resultat.permutation);
 }

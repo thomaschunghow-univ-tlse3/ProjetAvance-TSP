@@ -27,9 +27,9 @@ Resultat brute_force(MatriceDistance matrice)
 {
     signal(SIGINT, changement_etat);
 
-    size_t nombre_points = matrice_nombre_points(matrice);
-    Permutation permutation_courante = creer_permutation(nombre_points);
-    Permutation meilleure_permutation = creer_permutation(nombre_points);
+    size_t nombre_points = matrice_obtenir_nombre_points(matrice);
+    Permutation permutation_courante = permutation_creer(nombre_points);
+    Permutation meilleure_permutation = permutation_creer(nombre_points);
 
     distance d_courante;
     distance d_minimale;
@@ -40,13 +40,13 @@ Resultat brute_force(MatriceDistance matrice)
 
     do
     { // Utilisation d'un do-while pour inclure la première permutation
-        d_courante = distance_totale_permutation(permutation_courante, matrice);
+        d_courante = permutation_calculer_distance_totale(permutation_courante, matrice);
 
         if (premiere_permutation)
         {
             d_minimale = d_courante;
             d_maximal = d_courante;
-            copier_tableau(meilleure_permutation, permutation_courante);
+            permutation_copier(meilleure_permutation, permutation_courante);
             premiere_permutation = false;
         }
 
@@ -88,7 +88,7 @@ Resultat brute_force(MatriceDistance matrice)
         if (d_courante < d_minimale)
         {
             d_minimale = d_courante;
-            copier_tableau(meilleure_permutation, permutation_courante);
+            permutation_copier(meilleure_permutation, permutation_courante);
         }
 
         if (d_courante > d_maximal)
@@ -96,9 +96,9 @@ Resultat brute_force(MatriceDistance matrice)
             d_maximal = d_courante;
         }
 
-    } while (permutation_suivante(permutation_courante) && !stop);
+    } while (permutation_avancer(permutation_courante) && !stop);
 
-    supprimer_permutation(&permutation_courante);
+    permutation_supprimer(&permutation_courante);
     signal(SIGINT, SIG_DFL);
 
     Resultat resultat_final;

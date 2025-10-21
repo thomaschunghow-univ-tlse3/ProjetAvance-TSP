@@ -10,6 +10,7 @@
 struct tableau_distance
 {
     FonctionCalcul calculer_distance;
+
     size_t nombre_distances;
     distance *distances;
 };
@@ -47,7 +48,7 @@ void tableau_distance_assert_non_vide(TableauDistance tableau)
 
 void tableau_distance_assert_indice_valide(TableauDistance tableau, size_t indice)
 {
-    if (indice >= tableau_distance_taille(tableau))
+    if (indice >= tableau_distance_obtenir_taille(tableau))
     {
         fprintf(stderr,
                 "Erreur tableau_distance_assert_indice_valide :\n"
@@ -64,14 +65,14 @@ void tableau_distance_supprimer(TableauDistance *tableau)
     *tableau = NULL;
 }
 
-FonctionCalcul tableau_distance_fonction_calcul(TableauDistance tableau)
+FonctionCalcul tableau_distance_obtenir_fonction_calcul(TableauDistance tableau)
 {
     tableau_distance_assert_non_vide(tableau);
 
     return tableau->calculer_distance;
 }
 
-size_t tableau_distance_taille(TableauDistance tableau)
+size_t tableau_distance_obtenir_taille(TableauDistance tableau)
 {
     tableau_distance_assert_non_vide(tableau);
 
@@ -100,7 +101,7 @@ distance tableau_distance_calculer_somme(TableauDistance tableau)
 {
     tableau_distance_assert_non_vide(tableau);
 
-    size_t taille_tableau = tableau_distance_taille(tableau);
+    size_t taille_tableau = tableau_distance_obtenir_taille(tableau);
 
     distance somme = 0;
     for (size_t i = 0; i < taille_tableau; i++)

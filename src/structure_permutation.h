@@ -1,10 +1,12 @@
 /*
+ * structure_permutation.h
  *
- * Ce module fournit :
- *  - Les types de coordonnées et de distances,
- *  - Les tableaux dynamiques de points et de distances (types abstraits),
- *  - Les demi-matrices de distances (type abstrait),
- *  - Les fonctions de création, accès, calcul et suppression de ces structures.
+ * Définitions et opérations sur les permutations.
+ *
+ * Remarque : les permutations sont initialisées dans l’ordre canonique,
+ * puis parcourues dans l’ordre lexical, en fixant le premier indice.
+ * C'est-à-dire, on calcule les (n-1)! permutations, et non pas les n! permutations,
+ * car comparer toutes les tournées revient à comparer toutes les tournées qui partent du même point.
  */
 
 #ifndef STRUCTURE_PERMUTATION_H
@@ -15,28 +17,19 @@
 #include <stddef.h>
 #include <stdbool.h>
 
-/* Définition d'une permutation. */
 typedef struct permutation *Permutation;
 
-size_t nombre_indices(Permutation permutation);
+Permutation permutation_creer(size_t nombre_indices);
+void permutation_supprimer(Permutation *);
 
-size_t *tableau_indices(Permutation permutation);
+bool permutation_avancer(Permutation);
 
-// TODO : rajouter une fonction qui transforme une permutation en son tableau de points correspondant.
-TableauPoint transformer_permutation_en_points(Permutation permutation);
+size_t permutation_obtenir_taille(Permutation);
 
-/* Le tableau est créé et initialisé avec la première permutation
- * de l'ordre lexical, i.e l'ordre canonique de 1 à n. */
-Permutation creer_permutation(size_t nombre_indices);
-void supprimer_permutation(Permutation *permutation);
+size_t permutation_obtenir_indice(Permutation, size_t indice);
 
-void echanger_indices(Permutation permutation, int i, int j);
+distance permutation_calculer_distance_totale(Permutation, MatriceDistance);
 
-/* calcule la distance totale d'une sequence de points d'une permutation*/
-distance distance_totale_permutation(Permutation, MatriceDistance);
-
-bool permutation_suivante(Permutation permutation);
-
-void copier_tableau(Permutation destination, Permutation source);
+void permutation_copier(Permutation destination, Permutation source);
 
 #endif // STRUCTURE_PERMUTATION_H

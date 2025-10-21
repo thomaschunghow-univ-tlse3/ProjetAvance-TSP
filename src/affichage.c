@@ -50,13 +50,13 @@ void afficher_methode_calcul(FILE *sortie, MethodeCalcul methode)
 
 void afficher_permutation(FILE *sortie, Permutation permutation)
 {
-    size_t nombre_points = nombre_indices(permutation);
+    size_t nombre_points = permutation_obtenir_taille(permutation);
+
     fprintf(sortie, "[");
-    for (size_t i = 0; i < nombre_points - 1; i++)
+    for (size_t i = 0; i < nombre_points; i++)
     {
-        fprintf(sortie, "%ld,", tableau_indices(permutation)[i] + 1);
+        fprintf(sortie, "%ld,", permutation_obtenir_indice(permutation, i) + 1);
     }
-    fprintf(sortie, "%ld] ;", tableau_indices(permutation)[nombre_points - 1] + 1);
 }
 
 void afficher_tournee(FILE *sortie, char *nom_fichier, MethodeCalcul methode, double temps, distance distance_totale, Permutation permutation)
