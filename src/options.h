@@ -1,7 +1,8 @@
 /*
+ * options.h
  *
- * Ce module permet de lire et valider les arguments du programme,
- * d'ouvrir et de fermer les fichiers de manière sécurisée
+ * Outil de lecture et de validation des arguments du programme.
+ * Permet l'ouverture et la fermeture des fichiers de manière sécurisée
  * et de convertir le nom d'une méthode de calcul en énumération interne.
  */
 

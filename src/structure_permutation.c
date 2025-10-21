@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 struct permutation
 {
@@ -44,24 +45,15 @@ Permutation permutation_creer(size_t nombre_indices)
 
 void permutation_assert_non_vide(Permutation permutation)
 {
-    if (permutation == NULL)
-    {
-        fprintf(stderr,
-                "Erreur permutation_assert_non_vide :\n"
-                "Permutation vide.\n");
-        exit(EXIT_FAILURE);
-    }
+    assert(permutation != NULL);
+    (void)permutation;
 }
 
 void permutation_assert_indice_valide(Permutation permutation, size_t indice)
 {
-    if (indice >= permutation_obtenir_taille(permutation))
-    {
-        fprintf(stderr,
-                "Erreur permutation_assert_indice_valide :\n"
-                "L'indice dépasse la taille de la permutation.\n");
-        exit(EXIT_FAILURE);
-    }
+    assert(indice < permutation_obtenir_taille(permutation));
+    (void)permutation;
+    (void)indice;
 }
 
 void permutation_supprimer(Permutation *permutation)
@@ -107,13 +99,34 @@ distance permutation_calculer_distance_totale(Permutation permutation, MatriceDi
     size_t nombre_indices = permutation_obtenir_taille(permutation);
     size_t *indices = permutation->indices;
 
-    distance distance_totale = matrice_obtenir_distance(matrice, indices[0], indices[nombre_indices - 1]);
+    distance longueur = matrice_obtenir_distance(matrice, indices[0], indices[nombre_indices - 1]);
     for (size_t i = 0; i < nombre_indices - 1; i++)
     {
-        distance_totale += matrice_obtenir_distance(matrice, indices[i], indices[i + 1]);
+        longueur += matrice_obtenir_distance(matrice, indices[i], indices[i + 1]);
     }
 
-    return distance_totale;
+    return longueur;
+}
+
+distance permutation_calculer_distance_totale_rapide(Permutation permutation, MatriceDistance matrice, distance longueur_minimale)
+{
+    permutation_assert_non_vide(permutation);
+
+    size_t nombre_indices = permutation_obtenir_taille(permutation);
+    size_t *indices = permutation->indices;
+
+    distance longueur = matrice_obtenir_distance(matrice, indices[0], indices[nombre_indices - 1]);
+    for (size_t i = 0; i < nombre_indices - 1; i++)
+    {
+        if (longueur > longueur_minimale)
+        {
+            break;
+        }
+
+        longueur += matrice_obtenir_distance(matrice, indices[i], indices[i + 1]);
+    }
+
+    return longueur;
 }
 
 void permutation_copier(Permutation destination, Permutation source)

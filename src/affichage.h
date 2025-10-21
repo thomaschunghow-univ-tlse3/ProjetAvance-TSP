@@ -1,6 +1,7 @@
 /*
+ * affichage.h
  *
- * Ce module fournit les différentes fonctions d'affichage.
+ * Affichage des données.
  */
 
 #ifndef AFFICHAGE_H

@@ -14,7 +14,6 @@
 
 #include "structure_matrice.h"
 
-#include <stddef.h>
 #include <stdbool.h>
 
 typedef struct permutation *Permutation;
@@ -29,6 +28,7 @@ size_t permutation_obtenir_taille(Permutation);
 size_t permutation_obtenir_indice(Permutation, size_t indice);
 
 distance permutation_calculer_distance_totale(Permutation, MatriceDistance);
+distance permutation_calculer_distance_totale_rapide(Permutation, MatriceDistance, distance longueur_minimale);
 
 void permutation_copier(Permutation destination, Permutation source);
 

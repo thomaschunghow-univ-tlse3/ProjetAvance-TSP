@@ -21,8 +21,6 @@
 
 #include "structure_distance.h"
 
-#include <stddef.h>
-
 typedef struct matrice_distance *MatriceDistance;
 
 MatriceDistance matrice_creer(size_t nombre_points, FonctionCalcul);

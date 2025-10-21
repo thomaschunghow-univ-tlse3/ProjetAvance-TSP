@@ -1,4 +1,5 @@
 /*
+ * traitement_tournee.c
  */
 
 #include "traitement_tournee.h"
@@ -9,7 +10,7 @@
 #include <time.h>
 #include <math.h>
 
-void traitement_tournee(FILE *sortie, Options options, MatriceDistance matrice, AlgorithmeTournee calculer_tournee)
+void calcul_tournee(FILE *sortie, char *nom_fichier_entree, MatriceDistance matrice, MethodeCalcul methode, AlgorithmeTournee calculer_tournee)
 {
     clock_t temps = clock();
 
@@ -19,50 +20,59 @@ void traitement_tournee(FILE *sortie, Options options, MatriceDistance matrice, 
     double temps_total = (double)temps;
     temps_total /= CLOCKS_PER_SEC;
 
-    afficher_tournee(sortie, options.nom_fichier_entree, options.methode_calcul, temps_total, resultat.distance, resultat.permutation);
+    afficher_tournee(sortie, nom_fichier_entree, methode, temps_total, resultat.distance, resultat.permutation);
 
     permutation_supprimer(&resultat.permutation);
 }
 
-void calcul_tournee(FILE *sortie, Options options, MatriceDistance matrice)
+void traitement_tournee(FILE *sortie, Options options, MatriceDistance matrice)
 {
     afficher_noms_champs(sortie);
 
     if (options.canonique)
     {
-        traitement_tournee(sortie, options, matrice, &calcul_tournee_canonique);
+        calcul_tournee(sortie, options.nom_fichier_entree, matrice, CANONIQUE, &calcul_tournee_canonique);
     }
+
     switch (options.methode_calcul)
     {
     case BF:
-        traitement_tournee(sortie, options, matrice, &calcul_tournee_force_brute);
+        calcul_tournee(sortie, options.nom_fichier_entree, matrice, BF, &calcul_tournee_force_brute);
         break;
+
     case NN:
-        traitement_tournee(sortie, options, matrice, NULL);
+        calcul_tournee(sortie, options.nom_fichier_entree, matrice, NN, NULL);
         break;
+
     case RW:
-        traitement_tournee(sortie, options, matrice, NULL);
+        calcul_tournee(sortie, options.nom_fichier_entree, matrice, RW, NULL);
         break;
+
     case NN2OPT:
-        traitement_tournee(sortie, options, matrice, NULL);
+        calcul_tournee(sortie, options.nom_fichier_entree, matrice, NN2OPT, NULL);
         break;
+
     case RW2OPT:
-        traitement_tournee(sortie, options, matrice, NULL);
+        calcul_tournee(sortie, options.nom_fichier_entree, matrice, RW2OPT, NULL);
         break;
+
     case GA:
-        traitement_tournee(sortie, options, matrice, NULL);
+        calcul_tournee(sortie, options.nom_fichier_entree, matrice, GA, NULL);
         break;
+
     case GADPX:
-        traitement_tournee(sortie, options, matrice, NULL);
+        calcul_tournee(sortie, options.nom_fichier_entree, matrice, GADPX, NULL);
         break;
+
     case ALL:
-        traitement_tournee(sortie, options, matrice, NULL);
-        traitement_tournee(sortie, options, matrice, NULL);
-        traitement_tournee(sortie, options, matrice, NULL);
-        traitement_tournee(sortie, options, matrice, NULL);
-        traitement_tournee(sortie, options, matrice, NULL);
-        traitement_tournee(sortie, options, matrice, NULL);
+        calcul_tournee(sortie, options.nom_fichier_entree, matrice, NN, NULL);
+        calcul_tournee(sortie, options.nom_fichier_entree, matrice, RW, NULL);
+        calcul_tournee(sortie, options.nom_fichier_entree, matrice, NN2OPT, NULL);
+        calcul_tournee(sortie, options.nom_fichier_entree, matrice, RW2OPT, NULL);
+        calcul_tournee(sortie, options.nom_fichier_entree, matrice, GA, NULL);
+        calcul_tournee(sortie, options.nom_fichier_entree, matrice, GADPX, NULL);
         break;
+
     default:
         break;
     }

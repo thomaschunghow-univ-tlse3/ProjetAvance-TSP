@@ -1,4 +1,5 @@
 /*
+ * tournee_canonique.c
  */
 
 #include "tournee_canonique.h"
@@ -11,5 +12,6 @@ Resultat calcul_tournee_canonique(MatriceDistance matrice)
     Resultat resultat;
     resultat.permutation = permutation_creer(nombre_points);
     resultat.distance = permutation_calculer_distance_totale(resultat.permutation, matrice);
+
     return resultat;
 }

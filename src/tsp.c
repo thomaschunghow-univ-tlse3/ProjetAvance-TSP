@@ -1,4 +1,5 @@
 /*
+ * tsp.c
  *
  * Programme principal pour la résolution du problème du voyageur de commerce.
  */
@@ -12,10 +13,7 @@
 #include "tournee_2_optimisation.h"
 #include "tournee_genetique.h"
 
-#include <stdio.h>
 #include <stdlib.h>
-
-#include <math.h>
 
 /* Exemple d'utilisation :
  * make
@@ -36,7 +34,7 @@ int main(int argc, char **argv)
 
     matrice_remplir_distance(matrice);
 
-    calcul_tournee(sortie, options, matrice);
+    traitement_tournee(sortie, options, matrice);
 
     matrice_supprimer(&matrice);
 

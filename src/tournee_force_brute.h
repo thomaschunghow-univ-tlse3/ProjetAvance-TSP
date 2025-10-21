@@ -1,4 +1,7 @@
 /*
+ * tournee_force_brute.h
+ *
+ * Algorithme de force brute.
  */
 
 #ifndef TOURNEE_FORCE_BRUTE_H
@@ -6,12 +9,6 @@
 
 #include "structure_permutation.h"
 #include "affichage.h"
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
-#include <stddef.h>
 
 Resultat calcul_tournee_force_brute(MatriceDistance matrice);
 

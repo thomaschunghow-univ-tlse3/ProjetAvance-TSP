@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 struct matrice_distance
 {
@@ -32,24 +33,16 @@ size_t matrice_obtenir_indice(size_t ligne, size_t colonne)
 
 void matrice_assert_non_vide(MatriceDistance matrice)
 {
-    if (matrice == NULL)
-    {
-        fprintf(stderr,
-                "Erreur matrice_assert_non_vide :\n"
-                "Matrice de distances vide.\n");
-        exit(EXIT_FAILURE);
-    }
+    assert(matrice != NULL);
+    (void)matrice;
 }
 
 void matrice_assert_indice_valide(size_t taille_points, size_t ligne, size_t colonne)
 {
-    if (ligne >= taille_points || colonne >= taille_points)
-    {
-        fprintf(stderr,
-                "Erreur matrice_assert_indice_valide :\n"
-                "La ligne et/ou la colonne dépassent la taille de la matrice.\n");
-        exit(EXIT_FAILURE);
-    }
+    assert(ligne < taille_points && colonne < taille_points);
+    (void)taille_points;
+    (void)ligne;
+    (void)colonne;
 }
 
 TableauPoint matrice_obtenir_tableau_point(MatriceDistance matrice)
@@ -170,10 +163,7 @@ distance matrice_obtenir_distance(MatriceDistance matrice, size_t ligne, size_t 
 
     if (ligne == colonne)
     {
-        fprintf(stderr,
-                "Erreur matrice_obtenir_distance :\n"
-                "La distance d'un point à lui-même ne fait pas partie de la demie-matrice, car nulle.\n");
-        exit(EXIT_FAILURE);
+        return 0;
     }
 
     if (ligne < colonne)

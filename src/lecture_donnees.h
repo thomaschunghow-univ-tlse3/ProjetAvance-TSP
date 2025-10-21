@@ -1,8 +1,8 @@
 /*
+ * lecture_donnees.h
  *
- * Ce module permet :
- * - La lecture de la spécification d'un fichier TSP,
- * - La lecture des coordonnées des points et leur stockage dans un tableau dynamique.
+ * Outil de lecture de la spécification d'un fichier TSP,
+ * et de lecture des coordonnées des points et de leur stockage dans un tableau.
  */
 
 #ifndef LECTURE_DONNEES_H

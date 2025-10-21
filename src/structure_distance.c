@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 struct tableau_distance
 {
@@ -37,24 +38,15 @@ TableauDistance tableau_distance_creer(size_t nombre_distances, FonctionCalcul c
 
 void tableau_distance_assert_non_vide(TableauDistance tableau)
 {
-    if (tableau == NULL)
-    {
-        fprintf(stderr,
-                "Erreur tableau_distance_assert_non_vide :\n"
-                "Tableau de distances vide.\n");
-        exit(EXIT_FAILURE);
-    }
+    assert(tableau != NULL);
+    (void)tableau;
 }
 
 void tableau_distance_assert_indice_valide(TableauDistance tableau, size_t indice)
 {
-    if (indice >= tableau_distance_obtenir_taille(tableau))
-    {
-        fprintf(stderr,
-                "Erreur tableau_distance_assert_indice_valide :\n"
-                "L'indice dépasse la taille du tableau.\n");
-        exit(EXIT_FAILURE);
-    }
+    assert(indice < tableau_distance_obtenir_taille(tableau));
+    (void)tableau;
+    (void)indice;
 }
 
 void tableau_distance_supprimer(TableauDistance *tableau)

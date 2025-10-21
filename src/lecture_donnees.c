@@ -1,4 +1,5 @@
 /*
+ * lecture_donnees.c
  */
 
 #include "lecture_donnees.h"
@@ -40,15 +41,15 @@ FonctionCalcul methode_calcul_depuis_nom(char *nom)
 {
     if (strstr(nom, "EUC_2D"))
     {
-        return liste_fonctions_calcul[EUC_2D];
+        return &calculer_distance_euclidienne;
     }
     if (strstr(nom, "GEO"))
     {
-        return liste_fonctions_calcul[GEO];
+        return &calculer_distance_geographique;
     }
     if (strstr(nom, "ATT"))
     {
-        return liste_fonctions_calcul[ATT];
+        return &calculer_distance_euclidienne_modifiee;
     }
     fprintf(stderr,
             "Erreur methode_calcul_depuis_nom :\n"

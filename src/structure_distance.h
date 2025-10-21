@@ -9,8 +9,6 @@
 
 #include "structure_point.h"
 
-#include <stddef.h>
-
 typedef double distance;
 
 typedef distance (*FonctionCalcul)(Point, Point);

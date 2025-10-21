@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 struct tableau_point
 {
@@ -34,24 +35,15 @@ TableauPoint tableau_point_creer(size_t nombre_points)
 
 void tableau_point_assert_non_vide(TableauPoint tableau)
 {
-    if (tableau == NULL)
-    {
-        fprintf(stderr,
-                "Erreur tableau_point_assert_non_vide :\n"
-                "Tableau de points vide.\n");
-        exit(EXIT_FAILURE);
-    }
+    assert(tableau != NULL);
+    (void)tableau;
 }
 
 void tableau_point_assert_indice_valide(TableauPoint tableau, size_t indice)
 {
-    if (indice >= tableau_point_obtenir_taille(tableau))
-    {
-        fprintf(stderr,
-                "Erreur tableau_point_assert_indice_valide :\n"
-                "L'indice dépasse la taille du tableau.\n");
-        exit(EXIT_FAILURE);
-    }
+    assert(indice < tableau_point_obtenir_taille(tableau));
+    (void)tableau;
+    (void)indice;
 }
 
 void tableau_point_supprimer(TableauPoint *tableau)

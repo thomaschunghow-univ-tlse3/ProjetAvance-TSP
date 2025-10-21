@@ -1,4 +1,5 @@
 /*
+ * affichage.c
  */
 
 #include "affichage.h"
@@ -20,7 +21,7 @@ void afficher_permutation(FILE *sortie, Permutation permutation)
     {
         fprintf(sortie, "%ld,", permutation_obtenir_indice(permutation, i) + 1);
     }
-    fprintf(sortie, "%ld", permutation_obtenir_indice(permutation, nombre_points) + 1);
+    fprintf(sortie, "%ld", permutation_obtenir_indice(permutation, nombre_points - 1) + 1);
     fprintf(sortie, "]");
 }
 

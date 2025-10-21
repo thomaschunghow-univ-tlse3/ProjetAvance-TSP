@@ -1,4 +1,7 @@
 /*
+ * traitement_tournee.h
+ *
+ * Outil de traitement de tous les algorithmes de tournée.
  */
 
 #ifndef TRAITEMENT_TOURNEE_H
@@ -6,8 +9,6 @@
 
 #include "structure_permutation.h"
 #include "options.h"
-
-#include <stdio.h>
 
 typedef struct
 {
@@ -17,6 +18,6 @@ typedef struct
 
 typedef Resultat (*AlgorithmeTournee)(MatriceDistance);
 
-void calcul_tournee(FILE *sortie, Options, MatriceDistance);
+void traitement_tournee(FILE *sortie, Options, MatriceDistance);
 
 #endif // TRAITEMENT_TOURNEE_H
