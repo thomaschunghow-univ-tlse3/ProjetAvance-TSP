@@ -11,6 +11,19 @@ void afficher_noms_champs(FILE *sortie)
     fprintf(sortie, "Instance ; Méthode ; Temps CPU (secondes) ; Longueur ; Tour ;\n");
 }
 
+void afficher_permutation(FILE *sortie, Permutation permutation)
+{
+    size_t nombre_points = permutation_obtenir_taille(permutation);
+
+    fprintf(sortie, "[");
+    for (size_t i = 0; i < nombre_points - 1; i++)
+    {
+        fprintf(sortie, "%ld,", permutation_obtenir_indice(permutation, i) + 1);
+    }
+    fprintf(sortie, "%ld", permutation_obtenir_indice(permutation, nombre_points) + 1);
+    fprintf(sortie, "]");
+}
+
 void afficher_methode_calcul(FILE *sortie, MethodeCalcul methode)
 {
     switch (methode)
@@ -46,17 +59,6 @@ void afficher_methode_calcul(FILE *sortie, MethodeCalcul methode)
         exit(EXIT_FAILURE);
     }
     fprintf(sortie, " ; ");
-}
-
-void afficher_permutation(FILE *sortie, Permutation permutation)
-{
-    size_t nombre_points = permutation_obtenir_taille(permutation);
-
-    fprintf(sortie, "[");
-    for (size_t i = 0; i < nombre_points; i++)
-    {
-        fprintf(sortie, "%ld,", permutation_obtenir_indice(permutation, i) + 1);
-    }
 }
 
 void afficher_tournee(FILE *sortie, char *nom_fichier, MethodeCalcul methode, double temps, distance distance_totale, Permutation permutation)

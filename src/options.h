@@ -28,13 +28,10 @@ typedef enum
 
 typedef struct
 {
-    bool est_donne_fichier_entree;
-    bool est_donne_fichier_sortie;
-    bool est_donne_methode_calcul;
-    bool est_donne_canonique;
-
     char nom_fichier_entree[TAILLE_OPTIONS_MAX];
     char nom_fichier_sortie[TAILLE_OPTIONS_MAX];
+
+    bool canonique;
     MethodeCalcul methode_calcul;
 } Options;
 
@@ -42,6 +39,7 @@ Options traitement_options(int argc, char **argv);
 
 FILE *ouverture_entree(Options options);
 FILE *ouverture_sortie(Options options);
+
 void fermeture_entree(FILE *, Options options);
 void fermeture_sortie(FILE *, Options options);
 

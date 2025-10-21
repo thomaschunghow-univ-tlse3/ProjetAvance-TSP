@@ -29,8 +29,11 @@ int main(int argc, char **argv)
     FILE *sortie = ouverture_sortie(options);
 
     Specification specification = lire_specification_tsp(entree);
+
     MatriceDistance matrice = matrice_creer(specification.nombre_points, specification.calculer_distance);
+
     lire_points_tsp(entree, matrice_obtenir_tableau_point(matrice));
+
     matrice_remplir_distance(matrice);
 
     calcul_tournee(sortie, options, matrice);
