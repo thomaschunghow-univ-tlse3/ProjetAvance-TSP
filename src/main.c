@@ -15,12 +15,10 @@
 
 #include <stdlib.h>
 
-/*
- * Exemple d'utilisation :
+/* Exemple d'utilisation :
  * make
  * ./bin/main -f data/pr76.tsp -m bf -o bin/resultat.txt -c
- * ./bin/main -f data/att10.tsp -m bf -c
- */
+ * ./bin/main -f data/att10.tsp -m bf -c */
 
 int main(int argc, char **argv)
 {

@@ -22,13 +22,14 @@ Permutation permutation_creer(size_t nombre_indices);
 void permutation_supprimer(Permutation *);
 
 bool permutation_avancer(Permutation);
+bool permutation_avancer_et_incrementer_longueur(Permutation, MatriceDistance, distance *longueur);
 
 size_t permutation_obtenir_taille(Permutation);
 
 size_t permutation_obtenir_indice(Permutation, size_t indice);
 
 distance permutation_calculer_distance_totale(Permutation, MatriceDistance);
-distance permutation_calculer_distance_totale_rapide(Permutation, MatriceDistance, distance longueur_minimale);
+distance permutation_calculer_distance_totale_avec_elagage(Permutation, MatriceDistance, distance longueur_minimale);
 
 void permutation_copier(Permutation destination, Permutation source);
 

@@ -31,7 +31,6 @@ typedef struct
 {
     char nom_fichier_entree[TAILLE_OPTIONS_MAX];
     char nom_fichier_sortie[TAILLE_OPTIONS_MAX];
-
     bool canonique;
     MethodeCalcul methode_calcul;
 } Options;

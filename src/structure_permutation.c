@@ -108,7 +108,7 @@ distance permutation_calculer_distance_totale(Permutation permutation, MatriceDi
     return longueur;
 }
 
-distance permutation_calculer_distance_totale_rapide(Permutation permutation, MatriceDistance matrice, distance longueur_minimale)
+distance permutation_calculer_distance_totale_avec_elagage(Permutation permutation, MatriceDistance matrice, distance longueur_minimale)
 {
     permutation_assert_non_vide(permutation);
 
@@ -160,7 +160,7 @@ bool permutation_avancer(Permutation permutation)
 
     /* Si ce plus petit indice est 1, alors le tableau après le premier indice est totalement décroissant.
      * On a donc atteint la dernière permutation. */
-    if (pivot == 1)
+    if (pivot <= 1)
     {
         return false;
     }
@@ -182,6 +182,82 @@ bool permutation_avancer(Permutation permutation)
         pivot++;
         successeur--;
     }
+
+    return true;
+}
+
+bool permutation_avancer_et_incrementer_longueur(Permutation permutation, MatriceDistance matrice, distance *longueur)
+{
+    permutation_assert_non_vide(permutation);
+
+    size_t nombre_indices = permutation_obtenir_taille(permutation);
+    const size_t *indices = permutation->indices;
+
+    if (nombre_indices == 0)
+    {
+        return false;
+    }
+
+    size_t pivot = nombre_indices - 1;
+
+    /* On cherche le plus petit indice, tel que ceux d'après déterminent une séquence strictement décroissante.
+     * Cette séquence s'appelle le suffixe. */
+    while (pivot > 1 && indices[pivot - 1] >= indices[pivot])
+    {
+        pivot--;
+    }
+
+    /* Si ce plus petit indice est 1, alors le tableau après le premier indice est totalement décroissant.
+     * On a donc atteint la dernière permutation. */
+    if (pivot <= 1)
+    {
+        return false;
+    }
+
+    /* On cherche l’indice le plus petit du suffixe qui est plus grand que le pivot. */
+    size_t successeur = nombre_indices - 1;
+    while (indices[successeur] <= indices[pivot - 1])
+    {
+        successeur--;
+    }
+
+    *longueur -= matrice_obtenir_distance(matrice, indices[pivot - 2], indices[pivot - 1]);
+    *longueur -= matrice_obtenir_distance(matrice, indices[pivot - 1], indices[pivot]);
+    if (successeur != pivot)
+    {
+        *longueur -= matrice_obtenir_distance(matrice, indices[successeur - 1], indices[successeur]);
+    }
+    if (successeur != nombre_indices - 1)
+    {
+        *longueur -= matrice_obtenir_distance(matrice, indices[successeur], indices[successeur + 1]);
+    }
+    *longueur -= matrice_obtenir_distance(matrice, indices[0], indices[nombre_indices - 1]);
+
+    permutation_echanger_indices(permutation, pivot - 1, successeur);
+
+    /* On inverse le suffixe. */
+    size_t inf_suffixe = pivot;
+    size_t sup_suffixe = nombre_indices - 1;
+    while (inf_suffixe < sup_suffixe)
+    {
+        permutation_echanger_indices(permutation, inf_suffixe, sup_suffixe);
+        inf_suffixe++;
+        sup_suffixe--;
+    }
+
+    successeur = nombre_indices - successeur + pivot - 1;
+
+    *longueur += matrice_obtenir_distance(matrice, indices[pivot - 2], indices[pivot - 1]);
+    *longueur += matrice_obtenir_distance(matrice, indices[pivot - 1], indices[pivot]);
+    if (successeur != pivot)
+    {
+        *longueur += matrice_obtenir_distance(matrice, indices[successeur - 1], indices[successeur]);
+    }
+    if (successeur != nombre_indices - 1)
+    {
+        *longueur += matrice_obtenir_distance(matrice, indices[successeur], indices[successeur + 1]);
+    }
+    *longueur += matrice_obtenir_distance(matrice, indices[0], indices[nombre_indices - 1]);
 
     return true;
 }
