@@ -73,7 +73,7 @@ def tests_instances_list(instances_file,methods):
 # opt = tsplib95.load_solution(filename+'.opt.tour')
 # filename = "att10.tsp" #
 path = "./bin/" # adaptez à votre cas
-code = "tsp" # nom du programme C
+code = "main" # nom du programme C
 methods = ["bf"]#"bf","gadpx"
 
 #test_instance(filename,methods) # pour un seul appel
