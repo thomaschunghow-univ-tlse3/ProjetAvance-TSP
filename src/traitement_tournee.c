@@ -41,36 +41,36 @@ void traitement_tournee(FILE *sortie, Options options, MatriceDistance matrice)
         break;
 
     case NN:
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, NN, NULL);
+        calcul_tournee(sortie, options.nom_fichier_entree, matrice, NN, &calcul_tournee_canonique);
         break;
 
     case RW:
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, RW, NULL);
+        calcul_tournee(sortie, options.nom_fichier_entree, matrice, RW, &calcul_tournee_canonique);
         break;
 
     case NN2OPT:
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, NN2OPT, NULL);
+        calcul_tournee(sortie, options.nom_fichier_entree, matrice, NN2OPT, &calcul_tournee_canonique);
         break;
 
     case RW2OPT:
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, RW2OPT, NULL);
+        calcul_tournee(sortie, options.nom_fichier_entree, matrice, RW2OPT, &calcul_tournee_canonique);
         break;
 
     case GA:
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, GA, NULL);
+        calcul_tournee(sortie, options.nom_fichier_entree, matrice, GA, &calcul_tournee_canonique);
         break;
 
     case GADPX:
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, GADPX, NULL);
+        calcul_tournee(sortie, options.nom_fichier_entree, matrice, GADPX, &calcul_tournee_canonique);
         break;
 
     case ALL:
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, NN, NULL);
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, RW, NULL);
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, NN2OPT, NULL);
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, RW2OPT, NULL);
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, GA, NULL);
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, GADPX, NULL);
+        calcul_tournee(sortie, options.nom_fichier_entree, matrice, NN, &calcul_tournee_canonique);
+        calcul_tournee(sortie, options.nom_fichier_entree, matrice, RW, &calcul_tournee_canonique);
+        calcul_tournee(sortie, options.nom_fichier_entree, matrice, NN2OPT, &calcul_tournee_canonique);
+        calcul_tournee(sortie, options.nom_fichier_entree, matrice, RW2OPT, &calcul_tournee_canonique);
+        calcul_tournee(sortie, options.nom_fichier_entree, matrice, GA, &calcul_tournee_canonique);
+        calcul_tournee(sortie, options.nom_fichier_entree, matrice, GADPX, &calcul_tournee_canonique);
         break;
 
     default:

@@ -78,7 +78,7 @@ size_t permutation_obtenir_indice(Permutation permutation, size_t indice)
     return permutation->indices[indice];
 }
 
-void permutation_echanger_indices(Permutation permutation, int i, int j)
+void permutation_echanger_indices(Permutation permutation, size_t i, size_t j)
 {
     permutation_assert_non_vide(permutation);
 
@@ -97,7 +97,7 @@ distance permutation_calculer_distance_totale(Permutation permutation, MatriceDi
     permutation_assert_non_vide(permutation);
 
     size_t nombre_indices = permutation_obtenir_taille(permutation);
-    size_t *indices = permutation->indices;
+    const size_t *indices = permutation->indices;
 
     distance longueur = matrice_obtenir_distance(matrice, indices[0], indices[nombre_indices - 1]);
     for (size_t i = 0; i < nombre_indices - 1; i++)
@@ -113,7 +113,7 @@ distance permutation_calculer_distance_totale_rapide(Permutation permutation, Ma
     permutation_assert_non_vide(permutation);
 
     size_t nombre_indices = permutation_obtenir_taille(permutation);
-    size_t *indices = permutation->indices;
+    const size_t *indices = permutation->indices;
 
     distance longueur = matrice_obtenir_distance(matrice, indices[0], indices[nombre_indices - 1]);
     for (size_t i = 0; i < nombre_indices - 1; i++)
@@ -142,7 +142,7 @@ bool permutation_avancer(Permutation permutation)
     permutation_assert_non_vide(permutation);
 
     size_t nombre_indices = permutation_obtenir_taille(permutation);
-    size_t *indices = permutation->indices;
+    const size_t *indices = permutation->indices;
 
     if (nombre_indices == 0)
     {

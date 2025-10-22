@@ -12,7 +12,7 @@
 
 #include <stdio.h>
 
-#define TAILLE_CHAMP_MAX 100
+#define TAILLE_CHAMP_MAX 1000
 
 typedef struct
 {

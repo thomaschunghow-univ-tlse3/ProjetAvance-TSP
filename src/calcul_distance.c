@@ -31,19 +31,17 @@ distance conversion_degres_en_radians(coordonnee coordonnee)
 
 distance calculer_distance_geographique(Point A, Point B)
 {
-	coordonnee latitude_A, longitude_A, latitude_B, longitude_B;
+	coordonnee latitude_A = conversion_degres_en_radians(A.x);
+	coordonnee longitude_A = conversion_degres_en_radians(A.y);
 
-	latitude_A = conversion_degres_en_radians(A.x);
-	longitude_A = conversion_degres_en_radians(A.y);
-
-	latitude_B = conversion_degres_en_radians(B.x);
-	longitude_B = conversion_degres_en_radians(B.y);
+	coordonnee latitude_B = conversion_degres_en_radians(B.x);
+	coordonnee longitude_B = conversion_degres_en_radians(B.y);
 
 	distance q1 = cos(longitude_A - longitude_B);
 	distance q2 = cos(latitude_A - latitude_B);
 	distance q3 = cos(latitude_A + latitude_B);
 
-	return ceil(RAYON_TERRE * acos(.5 * ((q2 * (1 + q1) - q3 * (1 - q1)))));
+	return ceil(RAYON_TERRE * acos(.5 * (q2 * (1 + q1) - q3 * (1 - q1))));
 }
 
 distance calculer_distance_euclidienne_modifiee(Point A, Point B)

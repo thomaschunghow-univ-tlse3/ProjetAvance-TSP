@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define TAILLE_LIGNE_MAX 100
+#define TAILLE_LIGNE_MAX 1000
 
 Specification initialiser_specification()
 {
@@ -72,15 +72,15 @@ Specification lire_specification_tsp(FILE *entree)
         }
         if (strstr(ligne, "NAME"))
         {
-            strcpy(specification.nom, ligne);
+            strncpy(specification.nom, ligne, TAILLE_CHAMP_MAX);
         }
         if (strstr(ligne, "TYPE"))
         {
-            strcpy(specification.type, ligne);
+            strncpy(specification.type, ligne, TAILLE_CHAMP_MAX);
         }
         if (strstr(ligne, "COMMENT"))
         {
-            strcpy(specification.commentaire, ligne);
+            strncpy(specification.commentaire, ligne, TAILLE_CHAMP_MAX);
         }
         if (strstr(ligne, "DIMENSION"))
         {

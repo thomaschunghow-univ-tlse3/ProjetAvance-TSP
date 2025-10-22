@@ -6,7 +6,7 @@ SRC_DIR := src
 BIN_DIR := bin
 SRCS := $(wildcard $(SRC_DIR)/*.c)
 OBJS := $(patsubst $(SRC_DIR)/%.c, $(BIN_DIR)/%.o, $(SRCS))
-TARGET := $(BIN_DIR)/tsp
+TARGET := $(BIN_DIR)/main
 
 all: $(TARGET)
 

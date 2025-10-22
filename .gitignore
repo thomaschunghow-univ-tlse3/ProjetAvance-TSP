@@ -61,5 +61,10 @@ bin
 resolution
 
 # Code Python
-.vscode/settings.json
 venv
+
+# Pour Sonarqube
+compile_commands.json
+
+# Pour Visual Studio Code
+.vscode

@@ -1,5 +1,5 @@
 /*
- * tsp.c
+ * main.c
  *
  * Programme principal pour la résolution du problème du voyageur de commerce.
  */
@@ -15,9 +15,12 @@
 
 #include <stdlib.h>
 
-/* Exemple d'utilisation :
+/*
+ * Exemple d'utilisation :
  * make
- * ./bin/tsp -f data/pr76.tsp -m bf -o bin/resultat.txt -c */
+ * ./bin/main -f data/pr76.tsp -m bf -o bin/resultat.txt -c
+ * ./bin/main -f data/att10.tsp -m bf -c
+ */
 
 int main(int argc, char **argv)
 {
