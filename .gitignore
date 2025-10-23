@@ -55,14 +55,11 @@ dkms.conf
 *.dwo
 
 # Dossier d'exécutables
-bin
-
-# Executable
-resolution
+**/bin
 
 # Code Python
-venv
-test/__pycache__
+**/venv
+**/__pycache__
 
 # Pour Doxygen
-documentation
+**/documentation
