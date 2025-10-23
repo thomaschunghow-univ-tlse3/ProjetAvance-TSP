@@ -62,7 +62,7 @@ resolution
 
 # Code Python
 venv
-*__pycache__
+test/__pycache__
 
 # Pour Doxygen
 documentation
