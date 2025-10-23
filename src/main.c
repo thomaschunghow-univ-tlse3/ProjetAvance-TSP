@@ -16,6 +16,10 @@
  * make
  * ./bin/main -f data/tsp/pr76.tsp -m bf -o bin/resultat.txt -c
  * ./bin/main -f data/tsp/att10.tsp -m bf -c
+ *
+ * Pour lancer les tests :
+ * ./test/setup_env.sh
+ * source ./venv/bin/activate
  * python3 ./test/test_tsp_c.py
  *
  * Pour générer la documentation :
