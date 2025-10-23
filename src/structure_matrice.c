@@ -59,7 +59,7 @@ TableauDistance matrice_obtenir_tableau_distance(MatriceDistance matrice)
     return matrice->tableau_distances;
 }
 
-void demi_matrice_calculer_distance(MatriceDistance matrice, size_t ligne, size_t colonne)
+void matrice_calculer_distance(MatriceDistance matrice, size_t ligne, size_t colonne)
 {
     matrice_assert_non_vide(matrice);
 
@@ -89,7 +89,7 @@ void matrice_remplir_distance(MatriceDistance matrice)
     {
         for (size_t colonne = 0; colonne < ligne; colonne++)
         {
-            demi_matrice_calculer_distance(matrice, ligne, colonne);
+            matrice_calculer_distance(matrice, ligne, colonne);
         }
     }
 }

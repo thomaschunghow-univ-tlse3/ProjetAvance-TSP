@@ -35,7 +35,7 @@ typedef struct
     MethodeCalcul methode_calcul;
 } Options;
 
-Options traitement_options(int argc, char **argv);
+Options options_traitement(int argc, char **argv);
 
 FILE *ouverture_entree(Options options);
 FILE *ouverture_sortie(Options options);

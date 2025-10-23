@@ -23,8 +23,8 @@ typedef struct
     FonctionCalcul calculer_distance;
 } Specification;
 
-Specification lire_specification_tsp(FILE *fichier);
+Specification lecture_specification_tsp(FILE *fichier);
 
-void lire_points_tsp(FILE *fichier, TableauPoint);
+void lecture_points_tsp(FILE *fichier, TableauPoint);
 
 #endif // LECTURE_DONNEES_H

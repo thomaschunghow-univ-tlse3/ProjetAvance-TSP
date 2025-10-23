@@ -10,13 +10,13 @@
 
 volatile sig_atomic_t interruption = false; /* Drapeau pour indiquer la réception du signal. */
 
-void gestionnaire_interruption(int signal)
+void interruption_gestionnaire(int signal)
 {
     interruption = 1;
     (void)signal;
 }
 
-bool traitement_interruption(Permutation permutation, Permutation permutation_minimale, distance longueur_minimale, size_t nombre_permutations_traitees, size_t nombre_permutations_total)
+bool interruption_traitement(Permutation permutation, Permutation permutation_minimale, distance longueur_minimale, size_t nombre_permutations_traitees, size_t nombre_permutations_total)
 {
     interruption = false; /* Réinitialisation du drapeau. */
 

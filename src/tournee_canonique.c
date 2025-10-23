@@ -5,7 +5,7 @@
 #include "tournee_canonique.h"
 #include "affichage.h"
 
-Resultat calcul_tournee_canonique(MatriceDistance matrice)
+Resultat tournee_canonique(MatriceDistance matrice)
 {
     size_t nombre_points = matrice_obtenir_nombre_points(matrice);
 

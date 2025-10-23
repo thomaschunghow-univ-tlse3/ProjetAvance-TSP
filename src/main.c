@@ -14,8 +14,8 @@
 
 /* Exemple d'utilisation :
  * make
- * ./bin/main -f data/pr76.tsp -m bf -o bin/resultat.txt -c
- * ./bin/main -f data/att10.tsp -m bf -c
+ * ./bin/main -f data/tsp/pr76.tsp -m bf -o bin/resultat.txt -c
+ * ./bin/main -f data/tsp/att10.tsp -m bf -c
  * python3 ./test/test_tsp_c.py
  *
  * Pour générer la documentation :
@@ -23,20 +23,20 @@
 
 int main(int argc, char **argv)
 {
-    Options options = traitement_options(argc, argv);
+    Options options = options_traitement(argc, argv);
 
     FILE *entree = ouverture_entree(options);
     FILE *sortie = ouverture_sortie(options);
 
-    Specification specification = lire_specification_tsp(entree);
+    Specification specification = lecture_specification_tsp(entree);
 
     MatriceDistance matrice = matrice_creer(specification.nombre_points, specification.calculer_distance);
 
-    lire_points_tsp(entree, matrice_obtenir_tableau_point(matrice));
+    lecture_points_tsp(entree, matrice_obtenir_tableau_point(matrice));
 
     matrice_remplir_distance(matrice);
 
-    traitement_tournee(sortie, options, matrice);
+    tournee_traitement(sortie, options, matrice);
 
     matrice_supprimer(&matrice);
 

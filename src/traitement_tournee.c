@@ -11,11 +11,11 @@
 #include <time.h>
 #include <math.h>
 
-void calcul_tournee(FILE *sortie, char *nom_fichier_entree, MatriceDistance matrice, MethodeCalcul methode, AlgorithmeTournee calculer_tournee)
+void tournee_gestionnaire(FILE *sortie, char *nom_fichier_entree, MatriceDistance matrice, MethodeCalcul methode, AlgorithmeTournee calculer_tournee)
 {
     clock_t temps = clock();
 
-    signal(SIGINT, gestionnaire_interruption);
+    signal(SIGINT, interruption_gestionnaire);
     Resultat resultat = calculer_tournee(matrice);
     signal(SIGINT, SIG_DFL);
 
@@ -28,54 +28,54 @@ void calcul_tournee(FILE *sortie, char *nom_fichier_entree, MatriceDistance matr
     permutation_supprimer(&resultat.permutation);
 }
 
-void traitement_tournee(FILE *sortie, Options options, MatriceDistance matrice)
+void tournee_traitement(FILE *sortie, Options options, MatriceDistance matrice)
 {
     afficher_noms_champs(sortie);
 
     if (options.canonique)
     {
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, CANONIQUE, &calcul_tournee_canonique);
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, CANONIQUE, &tournee_canonique);
     }
 
     switch (options.methode_calcul)
     {
     case BF:
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, BF, &calcul_tournee_force_brute_naive);
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, BF, &calcul_tournee_force_brute_elagage);
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, BF, &calcul_tournee_force_brute_incrementale);
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, BF, &tournee_force_brute_naive);
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, BF, &tournee_force_brute_elagage);
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, BF, &tournee_force_brute_incrementale);
         break;
 
     case NN:
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, NN, &calcul_tournee_canonique);
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, NN, &tournee_canonique);
         break;
 
     case RW:
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, RW, &calcul_tournee_canonique);
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, RW, &tournee_canonique);
         break;
 
     case NN2OPT:
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, NN2OPT, &calcul_tournee_canonique);
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, NN2OPT, &tournee_canonique);
         break;
 
     case RW2OPT:
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, RW2OPT, &calcul_tournee_canonique);
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, RW2OPT, &tournee_canonique);
         break;
 
     case GA:
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, GA, &calcul_tournee_canonique);
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, GA, &tournee_canonique);
         break;
 
     case GADPX:
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, GADPX, &calcul_tournee_canonique);
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, GADPX, &tournee_canonique);
         break;
 
     case ALL:
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, NN, &calcul_tournee_canonique);
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, RW, &calcul_tournee_canonique);
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, NN2OPT, &calcul_tournee_canonique);
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, RW2OPT, &calcul_tournee_canonique);
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, GA, &calcul_tournee_canonique);
-        calcul_tournee(sortie, options.nom_fichier_entree, matrice, GADPX, &calcul_tournee_canonique);
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, NN, &tournee_canonique);
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, RW, &tournee_canonique);
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, NN2OPT, &tournee_canonique);
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, RW2OPT, &tournee_canonique);
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, GA, &tournee_canonique);
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, GADPX, &tournee_canonique);
         break;
 
     default:

@@ -11,7 +11,7 @@
 
 #define TAILLE_LIGNE_MAX 1000
 
-Specification initialiser_specification()
+Specification lecture_initialiser_specification()
 {
     Specification specification;
     memset(specification.nom, '\0', TAILLE_SPECIFICATION_MAX);
@@ -22,7 +22,7 @@ Specification initialiser_specification()
     return specification;
 }
 
-void verifier_specification_valide(Specification specification)
+void lecture_verifier_specification_valide(Specification specification)
 {
     if (strcmp(specification.nom, "") == 0 ||
         strcmp(specification.nom, "") == 0 ||
@@ -31,13 +31,13 @@ void verifier_specification_valide(Specification specification)
         specification.calculer_distance == NULL)
     {
         fprintf(stderr,
-                "Erreur verifier_specification_valide :\n"
+                "Erreur lecture_verifier_specification_valide :\n"
                 "Un des champs de la spécification n'a pas été initialisé.\n");
         exit(EXIT_FAILURE);
     }
 }
 
-FonctionCalcul methode_calcul_depuis_nom(char *nom)
+FonctionCalcul lecture_methode_calcul_depuis_nom(char *nom)
 {
     if (strstr(nom, "EUC_2D"))
     {
@@ -52,22 +52,22 @@ FonctionCalcul methode_calcul_depuis_nom(char *nom)
         return &calculer_distance_euclidienne_modifiee;
     }
     fprintf(stderr,
-            "Erreur methode_calcul_depuis_nom :\n"
+            "Erreur lecture_methode_calcul_depuis_nom :\n"
             "Méthode de calcul non reconnue.\n");
     exit(EXIT_FAILURE);
 }
 
-Specification lire_specification_tsp(FILE *entree)
+Specification lecture_specification_tsp(FILE *entree)
 {
     rewind(entree);
-    Specification specification = initialiser_specification();
+    Specification specification = lecture_initialiser_specification();
     char ligne[TAILLE_LIGNE_MAX];
     while (fgets(ligne, TAILLE_LIGNE_MAX, entree) != NULL)
     {
         if (strlen(ligne) >= TAILLE_SPECIFICATION_MAX)
         {
             fprintf(stderr,
-                    "Erreur lire_specification_tsp :\n"
+                    "Erreur lecture_specification_tsp :\n"
                     "Ligne trop longue pour le champ de taille statique.\n");
         }
         if (strstr(ligne, "NAME"))
@@ -88,18 +88,18 @@ Specification lire_specification_tsp(FILE *entree)
         }
         if (strstr(ligne, "EDGE_WEIGHT_TYPE"))
         {
-            specification.calculer_distance = methode_calcul_depuis_nom(ligne);
+            specification.calculer_distance = lecture_methode_calcul_depuis_nom(ligne);
         }
         if (strstr(ligne, "NODE_COORD_SECTION"))
         {
             break;
         }
     }
-    verifier_specification_valide(specification);
+    lecture_verifier_specification_valide(specification);
     return specification;
 }
 
-void lire_points_tsp(FILE *entree, TableauPoint tableau)
+void lecture_points_tsp(FILE *entree, TableauPoint tableau)
 {
     rewind(entree);
     char ligne[TAILLE_LIGNE_MAX];

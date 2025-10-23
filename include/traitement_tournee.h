@@ -18,6 +18,6 @@ typedef struct
 
 typedef Resultat (*AlgorithmeTournee)(MatriceDistance);
 
-void traitement_tournee(FILE *sortie, Options, MatriceDistance);
+void tournee_traitement(FILE *sortie, Options, MatriceDistance);
 
 #endif // TRAITEMENT_TOURNEE_H
