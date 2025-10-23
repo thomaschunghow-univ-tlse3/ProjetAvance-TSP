@@ -62,13 +62,7 @@ resolution
 
 # Code Python
 venv
-*__pycache_
-
-# Pour Sonarqube
-compile_commands.json
-
-# Pour Visual Studio Code
-.vscode
+*__pycache__
 
 # Pour Doxygen
 documentation
