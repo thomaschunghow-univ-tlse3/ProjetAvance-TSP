@@ -58,9 +58,9 @@ distance calculer_distance_euclidienne_modifiee(Point A, Point B)
 {
 	distance difference_x = A.x - B.x;
 	distance difference_y = A.y - B.y;
-	distance distance_approchée = hypot(difference_x, difference_y) / RACINE_10;
+	distance distance_approchee = hypot(difference_x, difference_y) / RACINE_10;
 
-	distance distance_arrondie = ceil(distance_approchée);
+	distance distance_arrondie = ceil(distance_approchee);
 
 	return distance_arrondie;
 }
