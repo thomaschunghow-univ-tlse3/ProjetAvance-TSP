@@ -61,6 +61,10 @@ TableauDistance matrice_obtenir_tableau_distance(MatriceDistance matrice)
 
 void demi_matrice_calculer_distance(MatriceDistance matrice, size_t ligne, size_t colonne)
 {
+    matrice_assert_non_vide(matrice);
+
+    matrice_assert_indice_valide(matrice_obtenir_nombre_points(matrice), ligne, colonne);
+
     TableauPoint points = matrice_obtenir_tableau_point(matrice);
     TableauDistance distances = matrice_obtenir_tableau_distance(matrice);
     FonctionCalcul calculer_distance = tableau_distance_obtenir_fonction_calcul(distances);
@@ -77,6 +81,8 @@ void demi_matrice_calculer_distance(MatriceDistance matrice, size_t ligne, size_
 
 void matrice_remplir_distance(MatriceDistance matrice)
 {
+    matrice_assert_non_vide(matrice);
+
     size_t nombre_points = matrice_obtenir_nombre_points(matrice);
 
     for (size_t ligne = 0; ligne < nombre_points; ligne++)

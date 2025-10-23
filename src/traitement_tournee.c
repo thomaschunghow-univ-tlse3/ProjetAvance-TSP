@@ -40,7 +40,6 @@ void traitement_tournee(FILE *sortie, Options options, MatriceDistance matrice)
         calcul_tournee(sortie, options.nom_fichier_entree, matrice, BF, &calcul_tournee_force_brute_naive);
         calcul_tournee(sortie, options.nom_fichier_entree, matrice, BF, &calcul_tournee_force_brute_elagage);
         calcul_tournee(sortie, options.nom_fichier_entree, matrice, BF, &calcul_tournee_force_brute_incrementale);
-
         break;
 
     case NN:
