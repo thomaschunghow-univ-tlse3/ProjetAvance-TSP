@@ -19,9 +19,9 @@ void afficher_permutation(FILE *sortie, Permutation permutation)
     fprintf(sortie, "[");
     for (size_t i = 0; i < nombre_points - 1; i++)
     {
-        fprintf(sortie, "%ld,", permutation_obtenir_indice(permutation, i) + 1);
+        fprintf(sortie, "%ld,", permutation_obtenir_sommet(permutation, i) + 1);
     }
-    fprintf(sortie, "%ld", permutation_obtenir_indice(permutation, nombre_points - 1) + 1);
+    fprintf(sortie, "%ld", permutation_obtenir_sommet(permutation, nombre_points - 1) + 1);
     fprintf(sortie, "]");
 }
 
