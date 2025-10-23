@@ -43,7 +43,7 @@ def load_instance(filename):
     instance = load_tsp_file(filename)
     cities = list(instance.get_nodes())
     instance_dict = instance.as_name_dict()
-    print(instance)
+    # print(instance)
     coord = instance_dict['node_coords']
     edge_type = instance_dict['edge_weight_type']
     return instance,coord,edge_type
@@ -53,8 +53,8 @@ def test_instance(filename,methods):
     instance,coord,edge_type = load_instance(filename)
     distance_fct,graphique = select_fct(edge_type)
 
-    print("Longueur du tour canonique (tsplib95 built in) =",instance.trace_canonical_tour())
-    print("\n")
+    # print("Longueur du tour canonique (tsplib95 built in) =",instance.trace_canonical_tour())
+    # print("\n")
 
     print("Instance ; algo ; long (C) ; long (Python) ; temps ; tour ; valid ; mêmes longueurs")
 
@@ -73,8 +73,8 @@ def tests_instances_list(instances_file,methods):
 # opt = tsplib95.load_solution(filename+'.opt.tour')
 # filename = "att10.tsp" #
 path = "./bin/" # adaptez à votre cas
-code = "tsp" # nom du programme C
-methods = ["bf", "-c"]#"bf","gadpx"
+code = "main" # nom du programme C
+methods = ["bf"]#"bf","gadpx"
 
 #test_instance(filename,methods) # pour un seul appel
 tests_instances_list("./code_python/instances.txt",methods) # marche si le C marche

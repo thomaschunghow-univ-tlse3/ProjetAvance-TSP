@@ -1,14 +1,15 @@
 /*
+ * lecture_donnees.c
  */
 
-#include "traitement_lecture_donnees.h"
-#include "structures_calculs_distances.h"
+#include "lecture_donnees.h"
+#include "calcul_distance.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#define TAILLE_LIGNE_MAX 100
+#define TAILLE_LIGNE_MAX 1000
 
 Specification initialiser_specification()
 {
@@ -36,19 +37,19 @@ void verifier_specification_valide(Specification specification)
     }
 }
 
-FonctionCalculDistance methode_calcul_depuis_nom(char *nom)
+FonctionCalcul methode_calcul_depuis_nom(char *nom)
 {
     if (strstr(nom, "EUC_2D"))
     {
-        return liste_fonctions_calcul[EUC_2D];
+        return &calculer_distance_euclidienne;
     }
     if (strstr(nom, "GEO"))
     {
-        return liste_fonctions_calcul[GEO];
+        return &calculer_distance_geographique;
     }
     if (strstr(nom, "ATT"))
     {
-        return liste_fonctions_calcul[ATT];
+        return &calculer_distance_euclidienne_modifiee;
     }
     fprintf(stderr,
             "Erreur methode_calcul_depuis_nom :\n"
@@ -71,15 +72,15 @@ Specification lire_specification_tsp(FILE *entree)
         }
         if (strstr(ligne, "NAME"))
         {
-            strcpy(specification.nom, ligne);
+            strncpy(specification.nom, ligne, TAILLE_CHAMP_MAX);
         }
         if (strstr(ligne, "TYPE"))
         {
-            strcpy(specification.type, ligne);
+            strncpy(specification.type, ligne, TAILLE_CHAMP_MAX);
         }
         if (strstr(ligne, "COMMENT"))
         {
-            strcpy(specification.commentaire, ligne);
+            strncpy(specification.commentaire, ligne, TAILLE_CHAMP_MAX);
         }
         if (strstr(ligne, "DIMENSION"))
         {
@@ -98,7 +99,7 @@ Specification lire_specification_tsp(FILE *entree)
     return specification;
 }
 
-void lire_points_tsp(FILE *entree, TableauPoints tableau)
+void lire_points_tsp(FILE *entree, TableauPoint tableau)
 {
     rewind(entree);
     char ligne[TAILLE_LIGNE_MAX];
@@ -109,10 +110,11 @@ void lire_points_tsp(FILE *entree, TableauPoints tableau)
             break;
         }
     }
-    size_t nombre_points = taille_tableau_points(tableau);
+    size_t nombre_points = tableau_point_obtenir_taille(tableau);
     for (size_t i = 0; i < nombre_points; i++)
     {
-        Point *point = obtenir_element_tableau_points(tableau, i);
-        fscanf(entree, "%*d%lf%lf", &(point->x), &(point->y));
+        Point point;
+        fscanf(entree, "%*d%lf%lf", &(point.x), &(point.y));
+        tableau_point_modifier_point(tableau, i, point);
     }
 }

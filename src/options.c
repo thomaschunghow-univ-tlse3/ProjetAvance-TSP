@@ -1,7 +1,8 @@
 /*
+ * options.c
  */
 
-#include "traitement_options.h"
+#include "options.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,34 +21,40 @@ void afficher_aide(char *nom_programme)
            nom_programme);
 }
 
-Options initialiser_options()
-{
-    Options options;
-    options.est_donne_fichier_entree = false;
-    options.est_donne_fichier_sortie = false;
-    options.est_donne_methode_calcul = false;
-    options.est_donne_canonique = false;
-    return options;
-}
-
 MethodeCalcul traitement_methode_calcul(char *nom)
 {
     if (strcmp(nom, "bf") == 0)
+    {
         return BF;
+    }
     if (strcmp(nom, "nn") == 0)
+    {
         return NN;
+    }
     if (strcmp(nom, "rw") == 0)
+    {
         return RW;
+    }
     if (strcmp(nom, "2optnn") == 0)
+    {
         return NN2OPT;
+    }
     if (strcmp(nom, "2optrw") == 0)
+    {
         return RW2OPT;
+    }
     if (strcmp(nom, "ga") == 0)
+    {
         return GA;
+    }
     if (strcmp(nom, "gadpx") == 0)
+    {
         return GADPX;
+    }
     if (strcmp(nom, "all") == 0)
+    {
         return ALL;
+    }
 
     fprintf(stderr,
             "Erreur traitement_methode_calcul :\n"
@@ -57,9 +64,18 @@ MethodeCalcul traitement_methode_calcul(char *nom)
 
 Options traitement_options(int argc, char **argv)
 {
-    Options options = initialiser_options();
-    opterr = 0; // Gestion des erreurs personnalisée.
+    Options options;
+
+    options.canonique = false;
+
+    bool fichier_entree_fourni = false;
+    bool fichier_sortie_fourni = false;
+    bool methode_calcul_fourni = false;
+
+    opterr = 0; /* Gestion des erreurs personnalisée. */
+
     int opt;
+
     while ((opt = getopt(argc, argv, "hf:o:m:c")) != -1)
     {
         switch (opt)
@@ -67,23 +83,28 @@ Options traitement_options(int argc, char **argv)
         case 'h':
             afficher_aide(argv[0]);
             exit(EXIT_SUCCESS);
+
         case 'f':
-            options.est_donne_fichier_entree = true;
+            fichier_entree_fourni = true;
             strncpy(options.nom_fichier_entree, optarg, TAILLE_OPTIONS_MAX);
             options.nom_fichier_entree[TAILLE_OPTIONS_MAX - 1] = '\0';
             break;
+
         case 'o':
-            options.est_donne_fichier_sortie = true;
+            fichier_sortie_fourni = true;
             strncpy(options.nom_fichier_sortie, optarg, TAILLE_OPTIONS_MAX);
             options.nom_fichier_sortie[TAILLE_OPTIONS_MAX - 1] = '\0';
             break;
+
         case 'm':
-            options.est_donne_methode_calcul = true;
+            methode_calcul_fourni = true;
             options.methode_calcul = traitement_methode_calcul(optarg);
             break;
+
         case 'c':
-            options.est_donne_canonique = true;
+            options.canonique = true;
             break;
+
         default:
             fprintf(stderr,
                     "Erreur traitement_options :\n"
@@ -92,7 +113,8 @@ Options traitement_options(int argc, char **argv)
             exit(EXIT_FAILURE);
         }
     }
-    if (!options.est_donne_fichier_entree || !options.est_donne_methode_calcul)
+
+    if (!fichier_entree_fourni || !methode_calcul_fourni)
     {
         fprintf(stderr,
                 "Erreur traitement_options :\n"
@@ -100,6 +122,7 @@ Options traitement_options(int argc, char **argv)
         afficher_aide(argv[0]);
         exit(EXIT_FAILURE);
     }
+
     if (optind < argc)
     {
         fprintf(stderr,
@@ -108,10 +131,12 @@ Options traitement_options(int argc, char **argv)
         afficher_aide(argv[0]);
         exit(EXIT_FAILURE);
     }
-    if (!options.est_donne_fichier_sortie)
+
+    if (!fichier_sortie_fourni)
     {
-        strcpy(options.nom_fichier_sortie, "nom_fichier_sortie_defaut.tsp");
+        strcpy(options.nom_fichier_sortie, "");
     }
+
     return options;
 }
 
@@ -132,9 +157,11 @@ FILE *ouverture_entree(Options options)
 FILE *ouverture_sortie(Options options)
 {
     FILE *sortie = stdout;
-    if (options.est_donne_fichier_sortie)
+
+    if (strcmp(options.nom_fichier_sortie, "") != 0)
     {
         sortie = fopen(options.nom_fichier_sortie, "w");
+
         if (sortie == NULL)
         {
             fprintf(stderr,
@@ -144,6 +171,7 @@ FILE *ouverture_sortie(Options options)
             exit(EXIT_FAILURE);
         }
     }
+
     return sortie;
 }
 
@@ -164,6 +192,7 @@ void fermeture_sortie(FILE *sortie, Options options)
     {
         return;
     }
+
     if (fclose(sortie) == EOF)
     {
         fprintf(stderr,
