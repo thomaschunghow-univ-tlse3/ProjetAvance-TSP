@@ -11,6 +11,16 @@
 #define RACINE_10 3.16227766016837952279
 #define RAYON_TERRE 6378.388
 
+size_t factorielle(size_t n)
+{
+	size_t resultat = 1;
+	for (size_t i = 1; i <= n; i++)
+	{
+		resultat *= i;
+	}
+	return resultat;
+}
+
 distance calculer_distance_euclidienne(Point A, Point B)
 {
 	return hypot(B.x - A.x, B.y - A.y);

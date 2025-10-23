@@ -15,6 +15,6 @@ extern volatile sig_atomic_t interruption;
 
 void gestionnaire_interruption(int signal);
 
-bool traitement_interruption(Permutation permutation, Permutation permutation_minimale, distance longueur_minimale);
+bool traitement_interruption(Permutation permutation, Permutation permutation_minimale, distance longueur_minimale, size_t nombre_permutations_traitees, size_t nombre_permutations_total);
 
 #endif // TRAITEMENT_INTERRUPTION_H

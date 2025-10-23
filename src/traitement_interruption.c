@@ -16,11 +16,13 @@ void gestionnaire_interruption(int signal)
     (void)signal;
 }
 
-bool traitement_interruption(Permutation permutation, Permutation permutation_minimale, distance longueur_minimale)
+bool traitement_interruption(Permutation permutation, Permutation permutation_minimale, distance longueur_minimale, size_t nombre_permutations_traitees, size_t nombre_permutations_total)
 {
     interruption = false; /* Réinitialisation du drapeau. */
 
     printf(ROUGE "\n");
+
+    printf("%ld%% des tournées traitées.\n", 100 * nombre_permutations_traitees / nombre_permutations_total);
 
     printf("Tournée courante                 : ");
     afficher_permutation(stdout, permutation);
@@ -51,13 +53,13 @@ bool traitement_interruption(Permutation permutation, Permutation permutation_mi
 
     if (reponse == 'n' || reponse == 'N')
     {
-        printf("Arrêt du calcul.\n");
+        printf("Arrêt du calcul.");
         printf(RESET "\n");
 
         return true;
     }
 
-    printf("Reprise du calcul.\n");
+    printf("Reprise du calcul.");
     printf(RESET "\n");
 
     return false;

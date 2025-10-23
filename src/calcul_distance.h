@@ -18,6 +18,8 @@ typedef enum
     ATT
 } TypeDistance;
 
+size_t factorielle(size_t);
+
 distance calculer_distance_euclidienne(Point A, Point B);
 distance calculer_distance_geographique(Point A, Point B);
 distance calculer_distance_euclidienne_modifiee(Point A, Point B);
