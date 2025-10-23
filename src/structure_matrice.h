@@ -29,6 +29,8 @@ void matrice_supprimer(MatriceDistance *);
 void matrice_remplir_distance(MatriceDistance matrice);
 
 TableauPoint matrice_obtenir_tableau_point(MatriceDistance);
+Point *matrice_obtenir_adresse_point(MatriceDistance matrice);
+
 TableauDistance matrice_obtenir_tableau_distance(MatriceDistance);
 
 size_t matrice_obtenir_nombre_points(MatriceDistance);
