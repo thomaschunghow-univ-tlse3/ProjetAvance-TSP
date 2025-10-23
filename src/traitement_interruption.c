@@ -51,14 +51,14 @@ bool traitement_interruption(Permutation permutation, Permutation permutation_mi
 
     if (reponse == 'n' || reponse == 'N')
     {
-        printf("Arrêt du calcul.\n\n");
-        printf(RESET);
+        printf("Arrêt du calcul.\n");
+        printf(RESET "\n");
 
         return true;
     }
 
-    printf("Reprise du calcul.\n\n");
-    printf(RESET);
+    printf("Reprise du calcul.\n");
+    printf(RESET "\n");
 
     return false;
 }
