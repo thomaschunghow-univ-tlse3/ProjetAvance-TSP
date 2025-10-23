@@ -1,9 +1,15 @@
+/*
+ * traitement_interruption.h
+ *
+ * Outil de traitement des interruptions du traitement sur le terminal.
+ */
+
 #ifndef TRAITEMENT_INTERRUPTION_H
 #define TRAITEMENT_INTERRUPTION_H
 
-#include "structure_permutation.h" // Pour Permutation et distance
+#include "structure_permutation.h"
 
-#include <signal.h> // Pour sig_atomic_t
+#include <signal.h>
 
 extern volatile sig_atomic_t interruption;
 
