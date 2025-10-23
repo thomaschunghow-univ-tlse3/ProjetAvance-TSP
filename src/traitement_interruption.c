@@ -36,8 +36,8 @@ bool interruption_traitement(Permutation permutation, Permutation permutation_mi
     afficher_longueur(stdout, longueur_minimale);
     printf("\n\n");
 
-    char reponse = ' ';
-    char vidange;
+    int reponse = ' ';
+    int vidange;
 
     while (reponse != 'y' && reponse != 'Y' && reponse != 'n' && reponse != 'N')
     {
@@ -46,9 +46,7 @@ bool interruption_traitement(Permutation permutation, Permutation permutation_mi
         reponse = getchar();
 
         while ((vidange = getchar()) != '\n' && vidange != EOF)
-        {
             ;
-        }
     }
 
     if (reponse == 'n' || reponse == 'N')
