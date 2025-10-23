@@ -12,13 +12,13 @@
 
 #include <stdio.h>
 
-#define TAILLE_CHAMP_MAX 1000
+#define TAILLE_SPECIFICATION_MAX 1000
 
 typedef struct
 {
-    char nom[TAILLE_CHAMP_MAX];
-    char type[TAILLE_CHAMP_MAX];
-    char commentaire[TAILLE_CHAMP_MAX];
+    char nom[TAILLE_SPECIFICATION_MAX];
+    char type[TAILLE_SPECIFICATION_MAX];
+    char commentaire[TAILLE_SPECIFICATION_MAX];
     size_t nombre_points;
     FonctionCalcul calculer_distance;
 } Specification;

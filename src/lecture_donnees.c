@@ -14,9 +14,9 @@
 Specification initialiser_specification()
 {
     Specification specification;
-    memset(specification.nom, '\0', TAILLE_CHAMP_MAX);
-    memset(specification.type, '\0', TAILLE_CHAMP_MAX);
-    memset(specification.commentaire, '\0', TAILLE_CHAMP_MAX);
+    memset(specification.nom, '\0', TAILLE_SPECIFICATION_MAX);
+    memset(specification.type, '\0', TAILLE_SPECIFICATION_MAX);
+    memset(specification.commentaire, '\0', TAILLE_SPECIFICATION_MAX);
     specification.nombre_points = 0;
     specification.calculer_distance = NULL;
     return specification;
@@ -64,7 +64,7 @@ Specification lire_specification_tsp(FILE *entree)
     char ligne[TAILLE_LIGNE_MAX];
     while (fgets(ligne, TAILLE_LIGNE_MAX, entree) != NULL)
     {
-        if (strlen(ligne) >= TAILLE_CHAMP_MAX)
+        if (strlen(ligne) >= TAILLE_SPECIFICATION_MAX)
         {
             fprintf(stderr,
                     "Erreur lire_specification_tsp :\n"
@@ -72,15 +72,15 @@ Specification lire_specification_tsp(FILE *entree)
         }
         if (strstr(ligne, "NAME"))
         {
-            strncpy(specification.nom, ligne, TAILLE_CHAMP_MAX);
+            strncpy(specification.nom, ligne, TAILLE_SPECIFICATION_MAX);
         }
         if (strstr(ligne, "TYPE"))
         {
-            strncpy(specification.type, ligne, TAILLE_CHAMP_MAX);
+            strncpy(specification.type, ligne, TAILLE_SPECIFICATION_MAX);
         }
         if (strstr(ligne, "COMMENT"))
         {
-            strncpy(specification.commentaire, ligne, TAILLE_CHAMP_MAX);
+            strncpy(specification.commentaire, ligne, TAILLE_SPECIFICATION_MAX);
         }
         if (strstr(ligne, "DIMENSION"))
         {

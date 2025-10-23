@@ -4,10 +4,7 @@
  * Programme principal pour la résolution du problème du voyageur de commerce.
  */
 
-#include "structure_permutation.h"
-#include "lecture_donnees.h"
 #include "affichage.h"
-#include "options.h"
 #include "tournee_canonique.h"
 #include "tournee_force_brute.h"
 #include "tournee_2_optimisation.h"
@@ -18,7 +15,11 @@
 /* Exemple d'utilisation :
  * make
  * ./bin/main -f data/pr76.tsp -m bf -o bin/resultat.txt -c
- * ./bin/main -f data/att10.tsp -m bf -c */
+ * ./bin/main -f data/att10.tsp -m bf -c
+ * python3 ./test/test_tsp_c.py
+ *
+ * Pour générer la documentation :
+ * doxygen Doxyfile */
 
 int main(int argc, char **argv)
 {

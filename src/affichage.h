@@ -7,12 +7,8 @@
 #ifndef AFFICHAGE_H
 #define AFFICHAGE_H
 
-#include "structure_permutation.h"
 #include "lecture_donnees.h"
-#include "options.h"
 #include "traitement_tournee.h"
-
-#include <stdio.h>
 
 #define RESET "\033[0m"
 #define ROUGE "\033[31m"

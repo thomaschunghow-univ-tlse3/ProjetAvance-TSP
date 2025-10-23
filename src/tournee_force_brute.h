@@ -7,7 +7,6 @@
 #ifndef TOURNEE_FORCE_BRUTE_H
 #define TOURNEE_FORCE_BRUTE_H
 
-#include "structure_permutation.h"
 #include "traitement_tournee.h"
 
 /* Méthode classique. */
