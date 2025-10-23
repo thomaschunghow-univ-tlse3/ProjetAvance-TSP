@@ -25,35 +25,35 @@ MethodeCalcul options_traitement_methode_calcul(char *nom)
 {
     if (strcmp(nom, "bf") == 0)
     {
-        return BF;
+        return FORCE_BRUTE;
     }
     if (strcmp(nom, "nn") == 0)
     {
-        return NN;
+        return PLUS_PROCHE_VOISIN;
     }
     if (strcmp(nom, "rw") == 0)
     {
-        return RW;
+        return MARCHE_ALEATOIRE;
     }
     if (strcmp(nom, "2optnn") == 0)
     {
-        return NN2OPT;
+        return PLUS_PROCHE_VOISIN_2_OPTIMISATION;
     }
     if (strcmp(nom, "2optrw") == 0)
     {
-        return RW2OPT;
+        return MARCHE_ALEATOIRE_2_OPTIMISATION;
     }
     if (strcmp(nom, "ga") == 0)
     {
-        return GA;
+        return GENETIQUE_GENERIQUE;
     }
     if (strcmp(nom, "gadpx") == 0)
     {
-        return GADPX;
+        return GENETIQUE_DPX;
     }
     if (strcmp(nom, "all") == 0)
     {
-        return ALL;
+        return TOUTES;
     }
 
     fprintf(stderr,

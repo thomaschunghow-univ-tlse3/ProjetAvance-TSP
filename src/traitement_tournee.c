@@ -5,8 +5,8 @@
 #include "traitement_tournee.h"
 #include "affichage.h"
 #include "tournee_canonique.h"
-#include "tournee_force_brute.h"
 #include "traitement_interruption.h"
+#include "tournee_force_brute.h"
 
 #include <time.h>
 #include <math.h>
@@ -39,43 +39,43 @@ void tournee_traitement(FILE *sortie, Options options, MatriceDistance matrice)
 
     switch (options.methode_calcul)
     {
-    case BF:
-        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, BF, &tournee_force_brute_naive);
-        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, BF, &tournee_force_brute_elagage);
-        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, BF, &tournee_force_brute_incrementale);
+    case FORCE_BRUTE:
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, FORCE_BRUTE, &tournee_force_brute_naive);
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, FORCE_BRUTE, &tournee_force_brute_elagage);
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, FORCE_BRUTE, &tournee_force_brute_incrementale);
         break;
 
-    case NN:
-        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, NN, &tournee_canonique);
+    case PLUS_PROCHE_VOISIN:
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, PLUS_PROCHE_VOISIN, &tournee_canonique);
         break;
 
-    case RW:
-        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, RW, &tournee_canonique);
+    case MARCHE_ALEATOIRE:
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, MARCHE_ALEATOIRE, &tournee_canonique);
         break;
 
-    case NN2OPT:
-        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, NN2OPT, &tournee_canonique);
+    case PLUS_PROCHE_VOISIN_2_OPTIMISATION:
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, PLUS_PROCHE_VOISIN_2_OPTIMISATION, &tournee_canonique);
         break;
 
-    case RW2OPT:
-        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, RW2OPT, &tournee_canonique);
+    case MARCHE_ALEATOIRE_2_OPTIMISATION:
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, MARCHE_ALEATOIRE_2_OPTIMISATION, &tournee_canonique);
         break;
 
-    case GA:
-        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, GA, &tournee_canonique);
+    case GENETIQUE_GENERIQUE:
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, GENETIQUE_GENERIQUE, &tournee_canonique);
         break;
 
-    case GADPX:
-        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, GADPX, &tournee_canonique);
+    case GENETIQUE_DPX:
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, GENETIQUE_DPX, &tournee_canonique);
         break;
 
-    case ALL:
-        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, NN, &tournee_canonique);
-        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, RW, &tournee_canonique);
-        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, NN2OPT, &tournee_canonique);
-        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, RW2OPT, &tournee_canonique);
-        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, GA, &tournee_canonique);
-        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, GADPX, &tournee_canonique);
+    case TOUTES:
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, PLUS_PROCHE_VOISIN, &tournee_canonique);
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, MARCHE_ALEATOIRE, &tournee_canonique);
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, PLUS_PROCHE_VOISIN_2_OPTIMISATION, &tournee_canonique);
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, MARCHE_ALEATOIRE_2_OPTIMISATION, &tournee_canonique);
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, GENETIQUE_GENERIQUE, &tournee_canonique);
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, GENETIQUE_DPX, &tournee_canonique);
         break;
 
     default:

@@ -32,25 +32,25 @@ void afficher_methode_calcul(FILE *sortie, MethodeCalcul methode)
     case CANONIQUE:
         fprintf(sortie, "canonique");
         break;
-    case BF:
+    case FORCE_BRUTE:
         fprintf(sortie, "bf");
         break;
-    case NN:
+    case PLUS_PROCHE_VOISIN:
         fprintf(sortie, "nn");
         break;
-    case RW:
+    case MARCHE_ALEATOIRE:
         fprintf(sortie, "rw");
         break;
-    case NN2OPT:
+    case PLUS_PROCHE_VOISIN_2_OPTIMISATION:
         fprintf(sortie, "2optnn");
         break;
-    case RW2OPT:
+    case MARCHE_ALEATOIRE_2_OPTIMISATION:
         fprintf(sortie, "2optrw");
         break;
-    case GA:
+    case GENETIQUE_GENERIQUE:
         fprintf(sortie, "ga");
         break;
-    case GADPX:
+    case GENETIQUE_DPX:
         fprintf(sortie, "gadpx");
         break;
     default:

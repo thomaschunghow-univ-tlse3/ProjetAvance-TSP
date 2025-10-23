@@ -17,14 +17,14 @@
 typedef enum
 {
     CANONIQUE,
-    BF,
-    NN,
-    RW,
-    NN2OPT,
-    RW2OPT,
-    GA,
-    GADPX,
-    ALL,
+    FORCE_BRUTE,
+    PLUS_PROCHE_VOISIN,
+    MARCHE_ALEATOIRE,
+    PLUS_PROCHE_VOISIN_2_OPTIMISATION,
+    MARCHE_ALEATOIRE_2_OPTIMISATION,
+    GENETIQUE_GENERIQUE,
+    GENETIQUE_DPX,
+    TOUTES,
 } MethodeCalcul;
 
 typedef struct
