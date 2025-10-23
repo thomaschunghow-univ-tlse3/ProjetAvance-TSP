@@ -2,26 +2,46 @@
  * tournee_force_brute.c
  */
 
-#include "traitement_interruption.h"
 #include "tournee_force_brute.h"
+#include "traitement_interruption.h"
 #include "structure_permutation.h"
 #include "affichage.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include <stdbool.h>
-#include <stddef.h>
-#include <signal.h>
-
-// fonction auxiliere qui copie un tab d'indices dans un TAD Permutation
-void copier_tableau(Permutation permutation, size_t *tabIndices)
+Resultat calcul_tournee_force_brute_naive(MatriceDistance matrice)
 {
-    for (size_t i = 0; i < nombre_indices(permutation); i++)
+    size_t nombre_points = matrice_obtenir_nombre_points(matrice);
+
+    Permutation permutation = permutation_creer(nombre_points);
+    Permutation permutation_minimale = permutation_creer(nombre_points);
+
+    distance longueur = permutation_calculer_distance_totale(permutation, matrice);
+    distance longueur_minimale = longueur;
+
+    bool demande_stop = false;
+
+    while (permutation_avancer(permutation) && !demande_stop)
     {
-        permutation->indices[i] = tabIndices[i];
+        longueur = permutation_calculer_distance_totale(permutation, matrice);
+
+        if (longueur < longueur_minimale)
+        {
+            longueur_minimale = longueur;
+            permutation_copier(permutation_minimale, permutation);
+        }
+
+        if (interruption)
+        {
+            demande_stop = traitement_interruption(permutation, permutation_minimale, longueur_minimale);
+        }
     }
+
+    permutation_supprimer(&permutation);
+
+    Resultat resultat;
+    resultat.permutation = permutation_minimale;
+    resultat.distance = longueur_minimale;
+
+    return resultat;
 }
 
 Resultat calcul_tournee_force_brute_elagage(MatriceDistance matrice)
@@ -34,49 +54,31 @@ Resultat calcul_tournee_force_brute_elagage(MatriceDistance matrice)
     distance longueur = permutation_calculer_distance_totale(permutation, matrice);
     distance longueur_minimale = longueur;
 
-    while (permutation_avancer(permutation))
+    bool demande_stop = false;
+
+    while (permutation_avancer(permutation) && !demande_stop)
     {
         longueur = permutation_calculer_distance_totale_avec_elagage(permutation, matrice, longueur_minimale);
 
-        while (permutation_suivante(permutation_courante) && !stop)
+        if (longueur < longueur_minimale)
         {
-
-            d_courante = distance_totale_permutation(permutation_courante, matrice);
-
-            if (premiere_permutation)
-            {
-                d_minimale = d_courante;
-                d_maximal = d_courante;
-                copier_tableau(meilleure_permutation, tableau_indices(permutation_courante));
-                premiere_permutation = false;
-            }
+            longueur_minimale = longueur;
+            permutation_copier(permutation_minimale, permutation);
         }
 
-        if (flag)
+        if (interruption)
         {
-            gerer_interruption_bf(d_courante, d_minimale, meilleure_permutation, permutation_courante, &stop);
-        }
-
-        if (d_courante < d_minimale)
-        {
-            d_minimale = d_courante;
-            copier_tableau(meilleure_permutation, tableau_indices(permutation_courante));
-        }
-
-        if (d_courante > d_maximal)
-        {
-            d_maximal = d_courante;
+            demande_stop = traitement_interruption(permutation, permutation_minimale, longueur_minimale);
         }
     }
 
-    supprimer_permutation(&permutation_courante);
-    signal(SIGINT, SIG_DFL);
+    permutation_supprimer(&permutation);
 
-    Resultat resultat_final;
-    resultat_final.permutation = meilleure_permutation;
-    resultat_final.distance = d_minimale;
+    Resultat resultat;
+    resultat.permutation = permutation_minimale;
+    resultat.distance = longueur_minimale;
 
-    return resultat_final;
+    return resultat;
 }
 
 Resultat calcul_tournee_force_brute_incrementale(MatriceDistance matrice)
@@ -89,25 +91,25 @@ Resultat calcul_tournee_force_brute_incrementale(MatriceDistance matrice)
     distance longueur = permutation_calculer_distance_totale(permutation, matrice);
     distance longueur_minimale = longueur;
 
-    while (permutation_avancer_et_incrementer_longueur(permutation, matrice, &longueur))
+    bool demande_stop = false;
+
+    while (permutation_avancer_et_incrementer_longueur(permutation, matrice, &longueur) && !demande_stop)
     {
         if (longueur < longueur_minimale)
         {
             longueur_minimale = longueur;
             permutation_copier(permutation_minimale, permutation);
         }
-    }
 
-    if (longueur < longueur_minimale)
-    {
-        longueur_minimale = longueur;
-        permutation_copier(permutation_minimale, permutation);
+        if (interruption)
+        {
+            demande_stop = traitement_interruption(permutation, permutation_minimale, longueur_minimale);
+        }
     }
 
     permutation_supprimer(&permutation);
 
     Resultat resultat;
-
     resultat.permutation = permutation_minimale;
     resultat.distance = longueur_minimale;
 

@@ -7,50 +7,57 @@
 #include <signal.h>
 #include <stdbool.h>
 
-volatile sig_atomic_t flag = 0; // variable globale pour indiquer la réception du signal
+volatile sig_atomic_t interruption = false; /* Drapeau pour indiquer la réception du signal. */
 
-void changement_etat(int signal)
+void gestionnaire_interruption(int signal)
 {
-    (void)signal; // Ignorer le paramètre inutilisé
-    flag = 1;
+    interruption = 1;
+    (void)signal;
 }
 
-void gerer_interruption_bf(distance d_courante, distance d_minimale, Permutation meilleure_permutation, Permutation permutation_courante, bool *stop)
+bool traitement_interruption(Permutation permutation, Permutation permutation_minimale, distance longueur_minimale)
 {
+    interruption = false; /* Réinitialisation du drapeau. */
 
-    flag = 0; // Réinitialiser le drapeau
+    printf(ROUGE "\n");
 
-    printf("\n INTERRUPTION \n");
-    printf("Meilleure distance trouvée: %.2f\n", d_minimale);
-    printf("Meilleur tournée trouvée: ");
-    afficher_permutation(stdout, meilleure_permutation);
+    printf("Tournée courante                 : ");
+    afficher_permutation(stdout, permutation);
     printf("\n");
-    printf("Permutation actuelle    : %.2f\n", d_courante);
-    printf("Tournée actuelle : ");
-    afficher_permutation(stdout, permutation_courante);
+
+    printf("Meilleure tournée trouvée        : ");
+    afficher_permutation(stdout, permutation_minimale);
     printf("\n");
-    fflush(stdout);
+
+    printf("Longueur de la meilleure tournée : ");
+    afficher_longueur(stdout, longueur_minimale);
+    printf("\n\n");
 
     char reponse = ' ';
-    int c;
+    char vidange;
 
-    while (reponse != 'c' && reponse != 'C' && reponse != 's' && reponse != 'S')
+    while (reponse != 'y' && reponse != 'Y' && reponse != 'n' && reponse != 'N')
     {
-        printf("\nVeuillez entrer 'c' pour CONTINUER ou 's' pour STOPPER : ");
-        reponse = getchar(); // Lire le caractère de l'utilisateur
-        while ((c = getchar()) != '\n' && c != EOF)
-            ; // Vider le buffer d'entrée
+        printf("Continuer ? [Y/n] : ");
+
+        reponse = getchar();
+
+        while ((vidange = getchar()) != '\n' && vidange != EOF)
+        {
+            ;
+        }
     }
 
-    if (reponse == 's' || reponse == 'S')
+    if (reponse == 'n' || reponse == 'N')
     {
-        printf("Arrêt du calcul demandé\n");
-        *stop = true; // correction de la valeur pointé
+        printf("Arrêt du calcul.\n\n");
+        printf(RESET);
+
+        return true;
     }
-    else if (reponse == 'c' || reponse == 'C')
-    {
-        printf("Reprise du calcul\n");
-        signal(SIGINT, changement_etat);
-    }
-    fflush(stdout);
+
+    printf("Reprise du calcul.\n\n");
+    printf(RESET);
+
+    return false;
 }

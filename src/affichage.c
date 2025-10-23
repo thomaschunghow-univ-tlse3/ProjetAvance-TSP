@@ -59,7 +59,11 @@ void afficher_methode_calcul(FILE *sortie, MethodeCalcul methode)
                 "La méthode choisie n'est pas une méthode affichable.\n");
         exit(EXIT_FAILURE);
     }
-    fprintf(sortie, " ; ");
+}
+
+void afficher_longueur(FILE *sortie, distance distance)
+{
+    fprintf(sortie, "%.17g", distance);
 }
 
 void afficher_tournee(FILE *sortie, char *nom_fichier, MethodeCalcul methode, double temps, distance distance_totale, Permutation permutation)
@@ -67,12 +71,15 @@ void afficher_tournee(FILE *sortie, char *nom_fichier, MethodeCalcul methode, do
     fprintf(sortie, "%s ; ", nom_fichier);
 
     afficher_methode_calcul(sortie, methode);
+    fprintf(sortie, " ; ");
 
     fprintf(sortie, "%lf ; ", temps);
 
-    fprintf(sortie, "%.17g ; ", distance_totale);
+    afficher_longueur(sortie, distance_totale);
+    fprintf(sortie, " ; ");
 
     afficher_permutation(sortie, permutation);
+    fprintf(sortie, " ; ");
 
     fprintf(sortie, "\n");
 }

@@ -3,14 +3,12 @@
 
 #include "structure_permutation.h" // Pour Permutation et distance
 
-#include <signal.h>  // Pour sig_atomic_t
-#include <stdbool.h> // Pour bool
-#include <stddef.h>  // Pour size_t
+#include <signal.h> // Pour sig_atomic_t
 
-extern volatile sig_atomic_t flag;
+extern volatile sig_atomic_t interruption;
 
-void changement_etat(int signal);
+void gestionnaire_interruption(int signal);
 
-void gerer_interruption_bf(distance d_courante, distance d_minimale, Permutation meilleure_permutation, Permutation permutation_courante, bool *stop);
+bool traitement_interruption(Permutation permutation, Permutation permutation_minimale, distance longueur_minimale);
 
 #endif // TRAITEMENT_INTERRUPTION_H

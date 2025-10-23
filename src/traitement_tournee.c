@@ -6,6 +6,7 @@
 #include "affichage.h"
 #include "tournee_canonique.h"
 #include "tournee_force_brute.h"
+#include "traitement_interruption.h"
 
 #include <time.h>
 #include <math.h>
@@ -14,7 +15,9 @@ void calcul_tournee(FILE *sortie, char *nom_fichier_entree, MatriceDistance matr
 {
     clock_t temps = clock();
 
+    signal(SIGINT, gestionnaire_interruption);
     Resultat resultat = calculer_tournee(matrice);
+    signal(SIGINT, SIG_DFL);
 
     temps = clock() - temps;
     double temps_total = (double)temps;
