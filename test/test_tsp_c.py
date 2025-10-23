@@ -77,4 +77,4 @@ code = "main" # nom du programme C
 methods = ["bf"]#"bf","gadpx"
 
 #test_instance(filename,methods) # pour un seul appel
-tests_instances_list("./code_python/instances.txt",methods) # marche si le C marche
+tests_instances_list("./test/instances.txt",methods) # marche si le C marche

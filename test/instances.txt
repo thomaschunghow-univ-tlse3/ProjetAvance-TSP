@@ -1,2 +1,2 @@
-./data/att12.tsp
-./data/att10.tsp
+./data/tsp/att12.tsp
+./data/tsp/att10.tsp
