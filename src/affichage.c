@@ -96,14 +96,8 @@ void afficher_tournee(FILE *sortie, char *nom_fichier, MethodeCalcul methode, do
     afficher_longueur(sortie, distance_totale);
     fprintf(sortie, " ; ");
 
-    if (sortie == stdout)
-    {
-        afficher_permutation(sortie, permutation, 10);
-    }
-    else
-    {
-        afficher_permutation(sortie, permutation, 0);
-    }
+    afficher_permutation(sortie, permutation, 0);
+
     fprintf(sortie, " ; ");
 
     fprintf(sortie, "\n");
