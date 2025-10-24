@@ -78,18 +78,18 @@ size_t permutation_obtenir_sommet(Permutation permutation, size_t indice)
     return permutation->sommets[indice];
 }
 
-void permutation_echanger_sommets(Permutation permutation, size_t i, size_t j)
+void permutation_echanger_sommets(Permutation permutation, size_t sommet_A, size_t sommet_B)
 {
     permutation_assert_non_vide(permutation);
 
-    permutation_assert_indice_valide(permutation, i);
-    permutation_assert_indice_valide(permutation, j);
+    permutation_assert_indice_valide(permutation, sommet_A);
+    permutation_assert_indice_valide(permutation, sommet_B);
 
     size_t *sommets = permutation->sommets;
 
-    size_t temp = sommets[i];
-    sommets[i] = sommets[j];
-    sommets[j] = temp;
+    size_t temp = sommets[sommet_A];
+    sommets[sommet_A] = sommets[sommet_B];
+    sommets[sommet_B] = temp;
 }
 
 distance permutation_calculer_distance_totale(Permutation permutation, MatriceDistance matrice)
@@ -260,4 +260,61 @@ bool permutation_avancer_et_incrementer_longueur(Permutation permutation, Matric
     *longueur += matrice_obtenir_distance(matrice, sommets[0], sommets[nombre_sommets - 1]);
 
     return true;
+}
+
+void permutation_echanger_aretes(Permutation permutation, size_t sommet_A, size_t sommet_B)
+{
+    permutation_assert_non_vide(permutation);
+
+    permutation_assert_indice_valide(permutation, sommet_A);
+    permutation_assert_indice_valide(permutation, sommet_B);
+
+    if (sommet_A > sommet_B)
+    {
+        echanger(&sommet_A, &sommet_B);
+    }
+
+    sommet_A++;
+
+    while (sommet_A < sommet_B)
+    {
+        permutation_echanger_sommets(permutation, sommet_A, sommet_B);
+        sommet_A++;
+        sommet_B--;
+    }
+}
+
+distance permutation_difference_apres_decroisement(MatriceDistance matrice, Permutation permutation, size_t sommet_A, size_t sommet_B)
+{
+    permutation_assert_non_vide(permutation);
+
+    permutation_assert_indice_valide(permutation, sommet_A);
+    permutation_assert_indice_valide(permutation, sommet_B);
+
+    if (sommet_A > sommet_B)
+    {
+        echanger(&sommet_A, &sommet_B);
+    }
+
+    size_t suivant_sommet_A = sommet_A + 1;
+    size_t suivant_sommet_B = sommet_B + 1;
+
+    size_t nombre_sommets = permutation_obtenir_taille(permutation);
+    if (suivant_sommet_B >= nombre_sommets)
+    {
+        suivant_sommet_B = 0;
+    }
+
+    permutation_assert_indice_valide(permutation, suivant_sommet_A);
+    permutation_assert_indice_valide(permutation, suivant_sommet_B);
+
+    distance difference = 0;
+
+    difference -= matrice_obtenir_distance(matrice, permutation_obtenir_sommet(permutation, sommet_A), permutation_obtenir_sommet(permutation, suivant_sommet_A));
+    difference -= matrice_obtenir_distance(matrice, permutation_obtenir_sommet(permutation, sommet_B), permutation_obtenir_sommet(permutation, suivant_sommet_B));
+
+    difference += matrice_obtenir_distance(matrice, permutation_obtenir_sommet(permutation, sommet_A), permutation_obtenir_sommet(permutation, sommet_B));
+    difference += matrice_obtenir_distance(matrice, permutation_obtenir_sommet(permutation, suivant_sommet_A), permutation_obtenir_sommet(permutation, suivant_sommet_B));
+
+    return difference;
 }

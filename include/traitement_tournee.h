@@ -13,7 +13,7 @@
 typedef struct
 {
     Permutation permutation;
-    distance distance;
+    distance longueur;
 } Resultat;
 
 typedef Resultat (*AlgorithmeTournee)(MatriceDistance);

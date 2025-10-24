@@ -12,24 +12,22 @@ volatile sig_atomic_t interruption = false; /* Drapeau pour indiquer la récepti
 
 void interruption_gestionnaire(int signal)
 {
-    interruption = 1;
+    interruption = true;
     (void)signal;
 }
 
-bool interruption_traitement(Permutation permutation, Permutation permutation_minimale, distance longueur_minimale, size_t nombre_permutations_traitees, size_t nombre_permutations_total)
+bool interruption_traitement(Permutation permutation, Permutation permutation_minimale, distance longueur_minimale)
 {
     interruption = false; /* Réinitialisation du drapeau. */
 
     printf(ROUGE "\n");
 
-    printf("%ld%% des tournées traitées.\n", 100 * nombre_permutations_traitees / nombre_permutations_total);
-
     printf("Tournée courante                 : ");
-    afficher_permutation(stdout, permutation);
+    afficher_permutation(stdout, permutation, 10);
     printf("\n");
 
     printf("Meilleure tournée trouvée        : ");
-    afficher_permutation(stdout, permutation_minimale);
+    afficher_permutation(stdout, permutation_minimale, 10);
     printf("\n");
 
     printf("Longueur de la meilleure tournée : ");

@@ -34,7 +34,7 @@ Resultat tournee_force_brute_naive(MatriceDistance matrice)
 
         if (interruption)
         {
-            demande_stop = interruption_traitement(permutation, permutation_minimale, longueur_minimale, nombre_permutations_traitees, calculer_factorielle(nombre_points - 1));
+            demande_stop = interruption_traitement(permutation, permutation_minimale, longueur_minimale);
         }
     }
 
@@ -42,7 +42,7 @@ Resultat tournee_force_brute_naive(MatriceDistance matrice)
 
     Resultat resultat;
     resultat.permutation = permutation_minimale;
-    resultat.distance = longueur_minimale;
+    resultat.longueur = longueur_minimale;
 
     return resultat;
 }
@@ -73,7 +73,7 @@ Resultat tournee_force_brute_elagage(MatriceDistance matrice)
 
         if (interruption)
         {
-            demande_stop = interruption_traitement(permutation, permutation_minimale, longueur_minimale, nombre_permutations_traitees, calculer_factorielle(nombre_points - 1));
+            demande_stop = interruption_traitement(permutation, permutation_minimale, longueur_minimale);
         }
     }
 
@@ -81,7 +81,7 @@ Resultat tournee_force_brute_elagage(MatriceDistance matrice)
 
     Resultat resultat;
     resultat.permutation = permutation_minimale;
-    resultat.distance = longueur_minimale;
+    resultat.longueur = longueur_minimale;
 
     return resultat;
 }
@@ -111,7 +111,7 @@ Resultat tournee_force_brute_incrementale(MatriceDistance matrice)
 
         if (interruption)
         {
-            demande_stop = interruption_traitement(permutation, permutation_minimale, longueur_minimale, nombre_permutations_traitees, calculer_factorielle(nombre_points - 1));
+            demande_stop = interruption_traitement(permutation, permutation_minimale, longueur_minimale);
         }
     }
 
@@ -119,7 +119,7 @@ Resultat tournee_force_brute_incrementale(MatriceDistance matrice)
 
     Resultat resultat;
     resultat.permutation = permutation_minimale;
-    resultat.distance = longueur_minimale;
+    resultat.longueur = longueur_minimale;
 
     return resultat;
 }
