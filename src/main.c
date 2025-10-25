@@ -30,11 +30,13 @@ int main(int argc, char **argv)
     Specification specification = lire_specification_tsp(entree);
 
     MatriceDistance matrice = matrice_creer(specification.nombre_points, specification.calculer_distance);
-
+	
+	//recherche_croisement(matrice,parcours_tableau);
+	
     lire_points_tsp(entree, matrice_obtenir_tableau_point(matrice));
 
     matrice_remplir_distance(matrice);
-
+	
     traitement_tournee(sortie, options, matrice);
 
     matrice_supprimer(&matrice);
