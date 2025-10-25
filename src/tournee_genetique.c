@@ -1,3 +1,0 @@
-/*
- * tournee_genetique.c
- */

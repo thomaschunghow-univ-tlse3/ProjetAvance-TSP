@@ -7,7 +7,6 @@
 #include "tournee_canonique.h"
 #include "traitement_interruption.h"
 #include "tournee_force_brute.h"
-#include "tournee_2_optimisation.h"
 
 #include <time.h>
 #include <math.h>
@@ -45,37 +44,6 @@ void tournee_traitement(FILE *sortie, Options options, MatriceDistance matrice)
     {
     case FORCE_BRUTE:
         tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, FORCE_BRUTE, &tournee_force_brute_incrementale);
-        break;
-
-    case PLUS_PROCHE_VOISIN:
-        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, PLUS_PROCHE_VOISIN, &tournee_plus_proche_voisin);
-        break;
-
-    case MARCHE_ALEATOIRE:
-        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, MARCHE_ALEATOIRE, &tournee_marche_aleatoire);
-        break;
-
-    case PLUS_PROCHE_VOISIN_2_OPTIMISATION:
-        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, PLUS_PROCHE_VOISIN_2_OPTIMISATION, &tournee_2_optimisation_plus_proche_voisin);
-        break;
-
-    case MARCHE_ALEATOIRE_2_OPTIMISATION:
-        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, MARCHE_ALEATOIRE_2_OPTIMISATION, &tournee_2_optimisation_marche_aleatoire);
-        break;
-
-    case GENETIQUE_GENERIQUE:
-        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, GENETIQUE_GENERIQUE, &tournee_canonique);
-        break;
-
-    case GENETIQUE_DPX:
-        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, GENETIQUE_DPX, &tournee_canonique);
-        break;
-
-    case TOUTES:
-        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, PLUS_PROCHE_VOISIN, &tournee_plus_proche_voisin);
-        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, MARCHE_ALEATOIRE, &tournee_marche_aleatoire);
-        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, PLUS_PROCHE_VOISIN_2_OPTIMISATION, &tournee_2_optimisation_plus_proche_voisin);
-        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, MARCHE_ALEATOIRE_2_OPTIMISATION, &tournee_2_optimisation_marche_aleatoire);
         break;
 
     default:

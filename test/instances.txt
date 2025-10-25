@@ -1,4 +1,2 @@
 data/tsp/att10.tsp
-data/tsp/gr96.tsp
-data/tsp/a280.tsp
-data/tsp/rl1323.tsp
+data/tsp/att12.tsp
