@@ -7,23 +7,8 @@
 #include "affichage.h"
 #include "tournee_canonique.h"
 #include "tournee_force_brute.h"
-#include "tournee_2_optimisation.h"
-#include "tournee_genetique.h"
 
 #include <stdlib.h>
-
-/* Exemple d'utilisation :
- * make
- * ./bin/main -f data/tsp/pr76.tsp -m bf -o bin/resultat.txt -c
- * ./bin/main -f data/tsp/att10.tsp -m bf -c
- *
- * Pour lancer les tests :
- * ./test/setup_env.sh
- * source ./venv/bin/activate
- * python3 ./test/test_tsp_c.py
- *
- * Pour générer la documentation :
- * doxygen Doxyfile */
 
 int main(int argc, char **argv)
 {
