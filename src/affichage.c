@@ -81,7 +81,7 @@ void afficher_methode_calcul(FILE *sortie, MethodeCalcul methode)
 
 void afficher_longueur(FILE *sortie, distance distance)
 {
-    fprintf(sortie, "%20.17g", distance);
+    fprintf(sortie, "%-20.17g", distance);
 }
 
 void afficher_tournee(FILE *sortie, char *nom_fichier, MethodeCalcul methode, double temps, distance distance_totale, Permutation permutation)
@@ -91,7 +91,7 @@ void afficher_tournee(FILE *sortie, char *nom_fichier, MethodeCalcul methode, do
     afficher_methode_calcul(sortie, methode);
     fprintf(sortie, " ; ");
 
-    fprintf(sortie, "%13.7f ; ", temps);
+    fprintf(sortie, "%-13.7f ; ", temps);
 
     afficher_longueur(sortie, distance_totale);
     fprintf(sortie, " ; ");
