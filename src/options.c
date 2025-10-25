@@ -11,12 +11,11 @@
 
 void options_afficher_aide(char *nom_programme)
 {
-    printf("Usage: %s -f <fichier d'entrée> [-o <fichier de sortie>] -m <méthode> [-c]\n"
-           "Options :\n"
+    printf("Usage : %s -f <fichier d'entrée> -m <méthode> [-o <fichier de sortie>] [-c]\n"
            "   -f <fichier>   Fichier d'entrée (obligatoire)\n"
-           "   -o <fichier>   Fichier de sortie (optionnel)\n"
            "   -m <méthode>   Méthode de calcul (obligatoire)\n"
            "                  Méthodes disponibles : bf, nn, rw, 2optnn, 2optrw, ga, gadpx, all\n"
+           "   -o <fichier>   Fichier de sortie (optionnel)\n"
            "   -c             Tournée canonique (optionnel)\n",
            nom_programme);
 }
