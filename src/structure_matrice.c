@@ -3,6 +3,7 @@
  */
 
 #include "structure_matrice.h"
+#include "structure_point.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -59,12 +60,7 @@ TableauDistance matrice_obtenir_tableau_distance(MatriceDistance matrice)
     return matrice->tableau_distances;
 }
 
-Point *matrice_obtenir_adresse_point(MatriceDistance matrice){
-	matrice_assert_non_vide(matrice);
-	return tableau_point_obtenir_tableau(matrice_obtenir_tableau_point(matrice));
-}
-
-void demi_matrice_calculer_distance(MatriceDistance matrice, size_t ligne, size_t colonne)
+void matrice_calculer_distance(MatriceDistance matrice, size_t ligne, size_t colonne)
 {
     matrice_assert_non_vide(matrice);
 
@@ -94,7 +90,7 @@ void matrice_remplir_distance(MatriceDistance matrice)
     {
         for (size_t colonne = 0; colonne < ligne; colonne++)
         {
-            demi_matrice_calculer_distance(matrice, ligne, colonne);
+            matrice_calculer_distance(matrice, ligne, colonne);
         }
     }
 }
@@ -163,6 +159,10 @@ Point matrice_obtenir_point(MatriceDistance matrice, size_t indice)
     return tableau_point_obtenir_point(points, indice);
 }
 
+Point *matrice_obtenir_adresse_point(MatriceDistance matrice){
+	return tableau_point_obtenir_adresse(matrice_obtenir_tableau_point(matrice));
+}
+
 distance matrice_obtenir_distance(MatriceDistance matrice, size_t ligne, size_t colonne)
 {
     matrice_assert_non_vide(matrice);
@@ -184,4 +184,3 @@ distance matrice_obtenir_distance(MatriceDistance matrice, size_t ligne, size_t 
 
     return tableau_distance_obtenir_distance(distances, matrice_obtenir_indice(ligne, colonne));
 }
-

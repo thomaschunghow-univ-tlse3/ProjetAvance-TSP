@@ -1,5 +1,0 @@
-tsplib95
-# getopt
-random
-matplotlib
-sys

@@ -8,7 +8,7 @@
 #include "affichage.h"
 #include "calcul_distance.h"
 
-Resultat calcul_tournee_force_brute_naive(MatriceDistance matrice)
+Resultat tournee_force_brute_naive(MatriceDistance matrice)
 {
     size_t nombre_points = matrice_obtenir_nombre_points(matrice);
 
@@ -34,7 +34,7 @@ Resultat calcul_tournee_force_brute_naive(MatriceDistance matrice)
 
         if (interruption)
         {
-            demande_stop = traitement_interruption(permutation, permutation_minimale, longueur_minimale, nombre_permutations_traitees, factorielle(nombre_points - 1));
+            demande_stop = interruption_traitement(permutation, permutation_minimale, longueur_minimale);
         }
     }
 
@@ -42,12 +42,12 @@ Resultat calcul_tournee_force_brute_naive(MatriceDistance matrice)
 
     Resultat resultat;
     resultat.permutation = permutation_minimale;
-    resultat.distance = longueur_minimale;
+    resultat.longueur = longueur_minimale;
 
     return resultat;
 }
 
-Resultat calcul_tournee_force_brute_elagage(MatriceDistance matrice)
+Resultat tournee_force_brute_elagage(MatriceDistance matrice)
 {
     size_t nombre_points = matrice_obtenir_nombre_points(matrice);
 
@@ -73,7 +73,7 @@ Resultat calcul_tournee_force_brute_elagage(MatriceDistance matrice)
 
         if (interruption)
         {
-            demande_stop = traitement_interruption(permutation, permutation_minimale, longueur_minimale, nombre_permutations_traitees, factorielle(nombre_points - 1));
+            demande_stop = interruption_traitement(permutation, permutation_minimale, longueur_minimale);
         }
     }
 
@@ -81,12 +81,12 @@ Resultat calcul_tournee_force_brute_elagage(MatriceDistance matrice)
 
     Resultat resultat;
     resultat.permutation = permutation_minimale;
-    resultat.distance = longueur_minimale;
+    resultat.longueur = longueur_minimale;
 
     return resultat;
 }
 
-Resultat calcul_tournee_force_brute_incrementale(MatriceDistance matrice)
+Resultat tournee_force_brute_incrementale(MatriceDistance matrice)
 {
     size_t nombre_points = matrice_obtenir_nombre_points(matrice);
 
@@ -111,7 +111,7 @@ Resultat calcul_tournee_force_brute_incrementale(MatriceDistance matrice)
 
         if (interruption)
         {
-            demande_stop = traitement_interruption(permutation, permutation_minimale, longueur_minimale, nombre_permutations_traitees, factorielle(nombre_points - 1));
+            demande_stop = interruption_traitement(permutation, permutation_minimale, longueur_minimale);
         }
     }
 
@@ -119,7 +119,7 @@ Resultat calcul_tournee_force_brute_incrementale(MatriceDistance matrice)
 
     Resultat resultat;
     resultat.permutation = permutation_minimale;
-    resultat.distance = longueur_minimale;
+    resultat.longueur = longueur_minimale;
 
     return resultat;
 }

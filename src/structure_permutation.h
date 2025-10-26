@@ -18,7 +18,7 @@
 
 typedef struct permutation *Permutation;
 
-Permutation permutation_creer(size_t nombre_indices);
+Permutation permutation_creer(size_t nombre_sommets);
 void permutation_supprimer(Permutation *);
 
 bool permutation_avancer(Permutation);
@@ -26,11 +26,16 @@ bool permutation_avancer_et_incrementer_longueur(Permutation, MatriceDistance, d
 
 size_t permutation_obtenir_taille(Permutation);
 
-size_t permutation_obtenir_indice(Permutation, size_t indice);
+size_t permutation_obtenir_sommet(Permutation, size_t indice);
+
+void permutation_echanger_sommets(Permutation permutation, size_t sommet_A, size_t sommet_B);
 
 distance permutation_calculer_distance_totale(Permutation, MatriceDistance);
 distance permutation_calculer_distance_totale_avec_elagage(Permutation, MatriceDistance, distance longueur_minimale);
 
 void permutation_copier(Permutation destination, Permutation source);
+
+void permutation_echanger_aretes(Permutation, size_t sommet_A, size_t sommet_B);
+distance permutation_difference_apres_decroisement(MatriceDistance, Permutation, size_t sommet_A, size_t sommet_B);
 
 #endif // STRUCTURE_PERMUTATION_H

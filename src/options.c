@@ -9,60 +9,59 @@
 #include <getopt.h>
 #include <string.h>
 
-void afficher_aide(char *nom_programme)
+void options_afficher_aide(char *nom_programme)
 {
-    printf("Usage: %s -f <fichier d'entrée> [-o <fichier de sortie>] -m <méthode> [-c]\n"
-           "Options :\n"
+    printf("Usage : %s -f <fichier d'entrée> -m <méthode> [-o <fichier de sortie>] [-c]\n"
            "   -f <fichier>   Fichier d'entrée (obligatoire)\n"
-           "   -o <fichier>   Fichier de sortie (optionnel)\n"
            "   -m <méthode>   Méthode de calcul (obligatoire)\n"
            "                  Méthodes disponibles : bf, nn, rw, 2optnn, 2optrw, ga, gadpx, all\n"
+           "   -o <fichier>   Fichier de sortie (optionnel)\n"
            "   -c             Tournée canonique (optionnel)\n",
            nom_programme);
 }
 
-MethodeCalcul traitement_methode_calcul(char *nom)
+MethodeCalcul options_traitement_methode_calcul(char *nom)
 {
     if (strcmp(nom, "bf") == 0)
     {
-        return BF;
+        return FORCE_BRUTE;
     }
     if (strcmp(nom, "nn") == 0)
     {
-        return NN;
+        return PLUS_PROCHE_VOISIN;
     }
     if (strcmp(nom, "rw") == 0)
     {
-        return RW;
+        return MARCHE_ALEATOIRE;
     }
     if (strcmp(nom, "2optnn") == 0)
     {
-        return NN2OPT;
+        return PLUS_PROCHE_VOISIN_2_OPTIMISATION;
     }
     if (strcmp(nom, "2optrw") == 0)
     {
-        return RW2OPT;
+        return MARCHE_ALEATOIRE_2_OPTIMISATION;
     }
     if (strcmp(nom, "ga") == 0)
     {
-        return GA;
+        return GENETIQUE_GENERIQUE;
     }
     if (strcmp(nom, "gadpx") == 0)
     {
-        return GADPX;
+        return GENETIQUE_DPX;
     }
     if (strcmp(nom, "all") == 0)
     {
-        return ALL;
+        return TOUTES;
     }
 
     fprintf(stderr,
-            "Erreur traitement_methode_calcul :\n"
+            "Erreur options_traitement_methode_calcul :\n"
             "Méthode de calcul non-reconnue.\n");
     exit(EXIT_FAILURE);
 }
 
-Options traitement_options(int argc, char **argv)
+Options options_traitement(int argc, char **argv)
 {
     Options options;
 
@@ -81,7 +80,7 @@ Options traitement_options(int argc, char **argv)
         switch (opt)
         {
         case 'h':
-            afficher_aide(argv[0]);
+            options_afficher_aide(argv[0]);
             exit(EXIT_SUCCESS);
 
         case 'f':
@@ -98,7 +97,7 @@ Options traitement_options(int argc, char **argv)
 
         case 'm':
             methode_calcul_fourni = true;
-            options.methode_calcul = traitement_methode_calcul(optarg);
+            options.methode_calcul = options_traitement_methode_calcul(optarg);
             break;
 
         case 'c':
@@ -107,9 +106,9 @@ Options traitement_options(int argc, char **argv)
 
         default:
             fprintf(stderr,
-                    "Erreur traitement_options :\n"
+                    "Erreur options_traitement :\n"
                     "Option non-reconnue.\n");
-            afficher_aide(argv[0]);
+            options_afficher_aide(argv[0]);
             exit(EXIT_FAILURE);
         }
     }
@@ -117,18 +116,18 @@ Options traitement_options(int argc, char **argv)
     if (!fichier_entree_fourni || !methode_calcul_fourni)
     {
         fprintf(stderr,
-                "Erreur traitement_options :\n"
+                "Erreur options_traitement :\n"
                 "Paramètres obligatoires manquants.\n");
-        afficher_aide(argv[0]);
+        options_afficher_aide(argv[0]);
         exit(EXIT_FAILURE);
     }
 
     if (optind < argc)
     {
         fprintf(stderr,
-                "Erreur traitement_options :\n"
+                "Erreur options_traitement :\n"
                 "Trop d'arguments utilisés.\n");
-        afficher_aide(argv[0]);
+        options_afficher_aide(argv[0]);
         exit(EXIT_FAILURE);
     }
 
