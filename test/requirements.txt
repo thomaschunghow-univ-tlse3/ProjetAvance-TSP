@@ -1,3 +1,10 @@
 tsplib95
+<<<<<<< HEAD
 matplotlib
 pyproj
+=======
+# getopt
+random
+matplotlib
+sys
+>>>>>>> 20e72f5 (modification de l'arborescence)

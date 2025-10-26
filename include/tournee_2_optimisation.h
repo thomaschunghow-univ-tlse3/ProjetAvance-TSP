@@ -3,6 +3,7 @@
  *
  * Algorithme de 2-optimisation.
  */
+<<<<<<< HEAD
 
 #ifndef TOURNEE_2_OPTIMISATION_H
 #define TOURNEE_2_OPTIMISATION_H
@@ -20,12 +21,21 @@ Resultat tournee_2_optimisation_plus_proche_voisin(MatriceDistance);
 
 Resultat tournee_2_optimisation_marche_aleatoire(MatriceDistance);
 
+=======
+ 
+>>>>>>> 20e72f5 (modification de l'arborescence)
 int parcours_tableau(const void *P1, const void *P2);
 
 int normalisation(const void *P1, const void *P2);
 
+<<<<<<< HEAD
 typedef int (*compar)(const void *, const void *);
 
 void recherche_croisement(MatriceDistance matrice, compar comparateur);
 
 #endif // TOURNEE_2_OPTIMISATION_H
+=======
+typedef int (*compar)(const void *,const void *);
+
+void recherche_croisement(MatriceDistance matrice, compar comparateur);
+>>>>>>> 20e72f5 (modification de l'arborescence)

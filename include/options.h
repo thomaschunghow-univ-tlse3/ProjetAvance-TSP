@@ -9,7 +9,10 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 20e72f5 (modification de l'arborescence)
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -18,6 +21,7 @@
 typedef enum
 {
     CANONIQUE,
+<<<<<<< HEAD
     FORCE_BRUTE,
     PLUS_PROCHE_VOISIN,
     MARCHE_ALEATOIRE,
@@ -26,6 +30,16 @@ typedef enum
     GENETIQUE_GENERIQUE,
     GENETIQUE_DPX,
     TOUTES,
+=======
+    BF,
+    NN,
+    RW,
+    NN2OPT,
+    RW2OPT,
+    GA,
+    GADPX,
+    ALL,
+>>>>>>> 20e72f5 (modification de l'arborescence)
 } MethodeCalcul;
 
 typedef struct
@@ -36,7 +50,11 @@ typedef struct
     MethodeCalcul methode_calcul;
 } Options;
 
+<<<<<<< HEAD
 Options options_traitement(int argc, char **argv);
+=======
+Options traitement_options(int argc, char **argv);
+>>>>>>> 20e72f5 (modification de l'arborescence)
 
 FILE *ouverture_entree(Options options);
 FILE *ouverture_sortie(Options options);

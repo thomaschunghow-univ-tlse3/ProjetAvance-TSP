@@ -7,17 +7,29 @@
 #ifndef TOURNEE_FORCE_BRUTE_H
 #define TOURNEE_FORCE_BRUTE_H
 
+<<<<<<< HEAD
 #include "traitement_tournee.h"
 
 /* Méthode classique. */
 Resultat tournee_force_brute_naive(MatriceDistance matrice);
+=======
+#include "structure_permutation.h"
+#include "traitement_tournee.h"
+
+/* Méthode classique. */
+Resultat calcul_tournee_force_brute_naive(MatriceDistance matrice);
+>>>>>>> 20e72f5 (modification de l'arborescence)
 
 /* Méthode avec élagage :
  * A chaque permutation, on calcule la longueur de la nouvelle tournée.
  * A l'ajout de chaque distance, si la valeur de la somme partielle
  * dépasse celle de la longueur de la meilleure tournée,
  * alors on abandonne et on passe à la prochaine permutation. */
+<<<<<<< HEAD
 Resultat tournee_force_brute_elagage(MatriceDistance matrice);
+=======
+Resultat calcul_tournee_force_brute_elagage(MatriceDistance matrice);
+>>>>>>> 20e72f5 (modification de l'arborescence)
 
 /* Méthode incrémentale :
  * A chaque permutation, à la longueur de l'ancienne tournée,
@@ -25,6 +37,10 @@ Resultat tournee_force_brute_elagage(MatriceDistance matrice);
  * Ainsi, pour passer de la longueur de l'ancienne tournée à la longueur de la tournée courante,
  * on réalise au maximum cinq soustractions puis cinq additions,
  * donc au maximum dix opérations par permutation. */
+<<<<<<< HEAD
 Resultat tournee_force_brute_incrementale(MatriceDistance matrice);
+=======
+Resultat calcul_tournee_force_brute_incrementale(MatriceDistance matrice);
+>>>>>>> 20e72f5 (modification de l'arborescence)
 
 #endif // TOURNEE_FORCE_BRUTE_H
