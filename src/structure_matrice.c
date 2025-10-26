@@ -4,6 +4,7 @@
 
 #include "options.h"
 #include "structure_matrice.h"
+#include "structure_point.h"
 
 #include <math.h>
 #include <stdio.h>
@@ -64,6 +65,7 @@ TableauDistance matrice_obtenir_tableau_distance(MatriceDistance matrice)
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 Point *matrice_obtenir_adresse_point(MatriceDistance matrice)
 {
     matrice_assert_non_vide(matrice);
@@ -85,6 +87,9 @@ Point *matrice_obtenir_adresse_point(MatriceDistance matrice){
 
 void demi_matrice_calculer_distance(MatriceDistance matrice, size_t ligne, size_t colonne)
 >>>>>>> 5349394 (compilation 2_optimisation)
+=======
+void matrice_calculer_distance(MatriceDistance matrice, size_t ligne, size_t colonne)
+>>>>>>> 5b3aeeb (modification de l'arborescence)
 {
     matrice_assert_non_vide(matrice);
 
@@ -189,6 +194,10 @@ Point matrice_obtenir_point(MatriceDistance matrice, size_t indice)
     return tableau_point_obtenir_point(points, indice);
 }
 
+Point *matrice_obtenir_adresse_point(MatriceDistance matrice){
+	return tableau_point_obtenir_adresse(matrice_obtenir_tableau_point(matrice));
+}
+
 distance matrice_obtenir_distance(MatriceDistance matrice, size_t ligne, size_t colonne)
 {
     matrice_assert_non_vide(matrice);
@@ -210,4 +219,3 @@ distance matrice_obtenir_distance(MatriceDistance matrice, size_t ligne, size_t 
 
     return tableau_distance_obtenir_distance(distances, matrice_obtenir_indice(ligne, colonne));
 }
-
