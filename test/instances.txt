@@ -1,0 +1,2 @@
+./data/att12.tsp
+./data/att10.tsp
