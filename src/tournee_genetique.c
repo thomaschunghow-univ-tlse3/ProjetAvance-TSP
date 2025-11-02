@@ -24,6 +24,9 @@ void population_initialiser(Population population){
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> b06db36 (début de tournée génétique)
 size_t pire_distance(Population population){
 	distance distanceMaximale = population -> individus[0].longueur;
 	distance distanceMinimale = distanceMaximale;
@@ -39,8 +42,11 @@ size_t pire_distance(Population population){
 	return indice;
 }
 
+<<<<<<< HEAD
 =======
 >>>>>>> ced814e (début de tournée génétique)
+=======
+>>>>>>> b06db36 (début de tournée génétique)
 Population population_creer(MatriceDistance matrice, size_t N, double pMutation ){  /*size_t nombre_croisement, size_t nombre_generation*/
 	Population population = malloc(sizeof(matrice) + N*sizeof(Resultat) + 2*sizeof(size_t) + sizeof(double));
 	
@@ -49,9 +55,13 @@ Population population_creer(MatriceDistance matrice, size_t N, double pMutation 
 	population -> nb_individus = N;
 	population_initialiser(population);
 <<<<<<< HEAD
+<<<<<<< HEAD
 	pire_distance(population);
 =======
 >>>>>>> ced814e (début de tournée génétique)
+=======
+	pire_distance(population);
+>>>>>>> b06db36 (début de tournée génétique)
 	return population;
 }
 
@@ -85,6 +95,7 @@ bool determiner_mutation(double proba){
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 size_t pire_distance(Population population){
 	distance distanceMaximale = population -> individus[0].longueur;
@@ -102,6 +113,8 @@ size_t pire_distance(Population population){
 }
 
 >>>>>>> ced814e (début de tournée génétique)
+=======
+>>>>>>> b06db36 (début de tournée génétique)
 Population generation(Population population){
 	size_t premier = donner_nombre_aleatoire(0, population -> nb_individus);
 	size_t deuxieme = donner_nombre_aleatoire(0, population -> nb_individus);
