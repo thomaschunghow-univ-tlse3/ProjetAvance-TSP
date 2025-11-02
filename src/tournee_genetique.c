@@ -23,6 +23,21 @@ void population_initialiser(Population population){
 	}
 }
 
+size_t pire_distance(Population population){
+	distance distanceMaximale = population -> individus[0].longueur;
+	distance distanceMinimale = distanceMaximale;
+	size_t indice = 0;
+	for(size_t i=1; i<population -> nb_individus ;i++){
+		if(population -> individus[i].longueur > distanceMaximale){
+			distanceMaximale = population -> individus[i].longueur;
+			indice = i;
+		}
+		if(population -> individus[i].longueur<distanceMinimale)
+			population -> indice_meilleur_distance = i;
+	}
+	return indice;
+}
+
 Population population_creer(MatriceDistance matrice, size_t N, double pMutation ){  /*size_t nombre_croisement, size_t nombre_generation*/
 	Population population = malloc(sizeof(matrice) + N*sizeof(Resultat) + 2*sizeof(size_t) + sizeof(double));
 	
@@ -30,6 +45,7 @@ Population population_creer(MatriceDistance matrice, size_t N, double pMutation 
 	population -> pMutation = pMutation;
 	population -> nb_individus = N;
 	population_initialiser(population);
+	pire_distance(population);
 	return population;
 }
 
@@ -60,21 +76,6 @@ bool determiner_mutation(double proba){
 	while(valeur>1.0)
 		valeur -=1.0;
 	return valeur>=proba;
-}
-
-size_t pire_distance(Population population){
-	distance distanceMaximale = population -> individus[0].longueur;
-	distance distanceMinimale = distanceMaximale;
-	size_t indice = 0;
-	for(size_t i=1; i<population -> nb_individus ;i++){
-		if(population -> individus[i].longueur > distanceMaximale){
-			distanceMaximale = population -> individus[i].longueur;
-			indice = i;
-		}
-		if(population -> individus[i].longueur<distanceMinimale)
-			population -> indice_meilleur_distance = i;
-	}
-	return indice;
 }
 
 Population generation(Population population){
