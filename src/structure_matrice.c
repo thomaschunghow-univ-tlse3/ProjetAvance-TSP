@@ -2,9 +2,12 @@
  * structure_matrice.c
  */
 
+#include "options.h"
 #include "structure_matrice.h"
 
+#include <math.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <assert.h>
 
@@ -12,6 +15,7 @@ struct matrice_distance
 {
     TableauPoint tableau_points;
     TableauDistance tableau_distances;
+	MethodeCalcul methode;
 };
 
 void echanger(size_t *ligne, size_t *colonne)
@@ -91,10 +95,15 @@ void matrice_calculer_distance(MatriceDistance matrice, size_t ligne, size_t col
     tableau_distance_modifier_distance(distances, matrice_obtenir_indice(ligne, colonne), distance_calculee);
 }
 
+
+
 void matrice_remplir_distance(MatriceDistance matrice)
 {
     matrice_assert_non_vide(matrice);
-
+	/*MethodeCalcul methode = matrice -> methode;
+	if(methode == PLUS_PROCHE_VOISIN_2_OPTIMISATION || methode == MARCHE_ALEATOIRE_2_OPTIMISATION)
+		recherche_croisement(matrice);//classement des arêtes*/
+	
     size_t nombre_points = matrice_obtenir_nombre_points(matrice);
 
     for (size_t ligne = 0; ligne < nombre_points; ligne++)
@@ -106,7 +115,7 @@ void matrice_remplir_distance(MatriceDistance matrice)
     }
 }
 
-MatriceDistance matrice_creer(size_t nombre_points, FonctionCalcul calculer_distance)
+MatriceDistance matrice_creer(size_t nombre_points, FonctionCalcul calculer_distance, MethodeCalcul methode)
 {
     MatriceDistance matrice = malloc(sizeof(struct matrice_distance));
 
@@ -119,10 +128,11 @@ MatriceDistance matrice_creer(size_t nombre_points, FonctionCalcul calculer_dist
     }
 
     matrice->tableau_points = tableau_point_creer(nombre_points);
-
     size_t nombre_distances = matrice_calculer_nombre_distances(nombre_points);
+	
     matrice->tableau_distances = tableau_distance_creer(nombre_distances, calculer_distance);
-
+	matrice->methode = methode;
+	
     return matrice;
 }
 
@@ -135,7 +145,7 @@ void matrice_supprimer(MatriceDistance *matrice)
 
     tableau_point_supprimer(&points);
     tableau_distance_supprimer(&distances);
-
+	
     free(*matrice);
     *matrice = NULL;
 }

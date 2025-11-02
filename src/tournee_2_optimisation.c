@@ -6,6 +6,7 @@
 #include "traitement_interruption.h"
 #include "calcul_distance.h"
 
+#include <unistd.h>
 #include <stdlib.h>
 #include <time.h>
 
@@ -47,6 +48,7 @@ Resultat tournee_plus_proche_voisin(MatriceDistance matrice)
  * borne_inf <= nombre_aleatoire < borne_sup */
 size_t donner_nombre_aleatoire(size_t borne_inf, size_t borne_sup)
 {
+    srand(getpid());
     return borne_inf + rand() % (borne_sup - borne_inf);
 }
 
@@ -138,18 +140,6 @@ Resultat tournee_2_optimisation_marche_aleatoire(MatriceDistance matrice)
 
     return tournee_2_optimisation(matrice, permutation);
 }
-#include "structure_point.h"
-#include "structure_distance.h"
-#include "structure_matrice.h"
-#include "tournee_2_optimisation.h"
-
-#include <math.h>
-#include <stdlib.h>
-#include <stdbool.h>
-
-Point *tableau;
-size_t nbPoint;
-
 int normalisation(const void *P1, const void *P2)
 {
     const Point *D = malloc(sizeof(Point));

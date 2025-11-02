@@ -19,11 +19,12 @@
 #ifndef STRUCTURE_MATRICE_H
 #define STRUCTURE_MATRICE_H
 
+#include "options.h"
 #include "structure_distance.h"
 
 typedef struct matrice_distance *MatriceDistance;
 
-MatriceDistance matrice_creer(size_t nombre_points, FonctionCalcul);
+MatriceDistance matrice_creer(size_t nombre_points, FonctionCalcul, MethodeCalcul);
 void matrice_supprimer(MatriceDistance *);
 
 void matrice_remplir_distance(MatriceDistance matrice);

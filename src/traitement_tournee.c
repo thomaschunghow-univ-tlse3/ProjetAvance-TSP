@@ -9,6 +9,7 @@
 #include "tournee_force_brute.h"
 #include "tournee_2_optimisation.h"
 
+#include <assert.h>
 #include <time.h>
 #include <math.h>
 #include <stdlib.h>
@@ -81,4 +82,16 @@ void tournee_traitement(FILE *sortie, Options options, MatriceDistance matrice)
     default:
         break;
     }
+}
+
+void tournee_assert_non_vide(Resultat tournee){
+	assert(tournee != NULL);
+	(void) tournee;
+}
+
+void supprimer_tournee(Resultat *resultat){
+	permutation_supprimer(&resultat -> permutation);
+	
+	free(resultat);
+	resultat = NULL;
 }
