@@ -164,6 +164,7 @@ int normalisation(const void *P1, const void *P2)
 #include "structure_point.h"
 #include "calcul_distance.h"
 
+#include <unistd.h>
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
@@ -206,6 +207,7 @@ Resultat tournee_plus_proche_voisin(MatriceDistance matrice)
  * borne_inf <= nombre_aleatoire < borne_sup */
 size_t donner_nombre_aleatoire(size_t borne_inf, size_t borne_sup)
 {
+	srand(getpid());
     return borne_inf + rand() % (borne_sup - borne_inf);
 }
 
@@ -298,6 +300,7 @@ Resultat tournee_2_optimisation_marche_aleatoire(MatriceDistance matrice)
     return tournee_2_optimisation(matrice, permutation);
 }
 
+<<<<<<< HEAD
 Point *tableau;
 size_t nbPoint;
 
@@ -311,6 +314,8 @@ int normalisation(const void *P1, const void *P2){
 >>>>>>> 5349394 (compilation 2_optimisation)
 }
 
+=======
+>>>>>>> ced814e (début de tournée génétique)
 /*bool Croisement(Point A, Point B, Point C, Point D){
   Point v1,v2; //utilisation de la structure point pour créer un vecteur
 <<<<<<< HEAD
@@ -372,12 +377,18 @@ void recherche_croisement(MatriceDistance matrice, compar comparateur)
 }*/
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 void recherche_croisement(MatriceDistance matrice){
 	
 	Point *tableau = matrice_obtenir_adresse_point(matrice);
 	qsort(tableau,matrice_obtenir_nombre_points(matrice),sizeof(Point),normalisation);
 >>>>>>> 5349394 (compilation 2_optimisation)
 =======
+=======
+Point *tableau;
+size_t nbPoint;
+
+>>>>>>> ced814e (début de tournée génétique)
 bool equals(Point P1,Point P2){
 	return P1.x == P2.x && P1.y == P2.y;
 }
@@ -410,9 +421,13 @@ int parcours_tableau(const void *P1, const void *P2){
 	return (int) comparaisonMax;
 }
 
-void recherche_croisement(MatriceDistance matrice, compar comparateur){
+void recherche_croisement(MatriceDistance matrice){//TableauPoint tableau
 	tableau = matrice_obtenir_adresse_point(matrice);
 	nbPoint = matrice_obtenir_nombre_points(matrice);//void qsort(void *base, size_t nmemb, size_t size,int (*compar)(const void *, const void *));
+<<<<<<< HEAD
 	qsort(tableau,matrice_obtenir_nombre_points(matrice),sizeof(Point),comparateur);
 >>>>>>> daeaee6 (parcours de l'ensemble des points en 2_optimisation)
+=======
+	qsort(tableau,nbPoint,sizeof(Point),parcours_tableau);
+>>>>>>> ced814e (début de tournée génétique)
 }

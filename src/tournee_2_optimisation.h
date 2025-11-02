@@ -14,16 +14,14 @@ typedef int (*compar)(const void *,const void *);
 
 Resultat tournee_plus_proche_voisin(MatriceDistance);
 
+size_t donner_nombre_aleatoire(size_t borne_inf, size_t borne_sup);
+
 Resultat tournee_marche_aleatoire(MatriceDistance);
 
 Resultat tournee_2_optimisation_plus_proche_voisin(MatriceDistance);
 
 Resultat tournee_2_optimisation_marche_aleatoire(MatriceDistance);
 
-int parcours_tableau(const void *P1, const void *P2);
-
-int normalisation(const void *P1, const void *P2);
-
-void recherche_croisement(MatriceDistance matrice, compar comparateur);
+void recherche_croisement(MatriceDistance matrice);
 
 #endif // TOURNEE_2_OPTIMISATION_H

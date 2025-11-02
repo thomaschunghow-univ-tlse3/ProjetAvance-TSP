@@ -7,6 +7,7 @@
 #include "affichage.h"
 #include "tournee_canonique.h"
 #include "tournee_force_brute.h"
+#include "tournee_2_optimisation.h"
 
 #include <stdlib.h>
 
@@ -19,12 +20,12 @@ int main(int argc, char **argv)
 
     Specification specification = lecture_specification_tsp(entree);
 
-    MatriceDistance matrice = matrice_creer(specification.nombre_points, specification.calculer_distance);
+    MatriceDistance matrice = matrice_creer(specification.nombre_points, specification.calculer_distance, options.methode_calcul);
 
     lecture_points_tsp(entree, matrice_obtenir_tableau_point(matrice));
 
     matrice_remplir_distance(matrice);
-
+	
     tournee_traitement(sortie, options, matrice);
 
     matrice_supprimer(&matrice);

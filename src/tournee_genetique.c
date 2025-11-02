@@ -23,6 +23,7 @@ void population_initialiser(Population population){
 	}
 }
 
+<<<<<<< HEAD
 size_t pire_distance(Population population){
 	distance distanceMaximale = population -> individus[0].longueur;
 	distance distanceMinimale = distanceMaximale;
@@ -38,6 +39,8 @@ size_t pire_distance(Population population){
 	return indice;
 }
 
+=======
+>>>>>>> ced814e (début de tournée génétique)
 Population population_creer(MatriceDistance matrice, size_t N, double pMutation ){  /*size_t nombre_croisement, size_t nombre_generation*/
 	Population population = malloc(sizeof(matrice) + N*sizeof(Resultat) + 2*sizeof(size_t) + sizeof(double));
 	
@@ -45,7 +48,10 @@ Population population_creer(MatriceDistance matrice, size_t N, double pMutation 
 	population -> pMutation = pMutation;
 	population -> nb_individus = N;
 	population_initialiser(population);
+<<<<<<< HEAD
 	pire_distance(population);
+=======
+>>>>>>> ced814e (début de tournée génétique)
 	return population;
 }
 
@@ -78,6 +84,24 @@ bool determiner_mutation(double proba){
 	return valeur>=proba;
 }
 
+<<<<<<< HEAD
+=======
+size_t pire_distance(Population population){
+	distance distanceMaximale = population -> individus[0].longueur;
+	distance distanceMinimale = distanceMaximale;
+	size_t indice = 0;
+	for(size_t i=1; i<population -> nb_individus ;i++){
+		if(population -> individus[i].longueur > distanceMaximale){
+			distanceMaximale = population -> individus[i].longueur;
+			indice = i;
+		}
+		if(population -> individus[i].longueur<distanceMinimale)
+			population -> indice_meilleur_distance = i;
+	}
+	return indice;
+}
+
+>>>>>>> ced814e (début de tournée génétique)
 Population generation(Population population){
 	size_t premier = donner_nombre_aleatoire(0, population -> nb_individus);
 	size_t deuxieme = donner_nombre_aleatoire(0, population -> nb_individus);
