@@ -18,4 +18,12 @@ Resultat tournee_2_optimisation_plus_proche_voisin(MatriceDistance);
 
 Resultat tournee_2_optimisation_marche_aleatoire(MatriceDistance);
 
+int parcours_tableau(const void *P1, const void *P2);
+
+int normalisation(const void *P1, const void *P2);
+
+typedef int (*compar)(const void *, const void *);
+
+void recherche_croisement(MatriceDistance matrice, compar comparateur);
+
 #endif // TOURNEE_2_OPTIMISATION_H
