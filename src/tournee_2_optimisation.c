@@ -160,13 +160,19 @@ int normalisation(const void *P1, const void *P2)
 
 #include "tournee_2_optimisation.h"
 #include "traitement_interruption.h"
+<<<<<<< HEAD
 #include "structure_matrice.h"
 #include "structure_point.h"
+=======
+>>>>>>> be83f65a75bce54993f454634b1b4966b5da6798
 #include "calcul_distance.h"
 
 #include <unistd.h>
 #include <stdlib.h>
+<<<<<<< HEAD
 #include <math.h>
+=======
+>>>>>>> be83f65a75bce54993f454634b1b4966b5da6798
 #include <time.h>
 
 #define DIFFERENCE_MINIMALE 1e-9
@@ -207,7 +213,11 @@ Resultat tournee_plus_proche_voisin(MatriceDistance matrice)
  * borne_inf <= nombre_aleatoire < borne_sup */
 size_t donner_nombre_aleatoire(size_t borne_inf, size_t borne_sup)
 {
+<<<<<<< HEAD
 	srand(getpid());
+=======
+    srand(getpid());
+>>>>>>> be83f65a75bce54993f454634b1b4966b5da6798
     return borne_inf + rand() % (borne_sup - borne_inf);
 }
 
@@ -299,6 +309,7 @@ Resultat tournee_2_optimisation_marche_aleatoire(MatriceDistance matrice)
 
     return tournee_2_optimisation(matrice, permutation);
 }
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 Point *tableau;
@@ -370,12 +381,28 @@ void recherche_croisement(MatriceDistance matrice, compar comparateur)
     qsort(tableau, matrice_obtenir_nombre_points(matrice), sizeof(Point), comparateur);
 =======
   v1.x = B.x-A.x; //premier vecteur 
+=======
+int normalisation(const void *P1, const void *P2)
+{
+    const Point *D = malloc(sizeof(Point));
+    D = P1;
+    const Point *T = malloc(sizeof(Point));
+    T = P2;
+
+    return (int)ceil((D->x) * (T->y) - (D->y) * (T->x));
+}
+
+/*bool Croisement(Point A, Point B, Point C, Point D){
+  Point v1,v2; //utilisation de la structure point pour créer un vecteur
+  v1.x = B.x-A.x; //premier vecteur
+>>>>>>> be83f65a75bce54993f454634b1b4966b5da6798
   v1.y = B.y-A.y;
   v2.x = C.x - D.x; //deuxiême vecteur
   v2.y = C.y - D.y;
   return v1.x*v2.y - v1.y*v2.x==0;
 }*/
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 void recherche_croisement(MatriceDistance matrice){
@@ -385,6 +412,8 @@ void recherche_croisement(MatriceDistance matrice){
 >>>>>>> 5349394 (compilation 2_optimisation)
 =======
 =======
+=======
+>>>>>>> f2faa0f (rebase)
 Point *tableau;
 size_t nbPoint;
 
@@ -429,5 +458,52 @@ void recherche_croisement(MatriceDistance matrice){//TableauPoint tableau
 >>>>>>> daeaee6 (parcours de l'ensemble des points en 2_optimisation)
 =======
 	qsort(tableau,nbPoint,sizeof(Point),parcours_tableau);
+<<<<<<< HEAD
 >>>>>>> ced814e (début de tournée génétique)
+=======
+=======
+bool equals(Point P1, Point P2)
+{
+    return P1.x == P2.x && P1.y == P2.y;
+}
+
+int parcours_tableau(const void *P1, const void *P2)
+{
+    const Point *D = malloc(sizeof(Point));
+    D = P1;
+    const Point *T = malloc(sizeof(Point));
+    T = P2;
+    size_t indice = 1;
+    Point v1, v2;
+    v1.x = D->x - T->x; // premier vecteur
+    v1.y = D->y - T->y;
+    Point current;
+    int comparaison = 0;
+    int comparaisonMax = 0;
+    Point next = tableau[0];
+    while (indice < nbPoint)
+    {
+        current = next;
+        next = tableau[indice];
+        if (!equals(current, *D) && !equals(next, *T) && !equals(current, *T) && !equals(next, *D))
+        {
+            v2.x = current.x - next.x; // deuxiême vecteur
+            v2.y = current.y - next.y;
+            comparaison = ceil(v1.x * v2.y - v1.y * v2.x);
+            if (comparaisonMax < abs(comparaison))
+                comparaisonMax = comparaison;
+        }
+        indice++;
+    }
+
+    return (int)comparaisonMax;
+}
+
+void recherche_croisement(MatriceDistance matrice, compar comparateur)
+{
+    tableau = matrice_obtenir_adresse_point(matrice);
+    nbPoint = matrice_obtenir_nombre_points(matrice); // void qsort(void *base, size_t nmemb, size_t size,int (*compar)(const void *, const void *));
+    qsort(tableau, matrice_obtenir_nombre_points(matrice), sizeof(Point), comparateur);
+>>>>>>> be83f65a75bce54993f454634b1b4966b5da6798
+>>>>>>> f2faa0f (rebase)
 }

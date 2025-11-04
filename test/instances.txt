@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 data/tsp/att10.tsp
 data/tsp/gr96.tsp
 data/tsp/a280.tsp
@@ -7,3 +8,13 @@ data/tsp/rl1323.tsp
 ./data/att12.tsp
 ./data/att10.tsp
 >>>>>>> 20e72f5 (modification de l'arborescence)
+=======
+./data/att12.tsp
+./data/att10.tsp
+=======
+data/tsp/att10.tsp
+data/tsp/gr96.tsp
+data/tsp/a280.tsp
+data/tsp/rl1323.tsp
+>>>>>>> be83f65a75bce54993f454634b1b4966b5da6798
+>>>>>>> f2faa0f (rebase)

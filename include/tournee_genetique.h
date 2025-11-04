@@ -4,6 +4,9 @@
  * Algorithme génétique.
  */
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f2faa0f (rebase)
 #ifndef TOURNEE_GENETIQUE_H
 #define TOURNEE_GENETIQUE_H
 
@@ -18,6 +21,10 @@ void supprimer_population(Population population);
 
 Resultat repeter_croisement(Population population, size_t nbGeneration);
 
+<<<<<<< HEAD
 #endif
 =======
 >>>>>>> 20e72f5 (modification de l'arborescence)
+=======
+#endif
+>>>>>>> f2faa0f (rebase)

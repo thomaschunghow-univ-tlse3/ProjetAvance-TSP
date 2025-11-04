@@ -20,18 +20,26 @@
 #define STRUCTURE_MATRICE_H
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #include "options.h"
 =======
 >>>>>>> 20e72f5 (modification de l'arborescence)
+=======
+#include "options.h"
+>>>>>>> f2faa0f (rebase)
 #include "structure_distance.h"
 
 typedef struct matrice_distance *MatriceDistance;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 MatriceDistance matrice_creer(size_t nombre_points, FonctionCalcul, MethodeCalcul);
 =======
 MatriceDistance matrice_creer(size_t nombre_points, FonctionCalcul);
 >>>>>>> 20e72f5 (modification de l'arborescence)
+=======
+MatriceDistance matrice_creer(size_t nombre_points, FonctionCalcul, MethodeCalcul);
+>>>>>>> f2faa0f (rebase)
 void matrice_supprimer(MatriceDistance *);
 
 void matrice_remplir_distance(MatriceDistance matrice);
@@ -49,8 +57,13 @@ Point matrice_obtenir_point(MatriceDistance, size_t indice);
 distance matrice_obtenir_distance(MatriceDistance, size_t ligne, size_t colonne);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 void echanger(size_t *ligne, size_t *colonne);
 
 =======
 >>>>>>> 20e72f5 (modification de l'arborescence)
+=======
+void echanger(size_t *ligne, size_t *colonne);
+
+>>>>>>> f2faa0f (rebase)
 #endif // STRUCTURE_MATRICE_H

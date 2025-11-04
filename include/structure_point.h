@@ -29,4 +29,6 @@ Point *tableau_point_obtenir_adresse(TableauPoint tableau);
 Point tableau_point_obtenir_point(TableauPoint, size_t indice);
 void tableau_point_modifier_point(TableauPoint, size_t indice, Point);
 
+Point *tableau_point_obtenir_tableau(TableauPoint tableau);
+
 #endif // STRUCTURE_POINT_H

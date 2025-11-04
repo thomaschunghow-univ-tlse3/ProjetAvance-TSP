@@ -70,9 +70,15 @@ Point tableau_point_obtenir_point(TableauPoint tableau, size_t indice)
     return tableau->points[indice];
 }
 
+<<<<<<< HEAD
 Point *tableau_point_obtenir_adresse(TableauPoint tableau){
 	tableau_point_assert_non_vide(tableau);
 	return tableau->points;
+=======
+Point *tableau_point_obtenir_tableau(TableauPoint tableau){
+	tableau_point_assert_non_vide(tableau);
+	return tableau -> points;
+>>>>>>> be83f65a75bce54993f454634b1b4966b5da6798
 }
 
 void tableau_point_modifier_point(TableauPoint tableau, size_t indice, Point point)

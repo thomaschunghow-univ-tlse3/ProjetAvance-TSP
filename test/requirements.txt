@@ -1,5 +1,6 @@
 tsplib95
 <<<<<<< HEAD
+<<<<<<< HEAD
 matplotlib
 pyproj
 =======
@@ -8,3 +9,7 @@ random
 matplotlib
 sys
 >>>>>>> 20e72f5 (modification de l'arborescence)
+=======
+matplotlib
+pyproj
+>>>>>>> f2faa0f (rebase)

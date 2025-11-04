@@ -66,6 +66,10 @@ TableauDistance matrice_obtenir_tableau_distance(MatriceDistance matrice)
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> f2faa0f (rebase)
 Point *matrice_obtenir_adresse_point(MatriceDistance matrice)
 {
     matrice_assert_non_vide(matrice);
@@ -78,6 +82,10 @@ Point *matrice_obtenir_adresse_point(MatriceDistance matrice)
     return tableau_point_obtenir_tableau(matrice_obtenir_tableau_point(matrice));
 }
 
+<<<<<<< HEAD
+=======
+>>>>>>> be83f65a75bce54993f454634b1b4966b5da6798
+>>>>>>> f2faa0f (rebase)
 void matrice_calculer_distance(MatriceDistance matrice, size_t ligne, size_t colonne)
 =======
 Point *matrice_obtenir_adresse_point(MatriceDistance matrice){
