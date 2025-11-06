@@ -29,10 +29,18 @@ typedef enum
 
 typedef struct
 {
+    size_t nombre_individus;
+    size_t nombre_generations;
+    double taux_mutation;
+} ArgumentsGenetique;
+
+typedef struct
+{
     char nom_fichier_entree[TAILLE_OPTIONS_MAX];
     char nom_fichier_sortie[TAILLE_OPTIONS_MAX];
     bool canonique;
     MethodeCalcul methode_calcul;
+    ArgumentsGenetique arguments_genetique;
 } Options;
 
 Options options_traitement(int argc, char **argv);

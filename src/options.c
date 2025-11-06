@@ -8,13 +8,15 @@
 #include <stdlib.h>
 #include <getopt.h>
 #include <string.h>
+#include <errno.h>
 
 void options_afficher_aide(char *nom_programme)
 {
     printf("Usage : %s -f <fichier d'entrée> -m <méthode> [-o <fichier de sortie>] [-c]\n"
            "   -f <fichier>   Fichier d'entrée (obligatoire)\n"
            "   -m <méthode>   Méthode de calcul (obligatoire)\n"
-           "                  Méthodes disponibles : bf, nn, rw, 2optnn, 2optrw, ga, gadpx, all\n"
+           "                  Méthodes disponibles : bf, nn, rw, 2optnn, 2optrw, \n"
+           "                                         ga, gadpx, all <nombre d'individus> <nombre de générations> <taux de mutation>\n"
            "   -o <fichier>   Fichier de sortie (optionnel)\n"
            "   -c             Tournée canonique (optionnel)\n",
            nom_programme);
@@ -59,6 +61,42 @@ MethodeCalcul options_traitement_methode_calcul(char *nom)
             "Erreur options_traitement_methode_calcul :\n"
             "Méthode de calcul non-reconnue.\n");
     exit(EXIT_FAILURE);
+}
+
+size_t options_convertir_chaine_en_size_t(char **argv)
+{
+    errno = false;
+    char *fin;
+    size_t valeur = strtoul(argv[optind], &fin, 10);
+
+    if (fin == argv[optind] || errno)
+    {
+        fprintf(stderr,
+                "Erreur options_convertir_chaine_en_size_t :\n"
+                "Le nombre d'individus et le nombre de générations sont des nombres entiers positifs.\n");
+        options_afficher_aide(argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    return valeur;
+}
+
+double options_convertir_chaine_en_double(char **argv)
+{
+    errno = false;
+    char *fin;
+    double valeur = strtod(argv[optind], &fin);
+
+    if (fin == argv[optind] || errno || valeur < 0 || valeur > 1)
+    {
+        fprintf(stderr,
+                "Erreur options_convertir_chaine_en_double :\n"
+                "Le taux de mutation est un nombre réel compris entre 0 et 1.\n");
+        options_afficher_aide(argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    return valeur;
 }
 
 Options options_traitement(int argc, char **argv)
@@ -122,7 +160,24 @@ Options options_traitement(int argc, char **argv)
         exit(EXIT_FAILURE);
     }
 
-    if (optind < argc)
+    if (options.methode_calcul == GENETIQUE_GENERIQUE || options.methode_calcul == GENETIQUE_DPX || options.methode_calcul == TOUTES)
+    {
+        if (optind != argc - 3)
+        {
+            fprintf(stderr,
+                    "Erreur options_traitement :\n"
+                    "Trois arguments sont nécessaire pour la méthode génétique.\n");
+            options_afficher_aide(argv[0]);
+            exit(EXIT_FAILURE);
+        }
+
+        options.arguments_genetique.nombre_individus = options_convertir_chaine_en_size_t(argv);
+        optind++;
+        options.arguments_genetique.nombre_generations = options_convertir_chaine_en_size_t(argv);
+        optind++;
+        options.arguments_genetique.taux_mutation = options_convertir_chaine_en_double(argv);
+    }
+    else if (optind < argc)
     {
         fprintf(stderr,
                 "Erreur options_traitement :\n"
