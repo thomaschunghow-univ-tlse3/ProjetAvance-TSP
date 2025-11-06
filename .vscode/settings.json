@@ -3,7 +3,10 @@
     "stddef.h": "c",
     "assert.h": "c",
     "structure_distance.h": "c",
-    "stdlib.h": "c"
+    "stdlib.h": "c",
+    "stdbool.h": "c",
+    "getopt.h": "c",
+    "features.h": "c"
   },
   "sonarlint.pathToCompileCommands": "${workspaceFolder}/compile_commands.json"
 }

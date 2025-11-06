@@ -1,0 +1,19 @@
+NAME : rat12
+COMMENT : Rattled grid (Pulleyblank)
+TYPE : TSP
+DIMENSION : 12
+EDGE_WEIGHT_TYPE : EUC_2D
+NODE_COORD_SECTION
+  1  6  4
+  2 15 15
+  3 24 18
+  4 33 12
+  5 48 12
+  6 57 14
+  7 67 10
+  8 77 10
+  9 86 15
+ 10  6 21
+ 11 17 26
+ 12 23 25
+EOF
