@@ -61,7 +61,13 @@ make
 ### Exemple 1 — Résolution de `att12.tsp` par la méthode de force brute :
 
 ```bash
-./bin/main -f data/tsp/att12.tsp -m bf -c
+./bin/main -f data/tsp/att12.tsp -c -m bf
+```
+
+### Exemple 2 — Résolution de `gr431.tsp` par la méthode génétique générique :
+
+```bash
+./bin/main -f data/tsp/gr431.tsp -c -m ga 20 20 .3
 ```
 
 ## Lancement des tests Python
