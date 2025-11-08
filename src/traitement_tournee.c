@@ -109,6 +109,6 @@ size_t tournee_sommet_numero(Resultat *resultat, size_t indice){
 void supprimer_tournee(Resultat *resultat){
 	permutation_supprimer(&resultat -> permutation);
 	
-	free(resultat);
-	resultat = NULL;
+	/*free(resultat);
+	resultat = NULL;*/
 }

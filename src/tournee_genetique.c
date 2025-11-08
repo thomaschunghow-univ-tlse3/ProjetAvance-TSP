@@ -21,13 +21,12 @@ struct population{
 	size_t indice_meilleur_distance;
 	size_t indice_pire_distance;
 	double pMutation;
-	Resultat individus[NB_INDIVIDUS_MAX];//utilisation d'un tableau pour stocker les résultats //TODO trouver un moyen d'utiliser un pointeur
+	Resultat *individus/*[NB_INDIVIDUS_MAX]*/;//utilisation d'un tableau pour stocker les résultats //TODO trouver un moyen d'utiliser un pointeur
 };
 
 void population_initialiser(Population population){
 	for(size_t i = 0; i< population ->nb_individus;i++){
 		population->individus[i] = tournee_marche_aleatoire(population -> mat);
-		
 	}
 }
 
@@ -44,7 +43,8 @@ void extremum_distance(Population population){
 }
 
 Population population_creer(MatriceDistance matrice, size_t N, double pMutation ){  /*size_t nombre_croisement, size_t nombre_generation*/
-	Population population = malloc(sizeof(struct population) /*+ sizeof(matrice) + sizeof(size_t)*2 + sizeof(pMutation)  + sizeof(Resultat)*N */);
+	size_t nombre_sommets = matrice_obtenir_nombre_points(matrice);
+	Population population = malloc(sizeof(struct population) + (sizeof(Permutation)+nombre_sommets*sizeof(size_t)+sizeof(distance))*N );//+ sizeof(matrice) + sizeof(size_t)*3 + sizeof(pMutation)  + 
 	if(population == NULL){
 		fprintf(stderr,
 			"Erreur population creer :\n"
@@ -64,14 +64,19 @@ Population population_creer(MatriceDistance matrice, size_t N, double pMutation 
 
 
 void supprimer_population(Population population){
-	
 	for(size_t i = 0; i< population -> nb_individus;i++){
-		printf("1\n");
-		if(i!=population->indice_meilleur_distance)
+		if(i==population->indice_meilleur_distance)
+			printf("tournées de retour : %ld\n",i);
+		if(i!=population->indice_meilleur_distance){
+			printf("%ld\n",i);
 			supprimer_tournee(&population->individus[i]);
+		}
+		
 	}
-	free(population);
-	population = NULL;
+	//if(population != NULL){
+		free(population);
+		population = NULL;
+	//}
 }
 
 void assert_tournee_meme_longueur(Resultat tournee1, Resultat tournee2){
@@ -80,16 +85,7 @@ void assert_tournee_meme_longueur(Resultat tournee1, Resultat tournee2){
 	(void) tournee2;
 }
 
-/*bool sommet_non_rencontre(Resultat tournee, size_t taille, size_t sommet){
-	for(size_t i=0; i<taille; i++){
-		if(tournee_sommet_numero(&tournee,i) == sommet)
-			return false;
-	}
-	return true;
-}*/
-
 Resultat croisement(Resultat tournee1, Resultat tournee2, size_t indice){
-	//TODO
 	assert_tournee_meme_longueur(tournee1, tournee2);
 	Resultat tournee_resultat;
 	
@@ -113,9 +109,14 @@ Resultat croisement(Resultat tournee1, Resultat tournee2, size_t indice){
 
 bool determiner_mutation(double proba){ //TODO modifier cette fonction pour qu'elle renvoie une probabilité avec une complexité acceptable
 	srand(getpid()%NB_INDIVIDUS_MAX);
-	double valeur = ceil(rand()%NB_INDIVIDUS_MAX);
-	
-	return valeur>=(proba*100.0);
+	double valeur = rand()%NB_INDIVIDUS_MAX;
+	if(valeur < 0.0)
+		valeur = -valeur;
+	while(valeur >= 10.0)
+		valeur -= 10.0;
+	while(valeur >= 1.0)
+		valeur -= 1.0;
+	return valeur<proba;
 }
 
 
@@ -127,11 +128,13 @@ Population generation(Population population, size_t indice){
 	}
 	Resultat tournee_fille = croisement(population -> individus[premier], population -> individus[deuxieme],indice);
 	if(determiner_mutation(population -> pMutation)){
+		printf("mutation\n");
 		premier = donner_nombre_aleatoire(0, population -> nb_individus);
 		deuxieme = donner_nombre_aleatoire(0, population -> nb_individus);
 		permutation_echanger_sommets(tournee_fille.permutation,premier,deuxieme);
-	}
-	//tournee_fille -> longueur = permutation_calculer_distance_totale(tournee_fille -> permutation,population -> mat)
+	}else
+		printf("pas de mutation\n");
+	tournee_fille.longueur = permutation_calculer_distance_totale(tournee_permutation(&tournee_fille),population -> mat);
 	extremum_distance(population);
 	population -> individus[population -> indice_pire_distance] = tournee_fille;
 	return population;
@@ -170,6 +173,6 @@ Resultat tournee_genetique(MatriceDistance matrice){
 	size_t nb_generation=50;
 	
 	Resultat resultat = repeter_croisement(population,nb_generation);
-	//supprimer_population(population);
+	supprimer_population(population);
 	return resultat;
 }

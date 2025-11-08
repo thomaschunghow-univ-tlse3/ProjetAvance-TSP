@@ -45,6 +45,8 @@ Permutation permutation_creer(size_t nombre_sommets)
 
 void permutation_assert_non_vide(Permutation permutation)
 {
+	if(permutation == NULL)
+		printf("permutation nulle\n");
     assert(permutation != NULL);
     (void)permutation;
 }
