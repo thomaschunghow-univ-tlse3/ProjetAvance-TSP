@@ -66,7 +66,6 @@ Resultat tournee_marche_aleatoire(MatriceDistance matrice)
     Resultat resultat;
     resultat.permutation = permutation;
     resultat.longueur = permutation_calculer_distance_totale(resultat.permutation, matrice);
-	printf("mA\n");
     return resultat;
 }
 

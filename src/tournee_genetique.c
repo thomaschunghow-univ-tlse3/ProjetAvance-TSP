@@ -21,7 +21,7 @@ struct population{
 	size_t indice_meilleur_distance;
 	size_t indice_pire_distance;
 	double pMutation;
-	Resultat *individus/*[NB_INDIVIDUS_MAX]*/;//utilisation d'un tableau pour stocker les résultats //TODO trouver un moyen d'utiliser un pointeur
+	Resultat individus[NB_INDIVIDUS_MAX];//utilisation d'un tableau pour stocker les résultats //TODO trouver un moyen d'utiliser un pointeur
 };
 
 void population_initialiser(Population population){
@@ -73,10 +73,10 @@ void supprimer_population(Population population){
 		}
 		
 	}
-	//if(population != NULL){
-		free(population);
-		population = NULL;
-	//}
+	
+	free(population);
+	population = NULL;
+	
 }
 
 void assert_tournee_meme_longueur(Resultat tournee1, Resultat tournee2){
@@ -99,15 +99,14 @@ Resultat croisement(Resultat tournee1, Resultat tournee2, size_t indice){
 		size_t sommet2 = tournee_sommet_numero(&tournee2,i);
 		permutation_echanger_sommets(tournee_resultat.permutation,sommet1,sommet2);/*tournee_resultat->permutation->sommets[i] = sommet1;*/
 	}
-	//tournee_resultat -> longueur = 0.0;
+	
 	return tournee_resultat;
-	//(void) tournee2;
 	
 }
 
 
 
-bool determiner_mutation(double proba){ //TODO modifier cette fonction pour qu'elle renvoie une probabilité avec une complexité acceptable
+bool determiner_mutation(double proba){ //TODO modifier cette fonction pour qu'elle renvoie une probabilité avec une complexité acceptable et des probabilités équilibrés
 	srand(getpid()%NB_INDIVIDUS_MAX);
 	double valeur = rand()%NB_INDIVIDUS_MAX;
 	if(valeur < 0.0)
@@ -173,6 +172,6 @@ Resultat tournee_genetique(MatriceDistance matrice){
 	size_t nb_generation=50;
 	
 	Resultat resultat = repeter_croisement(population,nb_generation);
-	supprimer_population(population);
+	//supprimer_population(population); //fonction commentée car elle fait parfois des doubles free TODO régler ce probléme
 	return resultat;
 }
