@@ -10,10 +10,6 @@
 #include "tournee_2_optimisation.h"
 #include "tournee_genetique.h"
 
-#ifdef AFFICHAGE_INTERACTIF
-#include "affichage_interactif.h"
-#endif // AFFICHAGE_INTERACTIF
-
 #include <time.h>
 #include <math.h>
 #include <stdlib.h>

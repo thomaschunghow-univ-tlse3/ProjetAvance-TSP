@@ -208,6 +208,7 @@ FILE *ouverture_entree(Options options)
     return entree;
 }
 
+#ifndef AFFICHAGE_INTERACTIF
 FILE *ouverture_sortie(Options options)
 {
     FILE *sortie = stdout;
@@ -228,6 +229,31 @@ FILE *ouverture_sortie(Options options)
 
     return sortie;
 }
+
+#else // AFFICHAGE_INTERACTIF
+FILE *sortie_interactive;
+FILE *ouverture_sortie(Options options)
+{
+    sortie_interactive = stdout;
+
+    if (strcmp(options.nom_fichier_sortie, "") != 0)
+    {
+        sortie_interactive = fopen(options.nom_fichier_sortie, "w");
+
+        if (sortie_interactive == NULL)
+        {
+            fprintf(stderr,
+                    "Erreur ouverture_sortie :\n"
+                    "Echec d'ouverture du fichier '%s'.\n",
+                    options.nom_fichier_sortie);
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    return sortie_interactive;
+}
+
+#endif // AFFICHAGE_INTERACTIF
 
 void fermeture_entree(FILE *entree, Options options)
 {

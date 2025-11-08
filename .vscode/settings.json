@@ -11,7 +11,8 @@
     "tournee_canonique.h": "c",
     "stdio.h": "c",
     "affichage.h": "c",
-    "affichage_interactif.h": "c"
+    "affichage_interactif.h": "c",
+    "cstdlib": "c"
   },
   "sonarlint.pathToCompileCommands": "${workspaceFolder}/compile_commands.json"
 }

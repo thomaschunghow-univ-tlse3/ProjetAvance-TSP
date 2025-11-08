@@ -51,4 +51,8 @@ FILE *ouverture_sortie(Options options);
 void fermeture_entree(FILE *, Options options);
 void fermeture_sortie(FILE *, Options options);
 
+#ifdef AFFICHAGE_INTERACTIF
+extern FILE *sortie_interactive;
+#endif // AFFICHAGE_INTERACTIF
+
 #endif // OPTIONS_H

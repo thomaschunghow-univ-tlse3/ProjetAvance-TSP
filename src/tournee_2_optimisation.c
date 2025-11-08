@@ -6,10 +6,6 @@
 #include "traitement_interruption.h"
 #include "calcul_distance.h"
 
-#ifdef AFFICHAGE_INTERACTIF
-#include "affichage_interactif.h"
-#endif // AFFICHAGE_INTERACTIF
-
 #include <stdlib.h>
 #include <time.h>
 
