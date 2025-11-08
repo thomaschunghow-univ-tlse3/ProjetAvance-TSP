@@ -1,6 +1,7 @@
 CC := gcc
-CFLAGS := -Wall -Wextra -DNDEBUG=1 -Iinclude -std=c99
+CFLAGS := -Wall -Wextra -DNDEBUG -Iinclude -std=c99
 LDFLAGS := -lm
+AFFICHAGE_INTERACTIF := -DAFFICHAGE_INTERACTIF
 
 SRC_DIR := src
 OBJ_DIR := bin/obj
@@ -10,6 +11,9 @@ OBJS := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 TARGET := $(BIN_DIR)/main
 
 all: $(TARGET)
+
+interactive: CFLAGS += $(AFFICHAGE_INTERACTIF)
+interactive: $(TARGET)
 
 $(OBJ_DIR):
 	mkdir -p $@

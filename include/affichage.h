@@ -15,6 +15,8 @@
 
 void afficher_noms_champs(FILE *sortie);
 
+void afficher_points(FILE *sortie, MatriceDistance);
+
 void afficher_permutation(FILE *sortie, Permutation, size_t nombre_max_points);
 
 void afficher_longueur(FILE *sortie, distance);

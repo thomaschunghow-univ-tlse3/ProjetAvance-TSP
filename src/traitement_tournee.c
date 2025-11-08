@@ -10,6 +10,10 @@
 #include "tournee_2_optimisation.h"
 #include "tournee_genetique.h"
 
+#ifdef AFFICHAGE_INTERACTIF
+#include "affichage_interactif.h"
+#endif // AFFICHAGE_INTERACTIF
+
 #include <time.h>
 #include <math.h>
 #include <stdlib.h>
@@ -72,14 +76,22 @@ void tournee_gestionnaire(FILE *sortie, Options options, MatriceDistance matrice
     double temps_total = (double)temps;
     temps_total /= CLOCKS_PER_SEC;
 
+#ifndef AFFICHAGE_INTERACTIF
     afficher_tournee(sortie, options.nom_fichier_entree, methode, temps_total, resultat.longueur, resultat.permutation);
+#else
+    (void)sortie;
+#endif // AFFICHAGE_INTERACTIF
 
     permutation_supprimer(&resultat.permutation);
 }
 
 void tournee_traitement(FILE *sortie, Options options, MatriceDistance matrice)
 {
+#ifndef AFFICHAGE_INTERACTIF
     afficher_noms_champs(sortie);
+#else  // AFFICHAGE_INTERACTIF
+    afficher_points(sortie_interactive, matrice);
+#endif // AFFICHAGE_INTERACTIF
 
     if (options.canonique)
     {

@@ -8,6 +8,10 @@
 #include "tournee_canonique.h"
 #include "tournee_force_brute.h"
 
+#ifdef AFFICHAGE_INTERACTIF
+#include "affichage_interactif.h"
+#endif // AFFICHAGE_INTERACTIF
+
 #include <stdlib.h>
 
 int main(int argc, char **argv)
@@ -16,6 +20,10 @@ int main(int argc, char **argv)
 
     FILE *entree = ouverture_entree(options);
     FILE *sortie = ouverture_sortie(options);
+
+#ifdef AFFICHAGE_INTERACTIF
+    ouverture_sortie_interactive();
+#endif // AFFICHAGE_INTERACTIF
 
     Specification specification = lecture_specification_tsp(entree);
 

@@ -6,6 +6,10 @@
 #include "traitement_interruption.h"
 #include "calcul_distance.h"
 
+#ifdef AFFICHAGE_INTERACTIF
+#include "affichage_interactif.h"
+#endif // AFFICHAGE_INTERACTIF
+
 #include <stdlib.h>
 #include <time.h>
 
@@ -84,6 +88,11 @@ Resultat tournee_2_optimisation(MatriceDistance matrice, Permutation permutation
     while (amelioration_trouvee && !demande_stop)
     {
         amelioration_trouvee = false;
+
+#ifdef AFFICHAGE_INTERACTIF
+        afficher_permutation(sortie_interactive, permutation, 0);
+        fprintf(sortie_interactive, "\n");
+#endif // AFFICHAGE_INTERACTIF
 
         for (size_t sommet_A = 0; sommet_A < nombre_points - 1; sommet_A++)
         {
