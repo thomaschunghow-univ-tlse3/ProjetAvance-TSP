@@ -74,21 +74,7 @@ def tests_instances_list(instances_file,methods):
 # filename = "att10.tsp" #
 path = "./bin/" # adaptez à votre cas
 code = "main" # nom du programme C
-<<<<<<< HEAD
-<<<<<<< HEAD
 methods = ["nn","rw","2optnn", "2optrw"]#"bf","gadpx"
 
 #test_instance(filename,methods) # pour un seul appel
 tests_instances_list("./test/instances.txt",methods) # marche si le C marche
-=======
-methods = ["bf"]#"bf","gadpx"
-
-#test_instance(filename,methods) # pour un seul appel
-tests_instances_list("./code_python/instances.txt",methods) # marche si le C marche
->>>>>>> 20e72f5 (modification de l'arborescence)
-=======
-methods = ["nn","rw","2optnn", "2optrw"]#"bf","gadpx"
-
-#test_instance(filename,methods) # pour un seul appel
-tests_instances_list("./test/instances.txt",methods) # marche si le C marche
->>>>>>> f2faa0f (rebase)

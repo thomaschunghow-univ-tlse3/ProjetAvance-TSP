@@ -28,11 +28,11 @@
 typedef struct matrice_distance *MatriceDistance;
 
 
-//MatriceDistance matrice_creer(size_t nombre_points, FonctionCalcul, MethodeCalcul);
+
 
 MatriceDistance matrice_creer(size_t nombre_points, FonctionCalcul);
 
-//MatriceDistance matrice_creer(size_t nombre_points, FonctionCalcul, MethodeCalcul);
+
 
 void matrice_supprimer(MatriceDistance *);
 

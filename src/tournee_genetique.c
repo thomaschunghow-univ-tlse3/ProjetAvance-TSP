@@ -43,8 +43,7 @@ void extremum_distance(Population population){
 }
 
 Population population_creer(MatriceDistance matrice, size_t N, double pMutation ){  /*size_t nombre_croisement, size_t nombre_generation*/
-	size_t nombre_sommets = matrice_obtenir_nombre_points(matrice);
-	Population population = malloc(sizeof(struct population) + (sizeof(Permutation)+nombre_sommets*sizeof(size_t)+sizeof(distance))*N );//+ sizeof(matrice) + sizeof(size_t)*3 + sizeof(pMutation)  + 
+	Population population = malloc(sizeof(struct population) /*+ (sizeof(Permutation)+nombre_sommets*sizeof(size_t)+sizeof(distance))*N*/ );//+ sizeof(matrice) + sizeof(size_t)*3 + sizeof(pMutation)  + 
 	if(population == NULL){
 		fprintf(stderr,
 			"Erreur population creer :\n"
@@ -61,19 +60,7 @@ Population population_creer(MatriceDistance matrice, size_t N, double pMutation 
 	return population;
 }
 
-
-
 void supprimer_population(Population population){
-	for(size_t i = 0; i< population -> nb_individus;i++){
-		if(i==population->indice_meilleur_distance)
-			printf("tournées de retour : %ld\n",i);
-		if(i!=population->indice_meilleur_distance){
-			printf("%ld\n",i);
-			supprimer_tournee(&population->individus[i]);
-		}
-		
-	}
-	
 	free(population);
 	population = NULL;
 	
@@ -99,23 +86,14 @@ Resultat croisement(Resultat tournee1, Resultat tournee2, size_t indice){
 		size_t sommet2 = tournee_sommet_numero(&tournee2,i);
 		permutation_echanger_sommets(tournee_resultat.permutation,sommet1,sommet2);/*tournee_resultat->permutation->sommets[i] = sommet1;*/
 	}
-	
 	return tournee_resultat;
-	
 }
 
-
-
 bool determiner_mutation(double proba){ //TODO modifier cette fonction pour qu'elle renvoie une probabilité avec une complexité acceptable et des probabilités équilibrés
-	srand(getpid()%NB_INDIVIDUS_MAX);
-	double valeur = rand()%NB_INDIVIDUS_MAX;
-	if(valeur < 0.0)
-		valeur = -valeur;
-	while(valeur >= 10.0)
-		valeur -= 10.0;
-	while(valeur >= 1.0)
-		valeur -= 1.0;
-	return valeur<proba;
+	srand(getpid());
+	size_t valeur = rand()%100;
+	
+	return valeur>proba*100;
 }
 
 
@@ -130,7 +108,7 @@ Population generation(Population population, size_t indice){
 		printf("mutation\n");
 		premier = donner_nombre_aleatoire(0, population -> nb_individus);
 		deuxieme = donner_nombre_aleatoire(0, population -> nb_individus);
-		permutation_echanger_sommets(tournee_fille.permutation,premier,deuxieme);
+		permutation_echanger_sommets(tournee_fille.permutation,premier,deuxieme);//permutation_echanger_sommets
 	}else
 		printf("pas de mutation\n");
 	tournee_fille.longueur = permutation_calculer_distance_totale(tournee_permutation(&tournee_fille),population -> mat);
@@ -172,6 +150,8 @@ Resultat tournee_genetique(MatriceDistance matrice){
 	size_t nb_generation=50;
 	
 	Resultat resultat = repeter_croisement(population,nb_generation);
-	//supprimer_population(population); //fonction commentée car elle fait parfois des doubles free TODO régler ce probléme
+	
+	supprimer_population(population); 
 	return resultat;
 }
+
