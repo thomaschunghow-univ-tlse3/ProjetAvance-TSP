@@ -18,8 +18,6 @@ void tournee_gestionnaire(FILE *sortie, Options options, MatriceDistance matrice
 {
     clock_t temps = clock();
 
-    srand((unsigned int)time(NULL)); /* Initialisation de la graine pour la génération de nombres aléatoires. */
-
     signal(SIGINT, interruption_gestionnaire);
     Resultat resultat;
     switch (methode)
@@ -83,6 +81,8 @@ void tournee_gestionnaire(FILE *sortie, Options options, MatriceDistance matrice
 
 void tournee_traitement(FILE *sortie, Options options, MatriceDistance matrice)
 {
+    srand((unsigned int)time(NULL)); /* Initialisation de la graine pour la génération de nombres aléatoires. */
+
 #ifndef AFFICHAGE_INTERACTIF
     afficher_noms_champs(sortie);
 #else  // AFFICHAGE_INTERACTIF
@@ -106,6 +106,10 @@ void tournee_traitement(FILE *sortie, Options options, MatriceDistance matrice)
 
     case MARCHE_ALEATOIRE:
         tournee_gestionnaire(sortie, options, matrice, MARCHE_ALEATOIRE);
+        tournee_gestionnaire(sortie, options, matrice, MARCHE_ALEATOIRE);
+
+        tournee_gestionnaire(sortie, options, matrice, MARCHE_ALEATOIRE);
+
         break;
 
     case PLUS_PROCHE_VOISIN_2_OPTIMISATION:
