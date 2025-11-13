@@ -38,4 +38,18 @@ void permutation_copier(Permutation destination, Permutation source);
 void permutation_echanger_aretes(Permutation, size_t sommet_A, size_t sommet_B);
 distance permutation_difference_apres_decroisement(MatriceDistance, Permutation, size_t sommet_A, size_t sommet_B);
 
+Permutation permutation_croisement_ordonne(MatriceDistance, Permutation pere, Permutation mere, size_t sommet_A, size_t sommet_B);
+
+typedef struct tableau_permutation *TableauPermutation;
+
+TableauPermutation tableau_permutation_creer(size_t nombre_permutations);
+
+void tableau_permutation_vider_sauf_une(TableauPermutation permutations, size_t permutation_a_conserver);
+void tableau_permutation_supprimer(TableauPermutation *permutations);
+
+Permutation tableau_permutation_obtenir_permutation(TableauPermutation tableau, size_t indice);
+void tableau_permutation_modifier_permutation(TableauPermutation tableau, size_t indice, Permutation permutation);
+distance tableau_permutation_obtenir_longueur(TableauPermutation tableau, size_t indice);
+void tableau_permutation_modifier_longueur(TableauPermutation tableau, size_t indice, distance longueur);
+
 #endif // STRUCTURE_PERMUTATION_H

@@ -3,6 +3,7 @@
  */
 
 #include "structure_permutation.h"
+#include "traitement_tournee.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -317,4 +318,138 @@ distance permutation_difference_apres_decroisement(MatriceDistance matrice, Perm
     difference += matrice_obtenir_distance(matrice, permutation_obtenir_sommet(permutation, suivant_sommet_A), permutation_obtenir_sommet(permutation, suivant_sommet_B));
 
     return difference;
+}
+
+size_t permutation_sommet_dans_segment(Permutation permutation, size_t sommet_A, size_t sommet_B, size_t sommet_cherche)
+{
+    size_t nombre_sommets = permutation_obtenir_taille(permutation);
+    size_t resultat = nombre_sommets;
+
+    for (size_t i = sommet_A; i < sommet_B; i++)
+    {
+        if (permutation_obtenir_sommet(permutation, i) == sommet_cherche)
+        {
+            resultat = i;
+            break;
+        }
+    }
+
+    return resultat;
+}
+
+Permutation permutation_croisement_ordonne(MatriceDistance, Permutation pere, Permutation mere, size_t sommet_A, size_t sommet_B)
+{
+    size_t nombre_sommets = permutation_obtenir_taille(pere);
+    Permutation enfant = permutation_creer(nombre_sommets);
+
+    permutation_copier(enfant, pere);
+
+    for (size_t i = 0; i < sommet_A; i++)
+    {
+    }
+
+    return enfant;
+}
+
+struct tableau_permutation
+{
+    size_t nombre_permutations;
+    Resultat *resultats;
+};
+
+void tableau_permutation_assert_non_vide(TableauPermutation permutations)
+{
+    assert(permutations != NULL);
+    (void)permutations;
+}
+
+void tableau_permutation_assert_indice_valide(TableauPermutation permutations, size_t indice)
+{
+    assert(indice < permutations->nombre_permutations);
+    (void)permutations;
+    (void)indice;
+}
+
+TableauPermutation tableau_permutation_creer(size_t nombre_permutations)
+{
+    TableauPermutation permutations = malloc(sizeof(struct tableau_permutation) +
+                                             nombre_permutations * sizeof(Resultat));
+
+    if (permutations == NULL)
+    {
+        fprintf(stderr,
+                "Erreur tableau_permutation_creer :\n"
+                "Echec de l'allocation mémoire de la permutation.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    permutations->nombre_permutations = nombre_permutations;
+    permutations->resultats = (Resultat *)(permutations + 1);
+
+    for (size_t i = 0; i < nombre_permutations; i++)
+    {
+        permutations->resultats[i].permutation = NULL;
+        permutations->resultats[i].longueur = 0;
+    }
+
+    return permutations;
+}
+
+void tableau_permutation_vider_sauf_une(TableauPermutation permutations, size_t permutation_a_conserver)
+{
+    tableau_permutation_assert_non_vide(permutations);
+
+    for (size_t i = 0; i < permutations->nombre_permutations; i++)
+    {
+        if (i != permutation_a_conserver)
+        {
+            permutation_assert_non_vide(permutations->resultats[i].permutation);
+
+            permutation_supprimer(&(permutations->resultats[i].permutation));
+        }
+    }
+}
+
+void tableau_permutation_supprimer(TableauPermutation *permutations)
+{
+    tableau_permutation_assert_non_vide(*permutations);
+
+    free(*permutations);
+    *permutations = NULL;
+}
+
+Permutation tableau_permutation_obtenir_permutation(TableauPermutation tableau, size_t indice)
+{
+    tableau_permutation_assert_non_vide(tableau);
+
+    tableau_permutation_assert_indice_valide(tableau, indice);
+
+    return tableau->resultats[indice].permutation;
+}
+
+void tableau_permutation_modifier_permutation(TableauPermutation tableau, size_t indice, Permutation permutation)
+{
+    tableau_permutation_assert_non_vide(tableau);
+
+    tableau_permutation_assert_indice_valide(tableau, indice);
+
+    tableau->resultats[indice].permutation = permutation;
+}
+
+distance tableau_permutation_obtenir_longueur(TableauPermutation tableau, size_t indice)
+{
+    tableau_permutation_assert_non_vide(tableau);
+
+    tableau_permutation_assert_indice_valide(tableau, indice);
+
+    return tableau->resultats[indice].longueur;
+}
+
+void tableau_permutation_modifier_longueur(TableauPermutation tableau, size_t indice, distance longueur)
+{
+    tableau_permutation_assert_non_vide(tableau);
+
+    tableau_permutation_assert_indice_valide(tableau, indice);
+
+    tableau->resultats[indice].longueur = longueur;
 }

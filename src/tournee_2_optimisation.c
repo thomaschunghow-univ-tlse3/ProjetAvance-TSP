@@ -43,13 +43,6 @@ Resultat tournee_plus_proche_voisin(MatriceDistance matrice)
     return resultat;
 }
 
-/* Donne un nombre aléatoire compris entre borne_inf et borne_sup exclus.
- * borne_inf <= nombre_aleatoire < borne_sup */
-size_t donner_nombre_aleatoire(size_t borne_inf, size_t borne_sup)
-{
-    return borne_inf + rand() % (borne_sup - borne_inf);
-}
-
 Resultat tournee_marche_aleatoire(MatriceDistance matrice)
 {
     size_t nombre_points = matrice_obtenir_nombre_points(matrice);
