@@ -58,6 +58,9 @@ def afficher_permutation(coordonnees_x, coordonnees_y, permutation, temps_attent
     coordonnees_x, coordonnees_y = rearranger_coordonnees(
         coordonnees_x, coordonnees_y, permutation)
 
+    coordonnees_x = np.array(coordonnees_x)
+    coordonnees_y = np.array(coordonnees_y)
+
     plt.plot(coordonnees_x, coordonnees_y)
     plt.draw()
     plt.pause(temps_attente)
@@ -67,15 +70,18 @@ def main():
 
     fichier = open(nom_fichier)
 
-    plt.subplot(1, 1, 1)
-
     coordonnees_x, coordonnees_y = traiter_points(fichier)
 
+    i = 0
     for ligne in fichier:
+
+        plt.subplot(1, nombre_individus, i + 1)
 
         permutation = traiter_permutation(ligne)
         afficher_permutation(coordonnees_x, coordonnees_y,
                              permutation, temps_attente)
+
+        i = (i + 1) % nombre_individus
 
     plt.show()
     fichier.close()
@@ -83,6 +89,9 @@ def main():
 
 nom_fichier = "./affichage_interactif/donnees.txt"
 
-temps_attente = 0.01
+nombre_individus = 5
+nombre_generations = 100
+
+temps_attente = 0.00001
 
 main()
