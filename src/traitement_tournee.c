@@ -142,9 +142,16 @@ void tournee_traitement(FILE *sortie, Options options, MatriceDistance matrice)
     }
 }
 
-/* Donne un nombre aléatoire compris entre borne_inf et borne_sup exclus.
- * borne_inf <= nombre_aleatoire < borne_sup */
-size_t donner_nombre_aleatoire(size_t borne_inf, size_t borne_sup)
+/* Donne un entier aléatoire compris entre borne_inf et borne_sup exclus.
+ * borne_inf <= entier_aleatoire < borne_sup */
+size_t donner_entier_aleatoire(size_t borne_inf, size_t borne_sup)
 {
     return borne_inf + rand() % (borne_sup - borne_inf);
+}
+
+/* Donne un réel aléatoire compris entre borne_inf et borne_sup exclus.
+ * borne_inf <= reel_aleatoire < borne_sup */
+size_t donner_reel_aleatoire(size_t borne_inf, size_t borne_sup)
+{
+    return borne_inf + rand() / RAND_MAX * (borne_sup - borne_inf);
 }

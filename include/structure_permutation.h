@@ -51,9 +51,14 @@ TableauPermutation tableau_permutation_creer(size_t nombre_permutations);
 void tableau_permutation_vider_sauf_une(TableauPermutation permutations, size_t permutation_a_conserver);
 void tableau_permutation_supprimer(TableauPermutation *permutations);
 
-Permutation tableau_permutation_obtenir_permutation(TableauPermutation tableau, size_t indice);
-void tableau_permutation_modifier_permutation(TableauPermutation tableau, size_t indice, Permutation permutation);
-distance tableau_permutation_obtenir_longueur(TableauPermutation tableau, size_t indice);
-void tableau_permutation_modifier_longueur(TableauPermutation tableau, size_t indice, distance longueur);
+size_t tableau_permutation_obtenir_nombre_permutation(TableauPermutation);
+
+Permutation tableau_permutation_obtenir_permutation(TableauPermutation, size_t indice);
+void tableau_permutation_modifier_permutation(TableauPermutation, size_t indice, Permutation);
+distance tableau_permutation_obtenir_longueur(TableauPermutation, size_t indice);
+void tableau_permutation_modifier_longueur(TableauPermutation, size_t indice, distance longueur);
+
+size_t tableau_permutation_trouver_pire_individu(TableauPermutation);
+size_t tableau_permutation_trouver_meilleur_individu(TableauPermutation);
 
 #endif // STRUCTURE_PERMUTATION_H

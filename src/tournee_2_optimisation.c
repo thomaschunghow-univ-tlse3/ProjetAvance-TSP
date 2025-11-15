@@ -51,7 +51,7 @@ Resultat tournee_marche_aleatoire(MatriceDistance matrice)
 
     for (size_t sommet = 0; sommet < nombre_points - 1; sommet++)
     {
-        size_t voisin = donner_nombre_aleatoire(sommet, nombre_points);
+        size_t voisin = donner_entier_aleatoire(sommet, nombre_points);
 
         permutation_echanger_sommets(permutation, sommet, voisin);
     }

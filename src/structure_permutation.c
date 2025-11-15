@@ -384,18 +384,18 @@ void permutation_croisement_ordonne(Permutation pere, Permutation mere, Permutat
     permutation_decaler(enfant, sommet_A);
 
     /* On remplit le reste de l'enfant avec les sommets restants dans l'ordre de la mère. */
-    size_t i_enfant = nombre_sommets_pere_herite;
-    for (size_t i_mere = 0; i_mere < nombre_sommets; i_mere++)
+    size_t indice_enfant = nombre_sommets_pere_herite;
+    for (size_t indice_mere = 0; indice_mere < nombre_sommets; indice_mere++)
     {
-        assert(i_enfant < nombre_sommets);
+        // assert(indice_enfant < nombre_sommets);
 
-        size_t sommet_mere = permutation_obtenir_sommet(mere, i_mere);
-        size_t i_sommet_a_echanger = permutation_obtenir_indice_sommet(enfant, sommet_mere);
+        size_t sommet_mere = permutation_obtenir_sommet(mere, indice_mere);
+        size_t indice_sommet_a_echanger = permutation_obtenir_indice_sommet(enfant, sommet_mere);
 
-        if (i_sommet_a_echanger >= nombre_sommets_pere_herite)
+        if (indice_sommet_a_echanger >= nombre_sommets_pere_herite)
         {
-            permutation_echanger_sommets(enfant, i_sommet_a_echanger, i_enfant);
-            i_enfant++;
+            permutation_echanger_sommets(enfant, indice_sommet_a_echanger, indice_enfant);
+            indice_enfant++;
         }
     }
 }
@@ -467,6 +467,13 @@ void tableau_permutation_supprimer(TableauPermutation *permutations)
     *permutations = NULL;
 }
 
+size_t tableau_permutation_obtenir_nombre_permutation(TableauPermutation tableau)
+{
+    tableau_permutation_assert_non_vide(tableau);
+
+    return tableau->nombre_permutations;
+}
+
 Permutation tableau_permutation_obtenir_permutation(TableauPermutation tableau, size_t indice)
 {
     tableau_permutation_assert_non_vide(tableau);
@@ -501,4 +508,46 @@ void tableau_permutation_modifier_longueur(TableauPermutation tableau, size_t in
     tableau_permutation_assert_indice_valide(tableau, indice);
 
     tableau->resultats[indice].longueur = longueur;
+}
+
+size_t tableau_permutation_trouver_pire_individu(TableauPermutation tableau)
+{
+    size_t nombre_permutations = tableau_permutation_obtenir_nombre_permutation(tableau);
+
+    size_t indice_pire_individu = 0;
+    distance longueur_pire_individu = tableau_permutation_obtenir_longueur(tableau, indice_pire_individu);
+
+    for (size_t i = 0; i < nombre_permutations; i++)
+    {
+        distance longueur = tableau_permutation_obtenir_longueur(tableau, i);
+
+        if (longueur_pire_individu < longueur)
+        {
+            indice_pire_individu = i;
+            longueur_pire_individu = tableau_permutation_obtenir_longueur(tableau, indice_pire_individu);
+        }
+    }
+
+    return indice_pire_individu;
+}
+
+size_t tableau_permutation_trouver_meilleur_individu(TableauPermutation tableau)
+{
+    size_t nombre_permutations = tableau_permutation_obtenir_nombre_permutation(tableau);
+
+    size_t indice_meilleur_individu = 0;
+    distance longueur_meilleur_individu = tableau_permutation_obtenir_longueur(tableau, indice_meilleur_individu);
+
+    for (size_t i = 0; i < nombre_permutations; i++)
+    {
+        distance longueur = tableau_permutation_obtenir_longueur(tableau, i);
+
+        if (longueur_meilleur_individu > longueur)
+        {
+            indice_meilleur_individu = i;
+            longueur_meilleur_individu = tableau_permutation_obtenir_longueur(tableau, indice_meilleur_individu);
+        }
+    }
+
+    return indice_meilleur_individu;
 }
