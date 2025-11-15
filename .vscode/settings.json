@@ -12,7 +12,8 @@
     "stdio.h": "c",
     "affichage.h": "c",
     "affichage_interactif.h": "c",
-    "cstdlib": "c"
+    "cstdlib": "c",
+    "tournee_genetique.h": "c"
   },
   "sonarlint.pathToCompileCommands": "${workspaceFolder}/compile_commands.json"
 }

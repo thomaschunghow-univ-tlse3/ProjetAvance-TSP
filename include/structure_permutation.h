@@ -21,6 +21,8 @@ typedef struct permutation *Permutation;
 Permutation permutation_creer(size_t nombre_sommets);
 void permutation_supprimer(Permutation *);
 
+void permutation_initialiser(Permutation);
+
 bool permutation_avancer(Permutation);
 bool permutation_avancer_et_incrementer_longueur(Permutation, MatriceDistance, distance *longueur);
 
@@ -38,7 +40,9 @@ void permutation_copier(Permutation destination, Permutation source);
 void permutation_echanger_aretes(Permutation, size_t sommet_A, size_t sommet_B);
 distance permutation_difference_apres_decroisement(MatriceDistance, Permutation, size_t sommet_A, size_t sommet_B);
 
-Permutation permutation_croisement_ordonne(MatriceDistance, Permutation pere, Permutation mere, size_t sommet_A, size_t sommet_B);
+void permutation_decaler(Permutation, size_t nombre_decalage_gauche);
+
+void permutation_croisement_ordonne(Permutation pere, Permutation mere, Permutation enfant, size_t sommet_A, size_t sommet_B);
 
 typedef struct tableau_permutation *TableauPermutation;
 

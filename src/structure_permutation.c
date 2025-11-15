@@ -4,6 +4,7 @@
 
 #include "structure_permutation.h"
 #include "traitement_tournee.h"
+#include "affichage.h" // DEBUG
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -320,35 +321,83 @@ distance permutation_difference_apres_decroisement(MatriceDistance matrice, Perm
     return difference;
 }
 
-size_t permutation_sommet_dans_segment(Permutation permutation, size_t sommet_A, size_t sommet_B, size_t sommet_cherche)
+size_t permutation_obtenir_indice_sommet(Permutation permutation, size_t sommet_cherche)
 {
-    size_t nombre_sommets = permutation_obtenir_taille(permutation);
-    size_t resultat = nombre_sommets;
+    permutation_assert_non_vide(permutation);
 
-    for (size_t i = sommet_A; i < sommet_B; i++)
+    size_t nombre_sommets = permutation_obtenir_taille(permutation);
+
+    for (size_t i = 0; i < nombre_sommets; i++)
     {
         if (permutation_obtenir_sommet(permutation, i) == sommet_cherche)
         {
-            resultat = i;
-            break;
+            return i;
         }
     }
 
-    return resultat;
+    fprintf(stderr,
+            "Erreur permutation_obtenir_indice_sommet :\n"
+            "Sommet absent de la permutation.\n");
+    exit(EXIT_FAILURE);
 }
 
-Permutation permutation_croisement_ordonne(MatriceDistance, Permutation pere, Permutation mere, size_t sommet_A, size_t sommet_B)
+void permutation_decaler(Permutation permutation, size_t nombre_decalage_gauche)
 {
-    size_t nombre_sommets = permutation_obtenir_taille(pere);
-    Permutation enfant = permutation_creer(nombre_sommets);
+    permutation_assert_non_vide(permutation);
 
-    permutation_copier(enfant, pere);
+    size_t nombre_sommets = permutation_obtenir_taille(permutation);
+    nombre_decalage_gauche = nombre_decalage_gauche % nombre_sommets;
 
-    for (size_t i = 0; i < sommet_A; i++)
+    for (size_t rotation = 0; rotation < nombre_decalage_gauche; rotation++)
     {
+        for (size_t i = 0; i < nombre_sommets - 1; i++)
+        {
+            size_t indice_a_echanger = (i + 1) % nombre_sommets;
+            permutation_echanger_sommets(permutation, i, indice_a_echanger);
+        }
     }
+}
 
-    return enfant;
+void permutation_croisement_ordonne(Permutation pere, Permutation mere, Permutation enfant, size_t sommet_A, size_t sommet_B)
+{
+    permutation_assert_non_vide(pere);
+    permutation_assert_non_vide(mere);
+    permutation_assert_non_vide(enfant);
+
+    permutation_assert_indice_valide(pere, sommet_A);
+    permutation_assert_indice_valide(pere, sommet_B);
+    permutation_assert_indice_valide(mere, sommet_A);
+    permutation_assert_indice_valide(mere, sommet_B);
+    permutation_assert_indice_valide(enfant, sommet_A);
+    permutation_assert_indice_valide(enfant, sommet_B);
+
+    size_t nombre_sommets = permutation_obtenir_taille(pere);
+
+    if (sommet_B < sommet_A)
+    {
+        echanger(&sommet_A, &sommet_B);
+    }
+    size_t nombre_sommets_pere_herite = sommet_B + 1 - sommet_A;
+
+    /* Le segment copié du père est placé au début de l'enfant. */
+    permutation_copier(enfant, pere);
+    permutation_decaler(enfant, sommet_A);
+
+    /* On remplit le reste de l'enfant avec les sommets restants dans l'ordre de la mère. */
+    size_t i_enfant = nombre_sommets_pere_herite;
+    for (size_t i_mere = 0; i_mere < nombre_sommets; i_mere++)
+    {
+        assert(i_enfant < nombre_sommets);
+
+        size_t sommet_mere = permutation_obtenir_sommet(mere, i_mere);
+        size_t i_sommet_a_echanger = permutation_obtenir_indice_sommet(enfant, sommet_mere);
+
+        if (i_sommet_a_echanger >= nombre_sommets_pere_herite)
+        {
+            permutation_echanger_sommets(enfant, i_sommet_a_echanger, i_enfant);
+            i_enfant++;
+        }
+    }
 }
 
 struct tableau_permutation
