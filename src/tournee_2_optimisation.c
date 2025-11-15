@@ -69,8 +69,6 @@ Resultat tournee_2_optimisation(MatriceDistance matrice, Permutation permutation
 
     distance longueur = permutation_calculer_distance_totale(permutation, matrice);
 
-    size_t nombre_permutations_traitees = 1;
-
     bool amelioration_trouvee = true;
     bool demande_stop = false;
 
@@ -87,8 +85,6 @@ Resultat tournee_2_optimisation(MatriceDistance matrice, Permutation permutation
         {
             for (size_t sommet_B = sommet_A + 1; sommet_B < nombre_points; sommet_B++)
             {
-                nombre_permutations_traitees++;
-
                 distance difference = permutation_difference_apres_decroisement(matrice, permutation, sommet_A, sommet_B);
 
                 if (interruption)
