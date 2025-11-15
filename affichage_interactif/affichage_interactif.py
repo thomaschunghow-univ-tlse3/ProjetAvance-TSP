@@ -4,94 +4,86 @@
 
 
 import numpy as np
-
 import re
-
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
 
 def traiter_coordonnees(ligne):
-
     coordonnees = re.findall(r"\d+\.\d+", ligne)
     coordonnees = [float(nombre) for nombre in coordonnees]
-
     return coordonnees
 
 
 def traiter_points(fichier):
-
     ligne = fichier.readline()
     coordonnees_x = traiter_coordonnees(ligne)
-
     ligne = fichier.readline()
     coordonnees_y = traiter_coordonnees(ligne)
-
     return coordonnees_x, coordonnees_y
 
 
 def traiter_permutation(ligne):
-
     permutation = re.findall(r"\d+", ligne)
     permutation = [int(nombre) - 1 for nombre in permutation]
     permutation.append(permutation[0])
-
     return permutation
 
 
 def rearranger_coordonnees(coordonnees_x, coordonnees_y, permutation):
-
-    nouvelles_coordonnees_x = []
-    nouvelles_coordonnees_y = []
-
+    nx, ny = [], []
     for i in permutation:
-        nouvelles_coordonnees_x.append(coordonnees_x[i])
-        nouvelles_coordonnees_y.append(coordonnees_y[i])
-
-    return nouvelles_coordonnees_x, nouvelles_coordonnees_y
-
-
-def afficher_permutation(coordonnees_x, coordonnees_y, permutation, temps_attente):
-
-    plt.cla()
-
-    coordonnees_x, coordonnees_y = rearranger_coordonnees(
-        coordonnees_x, coordonnees_y, permutation)
-
-    coordonnees_x = np.array(coordonnees_x)
-    coordonnees_y = np.array(coordonnees_y)
-
-    plt.plot(coordonnees_x, coordonnees_y)
-    plt.draw()
-    plt.pause(temps_attente)
+        nx.append(coordonnees_x[i])
+        ny.append(coordonnees_y[i])
+    return nx, ny
 
 
-def main():
+def update(frame):
 
-    fichier = open(nom_fichier)
+    for i in range(nombre_individus):
 
-    coordonnees_x, coordonnees_y = traiter_points(fichier)
+        ligne = fichier.readline()
 
-    i = 0
-    for ligne in fichier:
-
-        plt.subplot(1, nombre_individus, i + 1)
+        if not ligne:
+            return artists
 
         permutation = traiter_permutation(ligne)
-        afficher_permutation(coordonnees_x, coordonnees_y,
-                             permutation, temps_attente)
+        permutation_x, permutation_y = rearranger_coordonnees(
+            coordonnees_x, coordonnees_y, permutation)
 
-        i = (i + 1) % nombre_individus
+        ax = axs[i]
 
-    plt.show()
-    fichier.close()
+        ax.clear()
 
+        fig.suptitle(f"Génération {frame+1}")
+        ax.set_title(f"Individu {i+1}")
+        artists[i], = ax.plot(permutation_x, permutation_y, marker='o')
+
+    return artists
+
+
+# Paramètres.
 
 nom_fichier = "./affichage_interactif/donnees.txt"
 
-nombre_individus = 5
-nombre_generations = 100
+nombre_individus = 10
+nombre_generations = 10000
 
-temps_attente = 0.00001
 
-main()
+# Main.
+
+fichier = open(nom_fichier)
+
+fig, axs = plt.subplots(1, nombre_individus,
+                        figsize=(25, 7))
+
+coordonnees_x, coordonnees_y = traiter_points(fichier)
+
+artists = [None] * nombre_individus
+
+animation = FuncAnimation(fig, update, frames=nombre_generations*nombre_individus,
+                          interval=1, blit=True)
+
+plt.show()
+
+fichier.close()
