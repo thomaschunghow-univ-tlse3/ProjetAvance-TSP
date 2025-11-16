@@ -456,6 +456,17 @@ TableauPermutation tableau_permutation_creer(size_t nombre_permutations)
     return permutations;
 }
 
+void tableau_permutation_allouer(TableauPermutation permutations, size_t nombre_sommets)
+{
+    tableau_permutation_assert_non_vide(permutations);
+
+    for (size_t i = 0; i < permutations->nombre_permutations; i++)
+    {
+        Permutation permutation = permutation_creer(nombre_sommets);
+        tableau_permutation_modifier_permutation(permutations, i, permutation);
+    }
+}
+
 void tableau_permutation_vider(TableauPermutation permutations)
 {
     tableau_permutation_assert_non_vide(permutations);

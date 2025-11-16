@@ -48,6 +48,7 @@ void permutation_croisement_ordonne(Permutation pere, Permutation mere, Permutat
 typedef struct tableau_permutation *TableauPermutation;
 
 TableauPermutation tableau_permutation_creer(size_t nombre_permutations);
+void tableau_permutation_allouer(TableauPermutation, size_t nombre_sommets);
 
 void tableau_permutation_vider(TableauPermutation);
 void tableau_permutation_supprimer(TableauPermutation *);

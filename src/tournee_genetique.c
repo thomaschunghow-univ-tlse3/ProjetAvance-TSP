@@ -51,35 +51,24 @@ void tournee_genetique_selection_par_tournoi(TableauPermutation population, Tabl
 
 Resultat tournee_genetique_generique(MatriceDistance matrice, size_t nombre_individus, size_t nombre_generations, double taux_mutation, size_t taille_tournoi)
 {
+    size_t nombre_sommets = matrice_obtenir_nombre_points(matrice);
+
     TableauPermutation population = tableau_permutation_creer(nombre_individus);
     TableauPermutation enfants = tableau_permutation_creer(nombre_individus);
     TableauPermutation parents = tableau_permutation_creer(nombre_individus);
     TableauPermutation tournoi = tableau_permutation_creer(taille_tournoi);
 
-    size_t nombre_sommets = matrice_obtenir_nombre_points(matrice);
+    /* Allocation mémoire de la population, des enfants, des parents et du tournoi. */
+    tableau_permutation_allouer(population, nombre_sommets);
+    tableau_permutation_allouer(enfants, nombre_sommets);
+    tableau_permutation_allouer(parents, nombre_sommets);
+    tableau_permutation_allouer(tournoi, nombre_sommets);
 
-    /* Allocation mémoire des enfants, des parents. */
+    /* Initialisation de la population initiale. */
     for (size_t i = 0; i < nombre_individus; i++)
     {
-        Permutation enfant = permutation_creer(nombre_sommets);
-        tableau_permutation_modifier_permutation(enfants, i, enfant);
-        Permutation parent = permutation_creer(nombre_sommets);
-        tableau_permutation_modifier_permutation(parents, i, parent);
-    }
-
-    /* Allocation mémoire du tournoi. */
-    for (size_t i = 0; i < taille_tournoi; i++)
-    {
-        Permutation participant = permutation_creer(nombre_sommets);
-        tableau_permutation_modifier_permutation(tournoi, i, participant);
-    }
-
-    /* Allocation mémoire et initialisation de la population initiale. */
-    for (size_t i = 0; i < nombre_individus; i++)
-    {
-        Permutation individu = permutation_creer(nombre_sommets);
+        Permutation individu = tableau_permutation_obtenir_permutation(population, i);
         permutation_initialiser_aleatoirement(individu);
-        tableau_permutation_modifier_permutation(population, i, individu);
         distance longueur = permutation_calculer_distance_totale(individu, matrice);
         tableau_permutation_modifier_longueur(population, i, longueur);
     }
