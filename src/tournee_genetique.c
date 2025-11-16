@@ -12,19 +12,31 @@
 #include <time.h>
 #include <float.h>
 
-void tournee_genetique_mutation(Permutation permutation, double taux_mutation)
+void tournee_genetique_mutation(TableauPermutation population, double taux_mutation, MatriceDistance matrice)
 {
-    size_t nombre_sommets = permutation_obtenir_taille(permutation);
+    size_t nombre_individus = tableau_permutation_obtenir_nombre_permutation(population);
 
-    for (size_t i = 0; i < nombre_sommets; i++)
+    /* On parcourt tous les individus de la population. */
+    for (size_t indice_individu = 0; indice_individu < nombre_individus; indice_individu++)
     {
-        double probabilite_mutation = donner_reel_aleatoire(0, 1);
+        Permutation individu = tableau_permutation_obtenir_permutation(population, indice_individu);
 
-        if (probabilite_mutation < taux_mutation)
+        size_t nombre_sommets = permutation_obtenir_taille(individu);
+
+        /* Chaque sommet a une probabilité de muter. */
+        for (size_t i = 0; i < nombre_sommets; i++)
         {
-            size_t indice_a_echanger = donner_entier_aleatoire(0, nombre_sommets);
-            permutation_echanger_sommets(permutation, i, indice_a_echanger);
+            double probabilite_mutation = donner_reel_aleatoire(0, 1);
+
+            if (probabilite_mutation < taux_mutation)
+            {
+                size_t indice_a_echanger = donner_entier_aleatoire(0, nombre_sommets);
+                permutation_echanger_sommets(individu, i, indice_a_echanger);
+            }
         }
+
+        distance longueur = permutation_calculer_distance_totale(individu, matrice);
+        tableau_permutation_modifier_longueur(population, indice_individu, longueur);
     }
 }
 
@@ -164,16 +176,8 @@ Resultat tournee_genetique_generique(MatriceDistance matrice, size_t nombre_indi
             tournee_genetique_croisement_ordonne(pere, mere, soeur, inverse, sommet_A, sommet_B);
         }
 
-        for (size_t indice_enfant = 0; indice_enfant < nombre_individus; indice_enfant++)
-        {
-            /* Mutation de l'enfant. */
-            Permutation enfant = tableau_permutation_obtenir_permutation(enfants, indice_enfant);
-
-            tournee_genetique_mutation(enfant, taux_mutation);
-
-            distance longueur = permutation_calculer_distance_totale(enfant, matrice);
-            tableau_permutation_modifier_longueur(enfants, indice_enfant, longueur);
-        }
+        /* Mutation de l'enfant. */
+        tournee_genetique_mutation(enfants, taux_mutation, matrice);
 
         /* Triage de la population. */
         tableau_permutation_trier(enfants);
@@ -204,6 +208,9 @@ Resultat tournee_genetique_generique(MatriceDistance matrice, size_t nombre_indi
 
         /* Remplacement de la population par ses enfants. */
         tableau_permutation_echanger_tableaux(&population, &enfants);
+
+        /* Triage de la population. */
+        tableau_permutation_trier(enfants);
 
 #ifdef AFFICHAGE_INTERACTIF
         /* Triage de la population. */

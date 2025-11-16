@@ -353,6 +353,21 @@ void permutation_inverser(Permutation permutation, Permutation inverse)
     }
 }
 
+size_t plus_grand_commun_diviseur(size_t a, size_t b)
+{
+    size_t temp;
+
+    while (b != 0)
+    {
+        temp = a % b;
+
+        a = b;
+        b = temp;
+    }
+
+    return a;
+}
+
 void permutation_decaler(Permutation permutation, size_t nombre_decalage_gauche)
 {
     permutation_assert_non_vide(permutation);
@@ -360,12 +375,22 @@ void permutation_decaler(Permutation permutation, size_t nombre_decalage_gauche)
     size_t nombre_sommets = permutation_obtenir_taille(permutation);
     nombre_decalage_gauche = nombre_decalage_gauche % nombre_sommets;
 
-    for (size_t rotation = 0; rotation < nombre_decalage_gauche; rotation++)
+    size_t pgcd = plus_grand_commun_diviseur(nombre_sommets, nombre_decalage_gauche);
+
+    /* Algorithme de décalage du « jongleur ». */
+    for (size_t debut_cycle = 0; debut_cycle < pgcd; debut_cycle++)
     {
-        for (size_t i = 0; i < nombre_sommets - 1; i++)
+        size_t sommet = debut_cycle;
+        size_t suivant;
+        while (true)
         {
-            size_t indice_a_echanger = (i + 1) % nombre_sommets;
-            permutation_echanger_sommets(permutation, i, indice_a_echanger);
+            suivant = (sommet + nombre_decalage_gauche) % nombre_sommets;
+            if (suivant == debut_cycle)
+            {
+                break;
+            }
+            permutation_echanger_sommets(permutation, sommet, suivant);
+            sommet = suivant;
         }
     }
 }
