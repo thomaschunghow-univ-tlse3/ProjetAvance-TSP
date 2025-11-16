@@ -22,6 +22,7 @@ Permutation permutation_creer(size_t nombre_sommets);
 void permutation_supprimer(Permutation *);
 
 void permutation_initialiser(Permutation);
+void permutation_initialiser_aleatoirement(Permutation);
 
 bool permutation_avancer(Permutation);
 bool permutation_avancer_et_incrementer_longueur(Permutation, MatriceDistance, distance *longueur);
@@ -48,8 +49,8 @@ typedef struct tableau_permutation *TableauPermutation;
 
 TableauPermutation tableau_permutation_creer(size_t nombre_permutations);
 
-void tableau_permutation_vider_sauf_une(TableauPermutation permutations, size_t permutation_a_conserver);
-void tableau_permutation_supprimer(TableauPermutation *permutations);
+void tableau_permutation_vider(TableauPermutation);
+void tableau_permutation_supprimer(TableauPermutation *);
 
 size_t tableau_permutation_obtenir_nombre_permutation(TableauPermutation);
 
@@ -60,5 +61,9 @@ void tableau_permutation_modifier_longueur(TableauPermutation, size_t indice, di
 
 size_t tableau_permutation_trouver_pire_individu(TableauPermutation);
 size_t tableau_permutation_trouver_meilleur_individu(TableauPermutation);
+
+void tableau_permutation_echanger_tableaux(TableauPermutation *tableau_A, TableauPermutation *tableau_B);
+
+void tableau_permutation_trier(TableauPermutation);
 
 #endif // STRUCTURE_PERMUTATION_H

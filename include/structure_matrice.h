@@ -38,6 +38,6 @@ FonctionCalcul matrice_obtenir_fonction_calcul(MatriceDistance);
 Point matrice_obtenir_point(MatriceDistance, size_t indice);
 distance matrice_obtenir_distance(MatriceDistance, size_t ligne, size_t colonne);
 
-void echanger(size_t *ligne, size_t *colonne);
+void matrice_echanger_indices(size_t *ligne, size_t *colonne);
 
 #endif // STRUCTURE_MATRICE_H

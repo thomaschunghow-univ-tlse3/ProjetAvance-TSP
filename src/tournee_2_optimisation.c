@@ -49,12 +49,7 @@ Resultat tournee_marche_aleatoire(MatriceDistance matrice)
 
     Permutation permutation = permutation_creer(nombre_points);
 
-    for (size_t sommet = 0; sommet < nombre_points - 1; sommet++)
-    {
-        size_t voisin = donner_entier_aleatoire(sommet, nombre_points);
-
-        permutation_echanger_sommets(permutation, sommet, voisin);
-    }
+    permutation_initialiser_aleatoirement(permutation);
 
     Resultat resultat;
     resultat.permutation = permutation;

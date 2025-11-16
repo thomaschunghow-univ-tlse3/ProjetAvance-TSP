@@ -14,7 +14,7 @@ struct matrice_distance
     TableauDistance tableau_distances;
 };
 
-void echanger(size_t *ligne, size_t *colonne)
+void matrice_echanger_indices(size_t *ligne, size_t *colonne)
 {
     size_t temp = *ligne;
     *ligne = *colonne;
@@ -174,7 +174,7 @@ distance matrice_obtenir_distance(MatriceDistance matrice, size_t ligne, size_t 
 
     if (ligne < colonne)
     {
-        echanger(&ligne, &colonne);
+        matrice_echanger_indices(&ligne, &colonne);
     }
 
     return tableau_distance_obtenir_distance(distances, matrice_obtenir_indice(ligne, colonne));

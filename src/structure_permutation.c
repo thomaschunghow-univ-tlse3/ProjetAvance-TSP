@@ -24,6 +24,18 @@ void permutation_initialiser(Permutation permutation)
     }
 }
 
+void permutation_initialiser_aleatoirement(Permutation permutation)
+{
+    size_t nombre_sommets = permutation_obtenir_taille(permutation);
+
+    for (size_t sommet = 0; sommet < nombre_sommets - 1; sommet++)
+    {
+        size_t voisin = donner_entier_aleatoire(sommet, nombre_sommets);
+
+        permutation_echanger_sommets(permutation, sommet, voisin);
+    }
+}
+
 Permutation permutation_creer(size_t nombre_sommets)
 {
     Permutation permutation = malloc(sizeof(struct permutation) +
@@ -273,7 +285,7 @@ void permutation_echanger_aretes(Permutation permutation, size_t sommet_A, size_
 
     if (sommet_A > sommet_B)
     {
-        echanger(&sommet_A, &sommet_B);
+        matrice_echanger_indices(&sommet_A, &sommet_B);
     }
 
     sommet_A++;
@@ -295,7 +307,7 @@ distance permutation_difference_apres_decroisement(MatriceDistance matrice, Perm
 
     if (sommet_A > sommet_B)
     {
-        echanger(&sommet_A, &sommet_B);
+        matrice_echanger_indices(&sommet_A, &sommet_B);
     }
 
     size_t suivant_sommet_A = sommet_A + 1;
@@ -375,7 +387,7 @@ void permutation_croisement_ordonne(Permutation pere, Permutation mere, Permutat
 
     if (sommet_B < sommet_A)
     {
-        echanger(&sommet_A, &sommet_B);
+        matrice_echanger_indices(&sommet_A, &sommet_B);
     }
     size_t nombre_sommets_pere_herite = sommet_B + 1 - sommet_A;
 
@@ -444,18 +456,13 @@ TableauPermutation tableau_permutation_creer(size_t nombre_permutations)
     return permutations;
 }
 
-void tableau_permutation_vider_sauf_une(TableauPermutation permutations, size_t permutation_a_conserver)
+void tableau_permutation_vider(TableauPermutation permutations)
 {
     tableau_permutation_assert_non_vide(permutations);
 
     for (size_t i = 0; i < permutations->nombre_permutations; i++)
     {
-        if (i != permutation_a_conserver)
-        {
-            permutation_assert_non_vide(permutations->resultats[i].permutation);
-
-            permutation_supprimer(&(permutations->resultats[i].permutation));
-        }
+        permutation_supprimer(&(permutations->resultats[i].permutation));
     }
 }
 
@@ -512,6 +519,8 @@ void tableau_permutation_modifier_longueur(TableauPermutation tableau, size_t in
 
 size_t tableau_permutation_trouver_pire_individu(TableauPermutation tableau)
 {
+    tableau_permutation_assert_non_vide(tableau);
+
     size_t nombre_permutations = tableau_permutation_obtenir_nombre_permutation(tableau);
 
     size_t indice_pire_individu = 0;
@@ -533,6 +542,8 @@ size_t tableau_permutation_trouver_pire_individu(TableauPermutation tableau)
 
 size_t tableau_permutation_trouver_meilleur_individu(TableauPermutation tableau)
 {
+    tableau_permutation_assert_non_vide(tableau);
+
     size_t nombre_permutations = tableau_permutation_obtenir_nombre_permutation(tableau);
 
     size_t indice_meilleur_individu = 0;
@@ -550,4 +561,33 @@ size_t tableau_permutation_trouver_meilleur_individu(TableauPermutation tableau)
     }
 
     return indice_meilleur_individu;
+}
+
+void tableau_permutation_echanger_tableaux(TableauPermutation *tableau_A, TableauPermutation *tableau_B)
+{
+    assert(tableau_A != NULL);
+    assert(tableau_B != NULL);
+    tableau_permutation_assert_non_vide(*tableau_A);
+    tableau_permutation_assert_non_vide(*tableau_B);
+
+    TableauPermutation temp = *tableau_A;
+    *tableau_A = *tableau_B;
+    *tableau_B = temp;
+}
+
+int tableau_permutation_comparer(const void *A, const void *B)
+{
+    Resultat resultat_A = *(Resultat *)A;
+    Resultat resultat_B = *(Resultat *)B;
+
+    return resultat_A.longueur - resultat_B.longueur;
+}
+
+void tableau_permutation_trier(TableauPermutation tableau)
+{
+    tableau_permutation_assert_non_vide(tableau);
+
+    size_t nombre_permutations = tableau_permutation_obtenir_nombre_permutation(tableau);
+
+    qsort(tableau->resultats, nombre_permutations, sizeof(Resultat), tableau_permutation_comparer);
 }

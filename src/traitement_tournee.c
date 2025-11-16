@@ -106,10 +106,6 @@ void tournee_traitement(FILE *sortie, Options options, MatriceDistance matrice)
 
     case MARCHE_ALEATOIRE:
         tournee_gestionnaire(sortie, options, matrice, MARCHE_ALEATOIRE);
-        tournee_gestionnaire(sortie, options, matrice, MARCHE_ALEATOIRE);
-
-        tournee_gestionnaire(sortie, options, matrice, MARCHE_ALEATOIRE);
-
         break;
 
     case PLUS_PROCHE_VOISIN_2_OPTIMISATION:
