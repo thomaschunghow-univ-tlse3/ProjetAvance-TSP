@@ -145,6 +145,9 @@ distance permutation_calculer_distance_totale_avec_elagage(Permutation permutati
 
 void permutation_copier(Permutation destination, Permutation source)
 {
+    permutation_assert_non_vide(destination);
+    permutation_assert_non_vide(source);
+
     for (size_t i = 0; i < permutation_obtenir_taille(destination); i++)
     {
         destination->sommets[i] = source->sommets[i];
@@ -333,24 +336,21 @@ distance permutation_difference_apres_decroisement(MatriceDistance matrice, Perm
     return difference;
 }
 
-size_t permutation_obtenir_indice_sommet(Permutation permutation, size_t sommet_cherche)
+/* Inverse au sens mathématique. C'est-à-dire, la position du sommet de valeur i dans la permutation
+ * est donné par la valeur du sommet à la position i dans la permutation inverse. */
+void permutation_inverser(Permutation permutation, Permutation inverse)
 {
     permutation_assert_non_vide(permutation);
+    permutation_assert_non_vide(inverse);
 
     size_t nombre_sommets = permutation_obtenir_taille(permutation);
+    assert(nombre_sommets == permutation_obtenir_taille(inverse));
 
     for (size_t i = 0; i < nombre_sommets; i++)
     {
-        if (permutation_obtenir_sommet(permutation, i) == sommet_cherche)
-        {
-            return i;
-        }
+        size_t valeur_sommet = permutation_obtenir_sommet(permutation, i);
+        inverse->sommets[valeur_sommet] = i;
     }
-
-    fprintf(stderr,
-            "Erreur permutation_obtenir_indice_sommet :\n"
-            "Sommet absent de la permutation.\n");
-    exit(EXIT_FAILURE);
 }
 
 void permutation_decaler(Permutation permutation, size_t nombre_decalage_gauche)
@@ -366,48 +366,6 @@ void permutation_decaler(Permutation permutation, size_t nombre_decalage_gauche)
         {
             size_t indice_a_echanger = (i + 1) % nombre_sommets;
             permutation_echanger_sommets(permutation, i, indice_a_echanger);
-        }
-    }
-}
-
-void permutation_croisement_ordonne(Permutation pere, Permutation mere, Permutation enfant, size_t sommet_A, size_t sommet_B)
-{
-    permutation_assert_non_vide(pere);
-    permutation_assert_non_vide(mere);
-    permutation_assert_non_vide(enfant);
-
-    permutation_assert_indice_valide(pere, sommet_A);
-    permutation_assert_indice_valide(pere, sommet_B);
-    permutation_assert_indice_valide(mere, sommet_A);
-    permutation_assert_indice_valide(mere, sommet_B);
-    permutation_assert_indice_valide(enfant, sommet_A);
-    permutation_assert_indice_valide(enfant, sommet_B);
-
-    size_t nombre_sommets = permutation_obtenir_taille(pere);
-
-    if (sommet_B < sommet_A)
-    {
-        matrice_echanger_indices(&sommet_A, &sommet_B);
-    }
-    size_t nombre_sommets_pere_herite = sommet_B + 1 - sommet_A;
-
-    /* Le segment copié du père est placé au début de l'enfant. */
-    permutation_copier(enfant, pere);
-    permutation_decaler(enfant, sommet_A);
-
-    /* On remplit le reste de l'enfant avec les sommets restants dans l'ordre de la mère. */
-    size_t indice_enfant = nombre_sommets_pere_herite;
-    for (size_t indice_mere = 0; indice_mere < nombre_sommets; indice_mere++)
-    {
-        // assert(indice_enfant < nombre_sommets);
-
-        size_t sommet_mere = permutation_obtenir_sommet(mere, indice_mere);
-        size_t indice_sommet_a_echanger = permutation_obtenir_indice_sommet(enfant, sommet_mere);
-
-        if (indice_sommet_a_echanger >= nombre_sommets_pere_herite)
-        {
-            permutation_echanger_sommets(enfant, indice_sommet_a_echanger, indice_enfant);
-            indice_enfant++;
         }
     }
 }

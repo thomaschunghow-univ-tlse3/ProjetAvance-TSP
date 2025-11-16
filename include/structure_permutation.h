@@ -41,9 +41,11 @@ void permutation_copier(Permutation destination, Permutation source);
 void permutation_echanger_aretes(Permutation, size_t sommet_A, size_t sommet_B);
 distance permutation_difference_apres_decroisement(MatriceDistance, Permutation, size_t sommet_A, size_t sommet_B);
 
+void permutation_inverser(Permutation, Permutation inverse);
+
 void permutation_decaler(Permutation, size_t nombre_decalage_gauche);
 
-void permutation_croisement_ordonne(Permutation pere, Permutation mere, Permutation enfant, size_t sommet_A, size_t sommet_B);
+/* Tableaux de permutation. */
 
 typedef struct tableau_permutation *TableauPermutation;
 
