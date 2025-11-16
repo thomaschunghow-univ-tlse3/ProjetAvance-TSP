@@ -30,7 +30,7 @@ distance calculer_conversion_degres_en_radians(coordonnee coordonnee)
 {
 	/* On a une coordonnée où la partie entière est les degrés, et la partie décimale les minutes. */
 
-	distance degres = floor(coordonnee);
+	distance degres = trunc(coordonnee);
 	distance minutes = coordonnee - degres;
 
 	distance radians = degres * PI / 180;
