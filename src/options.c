@@ -73,7 +73,7 @@ size_t options_convertir_chaine_en_size_t(char **argv)
     {
         fprintf(stderr,
                 "Erreur options_convertir_chaine_en_size_t :\n"
-                "Le nombre d'individus et le nombre de générations sont des nombres entiers positifs.\n");
+                "Le nombre d'individus et le nombre de générations sont des nombres entiers positifs.\n\n");
         options_afficher_aide(argv[0]);
         exit(EXIT_FAILURE);
     }
@@ -91,7 +91,7 @@ double options_convertir_chaine_en_double(char **argv)
     {
         fprintf(stderr,
                 "Erreur options_convertir_chaine_en_double :\n"
-                "Le taux de mutation est un nombre réel compris entre 0 et 1.\n");
+                "Le taux de mutation est un nombre réel compris entre 0 et 1.\n\n");
         options_afficher_aide(argv[0]);
         exit(EXIT_FAILURE);
     }
@@ -145,7 +145,7 @@ Options options_traitement(int argc, char **argv)
         default:
             fprintf(stderr,
                     "Erreur options_traitement :\n"
-                    "Option non-reconnue.\n");
+                    "Option non-reconnue.\n\n");
             options_afficher_aide(argv[0]);
             exit(EXIT_FAILURE);
         }
@@ -155,7 +155,7 @@ Options options_traitement(int argc, char **argv)
     {
         fprintf(stderr,
                 "Erreur options_traitement :\n"
-                "Paramètres obligatoires manquants.\n");
+                "Paramètres obligatoires manquants.\n\n");
         options_afficher_aide(argv[0]);
         exit(EXIT_FAILURE);
     }
@@ -166,7 +166,7 @@ Options options_traitement(int argc, char **argv)
         {
             fprintf(stderr,
                     "Erreur options_traitement :\n"
-                    "Trois arguments sont nécessaire pour la méthode génétique.\n");
+                    "Trois arguments sont nécessaire pour la méthode génétique.\n\n");
             options_afficher_aide(argv[0]);
             exit(EXIT_FAILURE);
         }
@@ -176,12 +176,21 @@ Options options_traitement(int argc, char **argv)
         options.arguments_genetique.nombre_generations = options_convertir_chaine_en_size_t(argv);
         optind++;
         options.arguments_genetique.taux_mutation = options_convertir_chaine_en_double(argv);
+
+        if (options.arguments_genetique.nombre_individus < 3 || options.arguments_genetique.taux_mutation < 0 || options.arguments_genetique.taux_mutation > 1)
+        {
+            fprintf(stderr,
+                    "Erreur options_traitement :\n"
+                    "Il faut au moins trois individus, et le taux de mutation doit être compris entre 0 et 1.\n\n");
+            options_afficher_aide(argv[0]);
+            exit(EXIT_FAILURE);
+        }
     }
     else if (optind < argc)
     {
         fprintf(stderr,
                 "Erreur options_traitement :\n"
-                "Trop d'arguments utilisés.\n");
+                "Trop d'arguments utilisés.\n\n");
         options_afficher_aide(argv[0]);
         exit(EXIT_FAILURE);
     }

@@ -132,6 +132,7 @@ Resultat tournee_genetique_generique(MatriceDistance matrice, size_t nombre_indi
             tableau_permutation_modifier_longueur(enfants, indice_enfant, longueur);
         }
 
+        /* Triage de la population. */
         tableau_permutation_trier(enfants);
 
         /* Remplacement du pire individu de cette génération par un nouvel individu. */
