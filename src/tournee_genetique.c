@@ -32,29 +32,30 @@ void tournee_genetique_selection_par_tournoi(TableauPermutation population, Tabl
 {
     size_t nombre_individus = tableau_permutation_obtenir_nombre_permutation(parents);
 
-    for (size_t indice_parent = 0; indice_parent < nombre_individus; indice_parent++)
+    for (size_t parent = 0; parent < nombre_individus; parent++)
     {
-        size_t indice_competiteur = donner_entier_aleatoire(0, nombre_individus);
+        /* Sélection de taille_tournoi individus à chaque boucle, puis mémorisation du meilleur du tournoi dans les parents. */
+        size_t competiteur = donner_entier_aleatoire(0, nombre_individus);
 
-        size_t indice_gagnant = indice_competiteur;
-        distance longueur_gagnant = tableau_permutation_obtenir_longueur(population, indice_gagnant);
+        size_t gagnant = competiteur;
+        distance longueur_gagnant = tableau_permutation_obtenir_longueur(population, gagnant);
 
-        for (size_t indice_tournoi = 0; indice_tournoi < taille_tournoi; indice_tournoi++)
+        for (size_t tournoi = 1; tournoi < taille_tournoi; tournoi++)
         {
-            indice_competiteur = donner_entier_aleatoire(0, nombre_individus);
+            competiteur = donner_entier_aleatoire(0, nombre_individus);
 
-            distance longueur_competiteur = tableau_permutation_obtenir_longueur(population, indice_competiteur);
+            distance longueur_competiteur = tableau_permutation_obtenir_longueur(population, competiteur);
 
             if (longueur_competiteur < longueur_gagnant)
             {
                 longueur_gagnant = longueur_competiteur;
-                indice_gagnant = indice_competiteur;
+                gagnant = competiteur;
             }
         }
 
-        Permutation gagnant = tableau_permutation_obtenir_permutation(population, indice_gagnant);
-        Permutation parent = tableau_permutation_obtenir_permutation(parents, indice_parent);
-        permutation_copier(parent, gagnant);
+        Permutation tournee_gagnant = tableau_permutation_obtenir_permutation(population, gagnant);
+        Permutation tournee_parent = tableau_permutation_obtenir_permutation(parents, parent);
+        permutation_copier(tournee_parent, tournee_gagnant);
     }
 }
 
@@ -169,10 +170,10 @@ Resultat tournee_genetique_generique(MatriceDistance matrice, size_t nombre_indi
         /* Remplacement de la population par ses enfants. */
         tableau_permutation_echanger_tableaux(&population, &enfants);
 
+#ifdef AFFICHAGE_INTERACTIF
         /* Triage de la population. */
         tableau_permutation_trier(population);
 
-#ifdef AFFICHAGE_INTERACTIF
         for (size_t individu = 0; individu < nombre_individus; individu++)
         {
             Permutation permutation = tableau_permutation_obtenir_permutation(population, individu);
