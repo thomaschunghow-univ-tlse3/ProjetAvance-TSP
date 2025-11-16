@@ -4,7 +4,7 @@
 
 #include "structure_permutation.h"
 #include "traitement_tournee.h"
-#include "affichage.h" // DEBUG
+#include "nombre_aleatoire.h"
 
 #include <stdio.h>
 #include <stdlib.h>

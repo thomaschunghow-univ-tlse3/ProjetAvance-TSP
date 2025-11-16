@@ -13,7 +13,11 @@
     "affichage.h": "c",
     "affichage_interactif.h": "c",
     "cstdlib": "c",
-    "tournee_genetique.h": "c"
+    "tournee_genetique.h": "c",
+    "math.h": "c",
+    "structure_permutation.h": "c",
+    "nombre_aleatoire.h": "c",
+    "calcul_distance.h": "c"
   },
   "sonarlint.pathToCompileCommands": "${workspaceFolder}/compile_commands.json"
 }

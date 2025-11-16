@@ -6,6 +6,7 @@
 #include "structure_permutation.h"
 #include "structure_matrice.h"
 #include "affichage.h"
+#include "nombre_aleatoire.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -23,16 +24,21 @@ void tournee_genetique_mutation(TableauPermutation population, double taux_mutat
 
         size_t nombre_sommets = permutation_obtenir_taille(individu);
 
-        /* Chaque sommet a une probabilité de muter. */
-        for (size_t i = 0; i < nombre_sommets; i++)
-        {
-            double probabilite_mutation = donner_reel_aleatoire(0, 1);
+        /* Au lieu de parcourir tous les sommets et à chaque sommet tirer une probabilité aléatoire de muter,
+         * on tire dès le début le nombre de points que l'on veut muter.
+         * En fait, on approxime la loi binomiale par une loi normale. */
+        size_t nombre_sommets_a_muter = (size_t)donner_reel_aleatoire_loi_normale(taux_mutation, nombre_sommets);
+        nombre_sommets_a_muter /= 2;
+        nombre_sommets_a_muter %= nombre_sommets;
 
-            if (probabilite_mutation < taux_mutation)
-            {
-                size_t indice_a_echanger = donner_entier_aleatoire(0, nombre_sommets);
-                permutation_echanger_sommets(individu, i, indice_a_echanger);
-            }
+        for (size_t i = 0; i < nombre_sommets_a_muter; i++)
+        {
+            /* Comme quand on échange deux points, alors deux points sont mutés,
+             * donc on doit bien diviser la probabilité par deux. */
+            size_t sommet_A = donner_entier_aleatoire(0, nombre_sommets);
+            size_t sommet_B = donner_entier_aleatoire(0, nombre_sommets);
+
+            permutation_echanger_sommets(individu, sommet_A, sommet_B);
         }
 
         distance longueur = permutation_calculer_distance_totale(individu, matrice);

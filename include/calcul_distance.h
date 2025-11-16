@@ -9,6 +9,10 @@
 
 #include "structure_permutation.h"
 
+#define PI 3.14159265358979323846
+#define RACINE_10 3.16227766016837952279
+#define RAYON_TERRE 6378.388
+
 typedef distance (*FonctionCalcul)(Point, Point);
 
 typedef enum
