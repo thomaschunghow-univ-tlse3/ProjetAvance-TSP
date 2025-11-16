@@ -28,22 +28,31 @@ void tournee_genetique_mutation(Permutation permutation, double taux_mutation)
     }
 }
 
-void tournee_genetique_selection_par_tournoi(TableauPermutation population, TableauPermutation parents, TableauPermutation tournoi, size_t taille_tournoi)
+void tournee_genetique_selection_par_tournoi(TableauPermutation population, TableauPermutation parents, size_t taille_tournoi)
 {
     size_t nombre_individus = tableau_permutation_obtenir_nombre_permutation(parents);
 
     for (size_t indice_parent = 0; indice_parent < nombre_individus; indice_parent++)
     {
+        size_t indice_competiteur = donner_entier_aleatoire(0, nombre_individus);
+
+        size_t indice_gagnant = indice_competiteur;
+        distance longueur_gagnant = tableau_permutation_obtenir_longueur(population, indice_gagnant);
+
         for (size_t indice_tournoi = 0; indice_tournoi < taille_tournoi; indice_tournoi++)
         {
-            size_t indice_competiteur = donner_entier_aleatoire(0, nombre_individus);
-            Permutation competiteur = tableau_permutation_obtenir_permutation(population, indice_competiteur);
-            Permutation participant = tableau_permutation_obtenir_permutation(tournoi, indice_tournoi);
-            permutation_copier(participant, competiteur);
+            indice_competiteur = donner_entier_aleatoire(0, nombre_individus);
+
+            distance longueur_competiteur = tableau_permutation_obtenir_longueur(population, indice_competiteur);
+
+            if (longueur_competiteur < longueur_gagnant)
+            {
+                longueur_gagnant = longueur_competiteur;
+                indice_gagnant = indice_competiteur;
+            }
         }
 
-        size_t indice_gagnant = tableau_permutation_trouver_meilleur_individu(tournoi);
-        Permutation gagnant = tableau_permutation_obtenir_permutation(tournoi, indice_gagnant);
+        Permutation gagnant = tableau_permutation_obtenir_permutation(population, indice_gagnant);
         Permutation parent = tableau_permutation_obtenir_permutation(parents, indice_parent);
         permutation_copier(parent, gagnant);
     }
@@ -56,13 +65,11 @@ Resultat tournee_genetique_generique(MatriceDistance matrice, size_t nombre_indi
     TableauPermutation population = tableau_permutation_creer(nombre_individus);
     TableauPermutation enfants = tableau_permutation_creer(nombre_individus);
     TableauPermutation parents = tableau_permutation_creer(nombre_individus);
-    TableauPermutation tournoi = tableau_permutation_creer(taille_tournoi);
 
     /* Allocation mémoire de la population, des enfants, des parents et du tournoi. */
     tableau_permutation_allouer(population, nombre_sommets);
     tableau_permutation_allouer(enfants, nombre_sommets);
     tableau_permutation_allouer(parents, nombre_sommets);
-    tableau_permutation_allouer(tournoi, nombre_sommets);
 
     /* Initialisation de la population initiale. */
     for (size_t i = 0; i < nombre_individus; i++)
@@ -93,7 +100,7 @@ Resultat tournee_genetique_generique(MatriceDistance matrice, size_t nombre_indi
     for (size_t generation = 0; generation < nombre_generations; generation++)
     {
         /* Détermination des parents grace à une sélection par tournoi. */
-        tournee_genetique_selection_par_tournoi(population, parents, tournoi, taille_tournoi);
+        tournee_genetique_selection_par_tournoi(population, parents, taille_tournoi);
 
         for (size_t indice_enfant = 0; indice_enfant < nombre_individus / 2; indice_enfant++)
         {
@@ -136,14 +143,14 @@ Resultat tournee_genetique_generique(MatriceDistance matrice, size_t nombre_indi
         tableau_permutation_trier(enfants);
 
         /* Remplacement du pire individu de cette génération par un nouvel individu. */
-        size_t indice_pire_individu = tableau_permutation_trouver_pire_individu(enfants);
+        size_t indice_pire_individu = nombre_individus - 1;
         Permutation pire_individu = tableau_permutation_obtenir_permutation(enfants, indice_pire_individu);
         permutation_initialiser_aleatoirement(pire_individu);
         distance longueur_pire_individu = permutation_calculer_distance_totale(pire_individu, matrice);
         tableau_permutation_modifier_longueur(enfants, indice_pire_individu, longueur_pire_individu);
 
         /* Comparaison du meilleur individu de cette génération au meilleur individu historique. */
-        indice_meilleur_individu = tableau_permutation_trouver_meilleur_individu(enfants);
+        indice_meilleur_individu = 0;
         meilleur_individu = tableau_permutation_obtenir_permutation(enfants, indice_meilleur_individu);
         distance longueur_meilleur_individu = permutation_calculer_distance_totale(meilleur_individu, matrice);
 
@@ -154,13 +161,16 @@ Resultat tournee_genetique_generique(MatriceDistance matrice, size_t nombre_indi
         }
 
         /* Remplacement du second pire individu de cette génération par le meilleur individu historique. */
-        indice_pire_individu = tableau_permutation_trouver_pire_individu(enfants);
+        indice_pire_individu = nombre_individus - 2;
         pire_individu = tableau_permutation_obtenir_permutation(enfants, indice_pire_individu);
         permutation_copier(pire_individu, meilleur_individu_historique);
         tableau_permutation_modifier_longueur(enfants, indice_pire_individu, longueur_meilleur_individu_historique);
 
         /* Remplacement de la population par ses enfants. */
         tableau_permutation_echanger_tableaux(&population, &enfants);
+
+        /* Triage de la population. */
+        tableau_permutation_trier(population);
 
 #ifdef AFFICHAGE_INTERACTIF
         for (size_t individu = 0; individu < nombre_individus; individu++)
@@ -184,9 +194,6 @@ Resultat tournee_genetique_generique(MatriceDistance matrice, size_t nombre_indi
 
     tableau_permutation_vider(parents);
     tableau_permutation_supprimer(&parents);
-
-    tableau_permutation_vider(tournoi);
-    tableau_permutation_supprimer(&tournoi);
 
     return resultat;
 }
