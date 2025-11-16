@@ -20,7 +20,7 @@ void tournee_genetique_mutation(Permutation permutation, double taux_mutation)
     {
         double probabilite_mutation = donner_reel_aleatoire(0, 1);
 
-        if (probabilite_mutation < taux_mutation / 2)
+        if (probabilite_mutation < taux_mutation)
         {
             size_t indice_a_echanger = donner_entier_aleatoire(0, nombre_sommets);
             permutation_echanger_sommets(permutation, i, indice_a_echanger);
@@ -28,18 +28,50 @@ void tournee_genetique_mutation(Permutation permutation, double taux_mutation)
     }
 }
 
-Resultat tournee_genetique_generique(MatriceDistance matrice, size_t nombre_individus, size_t nombre_generations, double taux_mutation)
+void tournee_genetique_selection_par_tournoi(TableauPermutation population, TableauPermutation parents, TableauPermutation tournoi, size_t taille_tournoi)
+{
+    size_t nombre_individus = tableau_permutation_obtenir_nombre_permutation(parents);
+
+    for (size_t indice_parent = 0; indice_parent < nombre_individus; indice_parent++)
+    {
+        for (size_t indice_tournoi = 0; indice_tournoi < taille_tournoi; indice_tournoi++)
+        {
+            size_t indice_competiteur = donner_entier_aleatoire(0, nombre_individus);
+            Permutation competiteur = tableau_permutation_obtenir_permutation(population, indice_competiteur);
+            Permutation participant = tableau_permutation_obtenir_permutation(tournoi, indice_tournoi);
+            permutation_copier(participant, competiteur);
+        }
+
+        size_t indice_gagnant = tableau_permutation_trouver_meilleur_individu(tournoi);
+        Permutation gagnant = tableau_permutation_obtenir_permutation(tournoi, indice_gagnant);
+        Permutation parent = tableau_permutation_obtenir_permutation(parents, indice_parent);
+        permutation_copier(parent, gagnant);
+    }
+}
+
+Resultat tournee_genetique_generique(MatriceDistance matrice, size_t nombre_individus, size_t nombre_generations, double taux_mutation, size_t taille_tournoi)
 {
     TableauPermutation population = tableau_permutation_creer(nombre_individus);
     TableauPermutation enfants = tableau_permutation_creer(nombre_individus);
+    TableauPermutation parents = tableau_permutation_creer(nombre_individus);
+    TableauPermutation tournoi = tableau_permutation_creer(taille_tournoi);
 
     size_t nombre_sommets = matrice_obtenir_nombre_points(matrice);
 
-    /* Allocation mémoire des enfants. */
+    /* Allocation mémoire des enfants, des parents. */
     for (size_t i = 0; i < nombre_individus; i++)
     {
         Permutation enfant = permutation_creer(nombre_sommets);
         tableau_permutation_modifier_permutation(enfants, i, enfant);
+        Permutation parent = permutation_creer(nombre_sommets);
+        tableau_permutation_modifier_permutation(parents, i, parent);
+    }
+
+    /* Allocation mémoire du tournoi. */
+    for (size_t i = 0; i < taille_tournoi; i++)
+    {
+        Permutation participant = permutation_creer(nombre_sommets);
+        tableau_permutation_modifier_permutation(tournoi, i, participant);
     }
 
     /* Allocation mémoire et initialisation de la population initiale. */
@@ -71,18 +103,21 @@ Resultat tournee_genetique_generique(MatriceDistance matrice, size_t nombre_indi
 
     for (size_t generation = 0; generation < nombre_generations; generation++)
     {
+        /* Détermination des parents grace à une sélection par tournoi. */
+        tournee_genetique_selection_par_tournoi(population, parents, tournoi, taille_tournoi);
+
         for (size_t indice_enfant = 0; indice_enfant < nombre_individus / 2; indice_enfant++)
         {
-            /* Remarque : si le nombre d'individus est impair, alors le pire individu ne se reproduit pas. */
+            /* Remarque : si le nombre d'individus est impair, alors le dernier individu du tournoi ne se reproduit pas. */
             indice_enfant *= 2;
             size_t indice_pere = indice_enfant;
             size_t indice_mere = indice_pere + 1;
             size_t indice_frere = indice_pere;
             size_t indice_soeur = indice_mere;
 
-            /* Sélection de deux individus. */
-            Permutation pere = tableau_permutation_obtenir_permutation(population, indice_pere);
-            Permutation mere = tableau_permutation_obtenir_permutation(population, indice_mere);
+            /* Sélection de deux parents. */
+            Permutation pere = tableau_permutation_obtenir_permutation(parents, indice_pere);
+            Permutation mere = tableau_permutation_obtenir_permutation(parents, indice_mere);
 
             /* Croisement entre les deux parents. */
             Permutation frere = tableau_permutation_obtenir_permutation(enfants, indice_frere);
@@ -157,11 +192,17 @@ Resultat tournee_genetique_generique(MatriceDistance matrice, size_t nombre_indi
     tableau_permutation_vider(enfants);
     tableau_permutation_supprimer(&enfants);
 
+    tableau_permutation_vider(parents);
+    tableau_permutation_supprimer(&parents);
+
+    tableau_permutation_vider(tournoi);
+    tableau_permutation_supprimer(&tournoi);
+
     return resultat;
 }
 
 Resultat tournee_genetique_dpx(MatriceDistance matrice, size_t nombre_individus, size_t nombre_generations, double taux_mutation)
 {
     // TODO
-    return tournee_genetique_generique(matrice, nombre_individus, nombre_generations, taux_mutation);
+    return tournee_genetique_generique(matrice, nombre_individus, nombre_generations, taux_mutation, nombre_individus / 2);
 }

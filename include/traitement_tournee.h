@@ -21,6 +21,6 @@ typedef Resultat (*AlgorithmeTournee)(MatriceDistance);
 void tournee_traitement(FILE *sortie, Options, MatriceDistance);
 
 size_t donner_entier_aleatoire(size_t borne_inf, size_t borne_sup);
-size_t donner_reel_aleatoire(size_t borne_inf, size_t borne_sup);
+double donner_reel_aleatoire(double borne_inf, double borne_sup);
 
 #endif // TRAITEMENT_TOURNEE_H

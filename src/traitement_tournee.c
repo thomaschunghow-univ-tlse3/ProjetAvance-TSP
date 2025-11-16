@@ -50,7 +50,8 @@ void tournee_gestionnaire(FILE *sortie, Options options, MatriceDistance matrice
         resultat = tournee_genetique_generique(matrice,
                                                options.arguments_genetique.nombre_individus,
                                                options.arguments_genetique.nombre_generations,
-                                               options.arguments_genetique.taux_mutation);
+                                               options.arguments_genetique.taux_mutation,
+                                               options.arguments_genetique.nombre_individus / 2);
         break;
 
     case GENETIQUE_DPX:
@@ -147,7 +148,7 @@ size_t donner_entier_aleatoire(size_t borne_inf, size_t borne_sup)
 
 /* Donne un réel aléatoire compris entre borne_inf et borne_sup exclus.
  * borne_inf <= reel_aleatoire < borne_sup */
-size_t donner_reel_aleatoire(size_t borne_inf, size_t borne_sup)
+double donner_reel_aleatoire(double borne_inf, double borne_sup)
 {
-    return borne_inf + rand() / RAND_MAX * (borne_sup - borne_inf);
+    return borne_inf + (double)rand() / (double)RAND_MAX * (borne_sup - borne_inf);
 }
