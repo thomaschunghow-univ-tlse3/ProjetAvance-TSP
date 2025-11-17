@@ -176,6 +176,5 @@ distance matrice_obtenir_distance(MatriceDistance matrice, size_t ligne, size_t 
     {
         echanger(&ligne, &colonne);
     }
-
     return tableau_distance_obtenir_distance(distances, matrice_obtenir_indice(ligne, colonne));
 }

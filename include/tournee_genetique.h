@@ -17,9 +17,11 @@ Population population_creer(MatriceDistance matrice, size_t N, double pMutation)
 
 void supprimer_population(Population population);
 
-Resultat repeter_croisement(Population population, size_t nbGeneration);
+Resultat repeter_croisement(Population population, size_t nbGeneration, bool dpx);
 
 Resultat tournee_genetique(MatriceDistance matrice);
+
+Resultat tournee_genetique_dpx(MatriceDistance matrice);
 
 #endif
 

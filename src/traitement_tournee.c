@@ -70,7 +70,7 @@ void tournee_traitement(FILE *sortie, Options options, MatriceDistance matrice)
         break;
 
     case GENETIQUE_DPX:
-        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, GENETIQUE_DPX, &tournee_canonique);
+        tournee_gestionnaire(sortie, options.nom_fichier_entree, matrice, GENETIQUE_DPX, &tournee_genetique_dpx);
         break;
 
     case TOUTES:

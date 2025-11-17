@@ -4,6 +4,5 @@
     "assert.h": "c",
     "structure_distance.h": "c",
     "stdlib.h": "c"
-  },
-  "sonarlint.pathToCompileCommands": "${workspaceFolder}/compile_commands.json"
+  }
 }

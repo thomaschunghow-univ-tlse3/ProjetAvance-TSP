@@ -76,7 +76,6 @@ distance tableau_distance_obtenir_distance(TableauDistance tableau, size_t indic
     tableau_distance_assert_non_vide(tableau);
 
     tableau_distance_assert_indice_valide(tableau, indice);
-
     return tableau->distances[indice];
 }
 

@@ -96,17 +96,18 @@ void permutation_echanger_sommets(Permutation permutation, size_t sommet_A, size
 
 distance permutation_calculer_distance_totale(Permutation permutation, MatriceDistance matrice)
 {
+    
     permutation_assert_non_vide(permutation);
 
     size_t nombre_sommets = permutation_obtenir_taille(permutation);
     const size_t *sommets = permutation->sommets;
-
+    
     distance longueur = matrice_obtenir_distance(matrice, sommets[0], sommets[nombre_sommets - 1]);
     for (size_t i = 0; i < nombre_sommets - 1; i++)
     {
         longueur += matrice_obtenir_distance(matrice, sommets[i], sommets[i + 1]);
     }
-
+    
     return longueur;
 }
 
