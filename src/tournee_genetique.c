@@ -10,9 +10,7 @@
 #include "traitement_interruption.h"
 
 #include <stdlib.h>
-#include <stdio.h>
-#include <time.h>
-#include <float.h>
+#include <math.h>
 
 void tournee_genetique_mutation(TableauPermutation population, double taux_mutation)
 {
@@ -28,8 +26,13 @@ void tournee_genetique_mutation(TableauPermutation population, double taux_mutat
         /* Au lieu de parcourir tous les sommets et à chaque sommet tirer une probabilité aléatoire de muter,
          * on tire dès le début le nombre de points que l'on veut muter.
          * En fait, on approxime la loi binomiale par une loi normale. */
-        size_t nombre_sommets_a_muter = (size_t)donner_reel_aleatoire_loi_normale(taux_mutation, nombre_sommets);
-        nombre_sommets_a_muter /= 2;
+        double reel_aleatoire = donner_reel_aleatoire_loi_normale(taux_mutation, nombre_sommets);
+        if (reel_aleatoire < 0)
+        {
+            reel_aleatoire = 0;
+        }
+        reel_aleatoire /= 2;
+        size_t nombre_sommets_a_muter = (size_t)round(reel_aleatoire);
         nombre_sommets_a_muter %= nombre_sommets;
 
         for (size_t i = 0; i < nombre_sommets_a_muter; i++)
