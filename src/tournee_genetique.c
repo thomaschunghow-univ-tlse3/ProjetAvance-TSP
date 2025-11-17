@@ -13,7 +13,7 @@
 #include <time.h>
 #include <float.h>
 
-void tournee_genetique_mutation(TableauPermutation population, double taux_mutation, MatriceDistance matrice)
+void tournee_genetique_mutation(TableauPermutation population, double taux_mutation)
 {
     size_t nombre_individus = tableau_permutation_obtenir_nombre_permutation(population);
 
@@ -40,9 +40,6 @@ void tournee_genetique_mutation(TableauPermutation population, double taux_mutat
 
             permutation_echanger_sommets(individu, sommet_A, sommet_B);
         }
-
-        distance longueur = permutation_calculer_distance_totale(individu, matrice);
-        tableau_permutation_modifier_longueur(population, indice_individu, longueur);
     }
 }
 
@@ -183,7 +180,15 @@ Resultat tournee_genetique_generique(MatriceDistance matrice, size_t nombre_indi
         }
 
         /* Mutation de l'enfant. */
-        tournee_genetique_mutation(enfants, taux_mutation, matrice);
+        tournee_genetique_mutation(enfants, taux_mutation);
+
+        /* Les individus ont changé, donc la longueur de la tournée doit être recalculée. */
+        for (size_t indice_individu = 0; indice_individu < nombre_individus; indice_individu++)
+        {
+            Permutation individu = tableau_permutation_obtenir_permutation(enfants, indice_individu);
+            distance longueur = permutation_calculer_distance_totale(individu, matrice);
+            tableau_permutation_modifier_longueur(population, indice_individu, longueur);
+        }
 
         /* Tri de la population. */
         tableau_permutation_trier(enfants);
