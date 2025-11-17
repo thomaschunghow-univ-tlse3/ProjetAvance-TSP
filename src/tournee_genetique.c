@@ -7,6 +7,7 @@
 #include "structure_matrice.h"
 #include "affichage.h"
 #include "nombre_aleatoire.h"
+#include "traitement_interruption.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -236,6 +237,14 @@ Resultat tournee_genetique_generique(MatriceDistance matrice, size_t nombre_indi
             fprintf(sortie_interactive, "\n");
         }
 #endif
+        /* Gestion des interruptions. */
+        if (interruption)
+        {
+            if (interruption_traitement(meilleur_individu_historique, meilleur_individu_historique, longueur_meilleur_individu_historique))
+            {
+                break;
+            }
+        }
     }
 
     tableau_permutation_vider(population);

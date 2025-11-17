@@ -82,6 +82,7 @@ Resultat tournee_2_optimisation(MatriceDistance matrice, Permutation permutation
             {
                 distance difference = permutation_difference_apres_decroisement(matrice, permutation, sommet_A, sommet_B);
 
+                /* Gestion des interruptions. */
                 if (interruption)
                 {
                     demande_stop = interruption_traitement(permutation, permutation, longueur);

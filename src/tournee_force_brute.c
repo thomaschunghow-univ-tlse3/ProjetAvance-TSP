@@ -30,6 +30,7 @@ Resultat tournee_force_brute_naive(MatriceDistance matrice)
             permutation_copier(permutation_minimale, permutation);
         }
 
+        /* Gestion des interruptions. */
         if (interruption)
         {
             demande_stop = interruption_traitement(permutation, permutation_minimale, longueur_minimale);
