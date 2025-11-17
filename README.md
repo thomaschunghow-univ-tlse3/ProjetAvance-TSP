@@ -98,7 +98,7 @@ deactivate
 ```bash
 make clean
 make interactive
-./bin/main -o ./affichage_interactif/donnees.txt ...
+./bin/main -o ./test/donnees.txt ...
 ```
 
 ### Affichage avec Python

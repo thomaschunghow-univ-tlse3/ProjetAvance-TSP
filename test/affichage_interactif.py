@@ -64,7 +64,7 @@ def update(frame):
 
 # Paramètres.
 
-nom_fichier = "./affichage_interactif/donnees.txt"
+nom_fichier = "./test/donnees.txt"
 
 nombre_individus = 10
 nombre_generations = 10000
@@ -82,7 +82,7 @@ coordonnees_x, coordonnees_y = traiter_points(fichier)
 artists = [None] * nombre_individus
 
 animation = FuncAnimation(fig, update, frames=nombre_generations*nombre_individus,
-                          interval=1, blit=True)
+                          interval=1, blit=False)
 
 plt.show()
 
