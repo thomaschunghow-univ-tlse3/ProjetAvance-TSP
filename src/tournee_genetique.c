@@ -189,14 +189,14 @@ Resultat tournee_genetique_generique(MatriceDistance matrice, size_t nombre_indi
 
         /* Les enfants sont nés de croisements et ont été mutés,
          * donc la longueur de leur tournée doit être recalculée. */
-        for (size_t indice_individu = 0; indice_individu < nombre_individus; indice_individu++)
+        for (size_t indice_enfant = 0; indice_enfant < nombre_individus; indice_enfant++)
         {
-            Permutation individu = tableau_permutation_obtenir_permutation(enfants, indice_individu);
-            distance longueur = permutation_calculer_distance_totale(individu, matrice);
-            tableau_permutation_modifier_longueur(population, indice_individu, longueur);
+            Permutation enfant = tableau_permutation_obtenir_permutation(enfants, indice_enfant);
+            distance longueur = permutation_calculer_distance_totale(enfant, matrice);
+            tableau_permutation_modifier_longueur(enfants, indice_enfant, longueur);
         }
 
-        /* Tri de la population. */
+        /* Tri des enfants. */
         tableau_permutation_trier(enfants);
 
         /* Remplacement du pire individu de cette génération
