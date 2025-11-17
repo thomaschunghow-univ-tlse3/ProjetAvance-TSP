@@ -88,6 +88,11 @@ void tournee_genetique_croisement_ordonne(Permutation pere, Permutation mere, Pe
     permutation_copier(enfant, pere);
     permutation_decaler(enfant, sommet_A);
 
+    /* On utilise l'inverse (fonctionnel/mathématique, ie. on ne parle pas de renversement de liste)
+     * pour avoir accès en O(1) à la position de chaque sommet,
+     * en sachant la valeur du sommet de l'enfant.
+     * Sinon, il faudrait parcourir la permutation
+     * pour retrouver la position d'un sommet, ce qui coûte O(n). */
     permutation_inverser(enfant, inverse);
 
     /* On remplit le reste de l'enfant avec les sommets restants dans l'ordre de la mère. */
@@ -110,14 +115,16 @@ Resultat tournee_genetique_generique(MatriceDistance matrice, size_t nombre_indi
 {
     size_t nombre_sommets = matrice_obtenir_nombre_points(matrice);
 
+    /* Allocation mémoire de la population, des enfants, des parents et du tournoi. */
     TableauPermutation population = tableau_permutation_creer(nombre_individus);
     TableauPermutation enfants = tableau_permutation_creer(nombre_individus);
     TableauPermutation parents = tableau_permutation_creer(nombre_individus);
-
-    /* Allocation mémoire de la population, des enfants, des parents et du tournoi. */
     tableau_permutation_allouer(population, nombre_sommets);
     tableau_permutation_allouer(enfants, nombre_sommets);
     tableau_permutation_allouer(parents, nombre_sommets);
+
+    /* Allocation mémoire de l'inverse, utilisé pour accélérer le croisement ordonné. */
+    Permutation inverse = permutation_creer(nombre_sommets);
 
     /* Initialisation de la population initiale. */
     for (size_t i = 0; i < nombre_individus; i++)
@@ -135,9 +142,6 @@ Resultat tournee_genetique_generique(MatriceDistance matrice, size_t nombre_indi
     Permutation meilleur_individu = tableau_permutation_obtenir_permutation(population, indice_meilleur_individu);
     permutation_copier(meilleur_individu_historique, meilleur_individu);
     distance longueur_meilleur_individu_historique = permutation_calculer_distance_totale(meilleur_individu_historique, matrice);
-
-    /* Allocation mémoire de l'inverse, utilisé pour accélérer le croisement ordonné. */
-    Permutation inverse = permutation_creer(nombre_sommets);
 
 #ifdef AFFICHAGE_INTERACTIF
     for (size_t individu = 0; individu < nombre_individus; individu++)
@@ -162,14 +166,15 @@ Resultat tournee_genetique_generique(MatriceDistance matrice, size_t nombre_indi
             size_t indice_frere = indice_pere;
             size_t indice_soeur = indice_mere;
 
-            /* Sélection de deux parents. */
+            /* Sélection de deux parents... */
             Permutation pere = tableau_permutation_obtenir_permutation(parents, indice_pere);
             Permutation mere = tableau_permutation_obtenir_permutation(parents, indice_mere);
 
-            /* Croisement entre les deux parents. */
+            /* ...qui se reproduisent pour créer deux enfants. */
             Permutation frere = tableau_permutation_obtenir_permutation(enfants, indice_frere);
             Permutation soeur = tableau_permutation_obtenir_permutation(enfants, indice_soeur);
 
+            /* Croisements entre les deux parents. */
             size_t sommet_A = donner_entier_aleatoire(0, nombre_sommets);
             size_t sommet_B = donner_entier_aleatoire(0, nombre_sommets);
             tournee_genetique_croisement_ordonne(pere, mere, frere, inverse, sommet_A, sommet_B);
@@ -179,10 +184,11 @@ Resultat tournee_genetique_generique(MatriceDistance matrice, size_t nombre_indi
             tournee_genetique_croisement_ordonne(pere, mere, soeur, inverse, sommet_A, sommet_B);
         }
 
-        /* Mutation de l'enfant. */
+        /* Mutation de tous les enfants. */
         tournee_genetique_mutation(enfants, taux_mutation);
 
-        /* Les individus ont changé, donc la longueur de la tournée doit être recalculée. */
+        /* Les enfants sont nés de croisements et ont été mutés,
+         * donc la longueur de leur tournée doit être recalculée. */
         for (size_t indice_individu = 0; indice_individu < nombre_individus; indice_individu++)
         {
             Permutation individu = tableau_permutation_obtenir_permutation(enfants, indice_individu);
@@ -193,7 +199,8 @@ Resultat tournee_genetique_generique(MatriceDistance matrice, size_t nombre_indi
         /* Tri de la population. */
         tableau_permutation_trier(enfants);
 
-        /* Remplacement du pire individu de cette génération par un nouvel individu. */
+        /* Remplacement du pire individu de cette génération
+         * par un nouvel individu créé par marche aléatoire. */
         size_t indice_pire_individu = nombre_individus - 1;
         Permutation pire_individu = tableau_permutation_obtenir_permutation(enfants, indice_pire_individu);
         permutation_initialiser_aleatoirement(pire_individu);
@@ -204,9 +211,9 @@ Resultat tournee_genetique_generique(MatriceDistance matrice, size_t nombre_indi
         indice_meilleur_individu = 0;
         meilleur_individu = tableau_permutation_obtenir_permutation(enfants, indice_meilleur_individu);
         distance longueur_meilleur_individu = permutation_calculer_distance_totale(meilleur_individu, matrice);
-
         if (longueur_meilleur_individu < longueur_meilleur_individu_historique)
         {
+            /* Mise à jour du meilleur individu historique. */
             permutation_copier(meilleur_individu_historique, meilleur_individu);
             longueur_meilleur_individu_historique = longueur_meilleur_individu;
         }
@@ -221,9 +228,7 @@ Resultat tournee_genetique_generique(MatriceDistance matrice, size_t nombre_indi
         tableau_permutation_echanger_tableaux(&population, &enfants);
 
 #ifdef AFFICHAGE_INTERACTIF
-        /* Tri de la population. */
         tableau_permutation_trier(population);
-
         for (size_t individu = 0; individu < nombre_individus; individu++)
         {
             Permutation permutation = tableau_permutation_obtenir_permutation(population, individu);
@@ -232,10 +237,6 @@ Resultat tournee_genetique_generique(MatriceDistance matrice, size_t nombre_indi
         }
 #endif
     }
-
-    Resultat resultat;
-    resultat.permutation = meilleur_individu_historique;
-    resultat.longueur = longueur_meilleur_individu_historique;
 
     tableau_permutation_vider(population);
     tableau_permutation_supprimer(&population);
@@ -247,6 +248,10 @@ Resultat tournee_genetique_generique(MatriceDistance matrice, size_t nombre_indi
     tableau_permutation_supprimer(&parents);
 
     permutation_supprimer(&inverse);
+
+    Resultat resultat;
+    resultat.permutation = meilleur_individu_historique;
+    resultat.longueur = longueur_meilleur_individu_historique;
 
     return resultat;
 }
