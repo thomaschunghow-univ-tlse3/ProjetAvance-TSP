@@ -75,6 +75,7 @@ void tournee_gestionnaire(FILE *sortie, Options options, MatriceDistance matrice
     afficher_tournee(sortie, options.nom_fichier_entree, methode, temps_total, resultat.longueur, resultat.permutation);
 #else
     (void)sortie;
+    (void)temps_total;
 #endif // AFFICHAGE_INTERACTIF
 
     permutation_supprimer(&resultat.permutation);
