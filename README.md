@@ -104,5 +104,5 @@ make interactive
 ### Affichage avec Python
 
 ```bash
-python3 ./affichage_interactif/affichage_interactif.py
+python3 ./test/affichage_interactif.py
 ```
