@@ -16,7 +16,7 @@ from enum import Enum
 nom_fichier = "./bin/donnees.txt"
 
 # Nombre de générations ignorées entre deux générations.
-intervalle_generations = 9
+intervalle_generations = 0
 
 # Délai entre deux générations en millisecondes.
 # Remarque : le traitement de chaque ligne n'est pas instantanné,
@@ -135,7 +135,7 @@ def gerer_methode(fichier):
 
 def traiter_parametres_genetique(fichier):
     nombre_individus = int(fichier.readline())
-    nombre_generations = int(fichier.readline())
+    nombre_generations = int(fichier.readline()) + 2
     taux_mutation = float(fichier.readline())
     taille_tournoi = int(fichier.readline())
 
@@ -156,14 +156,20 @@ if methode == Methode.GENETIQUE:
         traiter_parametres_genetique(fichier)
     )
 
-    fig, axs = plt.subplots(1, nombre_individus, figsize=(25, 7))
+    nb_colonnes = min(5, nombre_individus)
+    nb_lignes = (nombre_individus + nb_colonnes - 1) // nb_colonnes
+
+    fig, axs = plt.subplots(
+        nb_lignes, nb_colonnes, figsize=(5 * nb_colonnes, 4 * nb_lignes)
+    )
+
+    axs = np.array(axs).reshape(-1)  # Pour aplatir en liste
 
     artists = [None] * nombre_individus
 
     animation = FuncAnimation(
         fig,
         update_genetique,
-        frames=nombre_generations * nombre_individus,
         interval=delai_generations,
         blit=False,
     )
