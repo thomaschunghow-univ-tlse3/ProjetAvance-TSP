@@ -7,10 +7,6 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define PI 3.14159265358979323846
-#define RACINE_10 3.16227766016837952279
-#define RAYON_TERRE 6378.388
-
 size_t calculer_factorielle(size_t n)
 {
 	size_t resultat = 1;
@@ -30,7 +26,7 @@ distance calculer_conversion_degres_en_radians(coordonnee coordonnee)
 {
 	/* On a une coordonnée où la partie entière est les degrés, et la partie décimale les minutes. */
 
-	distance degres = floor(coordonnee);
+	distance degres = trunc(coordonnee);
 	distance minutes = coordonnee - degres;
 
 	distance radians = degres * PI / 180;

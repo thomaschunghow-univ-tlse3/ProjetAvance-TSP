@@ -19,9 +19,9 @@ void supprimer_population(Population population);
 
 Resultat repeter_croisement(Population population, size_t nbGeneration, bool dpx);
 
-Resultat tournee_genetique(MatriceDistance matrice);
+Resultat tournee_genetique(MatriceDistance matrice, size_t nbIndividus, size_t nb_generation, double proba);
 
-Resultat tournee_genetique_dpx(MatriceDistance matrice);
+Resultat tournee_genetique_dpx(MatriceDistance matrice, size_t nbIndividus, size_t nb_generation, double proba);
 
 #endif
 

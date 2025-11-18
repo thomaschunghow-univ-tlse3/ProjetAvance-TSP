@@ -32,10 +32,18 @@ typedef enum
 
 typedef struct
 {
+    size_t nombre_individus;
+    size_t nombre_generations;
+    double taux_mutation;
+} ArgumentsGenetique;
+
+typedef struct
+{
     char nom_fichier_entree[TAILLE_OPTIONS_MAX];
     char nom_fichier_sortie[TAILLE_OPTIONS_MAX];
     bool canonique;
     MethodeCalcul methode_calcul;
+    ArgumentsGenetique arguments_genetique;
 } Options;
 
 
@@ -46,5 +54,9 @@ FILE *ouverture_sortie(Options options);
 
 void fermeture_entree(FILE *, Options options);
 void fermeture_sortie(FILE *, Options options);
+
+#ifdef AFFICHAGE_INTERACTIF
+extern FILE *sortie_interactive;
+#endif // AFFICHAGE_INTERACTIF
 
 #endif // OPTIONS_H

@@ -5,6 +5,7 @@
 #include "tournee_2_optimisation.h"
 #include "traitement_interruption.h"
 #include "calcul_distance.h"
+#include "nombre_aleatoire.h"
 
 #include <stdlib.h>
 #include <time.h>
@@ -43,13 +44,6 @@ Resultat tournee_plus_proche_voisin(MatriceDistance matrice)
     return resultat;
 }
 
-/* Donne un nombre aléatoire compris entre borne_inf et borne_sup exclus.
- * borne_inf <= nombre_aleatoire < borne_sup */
-size_t donner_nombre_aleatoire(size_t borne_inf, size_t borne_sup)
-{
-    return borne_inf + rand() % (borne_sup - borne_inf);
-}
-
 Resultat tournee_marche_aleatoire(MatriceDistance matrice)
 {
     size_t nombre_points = matrice_obtenir_nombre_points(matrice);
@@ -58,7 +52,7 @@ Resultat tournee_marche_aleatoire(MatriceDistance matrice)
 	
     for (size_t sommet = 0; sommet < nombre_points - 1; sommet++)
     {
-        size_t voisin = donner_nombre_aleatoire(sommet, nombre_points);
+        size_t voisin = donner_entier_aleatoire(sommet, nombre_points);
 
         permutation_echanger_sommets(permutation, sommet, voisin);
     }
@@ -76,8 +70,6 @@ Resultat tournee_2_optimisation(MatriceDistance matrice, Permutation permutation
 	
     distance longueur = permutation_calculer_distance_totale(permutation, matrice);
 
-    size_t nombre_permutations_traitees = 1;
-
     bool amelioration_trouvee = true;
     bool demande_stop = false;
 	
@@ -85,14 +77,18 @@ Resultat tournee_2_optimisation(MatriceDistance matrice, Permutation permutation
     {
         amelioration_trouvee = false;
 
+#ifdef AFFICHAGE_INTERACTIF
+        afficher_permutation(sortie_interactive, permutation, 0);
+        fprintf(sortie_interactive, "\n");
+#endif // AFFICHAGE_INTERACTIF
+
         for (size_t sommet_A = 0; sommet_A < nombre_points - 1; sommet_A++)
         {
             for (size_t sommet_B = sommet_A + 1; sommet_B < nombre_points; sommet_B++)
             {
-                nombre_permutations_traitees++;
-
                 distance difference = permutation_difference_apres_decroisement(matrice, permutation, sommet_A, sommet_B);
 
+                /* Gestion des interruptions. */
                 if (interruption)
                 {
                     demande_stop = interruption_traitement(permutation, permutation, longueur);

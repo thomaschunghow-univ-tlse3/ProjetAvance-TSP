@@ -1,6 +1,7 @@
 CC := gcc
-CFLAGS := -Wall -Wextra -DNDEBUG=1 -Iinclude
+CFLAGS := -Wall -Wextra -DNDEBUG -Iinclude -std=c2x
 LDFLAGS := -lm
+AFFICHAGE_INTERACTIF := -DAFFICHAGE_INTERACTIF
 
 SRC_DIR := src
 OBJ_DIR := bin/obj
@@ -10,6 +11,9 @@ OBJS := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 TARGET := $(BIN_DIR)/main
 
 all: $(TARGET)
+
+interactive: CFLAGS += $(AFFICHAGE_INTERACTIF)
+interactive: $(TARGET)
 
 $(OBJ_DIR):
 	mkdir -p $@
@@ -24,6 +28,9 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(OBJ_DIR) $(BIN_DIR)
+	rm -r $(OBJ_DIR)/*.o
+	rm $(TARGET)
+	rmdir $(OBJ_DIR)
+	rmdir $(BIN_DIR)
 
 .PHONY: all clean

@@ -3,6 +3,8 @@
  */
 
 #include "structure_permutation.h"
+#include "traitement_tournee.h"
+#include "nombre_aleatoire.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,6 +21,18 @@ void permutation_initialiser(Permutation permutation)
     for (size_t i = 0; i < permutation_obtenir_taille(permutation); i++)
     {
         permutation->sommets[i] = i;
+    }
+}
+
+void permutation_initialiser_aleatoirement(Permutation permutation)
+{
+    size_t nombre_sommets = permutation_obtenir_taille(permutation);
+
+    for (size_t sommet = 0; sommet < nombre_sommets - 1; sommet++)
+    {
+        size_t voisin = donner_entier_aleatoire(sommet, nombre_sommets);
+
+        permutation_echanger_sommets(permutation, sommet, voisin);
     }
 }
 
@@ -134,6 +148,9 @@ distance permutation_calculer_distance_totale_avec_elagage(Permutation permutati
 
 void permutation_copier(Permutation destination, Permutation source)
 {
+    permutation_assert_non_vide(destination);
+    permutation_assert_non_vide(source);
+
     for (size_t i = 0; i < permutation_obtenir_taille(destination); i++)
     {
         destination->sommets[i] = source->sommets[i];
@@ -274,7 +291,7 @@ void permutation_echanger_aretes(Permutation permutation, size_t sommet_A, size_
 
     if (sommet_A > sommet_B)
     {
-        echanger(&sommet_A, &sommet_B);
+        matrice_echanger_indices(&sommet_A, &sommet_B);
     }
 
     sommet_A++;
@@ -296,7 +313,7 @@ distance permutation_difference_apres_decroisement(MatriceDistance matrice, Perm
 
     if (sommet_A > sommet_B)
     {
-        echanger(&sommet_A, &sommet_B);
+        matrice_echanger_indices(&sommet_A, &sommet_B);
     }
 
     size_t suivant_sommet_A = sommet_A + 1;
@@ -320,4 +337,254 @@ distance permutation_difference_apres_decroisement(MatriceDistance matrice, Perm
     difference += matrice_obtenir_distance(matrice, permutation_obtenir_sommet(permutation, suivant_sommet_A), permutation_obtenir_sommet(permutation, suivant_sommet_B));
 
     return difference;
+}
+
+/* Inverse au sens mathématique. C'est-à-dire, la position du sommet de valeur i dans la permutation
+ * est donné par la valeur du sommet à la position i dans la permutation inverse. */
+void permutation_inverser(Permutation permutation, Permutation inverse)
+{
+    permutation_assert_non_vide(permutation);
+    permutation_assert_non_vide(inverse);
+
+    size_t nombre_sommets = permutation_obtenir_taille(permutation);
+    assert(nombre_sommets == permutation_obtenir_taille(inverse));
+
+    for (size_t i = 0; i < nombre_sommets; i++)
+    {
+        size_t valeur_sommet = permutation_obtenir_sommet(permutation, i);
+        inverse->sommets[valeur_sommet] = i;
+    }
+}
+
+size_t plus_grand_commun_diviseur(size_t a, size_t b)
+{
+    size_t temp;
+
+    while (b != 0)
+    {
+        temp = a % b;
+
+        a = b;
+        b = temp;
+    }
+
+    return a;
+}
+
+void permutation_decaler(Permutation permutation, size_t nombre_decalage_gauche)
+{
+    permutation_assert_non_vide(permutation);
+
+    size_t nombre_sommets = permutation_obtenir_taille(permutation);
+    nombre_decalage_gauche = nombre_decalage_gauche % nombre_sommets;
+
+    size_t pgcd = plus_grand_commun_diviseur(nombre_sommets, nombre_decalage_gauche);
+
+    /* Algorithme de décalage du « jongleur ». */
+    for (size_t debut_cycle = 0; debut_cycle < pgcd; debut_cycle++)
+    {
+        size_t sommet = debut_cycle;
+        size_t suivant;
+        while (true)
+        {
+            suivant = (sommet + nombre_decalage_gauche) % nombre_sommets;
+            if (suivant == debut_cycle)
+            {
+                break;
+            }
+            permutation_echanger_sommets(permutation, sommet, suivant);
+            sommet = suivant;
+        }
+    }
+}
+
+struct tableau_permutation
+{
+    size_t nombre_permutations;
+    Resultat *resultats;
+};
+
+void tableau_permutation_assert_non_vide(TableauPermutation permutations)
+{
+    assert(permutations != NULL);
+    (void)permutations;
+}
+
+void tableau_permutation_assert_indice_valide(TableauPermutation permutations, size_t indice)
+{
+    assert(indice < permutations->nombre_permutations);
+    (void)permutations;
+    (void)indice;
+}
+
+TableauPermutation tableau_permutation_creer(size_t nombre_permutations)
+{
+    TableauPermutation permutations = malloc(sizeof(struct tableau_permutation) +
+                                             nombre_permutations * sizeof(Resultat));
+
+    if (permutations == NULL)
+    {
+        fprintf(stderr,
+                "Erreur tableau_permutation_creer :\n"
+                "Echec de l'allocation mémoire de la permutation.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    permutations->nombre_permutations = nombre_permutations;
+    permutations->resultats = (Resultat *)(permutations + 1);
+
+    for (size_t i = 0; i < nombre_permutations; i++)
+    {
+        permutations->resultats[i].permutation = NULL;
+        permutations->resultats[i].longueur = 0;
+    }
+
+    return permutations;
+}
+
+void tableau_permutation_allouer(TableauPermutation permutations, size_t nombre_sommets)
+{
+    tableau_permutation_assert_non_vide(permutations);
+
+    for (size_t i = 0; i < permutations->nombre_permutations; i++)
+    {
+        Permutation permutation = permutation_creer(nombre_sommets);
+        tableau_permutation_modifier_permutation(permutations, i, permutation);
+    }
+}
+
+void tableau_permutation_vider(TableauPermutation permutations)
+{
+    tableau_permutation_assert_non_vide(permutations);
+
+    for (size_t i = 0; i < permutations->nombre_permutations; i++)
+    {
+        permutation_supprimer(&(permutations->resultats[i].permutation));
+    }
+}
+
+void tableau_permutation_supprimer(TableauPermutation *permutations)
+{
+    tableau_permutation_assert_non_vide(*permutations);
+
+    free(*permutations);
+    *permutations = NULL;
+}
+
+size_t tableau_permutation_obtenir_nombre_permutation(TableauPermutation tableau)
+{
+    tableau_permutation_assert_non_vide(tableau);
+
+    return tableau->nombre_permutations;
+}
+
+Permutation tableau_permutation_obtenir_permutation(TableauPermutation tableau, size_t indice)
+{
+    tableau_permutation_assert_non_vide(tableau);
+
+    tableau_permutation_assert_indice_valide(tableau, indice);
+
+    return tableau->resultats[indice].permutation;
+}
+
+void tableau_permutation_modifier_permutation(TableauPermutation tableau, size_t indice, Permutation permutation)
+{
+    tableau_permutation_assert_non_vide(tableau);
+
+    tableau_permutation_assert_indice_valide(tableau, indice);
+
+    tableau->resultats[indice].permutation = permutation;
+}
+
+distance tableau_permutation_obtenir_longueur(TableauPermutation tableau, size_t indice)
+{
+    tableau_permutation_assert_non_vide(tableau);
+
+    tableau_permutation_assert_indice_valide(tableau, indice);
+
+    return tableau->resultats[indice].longueur;
+}
+
+void tableau_permutation_modifier_longueur(TableauPermutation tableau, size_t indice, distance longueur)
+{
+    tableau_permutation_assert_non_vide(tableau);
+
+    tableau_permutation_assert_indice_valide(tableau, indice);
+
+    tableau->resultats[indice].longueur = longueur;
+}
+
+size_t tableau_permutation_trouver_pire_individu(TableauPermutation tableau)
+{
+    tableau_permutation_assert_non_vide(tableau);
+
+    size_t nombre_permutations = tableau_permutation_obtenir_nombre_permutation(tableau);
+
+    size_t indice_pire_individu = 0;
+    distance longueur_pire_individu = tableau_permutation_obtenir_longueur(tableau, indice_pire_individu);
+
+    for (size_t i = 0; i < nombre_permutations; i++)
+    {
+        distance longueur = tableau_permutation_obtenir_longueur(tableau, i);
+
+        if (longueur_pire_individu < longueur)
+        {
+            indice_pire_individu = i;
+            longueur_pire_individu = tableau_permutation_obtenir_longueur(tableau, indice_pire_individu);
+        }
+    }
+
+    return indice_pire_individu;
+}
+
+size_t tableau_permutation_trouver_meilleur_individu(TableauPermutation tableau)
+{
+    tableau_permutation_assert_non_vide(tableau);
+
+    size_t nombre_permutations = tableau_permutation_obtenir_nombre_permutation(tableau);
+
+    size_t indice_meilleur_individu = 0;
+    distance longueur_meilleur_individu = tableau_permutation_obtenir_longueur(tableau, indice_meilleur_individu);
+
+    for (size_t i = 0; i < nombre_permutations; i++)
+    {
+        distance longueur = tableau_permutation_obtenir_longueur(tableau, i);
+
+        if (longueur_meilleur_individu > longueur)
+        {
+            indice_meilleur_individu = i;
+            longueur_meilleur_individu = tableau_permutation_obtenir_longueur(tableau, indice_meilleur_individu);
+        }
+    }
+
+    return indice_meilleur_individu;
+}
+
+void tableau_permutation_echanger_tableaux(TableauPermutation *tableau_A, TableauPermutation *tableau_B)
+{
+    assert(tableau_A != NULL);
+    assert(tableau_B != NULL);
+    tableau_permutation_assert_non_vide(*tableau_A);
+    tableau_permutation_assert_non_vide(*tableau_B);
+
+    TableauPermutation temp = *tableau_A;
+    *tableau_A = *tableau_B;
+    *tableau_B = temp;
+}
+
+int tableau_permutation_comparer(const void *A, const void *B)
+{
+    Resultat resultat_A = *(Resultat *)A;
+    Resultat resultat_B = *(Resultat *)B;
+
+    return resultat_A.longueur - resultat_B.longueur;
+}
+
+void tableau_permutation_trier(TableauPermutation tableau)
+{
+    tableau_permutation_assert_non_vide(tableau);
+
+    size_t nombre_permutations = tableau_permutation_obtenir_nombre_permutation(tableau);
+
+    qsort(tableau->resultats, nombre_permutations, sizeof(Resultat), tableau_permutation_comparer);
 }

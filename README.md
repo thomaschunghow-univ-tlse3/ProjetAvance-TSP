@@ -7,8 +7,6 @@
 - Max ROGEL
 - Hichem SANHAJI
 
----
-
 ## Description
 
 Le projet consiste à résoudre le problème du voyageur de commerce à l’aide d’un programme codé en C, et ce à l’aide de plusieurs méthodes différentes.
@@ -28,8 +26,6 @@ make
 ```bash
 ./bin/main
 ```
-
----
 
 ## Paramètres
 
@@ -54,14 +50,18 @@ make
 | `gadpx <nb_individus> <nb_générations> <taux_mutation>` | Algorithme génétique avec DPX.                                                                                      | $O(n^2)$   |
 | `all`                                                   | Toutes les méthodes sauf la force brute.                                                                            |            |
 
----
-
 ## Exemples d’exécution
 
 ### Exemple 1 — Résolution de `att12.tsp` par la méthode de force brute :
 
 ```bash
-./bin/main -f data/tsp/att12.tsp -m bf -c
+./bin/main -f data/tsp/att12.tsp -c -m bf
+```
+
+### Exemple 2 — Résolution de `gr431.tsp` par la méthode génétique générique :
+
+```bash
+./bin/main -f data/tsp/gr431.tsp -c -m ga 20 20 .3
 ```
 
 ## Lancement des tests Python
@@ -89,4 +89,20 @@ python3 ./test/test_tsp_c.py
 
 ```bash
 deactivate
+```
+
+## Affichage interactif des données
+
+### Récupération des données pour l'affichage
+
+```bash
+make clean
+make interactive
+./bin/main -o ./test/donnees.txt ...
+```
+
+### Affichage avec Python
+
+```bash
+python3 ./affichage_interactif/affichage_interactif.py
 ```

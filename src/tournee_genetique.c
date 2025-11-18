@@ -4,6 +4,7 @@
 
 #include "tournee_genetique.h"
 #include "traitement_tournee.h"
+#include "nombre_aleatoire.h"
 #include "traitement_interruption.h"
 
 #include <stdlib.h>
@@ -159,11 +160,11 @@ Resultat croisement_DPX(Resultat tournee1, Resultat tournee2, MatriceDistance ma
 
 Population generation(Population population, size_t indice,bool dpx)
 {
-	size_t premier = donner_nombre_aleatoire(0, population -> nb_individus);//choix des tournées parentes
-	size_t deuxieme = donner_nombre_aleatoire(0, population -> nb_individus);
+	size_t premier = donner_entier_aleatoire(0, population -> nb_individus);//choix des tournées parentes
+	size_t deuxieme = donner_entier_aleatoire(0, population -> nb_individus);
 	while(premier == deuxieme)
 	{
-		deuxieme = donner_nombre_aleatoire(0, population -> nb_individus);
+		deuxieme = donner_entier_aleatoire(0, population -> nb_individus);
 	}
 	Resultat tournee_fille;
 	if(dpx )//tournée DPX
@@ -173,11 +174,11 @@ Population generation(Population population, size_t indice,bool dpx)
 	if(determiner_mutation(population -> pMutation))
 	{// décider s'il y a une mutation ou pas
 		printf("mutation\n");
-		premier = donner_nombre_aleatoire(0, population -> nb_individus);
-		deuxieme = donner_nombre_aleatoire(0, population -> nb_individus);
+		premier = donner_entier_aleatoire(0, population -> nb_individus);
+		deuxieme = donner_entier_aleatoire(0, population -> nb_individus);
 		while(premier == deuxieme)
 		{
-			deuxieme = donner_nombre_aleatoire(0, population -> nb_individus);
+			deuxieme = donner_entier_aleatoire(0, population -> nb_individus);
 		}
 		permutation_echanger_sommets(tournee_fille.permutation,premier,deuxieme);//echanger 2 sommets aléatoire en cas de mutation
 	}
@@ -221,9 +222,8 @@ Resultat repeter_croisement(Population population, size_t nbGeneration,bool dpx)
 	return population -> individus[population -> indice_meilleur_distance];
 }
 
-Resultat tournee_genetique(MatriceDistance matrice){
-	Population population = population_creer(matrice,NB_INDIVIDUS_MAX,PROBA_MUTATION);
-	size_t nb_generation=50;
+Resultat tournee_genetique(MatriceDistance matrice, size_t nbIndividus, size_t nb_generation, double proba){
+	Population population = population_creer(matrice,nbIndividus,proba);
 	
 	Resultat resultat = repeter_croisement(population,nb_generation,false);
 	
@@ -231,9 +231,9 @@ Resultat tournee_genetique(MatriceDistance matrice){
 	return resultat;
 }
 
-Resultat tournee_genetique_dpx(MatriceDistance matrice){
-	Population population = population_creer(matrice,NB_INDIVIDUS_MAX,PROBA_MUTATION);
-	size_t nb_generation=50;
+Resultat tournee_genetique_dpx(MatriceDistance matrice, size_t nbIndividus, size_t nb_generation, double proba){
+	Population population = population_creer(matrice,nbIndividus,proba);
+	
 	Resultat resultat = repeter_croisement(population,nb_generation,true);
 
 	return tournee_2_optimisation(population->mat,tournee_permutation(&resultat));
