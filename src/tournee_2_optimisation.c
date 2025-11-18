@@ -60,6 +60,10 @@ Resultat tournee_marche_aleatoire(MatriceDistance matrice)
 
 Resultat tournee_2_optimisation(MatriceDistance matrice, Permutation permutation)
 {
+#ifdef AFFICHAGE_INTERACTIF
+    fprintf(sortie_interactive, "2-optimisation\n");
+#endif // AFFICHAGE_INTERACTIF
+
     size_t nombre_points = matrice_obtenir_nombre_points(matrice);
 
     distance longueur = permutation_calculer_distance_totale(permutation, matrice);

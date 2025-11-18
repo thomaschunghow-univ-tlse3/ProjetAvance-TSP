@@ -117,6 +117,10 @@ void tournee_genetique_croisement_ordonne(Permutation pere, Permutation mere, Pe
 
 Resultat tournee_genetique_generique(MatriceDistance matrice, size_t nombre_individus, size_t nombre_generations, double taux_mutation, size_t taille_tournoi)
 {
+#ifdef AFFICHAGE_INTERACTIF
+    fprintf(sortie_interactive, "genetique\n%ld\n%ld\n%lf\n%ld\n", nombre_individus, nombre_generations, taux_mutation, taille_tournoi);
+#endif // AFFICHAGE_INTERACTIF
+
     size_t nombre_sommets = matrice_obtenir_nombre_points(matrice);
 
     /* Allocation mémoire de la population, des enfants, des parents et du tournoi. */
