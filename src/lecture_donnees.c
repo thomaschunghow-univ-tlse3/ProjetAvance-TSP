@@ -84,7 +84,7 @@ Specification lecture_specification_tsp(FILE *entree)
         }
         if (strstr(ligne, "DIMENSION"))
         {
-            sscanf(ligne, "%*[^0-9]%ld", &specification.nombre_points);
+            sscanf(ligne, "%*[^0-9]%lud", &specification.nombre_points);
         }
         if (strstr(ligne, "EDGE_WEIGHT_TYPE"))
         {

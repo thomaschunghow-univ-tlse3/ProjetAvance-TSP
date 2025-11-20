@@ -1,5 +1,5 @@
 CC := gcc
-CFLAGS := -Wall -Wextra -DNDEBUG -Iinclude -std=c2x
+CFLAGS := -Wall -Wextra -pedantic -DNDEBUG -Iinclude -std=c99
 LDFLAGS := -lm
 AFFICHAGE_INTERACTIF := -DAFFICHAGE_INTERACTIF
 
