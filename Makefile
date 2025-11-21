@@ -15,6 +15,9 @@ all: $(TARGET)
 interactive: CFLAGS += $(AFFICHAGE_INTERACTIF)
 interactive: $(TARGET)
 
+debug: CFLAGS += -g 
+debug: $(TARGET)
+
 $(OBJ_DIR):
 	mkdir -p $@
 
