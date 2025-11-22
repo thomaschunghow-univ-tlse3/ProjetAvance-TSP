@@ -9,13 +9,14 @@
 
 void afficher_noms_champs(FILE *sortie)
 {
-    fprintf(sortie,
-            "Instance ; "
-            "Méthode ; "
-            "Temps CPU (s) ; "
-            "Longueur ; "
-            "Tour ; "
-            "\n");
+    fprintf(
+        sortie,
+        "Instance ; "
+        "Méthode ; "
+        "Temps CPU (s) ; "
+        "Longueur ; "
+        "Tour ; "
+        "\n");
 }
 
 void afficher_points(FILE *sortie, MatriceDistance matrice)
@@ -36,7 +37,7 @@ void afficher_points(FILE *sortie, MatriceDistance matrice)
 /* Convention : si le nombre points max est égal à 0, alors on utilise le vrai nombre de points. */
 void afficher_permutation(FILE *sortie, Permutation permutation, size_t nombre_points_max)
 {
-    size_t nombre_points = permutation_obtenir_taille(permutation);
+    size_t nombre_points = permutation_obtenir_nombre_sommets(permutation);
 
     if (nombre_points_max == 0 || nombre_points_max >= nombre_points)
     {

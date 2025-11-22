@@ -38,7 +38,7 @@ Resultat tournee_plus_proche_voisin(MatriceDistance matrice)
 
     Resultat resultat;
     resultat.permutation = permutation;
-    resultat.longueur = permutation_calculer_distance_totale(resultat.permutation, matrice);
+    resultat.longueur = permutation_calculer_longueur(resultat.permutation, matrice);
 
     return resultat;
 }
@@ -49,11 +49,11 @@ Resultat tournee_marche_aleatoire(MatriceDistance matrice)
 
     Permutation permutation = permutation_creer(nombre_points);
 
-    permutation_initialiser_aleatoirement(permutation);
+    permutation_melanger(permutation);
 
     Resultat resultat;
     resultat.permutation = permutation;
-    resultat.longueur = permutation_calculer_distance_totale(resultat.permutation, matrice);
+    resultat.longueur = permutation_calculer_longueur(resultat.permutation, matrice);
 
     return resultat;
 }
@@ -66,7 +66,7 @@ Resultat tournee_2_optimisation(MatriceDistance matrice, Permutation permutation
 
     size_t nombre_points = matrice_obtenir_nombre_points(matrice);
 
-    distance longueur = permutation_calculer_distance_totale(permutation, matrice);
+    distance longueur = permutation_calculer_longueur(permutation, matrice);
 
     bool amelioration_trouvee = true;
     bool demande_stop = false;
@@ -84,7 +84,7 @@ Resultat tournee_2_optimisation(MatriceDistance matrice, Permutation permutation
         {
             for (size_t sommet_B = sommet_A + 1; sommet_B < nombre_points; sommet_B++)
             {
-                distance difference = permutation_difference_apres_decroisement(matrice, permutation, sommet_A, sommet_B);
+                distance difference = permutation_calculer_difference_apres_decroisement(matrice, permutation, sommet_A, sommet_B);
 
                 /* Gestion des interruptions. */
                 if (interruption)

@@ -17,7 +17,13 @@
     "math.h": "c",
     "structure_permutation.h": "c",
     "nombre_aleatoire.h": "c",
-    "calcul_distance.h": "c"
+    "calcul_distance.h": "c",
+    "structure_point.h": "c",
+    "string.h": "c",
+    "structure.h": "c",
+    "traitement_tournee.h": "c",
+    "stdint.h": "c",
+    "options.h": "c"
   },
   "makefile.launchConfigurations": [
     {

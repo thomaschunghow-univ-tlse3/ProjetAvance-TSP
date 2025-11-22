@@ -8,7 +8,7 @@
 #ifndef LECTURE_DONNEES_H
 #define LECTURE_DONNEES_H
 
-#include "structure_permutation.h"
+#include "structure.h"
 
 #include <stdio.h>
 
@@ -20,7 +20,7 @@ typedef struct
     char type[TAILLE_SPECIFICATION_MAX];
     char commentaire[TAILLE_SPECIFICATION_MAX];
     size_t nombre_points;
-    FonctionCalcul calculer_distance;
+    DistanceCalculer calculer_distance;
 } Specification;
 
 Specification lecture_specification_tsp(FILE *fichier);

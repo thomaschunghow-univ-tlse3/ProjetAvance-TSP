@@ -4,7 +4,7 @@
 
 #include "tournee_force_brute.h"
 #include "traitement_interruption.h"
-#include "structure_permutation.h"
+#include "structure.h"
 #include "affichage.h"
 #include "calcul_distance.h"
 
@@ -15,14 +15,14 @@ Resultat tournee_force_brute_naive(MatriceDistance matrice)
     Permutation permutation = permutation_creer(nombre_points);
     Permutation permutation_minimale = permutation_creer(nombre_points);
 
-    distance longueur = permutation_calculer_distance_totale(permutation, matrice);
+    distance longueur = permutation_calculer_longueur(permutation, matrice);
     distance longueur_minimale = longueur;
 
     bool demande_stop = false;
 
     while (permutation_avancer(permutation) && !demande_stop)
     {
-        longueur = permutation_calculer_distance_totale(permutation, matrice);
+        longueur = permutation_calculer_longueur(permutation, matrice);
 
         if (longueur < longueur_minimale)
         {
@@ -53,14 +53,14 @@ Resultat tournee_force_brute_elagage(MatriceDistance matrice)
     Permutation permutation = permutation_creer(nombre_points);
     Permutation permutation_minimale = permutation_creer(nombre_points);
 
-    distance longueur = permutation_calculer_distance_totale(permutation, matrice);
+    distance longueur = permutation_calculer_longueur(permutation, matrice);
     distance longueur_minimale = longueur;
 
     bool demande_stop = false;
 
     while (permutation_avancer(permutation) && !demande_stop)
     {
-        longueur = permutation_calculer_distance_totale_avec_elagage(permutation, matrice, longueur_minimale);
+        longueur = permutation_calculer_longueur_avec_elagage(permutation, matrice, longueur_minimale);
 
         if (longueur < longueur_minimale)
         {
@@ -90,7 +90,7 @@ Resultat tournee_force_brute_incrementale(MatriceDistance matrice)
     Permutation permutation = permutation_creer(nombre_points);
     Permutation permutation_minimale = permutation_creer(nombre_points);
 
-    distance longueur = permutation_calculer_distance_totale(permutation, matrice);
+    distance longueur = permutation_calculer_longueur(permutation, matrice);
     distance longueur_minimale = longueur;
 
     bool demande_stop = false;

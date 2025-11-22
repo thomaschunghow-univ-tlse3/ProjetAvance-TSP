@@ -11,7 +11,7 @@ Resultat tournee_canonique(MatriceDistance matrice)
 
     Resultat resultat;
     resultat.permutation = permutation_creer(nombre_points);
-    resultat.longueur = permutation_calculer_distance_totale(resultat.permutation, matrice);
+    resultat.longueur = permutation_calculer_longueur(resultat.permutation, matrice);
 
     return resultat;
 }

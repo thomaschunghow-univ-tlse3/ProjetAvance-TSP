@@ -37,7 +37,7 @@ void lecture_verifier_specification_valide(Specification specification)
     }
 }
 
-FonctionCalcul lecture_methode_calcul_depuis_nom(char *nom)
+DistanceCalculer lecture_methode_calcul_depuis_nom(char *nom)
 {
     if (strstr(nom, "EUC_2D"))
     {
@@ -110,7 +110,7 @@ void lecture_points_tsp(FILE *entree, TableauPoint tableau)
             break;
         }
     }
-    size_t nombre_points = tableau_point_obtenir_taille(tableau);
+    size_t nombre_points = tableau_point_obtenir_nombre_points(tableau);
     for (size_t i = 0; i < nombre_points; i++)
     {
         Point point;

@@ -7,7 +7,7 @@
 #ifndef TRAITEMENT_TOURNEE_H
 #define TRAITEMENT_TOURNEE_H
 
-#include "structure_permutation.h"
+#include "structure.h"
 #include "options.h"
 
 typedef struct

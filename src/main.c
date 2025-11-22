@@ -23,7 +23,7 @@ int main(int argc, char **argv)
 
     lecture_points_tsp(entree, matrice_obtenir_tableau_point(matrice));
 
-    matrice_remplir_distance(matrice);
+    matrice_remplir(matrice);
 
     tournee_traitement(sortie, options, matrice);
 
