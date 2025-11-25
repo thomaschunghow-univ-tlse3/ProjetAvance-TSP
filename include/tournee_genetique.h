@@ -13,6 +13,8 @@
 
 typedef struct population *Population;
 
+typedef Resultat (*AlgorithmeGenetique)(MatriceDistance, size_t, size_t, double);
+
 Population population_creer(MatriceDistance matrice, size_t N, double pMutation);
 
 void supprimer_population(Population population);

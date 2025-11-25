@@ -13,8 +13,7 @@
 #include <assert.h>
 #include <math.h>
 
-#define NB_INDIVIDUS_MAX 100
-#define PROBA_MUTATION 0.5
+#define NB_INDIVIDUS_MAX 500
 
 struct population{
 	
@@ -37,16 +36,24 @@ void extremum_distance(Population population){
 	distance distanceMaximale = distanceMinimale;
 	
 	for(size_t i=1; i<population -> nb_individus ;i++){
-		if(population -> individus[i].longueur>distanceMaximale)
+		if(population -> individus[i].longueur>distanceMaximale){//calcul de l'indice de la pire distance
 			population -> indice_pire_distance = i;
-		if(population -> individus[i].longueur<distanceMinimale)
+			distanceMaximale = population -> individus[i].longueur;
+		}
+		if(population -> individus[i].longueur<distanceMinimale){//calcul de l'indice de la meilleure distance
 			population -> indice_meilleur_distance = i;
+			distanceMinimale = population -> individus[i].longueur;
+		}
 	}
 }
 
 Population population_creer(MatriceDistance matrice, size_t N, double pMutation )
-{  
-	Population population = malloc(sizeof(struct population)  );
+{   
+	if(N>NB_INDIVIDUS_MAX){
+		perror("Trop d'individus pour cette tournée");
+		exit(0);
+	}
+	Population population = malloc(sizeof(struct population) /*+ (sizeof(Permutation) + matrice_obtenir_nombre_points(matrice)*sizeof(size_t))*N*/);
 	if(population == NULL)
 	{
 		fprintf(stderr,
@@ -66,6 +73,11 @@ Population population_creer(MatriceDistance matrice, size_t N, double pMutation 
 
 void supprimer_population(Population population)
 {
+	/*for(size_t i=0; i<population -> nb_individus; i++){
+		if(i!=population->indice_meilleur_distance)
+			supprimer_tournee(&population -> individus[i]);
+	}*/
+
 	free(population);
 	population = NULL;
 	
@@ -111,11 +123,10 @@ bool sommet_partage(Permutation permutation, size_t sommet1, size_t sommet2)
 	for(size_t i=0; i<nbSommet;i++)
 	{
 		if( permutation_obtenir_sommet(permutation,i-1) == sommet1 && permutation_obtenir_sommet(permutation,i) == sommet2)
-			return true;
+			return true;//on regarde dans la 2eme permutation si les 2 sommets sont ceux recherchés.
 	}
 	return false;
 }
-
 
 Permutation calculer_plus_proche_voisin(Permutation permutation, MatriceDistance matrice, size_t indice)
 {
@@ -127,7 +138,7 @@ Permutation calculer_plus_proche_voisin(Permutation permutation, MatriceDistance
 	{
 		if(i!=indice)
 		{
-			if(i<indice)
+			if(i<indice)//calcul des longueurs de l'indice actuel
 				longueur = matrice_obtenir_distance(matrice,indice,i);
 			else
 				longueur = matrice_obtenir_distance(matrice,i,indice);
@@ -219,7 +230,7 @@ Resultat repeter_croisement(Population population, size_t nbGeneration,bool dpx)
 		printf("indice %ld stabilite : %d \n",i,stabilite);
 		
 	}
-	return population -> individus[population -> indice_meilleur_distance];
+	return population -> individus[population -> indice_pire_distance];
 }
 
 Resultat tournee_genetique(MatriceDistance matrice, size_t nbIndividus, size_t nb_generation, double proba){
@@ -227,7 +238,7 @@ Resultat tournee_genetique(MatriceDistance matrice, size_t nbIndividus, size_t n
 	
 	Resultat resultat = repeter_croisement(population,nb_generation,false);
 	
-	supprimer_population(population); 
+	supprimer_population(population);
 	return resultat;
 }
 
@@ -236,5 +247,6 @@ Resultat tournee_genetique_dpx(MatriceDistance matrice, size_t nbIndividus, size
 	
 	Resultat resultat = repeter_croisement(population,nb_generation,true);
 
-	return tournee_2_optimisation(population->mat,tournee_permutation(&resultat));
+	supprimer_population(population); 
+	return tournee_2_optimisation(matrice,tournee_permutation(&resultat));
 }
