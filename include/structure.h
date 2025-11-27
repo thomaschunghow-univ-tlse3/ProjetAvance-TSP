@@ -66,7 +66,12 @@ void tableau_distance_modifier_distance(TableauDistance, size_t indice, void *di
 
 typedef struct matrice_distance *MatriceDistance;
 
-MatriceDistance matrice_creer(size_t nombre_points, size_t taille_point, size_t taille_distance, DistanceCalculer);
+MatriceDistance matrice_creer(
+    size_t nombre_points, size_t taille_point, size_t taille_distance,
+    DistanceCalculer distance_calculer,
+    DistanceAdditionner distance_additionner,
+    DistanceSoustraire distance_soustraire,
+    DistanceComparer distance_comparer);
 void matrice_supprimer(MatriceDistance *);
 
 size_t matrice_obtenir_nombre_points(MatriceDistance);
@@ -74,7 +79,11 @@ size_t matrice_obtenir_taille_point(MatriceDistance matrice);
 
 size_t matrice_obtenir_nombre_distances(MatriceDistance);
 size_t matrice_obtenir_taille_distance(MatriceDistance matrice);
+
 DistanceCalculer matrice_obtenir_distance_calculer(MatriceDistance);
+DistanceCalculer matrice_obtenir_distance_additionner(MatriceDistance matrice);
+DistanceCalculer matrice_obtenir_distance_soustraire(MatriceDistance matrice);
+DistanceCalculer matrice_obtenir_distance_comparer(MatriceDistance matrice);
 
 void matrice_obtenir_point(MatriceDistance, size_t indice, void *point_destination);
 void matrice_modifier_point(MatriceDistance, size_t indice, void *point_destination);
@@ -122,8 +131,7 @@ void permutation_modifier_longueur(Permutation, void *longueur_source);
 void permutation_calculer_longueur(
     Permutation permutation, MatriceDistance matrice, DistanceAdditionner distance_additionner);
 void permutation_calculer_longueur_avec_elagage(
-    Permutation permutation, MatriceDistance matrice,
-    void *longueur_destination, void *longueur_minimale,
+    Permutation permutation, MatriceDistance matrice, void *longueur_minimale,
     DistanceAdditionner distance_additionner, DistanceComparer distance_comparer);
 
 bool permutation_avancer(Permutation);
@@ -159,6 +167,6 @@ size_t tableau_permutation_trouver_meilleur_individu(TableauPermutation, Distanc
 
 void tableau_permutation_echanger_tableaux(TableauPermutation *tableau_A, TableauPermutation *tableau_B);
 
-void tableau_permutation_trier(TableauPermutation);
+void tableau_permutation_trier(TableauPermutation, DistanceComparer);
 
 #endif // STRUCTURE_H

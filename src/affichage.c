@@ -24,12 +24,16 @@ void afficher_points(FILE *sortie, MatriceDistance matrice)
     size_t nombre_points = matrice_obtenir_nombre_points(matrice);
     for (size_t i = 0; i < nombre_points; i++)
     {
-        fprintf(sortie, "%lf,", matrice_obtenir_point(matrice, i).x);
+        Point point;
+        matrice_obtenir_point(matrice, i, &point);
+        fprintf(sortie, "%lf,", point.x);
     }
     fprintf(sortie, "\n");
     for (size_t i = 0; i < nombre_points; i++)
     {
-        fprintf(sortie, "%lf,", matrice_obtenir_point(matrice, i).y);
+        Point point;
+        matrice_obtenir_point(matrice, i, &point);
+        fprintf(sortie, "%lf,", point.y);
     }
     fprintf(sortie, "\n");
 }
@@ -59,7 +63,7 @@ void afficher_permutation(FILE *sortie, Permutation permutation, size_t nombre_p
     fprintf(sortie, "]");
 }
 
-void afficher_methode_calcul(FILE *sortie, MethodeCalcul methode)
+void afficher_methode_calcul(FILE *sortie, Methode methode)
 {
     switch (methode)
     {
@@ -81,7 +85,7 @@ void afficher_methode_calcul(FILE *sortie, MethodeCalcul methode)
     case MARCHE_ALEATOIRE_2_OPTIMISATION:
         fprintf(sortie, "2optrw   ");
         break;
-    case GENETIQUE_GENERIQUE:
+    case GENETIQUE_LIGHT:
         fprintf(sortie, "ga       ");
         break;
     case GENETIQUE_DPX:
@@ -100,7 +104,7 @@ void afficher_longueur(FILE *sortie, distance distance)
     fprintf(sortie, "%-20.17g", distance);
 }
 
-void afficher_tournee(FILE *sortie, char *nom_fichier, MethodeCalcul methode, double temps, distance distance_totale, Permutation permutation)
+void afficher_tournee(FILE *sortie, char *nom_fichier, Methode methode, double temps, distance distance_totale, Permutation permutation)
 {
     fprintf(sortie, "%s ; ", nom_fichier);
 

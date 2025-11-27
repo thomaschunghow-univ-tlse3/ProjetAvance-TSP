@@ -13,6 +13,16 @@
 #define RACINE_10 3.16227766016837952279
 #define RAYON_TERRE 6378.388
 
+typedef double coordonnee;
+
+typedef struct
+{
+    coordonnee x;
+    coordonnee y;
+} Point;
+
+typedef double distance;
+
 typedef enum
 {
     EUC_2D,
@@ -22,8 +32,8 @@ typedef enum
 
 size_t calculer_factorielle(size_t);
 
-distance calculer_distance_euclidienne(Point A, Point B);
-distance calculer_distance_geographique(Point A, Point B);
-distance calculer_distance_euclidienne_modifiee(Point A, Point B);
+void calculer_distance_euclidienne_generique(void *point_A, void *point_B, void *longueur_AB);
+void calculer_distance_geographique_generique(void *point_A, void *point_B, void *longueur_AB);
+void calculer_distance_euclidienne_modifiee_generique(void *point_A, void *point_B, void *longueur_AB);
 
 #endif // CALCUL_DISTANCE_H

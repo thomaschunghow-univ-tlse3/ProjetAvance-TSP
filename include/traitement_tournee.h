@@ -9,6 +9,7 @@
 
 #include "structure.h"
 #include "options.h"
+#include "calcul_distance.h"
 
 typedef struct
 {
@@ -18,6 +19,6 @@ typedef struct
 
 typedef Resultat (*AlgorithmeTournee)(MatriceDistance);
 
-void tournee_traitement(FILE *sortie, Options, MatriceDistance);
+void tournee_traitement(FILE *sortie, Arguments, MatriceDistance);
 
 #endif // TRAITEMENT_TOURNEE_H

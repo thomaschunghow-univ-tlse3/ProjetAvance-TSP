@@ -15,16 +15,18 @@ Resultat tournee_plus_proche_voisin(MatriceDistance matrice)
 {
     size_t nombre_points = matrice_obtenir_nombre_points(matrice);
 
-    Permutation permutation = permutation_creer(nombre_points);
+    Permutation permutation = permutation_creer(nombre_points, matrice_obtenir_taille_distance);
 
     for (size_t sommet_fixe = 0; sommet_fixe < nombre_points - 1; sommet_fixe++)
     {
         size_t voisin_plus_proche = sommet_fixe + 1;
-        distance distance_minimale = matrice_obtenir_distance(matrice, permutation_obtenir_sommet(permutation, sommet_fixe), permutation_obtenir_sommet(permutation, voisin_plus_proche));
+        distance distance_minimale;
+        matrice_obtenir_distance(matrice, permutation_obtenir_sommet(permutation, sommet_fixe), permutation_obtenir_sommet(permutation, voisin_plus_proche), &distance_minimale);
 
         for (size_t voisin = sommet_fixe + 1; voisin < nombre_points; voisin++)
         {
-            distance distance_calculee = matrice_obtenir_distance(matrice, permutation_obtenir_sommet(permutation, sommet_fixe), permutation_obtenir_sommet(permutation, voisin));
+            distance distance_calculee;
+            matrice_obtenir_distance(matrice, permutation_obtenir_sommet(permutation, sommet_fixe), permutation_obtenir_sommet(permutation, voisin), &distance_calculee);
 
             if (distance_calculee < distance_minimale)
             {
@@ -38,7 +40,7 @@ Resultat tournee_plus_proche_voisin(MatriceDistance matrice)
 
     Resultat resultat;
     resultat.permutation = permutation;
-    resultat.longueur = permutation_calculer_longueur(resultat.permutation, matrice);
+    permutation_calculer_longueur(resultat.permutation, matrice, matrice_obteni);
 
     return resultat;
 }

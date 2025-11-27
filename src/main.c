@@ -12,16 +12,17 @@
 
 int main(int argc, char **argv)
 {
-    Options options = options_traitement(argc, argv);
+    Arguments options = options_traiter_arguments(argc, argv);
 
-    FILE *entree = ouverture_entree(options);
-    FILE *sortie = ouverture_sortie(options);
+    fichier_ouvrir_entree(options);
+    fichier_ouvrir_sortie(options);
 
-    Specification specification = lecture_specification_tsp(entree);
+    Specification specification = lecture_tsp_lire_specification(entree);
 
-    MatriceDistance matrice = matrice_creer(specification.nombre_points, specification.calculer_distance);
+    MatriceDistance matrice = matrice_creer(
+        specification.nombre_points, sizeof(Point), sizeof(distance), specification.calculer_distance);
 
-    lecture_points_tsp(entree, matrice_obtenir_tableau_point(matrice));
+    lecture_tsp_lire_points(entree, matrice);
 
     matrice_remplir(matrice);
 
@@ -29,8 +30,8 @@ int main(int argc, char **argv)
 
     matrice_supprimer(&matrice);
 
-    fermeture_entree(entree, options);
-    fermeture_sortie(sortie, options);
+    fichier_fermer_entree(options);
+    fichier_fermer_sortie(options);
 
     exit(EXIT_SUCCESS);
 }

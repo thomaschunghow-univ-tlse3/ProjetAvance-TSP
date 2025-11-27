@@ -12,7 +12,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-#define TAILLE_OPTIONS_MAX 100
+#define OPTIONS_TAILLE_MAX 100
 
 typedef enum
 {
@@ -22,10 +22,10 @@ typedef enum
     MARCHE_ALEATOIRE,
     PLUS_PROCHE_VOISIN_2_OPTIMISATION,
     MARCHE_ALEATOIRE_2_OPTIMISATION,
-    GENETIQUE_GENERIQUE,
+    GENETIQUE_LIGHT,
     GENETIQUE_DPX,
     TOUTES,
-} MethodeCalcul;
+} Methode;
 
 typedef struct
 {
@@ -36,23 +36,22 @@ typedef struct
 
 typedef struct
 {
-    char nom_fichier_entree[TAILLE_OPTIONS_MAX];
-    char nom_fichier_sortie[TAILLE_OPTIONS_MAX];
+    char nom_fichier_entree[OPTIONS_TAILLE_MAX];
+    char nom_fichier_sortie[OPTIONS_TAILLE_MAX];
     bool canonique;
-    MethodeCalcul methode_calcul;
+    Methode methode_calcul;
     ArgumentsGenetique arguments_genetique;
-} Options;
+} Arguments;
 
-Options options_traitement(int argc, char **argv);
+Arguments options_traiter_arguments(int argc, char **argv);
 
-FILE *ouverture_entree(Options options);
-FILE *ouverture_sortie(Options options);
+extern FILE *entree;
+extern FILE *sortie;
 
-void fermeture_entree(FILE *, Options options);
-void fermeture_sortie(FILE *, Options options);
+void fichier_ouvrir_entree(Arguments options);
+void fichier_ouvrir_sortie(Arguments options);
 
-#ifdef AFFICHAGE_INTERACTIF
-extern FILE *sortie_interactive;
-#endif // AFFICHAGE_INTERACTIF
+void fichier_fermer_entree(Arguments options);
+void fichier_fermer_sortie(Arguments options);
 
 #endif // OPTIONS_H

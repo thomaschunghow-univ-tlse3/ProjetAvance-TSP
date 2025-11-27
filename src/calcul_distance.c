@@ -22,6 +22,15 @@ distance calculer_distance_euclidienne(Point A, Point B)
 	return hypot(B.x - A.x, B.y - A.y);
 }
 
+void calculer_distance_euclidienne_generique(void *point_A, void *point_B, void *longueur_AB)
+{
+	Point *A = (Point *)point_A;
+	Point *B = (Point *)point_B;
+	distance *longueur = (distance *)longueur_AB;
+
+	*longueur = calculer_distance_euclidienne(*A, *B);
+}
+
 distance calculer_conversion_degres_en_radians(coordonnee coordonnee)
 {
 	/* On a une coordonnée où la partie entière est les degrés, et la partie décimale les minutes. */
@@ -50,6 +59,15 @@ distance calculer_distance_geographique(Point A, Point B)
 	return ceil(RAYON_TERRE * acos(.5 * (q2 * (1 + q1) - q3 * (1 - q1))));
 }
 
+void calculer_distance_geographique_generique(void *point_A, void *point_B, void *longueur_AB)
+{
+	Point *A = (Point *)point_A;
+	Point *B = (Point *)point_B;
+	distance *longueur = (distance *)longueur_AB;
+
+	*longueur = calculer_distance_geographique(*A, *B);
+}
+
 distance calculer_distance_euclidienne_modifiee(Point A, Point B)
 {
 	distance difference_x = A.x - B.x;
@@ -59,4 +77,13 @@ distance calculer_distance_euclidienne_modifiee(Point A, Point B)
 	distance distance_arrondie = ceil(distance_approchee);
 
 	return distance_arrondie;
+}
+
+void calculer_distance_euclidienne_modifiee_generique(void *point_A, void *point_B, void *longueur_AB)
+{
+	Point *A = (Point *)point_A;
+	Point *B = (Point *)point_B;
+	distance *longueur = (distance *)longueur_AB;
+
+	*longueur = calculer_distance_euclidienne_modifiee(*A, *B);
 }

@@ -7,8 +7,9 @@
 #ifndef AFFICHAGE_H
 #define AFFICHAGE_H
 
-#include "lecture_donnees.h"
+#include "lecture_tsp.h"
 #include "traitement_tournee.h"
+#include "calcul_distance.h"
 
 #define RESET "\033[0m"
 #define ROUGE "\033[31m"
@@ -21,6 +22,6 @@ void afficher_permutation(FILE *sortie, Permutation, size_t nombre_max_points);
 
 void afficher_longueur(FILE *sortie, distance);
 
-void afficher_tournee(FILE *sortie, char *nom_fichier, MethodeCalcul, double temps, distance, Permutation);
+void afficher_tournee(FILE *sortie, char *nom_fichier, Methode, double temps, distance, Permutation);
 
 #endif // AFFICHAGE_H

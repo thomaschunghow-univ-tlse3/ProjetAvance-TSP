@@ -7,7 +7,7 @@
 #ifndef TRAITEMENT_INTERRUPTION_H
 #define TRAITEMENT_INTERRUPTION_H
 
-#include "structure_permutation.h"
+#include "structure.h"
 
 #include <signal.h>
 
