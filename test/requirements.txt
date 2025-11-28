@@ -1,15 +1,8 @@
 tsplib95
-<<<<<<< HEAD
-<<<<<<< HEAD
 matplotlib
 pyproj
-=======
-# getopt
-random
-matplotlib
-sys
->>>>>>> 20e72f5 (modification de l'arborescence)
-=======
-matplotlib
-pyproj
->>>>>>> f2faa0f (rebase)
+#getopt
+#os
+#time
+#subprocess
+#sys

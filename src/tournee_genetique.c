@@ -16,8 +16,6 @@
 #define NB_INDIVIDUS_MAX 500
 
 struct population{
-	
-	
 	size_t nb_individus;
 	size_t indice_meilleur_distance;
 	size_t indice_pire_distance;

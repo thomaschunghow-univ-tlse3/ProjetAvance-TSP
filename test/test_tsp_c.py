@@ -7,9 +7,9 @@ import subprocess
 import time
 import os
 import sys
-#import tsplib95 # fonctions pour lire les fichiers TSPLIB et faire des calculs
-#import pyproj # pour les coordonnées géométriques
-#import matplotlib.pyplot as plt # pour les graphiques
+import tsplib95 # fonctions pour lire les fichiers TSPLIB et faire des calculs
+import pyproj # pour les coordonnées géométriques
+import matplotlib.pyplot as plt # pour les graphiques
 # from tsp_tools import *
 
 def extract_data(path,code,filename,method,distance_fct,coord,graphique):
