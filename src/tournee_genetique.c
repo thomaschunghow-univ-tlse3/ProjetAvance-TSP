@@ -17,11 +17,12 @@
 
 struct population{
 	
-	MatriceDistance mat;
+	
 	size_t nb_individus;
 	size_t indice_meilleur_distance;
 	size_t indice_pire_distance;
 	double pMutation;
+	MatriceDistance mat;
 	Resultat individus[NB_INDIVIDUS_MAX];//utilisation d'un tableau pour stocker les résultats //TODO trouver un moyen d'utiliser un pointeur
 };
 
@@ -53,7 +54,7 @@ Population population_creer(MatriceDistance matrice, size_t N, double pMutation 
 		perror("Trop d'individus pour cette tournée");
 		exit(0);
 	}
-	Population population = malloc(sizeof(struct population) /*+ (sizeof(Permutation) + matrice_obtenir_nombre_points(matrice)*sizeof(size_t))*N*/);
+	Population population = malloc(sizeof(struct population) /*+ sizeof(matrice) + N*sizeof(Resultat)*/);
 	if(population == NULL)
 	{
 		fprintf(stderr,
@@ -104,7 +105,7 @@ Resultat croisement(Resultat tournee1, Resultat tournee2, size_t indice)
 	{
 		size_t sommet1 = tournee_sommet_numero(&tournee1,i);
 		size_t sommet2 = tournee_sommet_numero(&tournee2,i);
-		if(sommet1 != sommet2)
+		if(sommet1 != sommet2 )
 			permutation_echanger_sommets(tournee_resultat.permutation,sommet1,sommet2);//échange des sommets de la tournée résultat
 	}
 	return tournee_resultat;
@@ -181,7 +182,7 @@ Population generation(Population population, size_t indice,bool dpx)
 	if(dpx )//tournée DPX
 		tournee_fille = croisement_DPX(population -> individus[premier], population -> individus[deuxieme],population -> mat);
 	else//tournée génétique normale
-		tournee_fille = croisement(population -> individus[premier], population -> individus[deuxieme],indice);
+		tournee_fille = croisement(population -> individus[premier], population -> individus[deuxieme], indice);
 	if(determiner_mutation(population -> pMutation))
 	{// décider s'il y a une mutation ou pas
 		printf("mutation\n");
