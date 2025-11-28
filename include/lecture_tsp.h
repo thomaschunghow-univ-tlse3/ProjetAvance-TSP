@@ -20,7 +20,10 @@ typedef struct
     char type[LECTURE_TSP_TAILLE_MAX];
     char commentaire[LECTURE_TSP_TAILLE_MAX];
     size_t nombre_points;
-    DistanceCalculer calculer_distance;
+    DistanceCalculer distance_calculer;
+    DistanceAdditionner distance_additionner;
+    DistanceSoustraire distance_soustraire;
+    DistanceComparer distance_comparer;
 } Specification;
 
 Specification lecture_tsp_lire_specification(FILE *fichier);

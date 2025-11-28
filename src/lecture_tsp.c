@@ -17,7 +17,10 @@ Specification lecture_tsp_initialiser_specification()
     memset(specification.type, '\0', LECTURE_TSP_TAILLE_MAX);
     memset(specification.commentaire, '\0', LECTURE_TSP_TAILLE_MAX);
     specification.nombre_points = 0;
-    specification.calculer_distance = NULL;
+    specification.distance_calculer = NULL;
+    specification.distance_additionner = NULL;
+    specification.distance_soustraire = NULL;
+    specification.distance_comparer = NULL;
     return specification;
 }
 
@@ -27,7 +30,7 @@ void lecture_tsp_verifier_specification_valide(Specification specification)
         strcmp(specification.nom, "") == 0 ||
         strcmp(specification.nom, "") == 0 ||
         specification.nombre_points == 0 ||
-        specification.calculer_distance == NULL)
+        specification.distance_calculer == NULL)
     {
         fprintf(
             stderr,
@@ -79,6 +82,10 @@ Specification lecture_tsp_lire_specification(FILE *entree)
         {
             strncpy(specification.nom, ligne, LECTURE_TSP_TAILLE_MAX);
         }
+        else if (strstr(ligne, "EDGE_WEIGHT_TYPE"))
+        {
+            specification.distance_calculer = lecture_tsp_obtenir_methode_depuis_nom(ligne);
+        }
         else if (strstr(ligne, "TYPE"))
         {
             strncpy(specification.type, ligne, LECTURE_TSP_TAILLE_MAX);
@@ -90,10 +97,6 @@ Specification lecture_tsp_lire_specification(FILE *entree)
         else if (strstr(ligne, "DIMENSION"))
         {
             sscanf(ligne, "%*[^0-9]%lud", &specification.nombre_points);
-        }
-        else if (strstr(ligne, "EDGE_WEIGHT_TYPE"))
-        {
-            specification.calculer_distance = lecture_tsp_obtenir_methode_depuis_nom(ligne);
         }
         else if (strstr(ligne, "NODE_COORD_SECTION"))
         {

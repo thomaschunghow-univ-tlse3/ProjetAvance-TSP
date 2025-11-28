@@ -20,7 +20,8 @@ int main(int argc, char **argv)
     Specification specification = lecture_tsp_lire_specification(entree);
 
     MatriceDistance matrice = matrice_creer(
-        specification.nombre_points, sizeof(Point), sizeof(distance), specification.calculer_distance);
+        specification.nombre_points, sizeof(Point), sizeof(distance),
+        specification.distance_calculer, &distance_additionner, &distance_soustraire, &distance_comparer);
 
     lecture_tsp_lire_points(entree, matrice);
 

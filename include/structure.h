@@ -81,9 +81,9 @@ size_t matrice_obtenir_nombre_distances(MatriceDistance);
 size_t matrice_obtenir_taille_distance(MatriceDistance matrice);
 
 DistanceCalculer matrice_obtenir_distance_calculer(MatriceDistance);
-DistanceCalculer matrice_obtenir_distance_additionner(MatriceDistance matrice);
-DistanceCalculer matrice_obtenir_distance_soustraire(MatriceDistance matrice);
-DistanceCalculer matrice_obtenir_distance_comparer(MatriceDistance matrice);
+DistanceAdditionner matrice_obtenir_distance_additionner(MatriceDistance matrice);
+DistanceSoustraire matrice_obtenir_distance_soustraire(MatriceDistance matrice);
+DistanceComparer matrice_obtenir_distance_comparer(MatriceDistance matrice);
 
 void matrice_obtenir_point(MatriceDistance, size_t indice, void *point_destination);
 void matrice_modifier_point(MatriceDistance, size_t indice, void *point_destination);
@@ -129,21 +129,18 @@ void permutation_obtenir_longueur(Permutation, void *longueur_destination);
 void permutation_modifier_longueur(Permutation, void *longueur_source);
 
 void permutation_calculer_longueur(
-    Permutation permutation, MatriceDistance matrice, DistanceAdditionner distance_additionner);
+    Permutation permutation, MatriceDistance matrice);
 void permutation_calculer_longueur_avec_elagage(
-    Permutation permutation, MatriceDistance matrice, void *longueur_minimale,
-    DistanceAdditionner distance_additionner, DistanceComparer distance_comparer);
+    Permutation permutation, MatriceDistance matrice, void *longueur_minimale);
 
 bool permutation_avancer(Permutation);
 bool permutation_avancer_et_incrementer_longueur(
-    Permutation permutation, MatriceDistance matrice, void *longueur_destination,
-    DistanceAdditionner distance_additionner, DistanceSoustraire distance_soustraire);
+    Permutation permutation, MatriceDistance matrice, void *longueur_destination);
 
 void permutation_echanger_aretes(Permutation, size_t sommet_A, size_t sommet_B);
 void permutation_calculer_difference_apres_decroisement(
     MatriceDistance matrice, Permutation permutation,
-    size_t sommet_A, size_t sommet_B, void *longueur_destination,
-    DistanceAdditionner distance_additionner, DistanceSoustraire distance_soustraire);
+    size_t sommet_A, size_t sommet_B, void *longueur_destination);
 
 /*
  * Tableau de permutation :
@@ -161,6 +158,8 @@ size_t tableau_permutation_obtenir_nombre_permutations(TableauPermutation);
  * On obtient l'adresse de la permutation réelle du tableau, et non pas une copie.
  * On peut donc la modifier directement. */
 Permutation tableau_permutation_obtenir_permutation(TableauPermutation, size_t indice);
+void tableau_permutation_obtenir_longueur(TableauPermutation, size_t indice, void *longueur_destination);
+void tableau_permutation_modifier_longueur(TableauPermutation, size_t indice, void *longueur_source);
 
 size_t tableau_permutation_trouver_pire_individu(TableauPermutation, DistanceComparer);
 size_t tableau_permutation_trouver_meilleur_individu(TableauPermutation, DistanceComparer);

@@ -16,7 +16,7 @@ void interruption_gestionnaire(int signal)
     (void)signal;
 }
 
-bool interruption_traitement(Permutation permutation, Permutation permutation_minimale, distance longueur_minimale)
+bool interruption_traitement(Permutation permutation, Permutation permutation_minimale, void *longueur_minimale)
 {
     interruption = false; /* Réinitialisation du drapeau. */
 

@@ -87,3 +87,29 @@ void calculer_distance_euclidienne_modifiee_generique(void *point_A, void *point
 
 	*longueur = calculer_distance_euclidienne_modifiee(*A, *B);
 }
+
+void distance_additionner(void *distance_A, void *distance_B, void *somme)
+{
+	distance *A = (distance *)distance_A;
+	distance *B = (distance *)distance_B;
+	distance *somme_AB = (distance *)somme;
+
+	*somme_AB = *A + *B;
+}
+
+void distance_soustraire(void *distance_A, void *distance_B, void *difference)
+{
+	distance *A = (distance *)distance_A;
+	distance *B = (distance *)distance_B;
+	distance *difference_AB = (distance *)difference;
+
+	*difference_AB = *A - *B;
+}
+
+int distance_comparer(void *distance_A, void *distance_B)
+{
+	distance *A = (distance *)distance_A;
+	distance *B = (distance *)distance_B;
+
+	return *A - *B;
+}

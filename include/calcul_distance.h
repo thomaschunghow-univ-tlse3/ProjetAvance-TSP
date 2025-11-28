@@ -36,4 +36,8 @@ void calculer_distance_euclidienne_generique(void *point_A, void *point_B, void 
 void calculer_distance_geographique_generique(void *point_A, void *point_B, void *longueur_AB);
 void calculer_distance_euclidienne_modifiee_generique(void *point_A, void *point_B, void *longueur_AB);
 
+void distance_additionner(void *distance_A, void *distance_B, void *somme);
+void distance_soustraire(void *distance_A, void *distance_B, void *difference);
+int distance_comparer(void *distance_A, void *distance_B);
+
 #endif // CALCUL_DISTANCE_H

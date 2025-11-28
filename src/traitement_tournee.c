@@ -14,7 +14,7 @@
 #include <math.h>
 #include <stdlib.h>
 
-void tournee_gestionnaire(FILE *sortie, Options options, MatriceDistance matrice, MethodeCalcul methode)
+void tournee_gestionnaire(FILE *sortie, Arguments options, MatriceDistance matrice, Methode methode)
 {
     clock_t temps = clock();
 
@@ -46,7 +46,7 @@ void tournee_gestionnaire(FILE *sortie, Options options, MatriceDistance matrice
         resultat = tournee_2_optimisation_marche_aleatoire(matrice);
         break;
 
-    case GENETIQUE_GENERIQUE:
+    case GENETIQUE_LIGHT:
         resultat = tournee_genetique_generique(matrice,
                                                options.arguments_genetique.nombre_individus,
                                                options.arguments_genetique.nombre_generations,
@@ -81,7 +81,7 @@ void tournee_gestionnaire(FILE *sortie, Options options, MatriceDistance matrice
     permutation_supprimer(&resultat.permutation);
 }
 
-void tournee_traitement(FILE *sortie, Options options, MatriceDistance matrice)
+void tournee_traitement(FILE *sortie, Arguments options, MatriceDistance matrice)
 {
     srand((unsigned int)time(NULL)); /* Initialisation de la graine pour la génération de nombres aléatoires. */
 
@@ -118,8 +118,8 @@ void tournee_traitement(FILE *sortie, Options options, MatriceDistance matrice)
         tournee_gestionnaire(sortie, options, matrice, MARCHE_ALEATOIRE_2_OPTIMISATION);
         break;
 
-    case GENETIQUE_GENERIQUE:
-        tournee_gestionnaire(sortie, options, matrice, GENETIQUE_GENERIQUE);
+    case GENETIQUE_LIGHT:
+        tournee_gestionnaire(sortie, options, matrice, GENETIQUE_LIGHT);
         break;
 
     case GENETIQUE_DPX:
@@ -131,7 +131,7 @@ void tournee_traitement(FILE *sortie, Options options, MatriceDistance matrice)
         tournee_gestionnaire(sortie, options, matrice, MARCHE_ALEATOIRE);
         tournee_gestionnaire(sortie, options, matrice, PLUS_PROCHE_VOISIN_2_OPTIMISATION);
         tournee_gestionnaire(sortie, options, matrice, MARCHE_ALEATOIRE_2_OPTIMISATION);
-        tournee_gestionnaire(sortie, options, matrice, GENETIQUE_GENERIQUE);
+        tournee_gestionnaire(sortie, options, matrice, GENETIQUE_LIGHT);
         tournee_gestionnaire(sortie, options, matrice, GENETIQUE_DPX);
         break;
 

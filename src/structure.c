@@ -299,21 +299,21 @@ DistanceCalculer matrice_obtenir_distance_calculer(MatriceDistance matrice)
     return matrice->tableau_distance.distance_calculer;
 }
 
-DistanceCalculer matrice_obtenir_distance_additionner(MatriceDistance matrice)
+DistanceAdditionner matrice_obtenir_distance_additionner(MatriceDistance matrice)
 {
     assert(matrice != NULL);
 
     return matrice->tableau_distance.distance_additionner;
 }
 
-DistanceCalculer matrice_obtenir_distance_soustraire(MatriceDistance matrice)
+DistanceSoustraire matrice_obtenir_distance_soustraire(MatriceDistance matrice)
 {
     assert(matrice != NULL);
 
     return matrice->tableau_distance.distance_soustraire;
 }
 
-DistanceCalculer matrice_obtenir_distance_comparer(MatriceDistance matrice)
+DistanceComparer matrice_obtenir_distance_comparer(MatriceDistance matrice)
 {
     assert(matrice != NULL);
 
@@ -628,10 +628,13 @@ void permutation_modifier_longueur(Permutation permutation, void *longueur_sourc
 }
 
 void permutation_calculer_longueur(
-    Permutation permutation, MatriceDistance matrice, DistanceAdditionner distance_additionner)
+    Permutation permutation, MatriceDistance matrice)
 {
     assert(permutation != NULL);
     assert(matrice != NULL);
+
+    DistanceAdditionner distance_additionner = matrice_obtenir_distance_additionner(matrice);
+    assert(distance_additionner != NULL);
 
     size_t nombre_sommets = permutation_obtenir_nombre_sommets(permutation);
     size_t *sommets = permutation->sommets;
@@ -653,11 +656,16 @@ void permutation_calculer_longueur(
 }
 
 void permutation_calculer_longueur_avec_elagage(
-    Permutation permutation, MatriceDistance matrice, void *longueur_minimale,
-    DistanceAdditionner distance_additionner, DistanceComparer distance_comparer)
+    Permutation permutation, MatriceDistance matrice, void *longueur_minimale)
 {
     assert(permutation != NULL);
     assert(matrice != NULL);
+
+    DistanceAdditionner distance_additionner = matrice_obtenir_distance_additionner(matrice);
+    assert(distance_additionner != NULL);
+
+    DistanceComparer distance_comparer = matrice_obtenir_distance_comparer(matrice);
+    assert(distance_comparer != NULL);
 
     size_t nombre_sommets = permutation_obtenir_nombre_sommets(permutation);
     size_t *sommets = permutation->sommets;
@@ -733,10 +741,15 @@ bool permutation_avancer(Permutation permutation)
 }
 
 bool permutation_avancer_et_incrementer_longueur(
-    Permutation permutation, MatriceDistance matrice, void *longueur_destination,
-    DistanceAdditionner distance_additionner, DistanceSoustraire distance_soustraire)
+    Permutation permutation, MatriceDistance matrice, void *longueur_destination)
 {
     assert(permutation != NULL);
+
+    DistanceAdditionner distance_additionner = matrice_obtenir_distance_additionner(matrice);
+    assert(distance_additionner != NULL);
+
+    DistanceSoustraire distance_soustraire = matrice_obtenir_distance_soustraire(matrice);
+    assert(distance_soustraire != NULL);
 
     size_t nombre_sommets = permutation_obtenir_nombre_sommets(permutation);
     size_t *sommets = permutation->sommets;
@@ -856,10 +869,15 @@ void permutation_echanger_aretes(Permutation permutation, size_t sommet_A, size_
 
 void permutation_calculer_difference_apres_decroisement(
     MatriceDistance matrice, Permutation permutation,
-    size_t sommet_A, size_t sommet_B, void *longueur_destination,
-    DistanceAdditionner distance_additionner, DistanceSoustraire distance_soustraire)
+    size_t sommet_A, size_t sommet_B, void *longueur_destination)
 {
     assert(permutation != NULL);
+
+    DistanceAdditionner distance_additionner = matrice_obtenir_distance_additionner(matrice);
+    assert(distance_additionner != NULL);
+
+    DistanceSoustraire distance_soustraire = matrice_obtenir_distance_soustraire(matrice);
+    assert(distance_soustraire != NULL);
 
     size_t nombre_sommets = permutation_obtenir_nombre_sommets(permutation);
     size_t *sommets = permutation->sommets;
@@ -1040,4 +1058,14 @@ void tableau_permutation_trier(TableauPermutation tableau, DistanceComparer dist
     qsort(
         tableau->permutations, nombre_permutations, sizeof(struct permutation),
         tableau_permutation_comparer);
+}
+
+void tableau_permutation_obtenir_longueur(TableauPermutation tableau, size_t indice, void *longueur_destination)
+{
+    permutation_obtenir_longueur(tableau->permutations[indice], longueur_destination);
+}
+
+void tableau_permutation_modifier_longueur(TableauPermutation tableau, size_t indice, void *longueur_source)
+{
+    permutation_modifier_longueur(tableau->permutations[indice], longueur_source);
 }

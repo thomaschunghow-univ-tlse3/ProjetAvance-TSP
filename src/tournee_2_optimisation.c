@@ -15,7 +15,7 @@ Resultat tournee_plus_proche_voisin(MatriceDistance matrice)
 {
     size_t nombre_points = matrice_obtenir_nombre_points(matrice);
 
-    Permutation permutation = permutation_creer(nombre_points, matrice_obtenir_taille_distance);
+    Permutation permutation = permutation_creer(nombre_points, matrice_obtenir_taille_distance(matrice));
 
     for (size_t sommet_fixe = 0; sommet_fixe < nombre_points - 1; sommet_fixe++)
     {
@@ -40,7 +40,8 @@ Resultat tournee_plus_proche_voisin(MatriceDistance matrice)
 
     Resultat resultat;
     resultat.permutation = permutation;
-    permutation_calculer_longueur(resultat.permutation, matrice, matrice_obteni);
+    permutation_calculer_longueur(resultat.permutation, matrice);
+    permutation_obtenir_longueur(permutation, &resultat.longueur);
 
     return resultat;
 }
@@ -49,13 +50,14 @@ Resultat tournee_marche_aleatoire(MatriceDistance matrice)
 {
     size_t nombre_points = matrice_obtenir_nombre_points(matrice);
 
-    Permutation permutation = permutation_creer(nombre_points);
+    Permutation permutation = permutation_creer(nombre_points, matrice_obtenir_taille_distance(matrice));
 
     permutation_melanger(permutation);
 
     Resultat resultat;
     resultat.permutation = permutation;
-    resultat.longueur = permutation_calculer_longueur(resultat.permutation, matrice);
+    permutation_calculer_longueur(resultat.permutation, matrice);
+    permutation_obtenir_longueur(permutation, &resultat.longueur);
 
     return resultat;
 }
@@ -68,7 +70,9 @@ Resultat tournee_2_optimisation(MatriceDistance matrice, Permutation permutation
 
     size_t nombre_points = matrice_obtenir_nombre_points(matrice);
 
-    distance longueur = permutation_calculer_longueur(permutation, matrice);
+    distance longueur;
+    permutation_calculer_longueur(permutation, matrice);
+    permutation_obtenir_longueur(permutation, &longueur);
 
     bool amelioration_trouvee = true;
     bool demande_stop = false;
@@ -86,7 +90,10 @@ Resultat tournee_2_optimisation(MatriceDistance matrice, Permutation permutation
         {
             for (size_t sommet_B = sommet_A + 1; sommet_B < nombre_points; sommet_B++)
             {
-                distance difference = permutation_calculer_difference_apres_decroisement(matrice, permutation, sommet_A, sommet_B);
+                distance difference;
+
+                permutation_calculer_difference_apres_decroisement(
+                    matrice, permutation, sommet_A, sommet_B, &difference);
 
                 /* Gestion des interruptions. */
                 if (interruption)
