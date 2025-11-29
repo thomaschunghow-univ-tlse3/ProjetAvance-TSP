@@ -111,5 +111,9 @@ int distance_comparer(void *distance_A, void *distance_B)
 	distance *A = (distance *)distance_A;
 	distance *B = (distance *)distance_B;
 
-	return *A - *B;
+	if (*A < *B)
+	{
+		return -1;
+	}
+	return 1;
 }

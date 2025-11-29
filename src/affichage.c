@@ -6,6 +6,7 @@
 
 #include <unistd.h>
 #include <stdlib.h>
+#include <assert.h>
 
 void afficher_noms_champs(FILE *sortie)
 {
@@ -101,6 +102,8 @@ void afficher_methode_calcul(FILE *sortie, Methode methode)
 
 void afficher_longueur(FILE *sortie, void *distance_generique)
 {
+    assert(distance_generique != NULL);
+
     distance distance_a_afficher = *(distance *)distance_generique;
     fprintf(sortie, "%-20.17g", distance_a_afficher);
 }

@@ -16,16 +16,6 @@ void size_t_echanger(size_t *A, size_t *B);
  */
 
 typedef struct tableau_point *TableauPoint;
-
-TableauPoint tableau_point_creer(size_t nombre_points, size_t taille_point);
-void tableau_point_supprimer(TableauPoint *);
-
-size_t tableau_point_obtenir_nombre_points(TableauPoint);
-size_t tableau_point_obtenir_taille_point(TableauPoint);
-
-void tableau_point_obtenir_point(TableauPoint, size_t indice, void *point_destination);
-void tableau_point_modifier_point(TableauPoint, size_t indice, void *point_source);
-
 /*
  * Distance :
  * Définition et opérations du type abstrait générique de tableau de distance.
@@ -40,16 +30,6 @@ typedef void (*DistanceSoustraire)(void *distance_A, void *distance_B, void *dif
  * retourne 0 si distance_A == distance_B,
  * retourne une valeur supérieure à 0 si distance_A > distance_B. */
 typedef int (*DistanceComparer)(void *distance_A, void *distance_B);
-
-TableauDistance tableau_distance_creer(size_t nombre_distances, size_t taille_distance, DistanceCalculer);
-void tableau_distance_supprimer(TableauDistance *);
-
-size_t tableau_distance_obtenir_nombre_distances(TableauDistance);
-size_t tableau_distance_obtenir_taille_distance(TableauDistance);
-DistanceCalculer tableau_distance_obtenir_distance_calculer(TableauDistance);
-
-void tableau_distance_obtenir_distance(TableauDistance, size_t indice, void *distance_destination);
-void tableau_distance_modifier_distance(TableauDistance, size_t indice, void *distance_source);
 
 /*
  * Matrice :

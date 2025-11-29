@@ -445,10 +445,10 @@ Permutation permutation_creer(size_t nombre_sommets, size_t taille_distance)
     }
 
     permutation->nombre_sommets = nombre_sommets;
-    permutation->sommets = (size_t *)(permutation + 1);
-
     permutation->taille_distance = taille_distance;
-    permutation->longueur = (char *)(permutation->sommets + nombre_sommets);
+    permutation->longueur = (char *)(permutation + 1);
+    permutation->sommets = (size_t *)(permutation->longueur + taille_distance);
+    memset(permutation->longueur, 0, taille_distance);
 
     permutation_initialiser(permutation);
 
@@ -612,6 +612,7 @@ size_t permutation_obtenir_taille_distance(Permutation permutation)
 void permutation_obtenir_longueur(Permutation permutation, void *longueur_destination)
 {
     assert(permutation != NULL);
+    assert(longueur_destination != NULL);
 
     size_t taille_distance = permutation_obtenir_taille_distance(permutation);
 

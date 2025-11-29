@@ -27,38 +27,38 @@ void tournee_gestionnaire(FILE *sortie, Arguments options, MatriceDistance matri
         break;
 
     case FORCE_BRUTE:
-        resultat = tournee_force_brute_incrementale(matrice);
+        resultat = tournee_force_brute_naive(matrice);
         break;
 
     case PLUS_PROCHE_VOISIN:
-        resultat = tournee_plus_proche_voisin(matrice);
+        // resultat = tournee_plus_proche_voisin(matrice);
         break;
 
     case MARCHE_ALEATOIRE:
-        resultat = tournee_marche_aleatoire(matrice);
+        // resultat = tournee_marche_aleatoire(matrice);
         break;
 
     case PLUS_PROCHE_VOISIN_2_OPTIMISATION:
-        resultat = tournee_2_optimisation_plus_proche_voisin(matrice);
+        // resultat = tournee_2_optimisation_plus_proche_voisin(matrice);
         break;
 
     case MARCHE_ALEATOIRE_2_OPTIMISATION:
-        resultat = tournee_2_optimisation_marche_aleatoire(matrice);
+        // resultat = tournee_2_optimisation_marche_aleatoire(matrice);
         break;
 
     case GENETIQUE_LIGHT:
-        resultat = tournee_genetique_generique(matrice,
-                                               options.arguments_genetique.nombre_individus,
-                                               options.arguments_genetique.nombre_generations,
-                                               options.arguments_genetique.taux_mutation,
-                                               options.arguments_genetique.nombre_individus / 2);
+        // resultat = tournee_genetique_generique(matrice,
+        //                                        options.arguments_genetique.nombre_individus,
+        //                                        options.arguments_genetique.nombre_generations,
+        //                                        options.arguments_genetique.taux_mutation,
+        //                                        options.arguments_genetique.nombre_individus / 2);
         break;
 
     case GENETIQUE_DPX:
-        resultat = tournee_genetique_dpx(matrice,
-                                         options.arguments_genetique.nombre_individus,
-                                         options.arguments_genetique.nombre_generations,
-                                         options.arguments_genetique.taux_mutation);
+        // resultat = tournee_genetique_dpx(matrice,
+        //                                  options.arguments_genetique.nombre_individus,
+        //                                  options.arguments_genetique.nombre_generations,
+        //                                  options.arguments_genetique.taux_mutation);
         break;
 
     case TOUTES:
