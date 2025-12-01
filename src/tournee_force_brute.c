@@ -31,8 +31,6 @@ Resultat tournee_force_brute_naive(MatriceDistance matrice)
 
     while (permutation_avancer(permutation) && !demande_stop)
     {
-        afficher_longueur(stdout, longueur);
-        printf("\n");
         permutation_calculer_longueur(permutation, matrice);
         permutation_obtenir_longueur(permutation, longueur);
 

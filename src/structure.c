@@ -12,6 +12,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "affichage.h"
+
 void size_t_echanger(size_t *A, size_t *B)
 {
     size_t temp = *A;
@@ -213,6 +215,11 @@ size_t matrice_calculer_nombre_distances(size_t ligne)
 
 size_t matrice_calculer_indice(size_t ligne, size_t colonne)
 {
+    if (ligne < colonne)
+    {
+        size_t_echanger(&ligne, &colonne);
+    }
+
     return matrice_calculer_nombre_distances(ligne) + colonne;
 }
 
@@ -642,11 +649,11 @@ void permutation_calculer_longueur(
 
     size_t taille_distance = matrice_obtenir_taille_distance(matrice);
 
-    matrice_obtenir_distance(matrice, sommets[0], sommets[nombre_sommets - 1], permutation->longueur);
+    matrice_obtenir_distance(matrice, sommets[nombre_sommets - 1], sommets[0], permutation->longueur);
 
     for (size_t i = 0; i < nombre_sommets - 1; i++)
     {
-        size_t indice = matrice_calculer_indice(sommets[i], sommets[i + 1]);
+        size_t indice = matrice_calculer_indice(sommets[i + 1], sommets[i]);
         char *distance = matrice->tableau_distance.distances + indice * taille_distance;
 
         distance_additionner(
@@ -673,7 +680,7 @@ void permutation_calculer_longueur_avec_elagage(
 
     size_t taille_distance = matrice_obtenir_taille_distance(matrice);
 
-    matrice_obtenir_distance(matrice, sommets[0], sommets[nombre_sommets - 1], permutation->longueur);
+    matrice_obtenir_distance(matrice, sommets[nombre_sommets - 1], sommets[0], permutation->longueur);
 
     for (size_t i = 0; i < nombre_sommets - 1; i++)
     {
@@ -682,7 +689,7 @@ void permutation_calculer_longueur_avec_elagage(
             break;
         }
 
-        size_t indice = matrice_calculer_indice(sommets[i], sommets[i + 1]);
+        size_t indice = matrice_calculer_indice(sommets[i + 1], sommets[i]);
         char *distance = matrice->tableau_distance.distances + indice * taille_distance;
 
         distance_additionner(

@@ -27,7 +27,7 @@ void tournee_gestionnaire(FILE *sortie, Arguments options, MatriceDistance matri
         break;
 
     case FORCE_BRUTE:
-        resultat = tournee_force_brute_naive(matrice);
+        resultat = tournee_force_brute_incrementale(matrice);
         break;
 
     case PLUS_PROCHE_VOISIN:
