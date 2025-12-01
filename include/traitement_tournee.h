@@ -9,7 +9,6 @@
 
 #include "structure.h"
 #include "options.h"
-#include "calcul_distance.h"
 
 typedef Permutation (*AlgorithmeTournee)(MatriceDistance);
 

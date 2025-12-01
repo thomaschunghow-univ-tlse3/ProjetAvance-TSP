@@ -8,9 +8,12 @@
             "program": "${workspaceFolder}/bin/main",
             "args": [
                 "-f",
-                "${workspaceFolder}/data/tsp/att10.tsp",
+                "${workspaceFolder}/data/tsp/gr431.tsp",
                 "-m",
-                "2optrw"
+                "ga",
+                "20",
+                "20",
+                ".3"
             ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",

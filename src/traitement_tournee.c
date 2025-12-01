@@ -48,18 +48,18 @@ void tournee_gestionnaire(FILE *sortie, Arguments options, MatriceDistance matri
         break;
 
     case GENETIQUE_LIGHT:
-        // resultat = tournee_genetique_generique(matrice,
-        //                                        options.arguments_genetique.nombre_individus,
-        //                                        options.arguments_genetique.nombre_generations,
-        //                                        options.arguments_genetique.taux_mutation,
-        //                                        options.arguments_genetique.nombre_individus / 2);
+        resultat = tournee_genetique_light(matrice,
+                                           options.arguments_genetique.nombre_individus,
+                                           options.arguments_genetique.nombre_generations,
+                                           options.arguments_genetique.taux_mutation,
+                                           options.arguments_genetique.nombre_individus / 2);
         break;
 
     case GENETIQUE_DPX:
-        // resultat = tournee_genetique_dpx(matrice,
-        //                                  options.arguments_genetique.nombre_individus,
-        //                                  options.arguments_genetique.nombre_generations,
-        //                                  options.arguments_genetique.taux_mutation);
+        resultat = tournee_genetique_dpx(matrice,
+                                         options.arguments_genetique.nombre_individus,
+                                         options.arguments_genetique.nombre_generations,
+                                         options.arguments_genetique.taux_mutation);
         break;
 
     case TOUTES:

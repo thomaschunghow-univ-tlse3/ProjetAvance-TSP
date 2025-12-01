@@ -326,7 +326,6 @@ Permutation permutation_creer(size_t nombre_sommets, size_t taille_distance)
     permutation->taille_distance = taille_distance;
     permutation->longueur = (char *)(permutation + 1);
     permutation->sommets = (size_t *)(permutation->longueur + taille_distance);
-    memset(permutation->longueur, 0, taille_distance);
 
     permutation_initialiser(permutation);
 
@@ -353,6 +352,9 @@ void permutation_initialiser(Permutation permutation)
     {
         sommets[i] = i;
     }
+
+    size_t taille_distance = permutation_obtenir_taille_distance(permutation);
+    memset(permutation->longueur, 0, taille_distance);
 }
 
 void permutation_melanger(Permutation permutation)
@@ -866,6 +868,8 @@ TableauPermutation tableau_permutation_creer(size_t nombre_permutations, size_t 
         permutation->sommets = adresse_sommets + nombre_sommets * i;
         permutation->taille_distance = taille_distance;
         permutation->longueur = adresse_longueur + taille_distance * i;
+
+        permutation_initialiser(permutation);
     }
 
     return tableau;

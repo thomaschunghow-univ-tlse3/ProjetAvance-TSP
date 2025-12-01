@@ -1,1 +1,1 @@
-data/tsp/att48.tsp
+data/tsp/bier127.tsp
