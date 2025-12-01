@@ -5,9 +5,11 @@
             "includePath": [
                 "${workspaceFolder}/include"
             ],
-            "defines": [],
+            "defines": [
+                "_GNU_SOURCE"
+            ],
             "compilerPath": "/usr/bin/gcc",
-            "cStandard": "gnu99",
+            "cStandard": "gnu23",
             "cppStandard": "gnu++17",
             "intelliSenseMode": "linux-gcc-x64",
             "configurationProvider": "ms-vscode.makefile-tools"

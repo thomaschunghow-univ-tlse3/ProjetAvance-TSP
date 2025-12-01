@@ -112,19 +112,14 @@ void permutation_modifier_longueur(Permutation, void *longueur_source);
 
 int permutation_comparer_longueurs(Permutation permutation_A, Permutation permutation_B, DistanceComparer);
 
-void permutation_calculer_longueur(
-    Permutation permutation, MatriceDistance matrice);
-void permutation_calculer_longueur_avec_elagage(
-    Permutation permutation, MatriceDistance matrice, Permutation permutation_minimale);
+void permutation_calculer_longueur(Permutation permutation, MatriceDistance matrice);
+void permutation_calculer_longueur_avec_elagage(Permutation permutation, MatriceDistance matrice, Permutation permutation_minimale);
 
 bool permutation_avancer(Permutation);
-bool permutation_avancer_et_incrementer_longueur(
-    Permutation permutation, MatriceDistance matrice);
+bool permutation_avancer_et_incrementer_longueur(Permutation permutation, MatriceDistance matrice);
 
 void permutation_echanger_aretes(Permutation, size_t sommet_A, size_t sommet_B);
-bool permutation_decroiser(
-    MatriceDistance matrice, Permutation permutation,
-    size_t sommet_A, size_t sommet_B, Permutation permutation_decroisee);
+bool permutation_decroiser(MatriceDistance matrice, Permutation permutation, size_t sommet_A, size_t sommet_B, Permutation permutation_decroisee);
 
 /*
  * Tableau de permutation :

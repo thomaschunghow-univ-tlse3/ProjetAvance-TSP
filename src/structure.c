@@ -12,8 +12,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "affichage.h"
-
 void size_t_echanger(size_t *A, size_t *B)
 {
     size_t temp = *A;
@@ -35,72 +33,6 @@ struct tableau_point
      * car void n'a pas de taille. */
 };
 
-TableauPoint tableau_point_creer(size_t nombre_points, size_t taille_point)
-{
-    TableauPoint tableau = malloc(sizeof(struct tableau_point) + nombre_points * taille_point);
-
-    if (tableau == NULL)
-    {
-        fprintf(
-            stderr,
-            "Erreur tableau_point_creer :\n"
-            "Échec de l'allocation mémoire du tableau.\n");
-        exit(EXIT_FAILURE);
-    }
-
-    tableau->nombre_points = nombre_points;
-    tableau->taille_point = taille_point;
-
-    tableau->points = (char *)(tableau + 1);
-
-    return tableau;
-}
-
-void tableau_point_supprimer(TableauPoint *tableau)
-{
-    assert(tableau != NULL);
-    assert(*tableau != NULL);
-
-    free(*tableau);
-    *tableau = NULL;
-}
-
-size_t tableau_point_obtenir_nombre_points(TableauPoint tableau)
-{
-    assert(tableau != NULL);
-
-    return tableau->nombre_points;
-}
-
-size_t tableau_point_obtenir_taille_point(TableauPoint tableau)
-{
-    assert(tableau != NULL);
-
-    return tableau->taille_point;
-}
-
-void tableau_point_obtenir_point(TableauPoint tableau, size_t indice, void *point_destination)
-{
-    assert(tableau != NULL);
-    assert(indice < tableau_point_obtenir_nombre_points(tableau));
-    assert(point_destination != NULL);
-
-    size_t taille_point = tableau_point_obtenir_taille_point(tableau);
-
-    memcpy(point_destination, tableau->points + indice * taille_point, taille_point);
-}
-
-void tableau_point_modifier_point(TableauPoint tableau, size_t indice, void *point_source)
-{
-    assert(tableau != NULL);
-    assert(indice < tableau_point_obtenir_nombre_points(tableau));
-    assert(point_source != NULL);
-
-    size_t taille_point = tableau_point_obtenir_taille_point(tableau);
-
-    memcpy(tableau->points + indice * taille_point, point_source, taille_point);
-}
-
 /*
  * Distance.
  */
@@ -119,84 +51,6 @@ struct tableau_distance
     /* On utilise le type char pour pouvoir faire de l'arithmétique de pointeurs,
      * car void n'a pas de taille. */
 };
-
-TableauDistance tableau_distance_creer(
-    size_t nombre_distances, size_t taille_distance, DistanceCalculer distance_calculer)
-{
-    TableauDistance tableau = malloc(
-        sizeof(struct tableau_distance) + nombre_distances * taille_distance);
-
-    if (tableau == NULL)
-    {
-        fprintf(
-            stderr,
-            "Erreur tableau_distance_creer :\n"
-            "Échec de l'allocation mémoire du tableau.\n");
-        exit(EXIT_FAILURE);
-    }
-
-    tableau->nombre_distances = nombre_distances;
-    tableau->taille_distance = taille_distance;
-    tableau->distance_calculer = distance_calculer;
-
-    tableau->distances = (char *)(tableau + 1);
-
-    return tableau;
-}
-
-void tableau_distance_supprimer(TableauDistance *tableau)
-{
-    assert(tableau != NULL);
-    assert(*tableau != NULL);
-
-    free(*tableau);
-    *tableau = NULL;
-}
-
-size_t tableau_distance_obtenir_nombre_distances(TableauDistance tableau)
-{
-    assert(tableau != NULL);
-
-    return tableau->nombre_distances;
-}
-
-size_t tableau_distance_obtenir_taille_distance(TableauDistance tableau)
-{
-    assert(tableau != NULL);
-
-    return tableau->taille_distance;
-}
-
-DistanceCalculer tableau_distance_obtenir_distance_calculer(TableauDistance tableau)
-{
-    assert(tableau != NULL);
-
-    return tableau->distance_calculer;
-}
-
-void tableau_distance_obtenir_distance(
-    TableauDistance tableau, size_t indice, void *distance_destination)
-{
-    assert(tableau != NULL);
-    assert(indice < tableau_distance_obtenir_nombre_distances(tableau));
-    assert(distance_destination != NULL);
-
-    size_t taille_distance = tableau_distance_obtenir_taille_distance(tableau);
-
-    memcpy(distance_destination, tableau->distances + indice * taille_distance, taille_distance);
-}
-
-void tableau_distance_modifier_distance(
-    TableauDistance tableau, size_t indice, void *distance_source)
-{
-    assert(tableau != NULL);
-    assert(indice < tableau_distance_obtenir_nombre_distances(tableau));
-    assert(distance_source != NULL);
-
-    size_t taille_distance = tableau_distance_obtenir_taille_distance(tableau);
-
-    memcpy(tableau->distances + indice * taille_distance, distance_source, taille_distance);
-}
 
 /*
  * Matrice.
@@ -912,6 +766,9 @@ bool permutation_decroiser(
     DistanceSoustraire distance_soustraire = matrice_obtenir_distance_soustraire(matrice);
     assert(distance_soustraire != NULL);
 
+    DistanceComparer distance_comparer = matrice_obtenir_distance_comparer(matrice);
+    assert(distance_comparer != NULL);
+
     size_t nombre_sommets = permutation_obtenir_nombre_sommets(permutation);
     size_t *sommets = permutation->sommets;
 
@@ -974,14 +831,17 @@ bool permutation_decroiser(
 struct tableau_permutation
 {
     size_t nombre_permutations;
-    Permutation *permutations;
+    struct permutation *permutations;
 };
 
 TableauPermutation tableau_permutation_creer(size_t nombre_permutations, size_t nombre_sommets, size_t taille_distance)
 {
     TableauPermutation tableau = malloc(
         sizeof(struct tableau_permutation) +
-        nombre_permutations * sizeof(struct permutation));
+        nombre_permutations *
+            (sizeof(struct permutation) +
+             nombre_sommets * sizeof(size_t) +
+             taille_distance));
 
     if (tableau == NULL)
     {
@@ -993,11 +853,19 @@ TableauPermutation tableau_permutation_creer(size_t nombre_permutations, size_t 
     }
 
     tableau->nombre_permutations = nombre_permutations;
-    tableau->permutations = (Permutation *)(tableau + 1);
+    tableau->permutations = (struct permutation *)(tableau + 1);
+
+    size_t *adresse_sommets = (size_t *)(tableau->permutations + nombre_permutations);
+    char *adresse_longueur = (char *)(adresse_sommets + nombre_permutations * nombre_sommets);
 
     for (size_t i = 0; i < nombre_permutations; i++)
     {
-        tableau->permutations[i] = permutation_creer(nombre_sommets, taille_distance);
+        Permutation permutation = tableau->permutations + i;
+
+        permutation->nombre_sommets = nombre_sommets;
+        permutation->sommets = adresse_sommets + nombre_sommets * i;
+        permutation->taille_distance = taille_distance;
+        permutation->longueur = adresse_longueur + taille_distance * i;
     }
 
     return tableau;
@@ -1024,7 +892,7 @@ Permutation tableau_permutation_obtenir_permutation(TableauPermutation tableau, 
     assert(tableau != NULL);
     assert(indice < tableau->nombre_permutations);
 
-    return tableau->permutations[indice];
+    return tableau->permutations + indice;
 }
 
 size_t tableau_permutation_trouver_pire_individu(TableauPermutation tableau, DistanceComparer distance_comparer)
@@ -1034,16 +902,16 @@ size_t tableau_permutation_trouver_pire_individu(TableauPermutation tableau, Dis
     size_t nombre_permutations = tableau_permutation_obtenir_nombre_permutations(tableau);
 
     size_t indice_pire_individu = 0;
-    char *longueur_pire_individu = tableau->permutations[indice_pire_individu]->longueur;
+    char *longueur_pire_individu = tableau->permutations[indice_pire_individu].longueur;
 
-    for (size_t i = 0; i < nombre_permutations; i++)
+    for (size_t i = 1; i < nombre_permutations; i++)
     {
-        char *longueur = tableau->permutations[i]->longueur;
+        char *longueur = tableau->permutations[i].longueur;
 
         if (distance_comparer(longueur, longueur_pire_individu) > 0)
         {
             indice_pire_individu = i;
-            longueur_pire_individu = tableau->permutations[indice_pire_individu]->longueur;
+            longueur_pire_individu = tableau->permutations[indice_pire_individu].longueur;
         }
     }
 
@@ -1057,16 +925,16 @@ size_t tableau_permutation_trouver_meilleur_individu(TableauPermutation tableau,
     size_t nombre_permutations = tableau_permutation_obtenir_nombre_permutations(tableau);
 
     size_t indice_meilleur_individu = 0;
-    char *longueur_meilleur_individu = tableau->permutations[indice_meilleur_individu]->longueur;
+    char *longueur_meilleur_individu = tableau->permutations[indice_meilleur_individu].longueur;
 
-    for (size_t i = 0; i < nombre_permutations; i++)
+    for (size_t i = 1; i < nombre_permutations; i++)
     {
-        char *longueur = tableau->permutations[i]->longueur;
+        char *longueur = tableau->permutations[i].longueur;
 
         if (distance_comparer(longueur, longueur_meilleur_individu) < 0)
         {
             indice_meilleur_individu = i;
-            longueur_meilleur_individu = tableau->permutations[indice_meilleur_individu]->longueur;
+            longueur_meilleur_individu = tableau->permutations[indice_meilleur_individu].longueur;
         }
     }
 
@@ -1085,14 +953,13 @@ void tableau_permutation_echanger_tableaux(TableauPermutation *tableau_A, Tablea
     *tableau_B = temp;
 }
 
-DistanceComparer distance_comparer_pour_qsort;
-
-int tableau_permutation_comparer(const void *A, const void *B)
+int tableau_permutation_comparer(const void *A, const void *B, void *argument)
 {
-    struct permutation permutation_A = *(struct permutation *)A;
-    struct permutation permutation_B = *(struct permutation *)B;
+    Permutation permutation_A = (Permutation)A;
+    Permutation permutation_B = (Permutation)B;
+    DistanceComparer *distance_comparer = argument;
 
-    return distance_comparer_pour_qsort(permutation_A.longueur, permutation_B.longueur);
+    return (*distance_comparer)(permutation_A->longueur, permutation_B->longueur);
 }
 
 void tableau_permutation_trier(TableauPermutation tableau, DistanceComparer distance_comparer)
@@ -1101,19 +968,17 @@ void tableau_permutation_trier(TableauPermutation tableau, DistanceComparer dist
 
     size_t nombre_permutations = tableau_permutation_obtenir_nombre_permutations(tableau);
 
-    distance_comparer_pour_qsort = distance_comparer;
-
-    qsort(
+    qsort_r(
         tableau->permutations, nombre_permutations, sizeof(struct permutation),
-        tableau_permutation_comparer);
+        tableau_permutation_comparer, &distance_comparer);
 }
 
 void tableau_permutation_obtenir_longueur(TableauPermutation tableau, size_t indice, void *longueur_destination)
 {
-    permutation_obtenir_longueur(tableau->permutations[indice], longueur_destination);
+    permutation_obtenir_longueur(tableau->permutations + indice, longueur_destination);
 }
 
 void tableau_permutation_modifier_longueur(TableauPermutation tableau, size_t indice, void *longueur_source)
 {
-    permutation_modifier_longueur(tableau->permutations[indice], longueur_source);
+    permutation_modifier_longueur(tableau->permutations + indice, longueur_source);
 }

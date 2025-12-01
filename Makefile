@@ -1,5 +1,5 @@
 CC := gcc
-CFLAGS := -Wall -Wextra -pedantic -Iinclude -std=gnu99
+CFLAGS := -Wall -Wextra -pedantic -Iinclude -std=gnu2x -D_GNU_SOURCE
 LDFLAGS := -lm
 AFFICHAGE_INTERACTIF := -DAFFICHAGE_INTERACTIF
 
