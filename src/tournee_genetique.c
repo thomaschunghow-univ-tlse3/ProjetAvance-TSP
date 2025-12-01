@@ -5,7 +5,9 @@
 #include "tournee_genetique.h"
 
 #include "nombre_aleatoire.h"
-#include "structure.h"
+#include "structure_matrice.h"
+#include "structure_permutation.h"
+#include "structure_tableau_permutation.h"
 #include "traitement_interruption.h"
 
 #include <math.h>
@@ -258,6 +260,6 @@ Permutation tournee_genetique_light(MatriceDistance matrice, size_t nombre_indiv
 
 Permutation tournee_genetique_dpx(MatriceDistance matrice, size_t nombre_individus, size_t nombre_generations, double taux_mutation)
 {
-    // TODO
+    /* TODO */
     return tournee_genetique_light(matrice, nombre_individus, nombre_generations, taux_mutation, nombre_individus / 2);
 }

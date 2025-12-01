@@ -9,6 +9,8 @@
 #include <float.h>
 
 #define DIFFERENCE_MINIMALE 1e-5
+#define RACINE_10 3.16227766016837952279
+#define RAYON_TERRE 6378.388
 
 size_t calculer_factorielle(size_t n)
 {
@@ -41,8 +43,8 @@ distance calculer_conversion_degres_en_radians(coordonnee coordonnee)
 	distance degres = trunc(coordonnee);
 	distance minutes = coordonnee - degres;
 
-	distance radians = degres * PI / 180;
-	radians += minutes * PI * 100 / (180 * 60);
+	distance radians = degres * M_PI / 180;
+	radians += minutes * M_PI * 100 / (180 * 60);
 
 	return radians;
 }

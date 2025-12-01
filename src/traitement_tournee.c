@@ -5,6 +5,9 @@
 #include "traitement_tournee.h"
 
 #include "affichage.h"
+#include "options.h"
+#include "structure_matrice.h"
+#include "structure_permutation.h"
 #include "traitement_interruption.h"
 
 #include "tournee_2_optimisation.h"

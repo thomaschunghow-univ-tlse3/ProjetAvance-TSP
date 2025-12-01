@@ -4,7 +4,8 @@
 
 #include "tournee_force_brute.h"
 
-#include "structure.h"
+#include "structure_matrice.h"
+#include "structure_permutation.h"
 #include "traitement_interruption.h"
 
 #include <stdbool.h>

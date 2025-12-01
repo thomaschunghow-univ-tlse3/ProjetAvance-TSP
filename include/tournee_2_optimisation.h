@@ -7,7 +7,8 @@
 #ifndef TOURNEE_2_OPTIMISATION_H
 #define TOURNEE_2_OPTIMISATION_H
 
-#include "structure.h"
+#include "structure_matrice.h"
+#include "structure_permutation.h"
 
 Permutation tournee_plus_proche_voisin(MatriceDistance);
 

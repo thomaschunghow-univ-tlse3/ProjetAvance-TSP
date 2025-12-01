@@ -5,7 +5,7 @@
 #include "traitement_interruption.h"
 
 #include "affichage.h"
-#include "structure.h"
+#include "structure_permutation.h"
 
 #include <signal.h>
 #include <stdbool.h>

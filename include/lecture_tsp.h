@@ -8,7 +8,7 @@
 #ifndef LECTURE_TSP_H
 #define LECTURE_TSP_H
 
-#include "structure.h"
+#include "structure_matrice.h"
 
 #include <stdio.h>
 

@@ -5,6 +5,7 @@
 #include "lecture_tsp.h"
 
 #include "calcul_distance.h"
+#include "structure_matrice.h"
 
 #include <stdio.h>
 #include <stdlib.h>

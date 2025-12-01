@@ -4,6 +4,9 @@
 
 #include "tournee_canonique.h"
 
+#include "structure_matrice.h"
+#include "structure_permutation.h"
+
 Permutation tournee_canonique(MatriceDistance matrice)
 {
     size_t nombre_points = matrice_obtenir_nombre_points(matrice);
