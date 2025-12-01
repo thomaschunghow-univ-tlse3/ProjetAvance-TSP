@@ -20,8 +20,8 @@ void afficher_points(FILE *sortie, MatriceDistance);
 
 void afficher_permutation(FILE *sortie, Permutation, size_t nombre_max_points);
 
-void afficher_longueur(FILE *sortie, void *distance);
+void afficher_longueur(FILE *sortie, Permutation);
 
-void afficher_tournee(FILE *sortie, char *nom_fichier, Methode, double temps, distance, Permutation);
+void afficher_tournee(FILE *sortie, char *nom_fichier, Methode, double temps, Permutation);
 
 #endif // AFFICHAGE_H

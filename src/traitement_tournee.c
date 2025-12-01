@@ -19,7 +19,7 @@ void tournee_gestionnaire(FILE *sortie, Arguments options, MatriceDistance matri
     clock_t temps = clock();
 
     signal(SIGINT, interruption_gestionnaire);
-    Resultat resultat;
+    Permutation resultat;
     switch (methode)
     {
     case CANONIQUE:
@@ -72,13 +72,13 @@ void tournee_gestionnaire(FILE *sortie, Arguments options, MatriceDistance matri
     temps_total /= CLOCKS_PER_SEC;
 
 #ifndef AFFICHAGE_INTERACTIF
-    afficher_tournee(sortie, options.nom_fichier_entree, methode, temps_total, resultat.longueur, resultat.permutation);
+    afficher_tournee(sortie, options.nom_fichier_entree, methode, temps_total, resultat);
 #else
     (void)sortie;
     (void)temps_total;
 #endif // AFFICHAGE_INTERACTIF
 
-    permutation_supprimer(&resultat.permutation);
+    permutation_supprimer(&resultat);
 }
 
 void tournee_traitement(FILE *sortie, Arguments options, MatriceDistance matrice)

@@ -4,6 +4,7 @@
 
 #include "traitement_interruption.h"
 #include "affichage.h"
+#include "calcul_distance.h"
 
 #include <stdio.h>
 #include <stdbool.h>
@@ -16,7 +17,7 @@ void interruption_gestionnaire(int signal)
     (void)signal;
 }
 
-bool interruption_traitement(Permutation permutation, Permutation permutation_minimale, void *longueur_minimale)
+bool interruption_traitement(Permutation permutation, Permutation permutation_minimale)
 {
     interruption = false; /* Réinitialisation du drapeau. */
 
@@ -31,7 +32,7 @@ bool interruption_traitement(Permutation permutation, Permutation permutation_mi
     printf("\n");
 
     printf("Longueur de la meilleure tournée : ");
-    afficher_longueur(stdout, longueur_minimale);
+    afficher_longueur(stdout, permutation_minimale);
     printf("\n\n");
 
     int reponse = ' ';

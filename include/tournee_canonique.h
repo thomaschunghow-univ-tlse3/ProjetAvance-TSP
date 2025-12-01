@@ -9,6 +9,6 @@
 
 #include "traitement_tournee.h"
 
-Resultat tournee_canonique(MatriceDistance);
+Permutation tournee_canonique(MatriceDistance);
 
 #endif // TOURNEE_CANONIQUE_H

@@ -100,15 +100,16 @@ void afficher_methode_calcul(FILE *sortie, Methode methode)
     }
 }
 
-void afficher_longueur(FILE *sortie, void *distance_generique)
+void afficher_longueur(FILE *sortie, Permutation permutation)
 {
     assert(distance_generique != NULL);
 
-    distance distance_a_afficher = *(distance *)distance_generique;
+    distance distance_a_afficher;
+    permutation_obtenir_longueur(permutation, &distance_a_afficher);
     fprintf(sortie, "%-20.17g", distance_a_afficher);
 }
 
-void afficher_tournee(FILE *sortie, char *nom_fichier, Methode methode, double temps, distance distance_totale, Permutation permutation)
+void afficher_tournee(FILE *sortie, char *nom_fichier, Methode methode, double temps, Permutation permutation)
 {
     fprintf(sortie, "%s ; ", nom_fichier);
 
@@ -117,7 +118,7 @@ void afficher_tournee(FILE *sortie, char *nom_fichier, Methode methode, double t
 
     fprintf(sortie, "%-13.7f ; ", temps);
 
-    afficher_longueur(sortie, &distance_totale);
+    afficher_longueur(sortie, permutation);
     fprintf(sortie, " ; ");
 
     afficher_permutation(sortie, permutation, 0);

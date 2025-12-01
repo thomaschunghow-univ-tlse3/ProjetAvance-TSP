@@ -635,6 +635,11 @@ void permutation_modifier_longueur(Permutation permutation, void *longueur_sourc
     memcpy(permutation->longueur, longueur_source, taille_distance);
 }
 
+int permutation_comparer_longueur(Permutation permutation_A, Permutation permutation_B, DistanceComparer distance_comparer)
+{
+    return distance_comparer(permutation_A->longueur, permutation_B->longueur);
+}
+
 void permutation_calculer_longueur(
     Permutation permutation, MatriceDistance matrice)
 {
@@ -664,7 +669,7 @@ void permutation_calculer_longueur(
 }
 
 void permutation_calculer_longueur_avec_elagage(
-    Permutation permutation, MatriceDistance matrice, void *longueur_minimale)
+    Permutation permutation, MatriceDistance matrice, Permutation permutation_minimale)
 {
     assert(permutation != NULL);
     assert(matrice != NULL);
@@ -681,6 +686,8 @@ void permutation_calculer_longueur_avec_elagage(
     size_t taille_distance = matrice_obtenir_taille_distance(matrice);
 
     matrice_obtenir_distance(matrice, sommets[nombre_sommets - 1], sommets[0], permutation->longueur);
+
+    void *longueur_minimale = permutation_minimale->longueur;
 
     for (size_t i = 0; i < nombre_sommets - 1; i++)
     {
@@ -749,7 +756,7 @@ bool permutation_avancer(Permutation permutation)
 }
 
 bool permutation_avancer_et_incrementer_longueur(
-    Permutation permutation, MatriceDistance matrice, void *longueur_destination)
+    Permutation permutation, MatriceDistance matrice)
 {
     assert(permutation != NULL);
 
@@ -794,6 +801,7 @@ bool permutation_avancer_et_incrementer_longueur(
     char *distances = matrice->tableau_distance.distances;
 
     size_t indice;
+    void *longueur_destination = permutation->longueur;
 
     indice = matrice_calculer_indice(sommets[pivot - 2], sommets[pivot - 1]);
     distance_soustraire(longueur_destination, distances + indice * taille_distance, longueur_destination);

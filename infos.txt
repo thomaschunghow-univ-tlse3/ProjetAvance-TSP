@@ -1,0 +1,14 @@
+Algorithme                 Temps (secondes)
+
+
+att12.tsp 
+
+Version originale :
+Force brute naïve        = 10.7309840
+Force brute avec élagage = 7.3028490
+Force brute incrémentale = 6.7823660
+
+Version générique :
+Force brute naïve        = 5.2045270
+Force brute avec élagage = 4.7028770
+Force brute incrémentale = 3.2943010

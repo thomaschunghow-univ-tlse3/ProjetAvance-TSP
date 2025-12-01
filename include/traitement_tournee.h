@@ -11,13 +11,7 @@
 #include "options.h"
 #include "calcul_distance.h"
 
-typedef struct
-{
-    Permutation permutation;
-    distance longueur;
-} Resultat;
-
-typedef Resultat (*AlgorithmeTournee)(MatriceDistance);
+typedef Permutation (*AlgorithmeTournee)(MatriceDistance);
 
 void tournee_traitement(FILE *sortie, Arguments, MatriceDistance);
 
