@@ -122,7 +122,7 @@ bool permutation_avancer_et_incrementer_longueur(
     Permutation permutation, MatriceDistance matrice);
 
 void permutation_echanger_aretes(Permutation, size_t sommet_A, size_t sommet_B);
-void permutation_calculer_difference_apres_decroisement(
+bool permutation_decroiser(
     MatriceDistance matrice, Permutation permutation,
     size_t sommet_A, size_t sommet_B, Permutation permutation_decroisee);
 

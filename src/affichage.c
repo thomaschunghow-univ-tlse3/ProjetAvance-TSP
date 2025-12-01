@@ -102,7 +102,7 @@ void afficher_methode_calcul(FILE *sortie, Methode methode)
 
 void afficher_longueur(FILE *sortie, Permutation permutation)
 {
-    assert(distance_generique != NULL);
+    assert(permutation != NULL);
 
     distance distance_a_afficher;
     permutation_obtenir_longueur(permutation, &distance_a_afficher);

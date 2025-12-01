@@ -56,7 +56,7 @@ Permutation tournee_marche_aleatoire(MatriceDistance matrice)
 Permutation tournee_2_optimisation(MatriceDistance matrice, Permutation permutation)
 {
 #ifdef AFFICHAGE_INTERACTIF
-    fprintf(sortie_interactive, "2-optimisation\n");
+    fprintf(sortie, "2-optimisation\n");
 #endif // AFFICHAGE_INTERACTIF
 
     size_t nombre_points = matrice_obtenir_nombre_points(matrice);
@@ -64,8 +64,6 @@ Permutation tournee_2_optimisation(MatriceDistance matrice, Permutation permutat
     permutation_calculer_longueur(permutation, matrice);
 
     Permutation permutation_decroisee = permutation_creer(nombre_points, matrice_obtenir_taille_distance(matrice));
-
-    DistanceComparer distance_comparer = matrice_obtenir_distance_comparer(matrice);
 
     bool amelioration_trouvee = true;
     bool demande_stop = false;
@@ -77,41 +75,42 @@ Permutation tournee_2_optimisation(MatriceDistance matrice, Permutation permutat
         permutation_copier(permutation_decroisee, permutation);
 
 #ifdef AFFICHAGE_INTERACTIF
-        afficher_permutation(sortie_interactive, permutation, 0);
-        fprintf(sortie_interactive, "\n");
+        afficher_permutation(sortie, permutation, 0);
+        fprintf(sortie, "\n");
 #endif // AFFICHAGE_INTERACTIF
 
         for (size_t sommet_A = 0; sommet_A < nombre_points - 1; sommet_A++)
         {
             for (size_t sommet_B = sommet_A + 1; sommet_B < nombre_points; sommet_B++)
             {
-                permutation_calculer_difference_apres_decroisement(
-                    matrice, permutation, sommet_A, sommet_B, permutation_decroisee);
-
                 /* Gestion des interruptions. */
                 if (interruption)
                 {
                     demande_stop = interruption_traiter_signal(permutation, permutation_decroisee);
-                }
-                if (demande_stop)
-                {
-                    break;
+
+                    if (demande_stop)
+                    {
+                        break;
+                    }
                 }
 
-                if (permutation_comparer_longueurs(permutation_decroisee, permutation, distance_comparer) < 0)
+                amelioration_trouvee = permutation_decroiser(
+                    matrice, permutation, sommet_A, sommet_B, permutation_decroisee);
+
+                if (amelioration_trouvee)
                 {
-                    amelioration_trouvee = true;
-                    permutation_echanger_aretes(permutation, sommet_A, sommet_B);
                     break;
                 }
             }
 
-            if (amelioration_trouvee || demande_stop)
+            if (amelioration_trouvee)
             {
                 break;
             }
         }
     }
+
+    permutation_supprimer(&permutation_decroisee);
 
     return permutation;
 }

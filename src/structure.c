@@ -423,8 +423,10 @@ void matrice_remplir(MatriceDistance matrice)
 int matrice_comparer_distances(MatriceDistance matrice, size_t ligne_A, size_t colonne_A, size_t ligne_B, size_t colonne_B)
 {
     assert(matrice != NULL);
-    assert(ligne < matrice_obtenir_nombre_points(matrice));
-    assert(colonne < matrice_obtenir_nombre_points(matrice));
+    assert(ligne_A < matrice_obtenir_nombre_points(matrice));
+    assert(colonne_A < matrice_obtenir_nombre_points(matrice));
+    assert(ligne_B < matrice_obtenir_nombre_points(matrice));
+    assert(colonne_B < matrice_obtenir_nombre_points(matrice));
 
     DistanceComparer distance_comparer = matrice_obtenir_distance_comparer(matrice);
     size_t taille_distance = matrice_obtenir_taille_distance(matrice);
@@ -898,7 +900,7 @@ void permutation_echanger_aretes(Permutation permutation, size_t sommet_A, size_
     }
 }
 
-void permutation_calculer_difference_apres_decroisement(
+bool permutation_decroiser(
     MatriceDistance matrice, Permutation permutation,
     size_t sommet_A, size_t sommet_B, Permutation permutation_decroisee)
 {
@@ -938,7 +940,6 @@ void permutation_calculer_difference_apres_decroisement(
     size_t indice;
 
     char *longueur_destination = permutation_decroisee->longueur;
-    memcpy(permutation_decroisee->longueur, permutation->longueur, taille_distance);
 
     indice = matrice_calculer_indice(sommets[sommet_A], sommets[suivant_sommet_A]);
     distance_soustraire(longueur_destination, distances + indice * taille_distance, longueur_destination);
@@ -951,6 +952,19 @@ void permutation_calculer_difference_apres_decroisement(
 
     indice = matrice_calculer_indice(sommets[suivant_sommet_A], sommets[suivant_sommet_B]);
     distance_additionner(longueur_destination, distances + indice * taille_distance, longueur_destination);
+
+    if (permutation_comparer_longueurs(permutation_decroisee, permutation, distance_comparer) < 0)
+    {
+        permutation_echanger_aretes(permutation, sommet_A, sommet_B);
+        permutation_echanger_aretes(permutation_decroisee, sommet_A, sommet_B);
+        memcpy(permutation->longueur, permutation_decroisee->longueur, taille_distance);
+
+        return true;
+    }
+
+    memcpy(permutation_decroisee->longueur, permutation->longueur, taille_distance);
+
+    return false;
 }
 
 /*

@@ -76,6 +76,7 @@ void tournee_gestionnaire(FILE *sortie, Arguments options, MatriceDistance matri
 #else
     (void)sortie;
     (void)temps_total;
+    (void)options;
 #endif // AFFICHAGE_INTERACTIF
 
     permutation_supprimer(&resultat);
@@ -88,7 +89,7 @@ void tournee_traitement(FILE *sortie, Arguments options, MatriceDistance matrice
 #ifndef AFFICHAGE_INTERACTIF
     afficher_noms_champs(sortie);
 #else  // AFFICHAGE_INTERACTIF
-    afficher_points(sortie_interactive, matrice);
+    afficher_points(sortie, matrice);
 #endif // AFFICHAGE_INTERACTIF
 
     if (options.canonique)

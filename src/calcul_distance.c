@@ -8,7 +8,7 @@
 #include <math.h>
 #include <float.h>
 
-#define DIFFERENCE_MINIMALE 1e-9
+#define DIFFERENCE_MINIMALE 1e-5
 
 size_t calculer_factorielle(size_t n)
 {
@@ -115,9 +115,9 @@ int distance_comparer(void *distance_A, void *distance_B)
 
 	distance_soustraire(distance_A, distance_B, &difference);
 
-	if (difference < DBL_EPSILON)
+	if (difference < DIFFERENCE_MINIMALE)
 	{
-		if (difference > -DBL_EPSILON)
+		if (difference > -DIFFERENCE_MINIMALE)
 		{
 			return 0; /* A == B */
 		}
