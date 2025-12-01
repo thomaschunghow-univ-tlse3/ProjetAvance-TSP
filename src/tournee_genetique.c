@@ -204,7 +204,7 @@ Permutation tournee_genetique_light(MatriceDistance matrice, size_t nombre_indiv
         }
 
         /* Tri des enfants. */
-        tableau_permutation_trier(enfants, matrice_obtenir_distance_comparer(matrice));
+        tableau_permutation_trier(enfants, distance_comparer);
 
         /* Remplacement du pire individu de cette génération
          * par un nouvel individu créé par marche aléatoire. */
@@ -234,12 +234,12 @@ Permutation tournee_genetique_light(MatriceDistance matrice, size_t nombre_indiv
         tableau_permutation_echanger_tableaux(&population, &enfants);
 
 #ifdef AFFICHAGE_INTERACTIF
-        tableau_permutation_trier(population);
+        tableau_permutation_trier(population, distance_comparer);
         for (size_t individu = 0; individu < nombre_individus; individu++)
         {
             Permutation permutation = tableau_permutation_obtenir_permutation(population, individu);
-            afficher_permutation(sortie_interactive, permutation, 0);
-            fprintf(sortie_interactive, "\n");
+            afficher_permutation(sortie, permutation, 0);
+            fprintf(sortie, "\n");
         }
 #endif
         /* Gestion des interruptions. */
