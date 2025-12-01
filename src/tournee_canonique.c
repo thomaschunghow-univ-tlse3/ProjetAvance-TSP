@@ -3,7 +3,6 @@
  */
 
 #include "tournee_canonique.h"
-#include "affichage.h"
 
 Permutation tournee_canonique(MatriceDistance matrice)
 {

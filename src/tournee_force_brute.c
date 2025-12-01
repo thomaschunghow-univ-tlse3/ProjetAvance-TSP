@@ -3,13 +3,12 @@
  */
 
 #include "tournee_force_brute.h"
-#include "traitement_interruption.h"
-#include "structure.h"
-#include "affichage.h"
-#include "calcul_distance.h"
 
+#include "structure.h"
+#include "traitement_interruption.h"
+
+#include <stdbool.h>
 #include <stdlib.h>
-#include <string.h>
 
 Permutation tournee_force_brute_naive(MatriceDistance matrice)
 {

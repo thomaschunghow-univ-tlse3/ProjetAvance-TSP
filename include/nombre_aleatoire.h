@@ -7,7 +7,7 @@
 #ifndef NOMBRE_ALEATOIRE_H
 #define NOMBRE_ALEATOIRE_H
 
-#include <stdlib.h>
+#include <stddef.h>
 
 size_t donner_entier_aleatoire(size_t borne_inf, size_t borne_sup);
 

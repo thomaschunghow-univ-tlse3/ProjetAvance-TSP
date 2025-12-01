@@ -3,14 +3,13 @@
  */
 
 #include "tournee_genetique.h"
-#include "structure.h"
-#include "structure.h"
-#include "affichage.h"
+
 #include "nombre_aleatoire.h"
+#include "structure.h"
 #include "traitement_interruption.h"
 
-#include <stdlib.h>
 #include <math.h>
+#include <stdlib.h>
 
 void tournee_genetique_mutation(TableauPermutation population, double taux_mutation)
 {
@@ -57,15 +56,10 @@ void tournee_genetique_selection_par_tournoi(TableauPermutation population, Tabl
         size_t competiteur = donner_entier_aleatoire(0, nombre_individus);
 
         size_t gagnant = competiteur;
-        distance longueur_gagnant;
-        tableau_permutation_obtenir_longueur(population, gagnant, &longueur_gagnant);
 
         for (size_t tournoi = 1; tournoi < taille_tournoi; tournoi++)
         {
             competiteur = donner_entier_aleatoire(0, nombre_individus);
-
-            distance longueur_competiteur;
-            tableau_permutation_obtenir_longueur(population, competiteur, &longueur_competiteur);
 
             if (permutation_comparer_longueurs(tableau_permutation_obtenir_permutation(population, competiteur), tableau_permutation_obtenir_permutation(population, gagnant), distance_comparer) < 0)
             {
@@ -216,9 +210,8 @@ Permutation tournee_genetique_light(MatriceDistance matrice, size_t nombre_indiv
         /* Comparaison du meilleur individu de cette génération au meilleur individu historique. */
         indice_meilleur_individu = 0;
         meilleur_individu = tableau_permutation_obtenir_permutation(enfants, indice_meilleur_individu);
-        distance longueur_meilleur_individu;
-        permutation_calculer_longueur(meilleur_individu, matrice);
-        permutation_obtenir_longueur(meilleur_individu, &longueur_meilleur_individu);
+        // permutation_calculer_longueur(meilleur_individu, matrice);
+
         if (permutation_comparer_longueurs(meilleur_individu, meilleur_individu_historique, distance_comparer) < 0)
         {
             /* Mise à jour du meilleur individu historique. */

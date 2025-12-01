@@ -7,7 +7,7 @@
 #ifndef TOURNEE_FORCE_BRUTE_H
 #define TOURNEE_FORCE_BRUTE_H
 
-#include "traitement_tournee.h"
+#include "structure.h"
 
 /* Méthode classique. */
 Permutation tournee_force_brute_naive(MatriceDistance matrice);

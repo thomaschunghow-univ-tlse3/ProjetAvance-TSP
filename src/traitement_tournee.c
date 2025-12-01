@@ -3,16 +3,18 @@
  */
 
 #include "traitement_tournee.h"
+
 #include "affichage.h"
-#include "tournee_canonique.h"
 #include "traitement_interruption.h"
-#include "tournee_force_brute.h"
+
 #include "tournee_2_optimisation.h"
+#include "tournee_canonique.h"
+#include "tournee_force_brute.h"
 #include "tournee_genetique.h"
 
-#include <time.h>
 #include <math.h>
 #include <stdlib.h>
+#include <time.h>
 
 void tournee_gestionnaire(FILE *sortie, Arguments options, MatriceDistance matrice, Methode methode)
 {

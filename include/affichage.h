@@ -7,12 +7,13 @@
 #ifndef AFFICHAGE_H
 #define AFFICHAGE_H
 
-#include "lecture_tsp.h"
 #include "traitement_tournee.h"
-#include "calcul_distance.h"
 
-#define RESET "\033[0m"
+#include <stddef.h>
+#include <stdio.h>
+
 #define ROUGE "\033[31m"
+#define RESET "\033[0m"
 
 void afficher_noms_champs(FILE *sortie);
 

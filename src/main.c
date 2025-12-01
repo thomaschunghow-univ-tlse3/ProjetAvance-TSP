@@ -4,9 +4,10 @@
  * Programme principal pour la résolution du problème du voyageur de commerce.
  */
 
-#include "affichage.h"
-#include "tournee_canonique.h"
-#include "tournee_force_brute.h"
+#include "calcul_distance.h"
+#include "lecture_tsp.h"
+#include "options.h"
+#include "traitement_tournee.h"
 
 #include <stdlib.h>
 

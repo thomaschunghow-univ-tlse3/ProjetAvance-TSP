@@ -7,7 +7,7 @@
 #ifndef TOURNEE_GENETIQUE_H
 #define TOURNEE_GENETIQUE_H
 
-#include "traitement_tournee.h"
+#include "structure.h"
 
 Permutation tournee_genetique_light(MatriceDistance, size_t nombre_individus, size_t nombre_generations, double taux_mutation, size_t taille_tournoi);
 

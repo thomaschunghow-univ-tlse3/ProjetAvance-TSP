@@ -133,9 +133,6 @@ void tableau_permutation_supprimer(TableauPermutation *);
 
 size_t tableau_permutation_obtenir_nombre_permutations(TableauPermutation);
 
-/* Ici on brise l'abstraction par souci d'optimisation.
- * On obtient l'adresse de la permutation réelle du tableau, et non pas une copie.
- * On peut donc la modifier directement. */
 Permutation tableau_permutation_obtenir_permutation(TableauPermutation, size_t indice);
 void tableau_permutation_obtenir_longueur(TableauPermutation, size_t indice, void *longueur_destination);
 void tableau_permutation_modifier_longueur(TableauPermutation, size_t indice, void *longueur_source);

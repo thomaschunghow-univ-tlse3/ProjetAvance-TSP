@@ -3,9 +3,9 @@
  */
 
 #include "nombre_aleatoire.h"
-#include "calcul_distance.h"
 
 #include <math.h>
+#include <stdlib.h>
 
 /* Donne un entier aléatoire compris entre borne_inf et borne_sup exclus.
  * borne_inf <= entier_aleatoire < borne_sup */
@@ -32,7 +32,7 @@ double donner_reel_aleatoire_loi_normale(double probabilite, size_t nombre_tirag
     double moyenne = nombre_tirages * probabilite;
     double ecart_type = sqrt(nombre_tirages * probabilite * (1 - probabilite));
 
-    double nombre_aleatoire = sqrt(-2 * log(a)) * cos(2 * PI * b);
+    double nombre_aleatoire = sqrt(-2 * log(a)) * cos(2 * M_PI * b);
 
     return moyenne + ecart_type * nombre_aleatoire;
 }

@@ -3,11 +3,14 @@
  */
 
 #include "traitement_interruption.h"
-#include "affichage.h"
 
+#include "affichage.h"
+#include "structure.h"
+
+#include <signal.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 
 volatile sig_atomic_t interruption = false; /* Drapeau pour indiquer la réception du signal. */
 

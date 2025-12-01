@@ -7,7 +7,7 @@
 #ifndef TOURNEE_CANONIQUE_H
 #define TOURNEE_CANONIQUE_H
 
-#include "traitement_tournee.h"
+#include "structure.h"
 
 Permutation tournee_canonique(MatriceDistance);
 

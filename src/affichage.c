@@ -4,9 +4,13 @@
 
 #include "affichage.h"
 
-#include <unistd.h>
-#include <stdlib.h>
+#include "calcul_distance.h"
+#include "traitement_tournee.h"
+
 #include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 void afficher_noms_champs(FILE *sortie)
 {

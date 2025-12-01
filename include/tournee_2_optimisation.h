@@ -7,8 +7,7 @@
 #ifndef TOURNEE_2_OPTIMISATION_H
 #define TOURNEE_2_OPTIMISATION_H
 
-#include "tournee_canonique.h"
-#include "affichage.h"
+#include "structure.h"
 
 Permutation tournee_plus_proche_voisin(MatriceDistance);
 

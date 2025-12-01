@@ -3,10 +3,11 @@
  */
 
 #include "tournee_2_optimisation.h"
+
+#include "structure.h"
 #include "traitement_interruption.h"
 
 #include <stdlib.h>
-#include <time.h>
 
 Permutation tournee_plus_proche_voisin(MatriceDistance matrice)
 {

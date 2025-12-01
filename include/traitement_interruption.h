@@ -9,8 +9,6 @@
 
 #include "structure.h"
 
-#include "calcul_distance.h"
-
 #include <signal.h>
 
 extern volatile sig_atomic_t interruption;

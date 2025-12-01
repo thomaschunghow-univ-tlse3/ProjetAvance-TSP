@@ -7,8 +7,8 @@
 #ifndef TRAITEMENT_TOURNEE_H
 #define TRAITEMENT_TOURNEE_H
 
-#include "structure.h"
 #include "options.h"
+#include "structure.h"
 
 typedef Permutation (*AlgorithmeTournee)(MatriceDistance);
 
