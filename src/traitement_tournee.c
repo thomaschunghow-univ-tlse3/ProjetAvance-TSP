@@ -32,19 +32,19 @@ void tournee_gestionnaire(FILE *sortie, Arguments options, MatriceDistance matri
         break;
 
     case PLUS_PROCHE_VOISIN:
-        // resultat = tournee_plus_proche_voisin(matrice);
+        resultat = tournee_plus_proche_voisin(matrice);
         break;
 
     case MARCHE_ALEATOIRE:
-        // resultat = tournee_marche_aleatoire(matrice);
+        resultat = tournee_marche_aleatoire(matrice);
         break;
 
     case PLUS_PROCHE_VOISIN_2_OPTIMISATION:
-        // resultat = tournee_2_optimisation_plus_proche_voisin(matrice);
+        resultat = tournee_2_optimisation_plus_proche_voisin(matrice);
         break;
 
     case MARCHE_ALEATOIRE_2_OPTIMISATION:
-        // resultat = tournee_2_optimisation_marche_aleatoire(matrice);
+        resultat = tournee_2_optimisation_marche_aleatoire(matrice);
         break;
 
     case GENETIQUE_LIGHT:

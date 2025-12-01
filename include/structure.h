@@ -71,6 +71,8 @@ void matrice_modifier_point(MatriceDistance, size_t indice, void *point_destinat
 void matrice_obtenir_distance(MatriceDistance, size_t ligne, size_t colonne, void *distance_destination);
 void matrice_remplir(MatriceDistance);
 
+int matrice_comparer_distances(MatriceDistance, size_t ligne_A, size_t colonne_A, size_t ligne_B, size_t colonne_B);
+
 /*
  * Permutation :
  * Définition et opérations du type abstrait de permutation.
@@ -108,7 +110,7 @@ size_t permutation_obtenir_taille_distance(Permutation);
 void permutation_obtenir_longueur(Permutation, void *longueur_destination);
 void permutation_modifier_longueur(Permutation, void *longueur_source);
 
-int permutation_comparer_longueur(Permutation permutation_A, Permutation permutation_B, DistanceComparer);
+int permutation_comparer_longueurs(Permutation permutation_A, Permutation permutation_B, DistanceComparer);
 
 void permutation_calculer_longueur(
     Permutation permutation, MatriceDistance matrice);
@@ -122,7 +124,7 @@ bool permutation_avancer_et_incrementer_longueur(
 void permutation_echanger_aretes(Permutation, size_t sommet_A, size_t sommet_B);
 void permutation_calculer_difference_apres_decroisement(
     MatriceDistance matrice, Permutation permutation,
-    size_t sommet_A, size_t sommet_B, void *longueur_destination);
+    size_t sommet_A, size_t sommet_B, Permutation permutation_decroisee);
 
 /*
  * Tableau de permutation :

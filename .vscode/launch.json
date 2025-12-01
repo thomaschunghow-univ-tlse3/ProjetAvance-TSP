@@ -10,7 +10,7 @@
                 "-f",
                 "${workspaceFolder}/data/tsp/att10.tsp",
                 "-m",
-                "bf"
+                "nn"
             ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",

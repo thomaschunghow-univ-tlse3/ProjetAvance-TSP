@@ -420,6 +420,21 @@ void matrice_remplir(MatriceDistance matrice)
     }
 }
 
+int matrice_comparer_distances(MatriceDistance matrice, size_t ligne_A, size_t colonne_A, size_t ligne_B, size_t colonne_B)
+{
+    assert(matrice != NULL);
+    assert(ligne < matrice_obtenir_nombre_points(matrice));
+    assert(colonne < matrice_obtenir_nombre_points(matrice));
+
+    DistanceComparer distance_comparer = matrice_obtenir_distance_comparer(matrice);
+    size_t taille_distance = matrice_obtenir_taille_distance(matrice);
+
+    size_t indice_A = matrice_calculer_indice(ligne_A, colonne_A);
+    size_t indice_B = matrice_calculer_indice(ligne_B, colonne_B);
+
+    return distance_comparer(matrice->tableau_distance.distances + indice_A * taille_distance, matrice->tableau_distance.distances + indice_B * taille_distance);
+}
+
 /*
  * Permutation.
  */
@@ -635,7 +650,7 @@ void permutation_modifier_longueur(Permutation permutation, void *longueur_sourc
     memcpy(permutation->longueur, longueur_source, taille_distance);
 }
 
-int permutation_comparer_longueur(Permutation permutation_A, Permutation permutation_B, DistanceComparer distance_comparer)
+int permutation_comparer_longueurs(Permutation permutation_A, Permutation permutation_B, DistanceComparer distance_comparer)
 {
     return distance_comparer(permutation_A->longueur, permutation_B->longueur);
 }
@@ -885,7 +900,7 @@ void permutation_echanger_aretes(Permutation permutation, size_t sommet_A, size_
 
 void permutation_calculer_difference_apres_decroisement(
     MatriceDistance matrice, Permutation permutation,
-    size_t sommet_A, size_t sommet_B, void *longueur_destination)
+    size_t sommet_A, size_t sommet_B, Permutation permutation_decroisee)
 {
     assert(permutation != NULL);
 
@@ -921,6 +936,9 @@ void permutation_calculer_difference_apres_decroisement(
     char *distances = matrice->tableau_distance.distances;
 
     size_t indice;
+
+    char *longueur_destination = permutation_decroisee->longueur;
+    memcpy(permutation_decroisee->longueur, permutation->longueur, taille_distance);
 
     indice = matrice_calculer_indice(sommets[sommet_A], sommets[suivant_sommet_A]);
     distance_soustraire(longueur_destination, distances + indice * taille_distance, longueur_destination);

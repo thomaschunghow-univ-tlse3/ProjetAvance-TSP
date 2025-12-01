@@ -29,7 +29,7 @@ Permutation tournee_force_brute_naive(MatriceDistance matrice)
     {
         permutation_calculer_longueur(permutation, matrice);
 
-        if (permutation_comparer_longueur(permutation, permutation_minimale, distance_comparer) < 0)
+        if (permutation_comparer_longueurs(permutation, permutation_minimale, distance_comparer) < 0)
         {
             permutation_copier(permutation_minimale, permutation);
         }
@@ -64,7 +64,7 @@ Permutation tournee_force_brute_elagage(MatriceDistance matrice)
     {
         permutation_calculer_longueur_avec_elagage(permutation, matrice, permutation_minimale);
 
-        if (permutation_comparer_longueur(permutation, permutation_minimale, distance_comparer) < 0)
+        if (permutation_comparer_longueurs(permutation, permutation_minimale, distance_comparer) < 0)
         {
             permutation_copier(permutation_minimale, permutation);
         }
@@ -96,7 +96,7 @@ Permutation tournee_force_brute_incrementale(MatriceDistance matrice)
 
     while (permutation_avancer_et_incrementer_longueur(permutation, matrice) && !demande_stop)
     {
-        if (permutation_comparer_longueur(permutation, permutation_minimale, distance_comparer) < 0)
+        if (permutation_comparer_longueurs(permutation, permutation_minimale, distance_comparer) < 0)
         {
             permutation_copier(permutation_minimale, permutation);
         }

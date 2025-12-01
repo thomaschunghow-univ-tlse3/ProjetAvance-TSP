@@ -1,1 +1,1 @@
-data/tsp/att12.tsp
+data/tsp/att48.tsp

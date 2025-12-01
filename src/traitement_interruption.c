@@ -4,7 +4,6 @@
 
 #include "traitement_interruption.h"
 #include "affichage.h"
-#include "calcul_distance.h"
 
 #include <stdio.h>
 #include <stdlib.h>
