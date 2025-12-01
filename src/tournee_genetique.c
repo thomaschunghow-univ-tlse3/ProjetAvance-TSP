@@ -256,7 +256,7 @@
 //         /* Gestion des interruptions. */
 //         if (interruption)
 //         {
-//             if (interruption_traitement(meilleur_individu_historique, meilleur_individu_historique, longueur_meilleur_individu_historique))
+//             if (interruption_traiter_signal(meilleur_individu_historique, meilleur_individu_historique, longueur_meilleur_individu_historique))
 //             {
 //                 break;
 //             }

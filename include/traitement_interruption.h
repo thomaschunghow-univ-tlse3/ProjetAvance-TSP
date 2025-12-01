@@ -15,8 +15,10 @@
 
 extern volatile sig_atomic_t interruption;
 
-void interruption_gestionnaire(int signal);
+void interruption_proteger_signal(int signal, void (*traiter_signal)(int signal));
 
-bool interruption_traitement(Permutation permutation, Permutation permutation_minimale);
+void interruption_receptionner_signal(int signal);
+
+bool interruption_traiter_signal(Permutation permutation, Permutation permutation_minimale);
 
 #endif // TRAITEMENT_INTERRUPTION_H

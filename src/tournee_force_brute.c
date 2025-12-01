@@ -37,7 +37,7 @@ Permutation tournee_force_brute_naive(MatriceDistance matrice)
         /* Gestion des interruptions. */
         if (interruption)
         {
-            demande_stop = interruption_traitement(permutation, permutation_minimale);
+            demande_stop = interruption_traiter_signal(permutation, permutation_minimale);
         }
     }
 
@@ -71,7 +71,7 @@ Permutation tournee_force_brute_elagage(MatriceDistance matrice)
 
         if (interruption)
         {
-            demande_stop = interruption_traitement(permutation, permutation_minimale);
+            demande_stop = interruption_traiter_signal(permutation, permutation_minimale);
         }
     }
 
@@ -103,7 +103,7 @@ Permutation tournee_force_brute_incrementale(MatriceDistance matrice)
 
         if (interruption)
         {
-            demande_stop = interruption_traitement(permutation, permutation_minimale);
+            demande_stop = interruption_traiter_signal(permutation, permutation_minimale);
         }
     }
 

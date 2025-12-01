@@ -18,7 +18,8 @@ void tournee_gestionnaire(FILE *sortie, Arguments options, MatriceDistance matri
 {
     clock_t temps = clock();
 
-    signal(SIGINT, interruption_gestionnaire);
+    interruption_proteger_signal(SIGINT, interruption_receptionner_signal);
+
     Permutation resultat;
     switch (methode)
     {
@@ -65,7 +66,6 @@ void tournee_gestionnaire(FILE *sortie, Arguments options, MatriceDistance matri
         exit(EXIT_FAILURE);
         break;
     }
-    signal(SIGINT, SIG_DFL);
 
     temps = clock() - temps;
     double temps_total = (double)temps;

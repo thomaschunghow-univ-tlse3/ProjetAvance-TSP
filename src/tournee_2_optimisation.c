@@ -98,7 +98,7 @@
 //                 /* Gestion des interruptions. */
 //                 if (interruption)
 //                 {
-//                     demande_stop = interruption_traitement(permutation, permutation, longueur);
+//                     demande_stop = interruption_traiter_signal(permutation, permutation, longueur);
 //                 }
 //                 if (demande_stop)
 //                 {
