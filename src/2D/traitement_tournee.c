@@ -78,13 +78,19 @@ void tournee_gestionnaire(FILE *sortie, Arguments options, MatriceDistance matri
     double temps_total = (double)temps;
     temps_total /= CLOCKS_PER_SEC;
 
-#ifndef AFFICHAGE_INTERACTIF
-    afficher_tournee(sortie, options.nom_fichier_entree, methode, temps_total, resultat);
-#else
+#ifdef AFFICHAGE_INTERACTIF_2_OPT
     (void)sortie;
     (void)temps_total;
     (void)options;
-#endif // AFFICHAGE_INTERACTIF
+#else
+#ifdef AFFICHAGE_INTERACTIF_GA
+    (void)sortie;
+    (void)temps_total;
+    (void)options;
+#else
+    afficher_tournee(sortie, options.nom_fichier_entree, methode, temps_total, resultat);
+#endif // AFFICHAGE_INTERACTIF_GA
+#endif // AFFICHAGE_INTERACTIF_2_OPT
 
     permutation_supprimer(&resultat);
 }
@@ -93,11 +99,15 @@ void tournee_traitement(FILE *sortie, Arguments options, MatriceDistance matrice
 {
     srand((unsigned int)time(NULL)); /* Initialisation de la graine pour la génération de nombres aléatoires. */
 
-#ifndef AFFICHAGE_INTERACTIF
-    afficher_noms_champs(sortie);
-#else  // AFFICHAGE_INTERACTIF
+#ifdef AFFICHAGE_INTERACTIF_2_OPT
     afficher_points(sortie, matrice);
-#endif // AFFICHAGE_INTERACTIF
+#else
+#ifdef AFFICHAGE_INTERACTIF_GA
+    afficher_points(sortie, matrice);
+#else
+    afficher_noms_champs(sortie);
+#endif // AFFICHAGE_INTERACTIF_GA
+#endif // AFFICHAGE_INTERACTIF_2_OPT
 
     if (options.canonique)
     {

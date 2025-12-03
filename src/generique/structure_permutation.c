@@ -107,8 +107,6 @@ void permutation_renverser_morceau(Permutation permutation, size_t sommet_A, siz
     assert(sommet_A < permutation_obtenir_nombre_sommets(permutation));
     assert(sommet_B < permutation_obtenir_nombre_sommets(permutation));
 
-    size_t nombre_sommets = permutation_obtenir_nombre_sommets(permutation);
-
     if (sommet_A > sommet_B)
     {
         size_t_echanger(&sommet_A, &sommet_B);

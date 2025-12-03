@@ -10,7 +10,7 @@
                 "-f",
                 "${workspaceFolder}/data/tsp/gr431.tsp",
                 "-m",
-                "ga",
+                "gadpx",
                 "20",
                 "20",
                 ".3"

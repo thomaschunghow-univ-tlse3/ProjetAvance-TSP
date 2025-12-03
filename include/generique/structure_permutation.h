@@ -35,6 +35,8 @@ void permutation_inverser(Permutation, Permutation inverse);
 
 void permutation_renverser_morceau(Permutation, size_t sommet_A, size_t sommet_B);
 
+size_t size_t_plus_grand_commun_diviseur(size_t a, size_t b);
+
 void permutation_decaler(Permutation, size_t nombre_decalage_gauche);
 void permutation_decaler_morceau(Permutation, size_t nombre_decalage_gauche, size_t sommet_A, size_t sommet_B);
 

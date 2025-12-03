@@ -14,6 +14,8 @@ Permutation tournee_plus_proche_voisin(MatriceDistance);
 
 Permutation tournee_marche_aleatoire(MatriceDistance);
 
+Permutation tournee_2_optimisation(MatriceDistance, Permutation);
+
 Permutation tournee_2_optimisation_plus_proche_voisin(MatriceDistance);
 
 Permutation tournee_2_optimisation_marche_aleatoire(MatriceDistance);

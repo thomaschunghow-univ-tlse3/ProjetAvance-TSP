@@ -1,9 +1,10 @@
 INCLUDES := $(wildcard include/*)
 
 CC := gcc
-CFLAGS := -Wall -Wextra -pedantic $(foreach dir,$(INCLUDES),-I$(dir)) -D_GNU_SOURCE -std=gnu2x
+CFLAGS := -Wall -Wextra -pedantic $(foreach dir,$(INCLUDES),-I$(dir)) -D_GNU_SOURCE -std=gnu2x -DNDEBUG
 LDFLAGS := -lm
-AFFICHAGE_INTERACTIF := -DAFFICHAGE_INTERACTIF
+AFFICHAGE_INTERACTIF_2_OPT := -DAFFICHAGE_INTERACTIF_2_OPT
+AFFICHAGE_INTERACTIF_GA := -DAFFICHAGE_INTERACTIF_GA
 
 SRC_DIR := src
 OBJ_DIR := bin/obj
@@ -16,8 +17,11 @@ TARGET := $(BIN_DIR)/main
 
 all: $(TARGET)
 
-interactive: CFLAGS += $(AFFICHAGE_INTERACTIF)
-interactive: $(TARGET)
+interactive_2opt: CFLAGS += $(AFFICHAGE_INTERACTIF_2_OPT)
+interactive_2opt: $(TARGET)
+
+interactive_ga: CFLAGS += $(AFFICHAGE_INTERACTIF_GA)
+interactive_ga: $(TARGET)
 
 debug: CFLAGS += -g 
 debug: $(TARGET)

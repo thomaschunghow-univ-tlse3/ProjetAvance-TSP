@@ -56,7 +56,7 @@ void afficher_permutation(FILE *sortie, Permutation permutation, size_t nombre_p
     fprintf(sortie, "[");
     for (size_t i = 0; i < nombre_points_max - 1; i++)
     {
-        fprintf(sortie, "%ld,", permutation_obtenir_sommet(permutation, i) + 1);
+        fprintf(sortie, "%ld,", permutation_obtenir_sommet(permutation, i)); // DEBUG
     }
 
     if (nombre_points_max != nombre_points)
@@ -64,7 +64,7 @@ void afficher_permutation(FILE *sortie, Permutation permutation, size_t nombre_p
         printf("...,");
     }
 
-    fprintf(sortie, "%ld", permutation_obtenir_sommet(permutation, nombre_points - 1) + 1);
+    fprintf(sortie, "%ld", permutation_obtenir_sommet(permutation, nombre_points - 1)); // DEBUG
     fprintf(sortie, "]");
 }
 

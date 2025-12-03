@@ -7,13 +7,26 @@
 #include "nombre_aleatoire.h"
 #include "structure_matrice.h"
 #include "structure_permutation.h"
+#include "structure_point.h"
 #include "structure_tableau_permutation.h"
+#include "tournee_2_optimisation.h"
 #include "traitement_interruption.h"
 
 #include <math.h>
 #include <stdlib.h>
 
-typedef void (*EffectuerCroisement)(Permutation pere, Permutation mere, Permutation enfant, Permutation inverse, size_t sommet_A, size_t sommet_B);
+#ifdef AFFICHAGE_INTERACTIF_GA
+#include "affichage.h"
+#include "options.h"
+
+#include <stdio.h>
+#endif // AFFICHAGE_INTERACTIF_GA
+
+typedef enum
+{
+    LIGHT,
+    DPX,
+} GenetiqueVariante;
 
 void tournee_genetique_mutation(TableauPermutation population, double taux_mutation)
 {
@@ -114,35 +127,289 @@ void tournee_genetique_effectuer_croisement_ordonne(Permutation pere, Permutatio
     }
 }
 
+typedef struct
+{
+    size_t nombre_sommets;
+
+    size_t sommet_gauche;
+    size_t sommet_droit;
+} Morceau;
+
 typedef enum
 {
     GAUCHE,
-    DROITE,
-    AUCUN
-} DirectionVoisin;
+    DROITE
+} Direction;
 
-DirectionVoisin tournee_genetique_verifier_voisins(Permutation permutation, size_t indice, size_t valeur_a_verifier)
+/* Décalage des morceaux entre les sommets A et B (inclus). */
+void tournee_genetique_morceaux_decaler_morceau(TableauPoint tableau, size_t nombre_decalage_gauche, size_t sommet_A, size_t sommet_B)
 {
-    size_t sommet_voisin_gauche = permutation_obtenir_sommet(permutation, indice - 1);
-    size_t sommet_voisin_droit = permutation_obtenir_sommet(permutation, indice + 1);
+    if (sommet_A > sommet_B)
+    {
+        size_t_echanger(&sommet_A, &sommet_B);
+    }
+
+    size_t nombre_sommets = sommet_B - sommet_A + 1;
+    nombre_decalage_gauche = nombre_decalage_gauche % nombre_sommets;
+
+    size_t pgcd = size_t_plus_grand_commun_diviseur(nombre_sommets, nombre_decalage_gauche);
+
+    /* Algorithme de décalage du « jongleur ». */
+    for (size_t debut_cycle = 0; debut_cycle < pgcd; debut_cycle++)
+    {
+        size_t sommet = debut_cycle + sommet_A;
+        size_t suivant;
+
+        while (true)
+        {
+            suivant = sommet_A + (sommet - sommet_A + nombre_decalage_gauche) % (nombre_sommets);
+
+            if (suivant == debut_cycle + sommet_A)
+            {
+                break;
+            }
+
+            Morceau morceau_sommet;
+            tableau_point_obtenir_point(tableau, sommet, &morceau_sommet);
+
+            Morceau morceau_suivant;
+            tableau_point_obtenir_point(tableau, suivant, &morceau_suivant);
+
+            tableau_point_modifier_point(tableau, sommet, &morceau_suivant);
+            tableau_point_modifier_point(tableau, suivant, &morceau_sommet);
+
+            sommet = suivant;
+        }
+    }
 }
 
-void tournee_genetique_effectuer_croisement_dpx(Permutation pere, Permutation mere, Permutation enfant, Permutation inverse, size_t sommet_A, size_t sommet_B)
+void size_t_incrementer(size_t *valeur, size_t intervalle)
 {
-    /* Ces deux variables ne servent que pour le croisement ordonné. */
-    (void)sommet_A;
-    (void)sommet_B;
+    *valeur = (*valeur + 1) % intervalle;
+}
 
+void size_t_decrementer(size_t *valeur, size_t intervalle)
+{
+    *valeur = (*valeur - 1) % intervalle;
+}
+
+void tournee_genetique_ajouter_morceau(TableauPoint morceaux, size_t indice_morceau, size_t nombre_sommets, size_t sommet_gauche, size_t sommet_droit)
+{
+    Morceau morceau;
+    morceau.nombre_sommets = nombre_sommets;
+    morceau.sommet_gauche = sommet_gauche;
+    morceau.sommet_droit = sommet_droit;
+
+    tableau_point_modifier_point(morceaux, indice_morceau, &morceau);
+}
+
+size_t tournee_genetique_calculer_morceaux(Permutation permutation_A, Permutation permutation_B, Permutation inverse_B, TableauPoint morceaux)
+{
+    size_t nombre_sommets = permutation_obtenir_nombre_sommets(permutation_A);
+
+    size_t nombre_morceaux = 0;
+
+    size_t indice_morceau = 0;
+
+    size_t morceau_nombre_sommets;
+
+    for (size_t sommet = 0; sommet < nombre_sommets; sommet += morceau_nombre_sommets)
+    {
+        morceau_nombre_sommets = 1;
+
+        size_t sommet_homologue = permutation_obtenir_sommet(inverse_B, permutation_obtenir_sommet(permutation_A, sommet));
+
+        size_t sommet_suivant = sommet + 1;
+        if (sommet_suivant >= nombre_sommets)
+        {
+            tournee_genetique_ajouter_morceau(morceaux, indice_morceau, morceau_nombre_sommets, sommet, sommet + morceau_nombre_sommets - 1);
+            indice_morceau++;
+            nombre_morceaux++;
+            break;
+        }
+
+        size_t voisin_droit_du_sommet_homologue = sommet_homologue;
+        size_t_incrementer(&voisin_droit_du_sommet_homologue, nombre_sommets);
+
+        size_t voisin_gauche_du_sommet_homologue = sommet_homologue;
+        size_t_decrementer(&voisin_gauche_du_sommet_homologue, nombre_sommets);
+
+        if (permutation_obtenir_sommet(permutation_A, sommet_suivant) == permutation_obtenir_sommet(permutation_B, voisin_droit_du_sommet_homologue))
+        {
+            while (permutation_obtenir_sommet(permutation_A, sommet_suivant) == permutation_obtenir_sommet(permutation_B, voisin_droit_du_sommet_homologue))
+            {
+                morceau_nombre_sommets++;
+                sommet_suivant++;
+                if (sommet_suivant >= nombre_sommets)
+                {
+                    break;
+                }
+
+                size_t_incrementer(&voisin_droit_du_sommet_homologue, nombre_sommets);
+            }
+        }
+
+        else if (permutation_obtenir_sommet(permutation_A, sommet_suivant) == permutation_obtenir_sommet(permutation_B, voisin_gauche_du_sommet_homologue))
+        {
+            while (permutation_obtenir_sommet(permutation_A, sommet_suivant) == permutation_obtenir_sommet(permutation_B, voisin_gauche_du_sommet_homologue))
+            {
+                morceau_nombre_sommets++;
+                sommet_suivant++;
+                if (sommet_suivant >= nombre_sommets)
+                {
+                    break;
+                }
+
+                size_t_decrementer(&voisin_gauche_du_sommet_homologue, nombre_sommets);
+            }
+        }
+
+        tournee_genetique_ajouter_morceau(morceaux, indice_morceau, morceau_nombre_sommets, sommet, sommet + morceau_nombre_sommets - 1);
+        indice_morceau++;
+        nombre_morceaux++;
+    }
+
+    return nombre_morceaux;
+}
+
+void tournee_genetique_decaler_sommets_morceau(
+    TableauPoint morceaux, size_t indice_morceau_A, size_t indice_morceau_B,
+    size_t nombre_decalage_gauche, size_t sommet_A, size_t sommet_B)
+{
+    if (sommet_A > sommet_B)
+    {
+        size_t_echanger(&sommet_A, &sommet_B);
+    }
+
+    if (indice_morceau_A > indice_morceau_B)
+    {
+        size_t_echanger(&indice_morceau_A, &indice_morceau_B);
+    }
+
+    for (size_t i = indice_morceau_A; i <= indice_morceau_B; i++)
+    {
+        Morceau morceau;
+        tableau_point_obtenir_point(morceaux, i, &morceau);
+
+        size_t taille = sommet_B - sommet_A + 1;
+
+        morceau.sommet_gauche = sommet_A + ((morceau.sommet_gauche - sommet_A - nombre_decalage_gauche + taille) % taille);
+        morceau.sommet_droit = sommet_A + ((morceau.sommet_droit - sommet_A - nombre_decalage_gauche + taille) % taille);
+
+        tableau_point_modifier_point(morceaux, i, &morceau);
+    }
+}
+
+void tournee_genetique_raccorder_morceaux(MatriceDistance matrice, Permutation permutation, TableauPoint morceaux, size_t nombre_morceaux)
+{
+    size_t nombre_sommets = permutation_obtenir_nombre_sommets(permutation);
+
+    for (size_t indice_morceau = 0; indice_morceau < nombre_morceaux - 1; indice_morceau++)
+    {
+        Morceau morceau;
+        tableau_point_obtenir_point(morceaux, indice_morceau, &morceau);
+
+        Morceau morceau_suivant;
+        tableau_point_obtenir_point(morceaux, indice_morceau + 1, &morceau_suivant);
+
+        size_t sommet = morceau.sommet_droit;
+
+        size_t voisin_plus_proche = morceau_suivant.sommet_gauche;
+        Direction direction = GAUCHE;
+
+        size_t indice_morceau_plus_proche = indice_morceau + 1;
+
+        for (size_t indice_morceau_suivant = indice_morceau + 1; indice_morceau_suivant < nombre_morceaux; indice_morceau_suivant++)
+        {
+            tableau_point_obtenir_point(morceaux, indice_morceau_suivant, &morceau_suivant);
+
+            size_t voisin = morceau_suivant.sommet_gauche;
+
+            if (matrice_comparer_distances(
+                    matrice,
+                    permutation_obtenir_sommet(permutation, sommet),
+                    permutation_obtenir_sommet(permutation, voisin),
+                    permutation_obtenir_sommet(permutation, sommet),
+                    permutation_obtenir_sommet(permutation, voisin_plus_proche)) < 0)
+            {
+                voisin_plus_proche = voisin;
+                indice_morceau_plus_proche = indice_morceau_suivant;
+                direction = GAUCHE;
+            }
+
+            voisin = morceau_suivant.sommet_droit;
+
+            if (matrice_comparer_distances(
+                    matrice,
+                    permutation_obtenir_sommet(permutation, sommet),
+                    permutation_obtenir_sommet(permutation, voisin),
+                    permutation_obtenir_sommet(permutation, sommet),
+                    permutation_obtenir_sommet(permutation, voisin_plus_proche)) < 0)
+            {
+                voisin_plus_proche = voisin;
+                indice_morceau_plus_proche = indice_morceau_suivant;
+                direction = DROITE;
+            }
+        }
+
+        tableau_point_obtenir_point(morceaux, indice_morceau + 1, &morceau_suivant);
+
+        Morceau morceau_plus_proche;
+        tableau_point_obtenir_point(morceaux, indice_morceau_plus_proche, &morceau_plus_proche);
+
+        size_t nombre_decalages_gauches_permutation = voisin_plus_proche - morceau.sommet_droit - 1;
+        permutation_decaler_morceau(permutation, nombre_decalages_gauches_permutation, morceau.sommet_droit + 1, nombre_sommets - 1);
+
+        tournee_genetique_decaler_sommets_morceau(
+            morceaux, indice_morceau + 1, nombre_morceaux - 1,
+            nombre_decalages_gauches_permutation, morceau.sommet_droit + 1, nombre_sommets - 1);
+
+        size_t nombre_decalages_gauches_morceaux = indice_morceau_plus_proche - indice_morceau - 1;
+        tournee_genetique_morceaux_decaler_morceau(morceaux, nombre_decalages_gauches_morceaux, indice_morceau + 1, nombre_morceaux - 1);
+
+        if (direction == DROITE)
+        {
+            size_t sommet_droit = morceau_plus_proche.sommet_droit;
+            permutation_renverser_morceau(permutation, morceau.sommet_droit + 1, sommet_droit);
+
+            size_t_echanger(&morceau_plus_proche.sommet_gauche, &morceau_plus_proche.sommet_droit);
+        }
+    }
+}
+
+void tournee_genetique_effectuer_croisement_dpx(Permutation pere, Permutation mere, Permutation enfant, Permutation inverse, MatriceDistance matrice)
+{
     size_t nombre_sommets = permutation_obtenir_nombre_sommets(pere);
 
     permutation_copier(enfant, pere);
+
+    permutation_inverser(mere, inverse);
+
+    TableauPoint morceaux = tableau_point_creer(nombre_sommets, sizeof(Morceau));
+
+    /* Initialisation à zéro. */
+    for (size_t i = 0; i < nombre_sommets; i++)
+    {
+        Morceau morceau;
+        morceau.nombre_sommets = 0;
+
+        tableau_point_modifier_point(morceaux, i, &morceau);
+    }
+
+    size_t nombre_morceaux = tournee_genetique_calculer_morceaux(enfant, mere, inverse, morceaux);
+
+    tournee_genetique_raccorder_morceaux(matrice, enfant, morceaux, nombre_morceaux);
+
+    tournee_2_optimisation(matrice, enfant);
+
+    tableau_point_supprimer(&morceaux);
 }
 
-Permutation tournee_genetique(MatriceDistance matrice, size_t nombre_individus, size_t nombre_generations, double taux_mutation, size_t taille_tournoi, EffectuerCroisement croiser)
+Permutation tournee_genetique(MatriceDistance matrice, size_t nombre_individus, size_t nombre_generations, double taux_mutation, size_t taille_tournoi, GenetiqueVariante variante)
 {
-#ifdef AFFICHAGE_INTERACTIF
+#ifdef AFFICHAGE_INTERACTIF_GA
     fprintf(sortie, "genetique\n%ld\n%ld\n%lf\n%ld\n", nombre_individus, nombre_generations, taux_mutation, taille_tournoi);
-#endif // AFFICHAGE_INTERACTIF
+#endif // AFFICHAGE_INTERACTIF_GA
 
     size_t nombre_sommets = matrice_obtenir_nombre_points(matrice);
 
@@ -173,45 +440,68 @@ Permutation tournee_genetique(MatriceDistance matrice, size_t nombre_individus, 
     permutation_copier(meilleur_individu_historique, meilleur_individu);
     permutation_calculer_longueur(meilleur_individu_historique, matrice);
 
-#ifdef AFFICHAGE_INTERACTIF
+#ifdef AFFICHAGE_INTERACTIF_GA
     for (size_t individu = 0; individu < nombre_individus; individu++)
     {
         Permutation permutation = tableau_permutation_obtenir_permutation(population, individu);
         afficher_permutation(sortie, permutation, 0);
         fprintf(sortie, "\n");
     }
-#endif
+#endif // AFFICHAGE_INTERACTIF_GA
 
     for (size_t generation = 0; generation < nombre_generations; generation++)
     {
         /* Détermination des parents grace à une sélection par tournoi. */
         tournee_genetique_selection_par_tournoi(population, parents, taille_tournoi, distance_comparer);
 
-        for (size_t indice_enfant = 0; indice_enfant < nombre_individus / 2; indice_enfant++)
+        switch (variante)
         {
-            /* Remarque : si le nombre d'individus est impair, alors le dernier individu du tournoi ne se reproduit pas. */
-            indice_enfant *= 2;
-            size_t indice_pere = indice_enfant;
-            size_t indice_mere = indice_pere + 1;
-            size_t indice_frere = indice_pere;
-            size_t indice_soeur = indice_mere;
+        case LIGHT:
+            for (size_t indice_enfant = 0; indice_enfant < nombre_individus / 2; indice_enfant++)
+            {
+                /* Remarque : si le nombre d'individus est impair, alors le dernier individu du tournoi ne se reproduit pas. */
+                indice_enfant *= 2;
+                size_t indice_pere = indice_enfant;
+                size_t indice_mere = indice_pere + 1;
+                size_t indice_frere = indice_pere;
+                size_t indice_soeur = indice_mere;
 
-            /* Sélection de deux parents... */
-            Permutation pere = tableau_permutation_obtenir_permutation(parents, indice_pere);
-            Permutation mere = tableau_permutation_obtenir_permutation(parents, indice_mere);
+                /* Sélection de deux parents... */
+                Permutation pere = tableau_permutation_obtenir_permutation(parents, indice_pere);
+                Permutation mere = tableau_permutation_obtenir_permutation(parents, indice_mere);
 
-            /* ...qui se reproduisent pour créer deux enfants. */
-            Permutation frere = tableau_permutation_obtenir_permutation(enfants, indice_frere);
-            Permutation soeur = tableau_permutation_obtenir_permutation(enfants, indice_soeur);
+                /* ...qui se reproduisent pour créer deux enfants. */
+                Permutation frere = tableau_permutation_obtenir_permutation(enfants, indice_frere);
+                Permutation soeur = tableau_permutation_obtenir_permutation(enfants, indice_soeur);
 
-            /* Croisements entre les deux parents. */
-            size_t sommet_A = donner_entier_aleatoire(0, nombre_sommets);
-            size_t sommet_B = donner_entier_aleatoire(0, nombre_sommets);
-            croiser(pere, mere, frere, inverse, sommet_A, sommet_B);
+                /* Croisements entre les deux parents. */
+                size_t sommet_A = donner_entier_aleatoire(0, nombre_sommets);
+                size_t sommet_B = donner_entier_aleatoire(0, nombre_sommets);
+                tournee_genetique_effectuer_croisement_ordonne(pere, mere, frere, inverse, sommet_A, sommet_B);
 
-            sommet_A = donner_entier_aleatoire(0, nombre_sommets);
-            sommet_B = donner_entier_aleatoire(0, nombre_sommets);
-            croiser(pere, mere, soeur, inverse, sommet_A, sommet_B);
+                sommet_A = donner_entier_aleatoire(0, nombre_sommets);
+                sommet_B = donner_entier_aleatoire(0, nombre_sommets);
+                tournee_genetique_effectuer_croisement_ordonne(pere, mere, soeur, inverse, sommet_A, sommet_B);
+            }
+            break;
+
+        case DPX:
+            for (size_t indice_enfant = 0; indice_enfant < nombre_individus - 1; indice_enfant++)
+            {
+                /* Remarque : si le nombre d'individus est impair, alors le dernier individu du tournoi ne se reproduit pas. */
+                size_t indice_pere = indice_enfant;
+                size_t indice_mere = indice_pere + 1;
+
+                /* Sélection de deux parents... */
+                Permutation pere = tableau_permutation_obtenir_permutation(parents, indice_pere);
+                Permutation mere = tableau_permutation_obtenir_permutation(parents, indice_mere);
+
+                Permutation enfant = tableau_permutation_obtenir_permutation(enfants, indice_enfant);
+
+                tournee_genetique_effectuer_croisement_dpx(pere, mere, enfant, inverse, matrice);
+            }
+
+            break;
         }
 
         /* Mutation de tous les enfants. */
@@ -254,7 +544,7 @@ Permutation tournee_genetique(MatriceDistance matrice, size_t nombre_individus, 
         /* Remplacement de la population par ses enfants. */
         tableau_permutation_echanger_tableaux(&population, &enfants);
 
-#ifdef AFFICHAGE_INTERACTIF
+#ifdef AFFICHAGE_INTERACTIF_GA
         tableau_permutation_trier(population, distance_comparer);
         for (size_t individu = 0; individu < nombre_individus; individu++)
         {
@@ -262,7 +552,8 @@ Permutation tournee_genetique(MatriceDistance matrice, size_t nombre_individus, 
             afficher_permutation(sortie, permutation, 0);
             fprintf(sortie, "\n");
         }
-#endif
+#endif // AFFICHAGE_INTERACTIF_GA
+
         /* Gestion des interruptions. */
         if (interruption)
         {
@@ -286,11 +577,11 @@ Permutation tournee_genetique(MatriceDistance matrice, size_t nombre_individus, 
 
 Permutation tournee_genetique_light(MatriceDistance matrice, size_t nombre_individus, size_t nombre_generations, double taux_mutation, size_t taille_tournoi)
 {
-    return tournee_genetique(matrice, nombre_individus, nombre_generations, taux_mutation, taille_tournoi, &tournee_genetique_effectuer_croisement_ordonne);
+    return tournee_genetique(matrice, nombre_individus, nombre_generations, taux_mutation, taille_tournoi, LIGHT);
 }
 
 Permutation tournee_genetique_dpx(MatriceDistance matrice, size_t nombre_individus, size_t nombre_generations, double taux_mutation, size_t taille_tournoi)
 {
     /* TODO */
-    return tournee_genetique(matrice, nombre_individus, nombre_generations, taux_mutation, taille_tournoi, &tournee_genetique_effectuer_croisement_dpx);
+    return tournee_genetique(matrice, nombre_individus, nombre_generations, taux_mutation, taille_tournoi, DPX);
 }

@@ -10,6 +10,13 @@
 
 #include <stdlib.h>
 
+#ifdef AFFICHAGE_INTERACTIF_2_OPT
+#include "affichage.h"
+#include "options.h"
+
+#include <stdio.h>
+#endif // AFFICHAGE_INTERACTIF_2_OPT
+
 Permutation tournee_plus_proche_voisin(MatriceDistance matrice)
 {
     size_t nombre_points = matrice_obtenir_nombre_points(matrice);
@@ -57,9 +64,9 @@ Permutation tournee_marche_aleatoire(MatriceDistance matrice)
 
 Permutation tournee_2_optimisation(MatriceDistance matrice, Permutation permutation)
 {
-#ifdef AFFICHAGE_INTERACTIF
+#ifdef AFFICHAGE_INTERACTIF_2_OPT
     fprintf(sortie, "2-optimisation\n");
-#endif // AFFICHAGE_INTERACTIF
+#endif // AFFICHAGE_INTERACTIF_2_OPT
 
     size_t nombre_points = matrice_obtenir_nombre_points(matrice);
 
@@ -76,10 +83,10 @@ Permutation tournee_2_optimisation(MatriceDistance matrice, Permutation permutat
 
         permutation_copier(permutation_decroisee, permutation);
 
-#ifdef AFFICHAGE_INTERACTIF
+#ifdef AFFICHAGE_INTERACTIF_2_OPT
         afficher_permutation(sortie, permutation, 0);
         fprintf(sortie, "\n");
-#endif // AFFICHAGE_INTERACTIF
+#endif // AFFICHAGE_INTERACTIF_2_OPT
 
         for (size_t sommet_A = 0; sommet_A < nombre_points - 1; sommet_A++)
         {
