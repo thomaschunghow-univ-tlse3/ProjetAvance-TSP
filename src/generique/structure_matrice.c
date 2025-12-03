@@ -1,5 +1,5 @@
 /*
- * structure.c
+ * structure_matrice.c
  */
 
 #include "structure_matrice.h"

@@ -1,5 +1,8 @@
 /*
  * structure_tableau_permutation.h
+ *
+ * Tableau de permutation :
+ * Définition et opérations du type abstrait de tableau de permutation.
  */
 
 #ifndef STRUCTURE_TABLEAU_PERMUTATION_H
@@ -10,11 +13,6 @@
 
 #include <stdbool.h>
 #include <stddef.h>
-
-/*
- * Tableau de permutation :
- * Définition et opérations du type abstrait de tableau de permutation.
- */
 
 typedef struct tableau_permutation *TableauPermutation;
 

@@ -13,6 +13,8 @@
 #include <math.h>
 #include <stdlib.h>
 
+typedef void (*EffectuerCroisement)(Permutation pere, Permutation mere, Permutation enfant, Permutation inverse, size_t sommet_A, size_t sommet_B);
+
 void tournee_genetique_mutation(TableauPermutation population, double taux_mutation)
 {
     size_t nombre_individus = tableau_permutation_obtenir_nombre_permutations(population);
@@ -75,7 +77,7 @@ void tournee_genetique_selection_par_tournoi(TableauPermutation population, Tabl
     }
 }
 
-void tournee_genetique_croisement_ordonne(Permutation pere, Permutation mere, Permutation enfant, Permutation inverse, size_t sommet_A, size_t sommet_B)
+void tournee_genetique_effectuer_croisement_ordonne(Permutation pere, Permutation mere, Permutation enfant, Permutation inverse, size_t sommet_A, size_t sommet_B)
 {
     size_t nombre_sommets = permutation_obtenir_nombre_sommets(pere);
 
@@ -112,7 +114,57 @@ void tournee_genetique_croisement_ordonne(Permutation pere, Permutation mere, Pe
     }
 }
 
-Permutation tournee_genetique_light(MatriceDistance matrice, size_t nombre_individus, size_t nombre_generations, double taux_mutation, size_t taille_tournoi)
+typedef enum
+{
+    GAUCHE,
+    DROITE,
+    AUCUN
+} DirectionVoisin;
+
+DirectionVoisin tournee_genetique_verifier_voisins(Permutation permutation, size_t indice, size_t valeur_a_verifier)
+{
+    size_t sommet_voisin_gauche = permutation_obtenir_sommet(permutation, indice - 1);
+    size_t sommet_voisin_droit = permutation_obtenir_sommet(permutation, indice + 1);
+}
+
+void tournee_genetique_effectuer_croisement_dpx(Permutation pere, Permutation mere, Permutation enfant, Permutation inverse, size_t sommet_A, size_t sommet_B)
+{
+    size_t nombre_sommets = permutation_obtenir_nombre_sommets(pere);
+
+    if (sommet_B < sommet_A)
+    {
+        size_t_echanger(&sommet_A, &sommet_B);
+    }
+    size_t nombre_sommets_pere_herite = sommet_B + 1 - sommet_A;
+
+    /* Le segment copié du père est placé au début de l'enfant. */
+    permutation_copier(enfant, pere);
+    permutation_decaler(enfant, sommet_A);
+
+    /* On utilise l'inverse (fonctionnel/mathématique, ie. on ne parle pas de renversement de liste)
+     * pour avoir accès en O(1) à la position de chaque sommet,
+     * en sachant la valeur du sommet de l'enfant.
+     * Sinon, il faudrait parcourir la permutation
+     * pour retrouver la position d'un sommet, ce qui coûte O(n). */
+    permutation_inverser(enfant, inverse);
+
+    /* On remplit le reste de l'enfant avec les sommets restants dans l'ordre de la mère. */
+    size_t indice_enfant = nombre_sommets_pere_herite;
+    for (size_t indice_mere = 0; indice_mere < nombre_sommets; indice_mere++)
+    {
+        size_t sommet_mere = permutation_obtenir_sommet(mere, indice_mere);
+        size_t indice_sommet_a_echanger = permutation_obtenir_sommet(inverse, sommet_mere);
+
+        if (indice_sommet_a_echanger >= nombre_sommets_pere_herite)
+        {
+            permutation_echanger_sommets(enfant, indice_sommet_a_echanger, indice_enfant);
+            permutation_echanger_sommets(inverse, permutation_obtenir_sommet(enfant, indice_sommet_a_echanger), permutation_obtenir_sommet(enfant, indice_enfant));
+            indice_enfant++;
+        }
+    }
+}
+
+Permutation tournee_genetique(MatriceDistance matrice, size_t nombre_individus, size_t nombre_generations, double taux_mutation, size_t taille_tournoi, EffectuerCroisement croiser)
 {
 #ifdef AFFICHAGE_INTERACTIF
     fprintf(sortie, "genetique\n%ld\n%ld\n%lf\n%ld\n", nombre_individus, nombre_generations, taux_mutation, taille_tournoi);
@@ -181,11 +233,11 @@ Permutation tournee_genetique_light(MatriceDistance matrice, size_t nombre_indiv
             /* Croisements entre les deux parents. */
             size_t sommet_A = donner_entier_aleatoire(0, nombre_sommets);
             size_t sommet_B = donner_entier_aleatoire(0, nombre_sommets);
-            tournee_genetique_croisement_ordonne(pere, mere, frere, inverse, sommet_A, sommet_B);
+            croiser(pere, mere, frere, inverse, sommet_A, sommet_B);
 
             sommet_A = donner_entier_aleatoire(0, nombre_sommets);
             sommet_B = donner_entier_aleatoire(0, nombre_sommets);
-            tournee_genetique_croisement_ordonne(pere, mere, soeur, inverse, sommet_A, sommet_B);
+            croiser(pere, mere, soeur, inverse, sommet_A, sommet_B);
         }
 
         /* Mutation de tous les enfants. */
@@ -258,8 +310,13 @@ Permutation tournee_genetique_light(MatriceDistance matrice, size_t nombre_indiv
     return meilleur_individu_historique;
 }
 
-Permutation tournee_genetique_dpx(MatriceDistance matrice, size_t nombre_individus, size_t nombre_generations, double taux_mutation)
+Permutation tournee_genetique_light(MatriceDistance matrice, size_t nombre_individus, size_t nombre_generations, double taux_mutation, size_t taille_tournoi)
+{
+    return tournee_genetique(matrice, nombre_individus, nombre_generations, taux_mutation, taille_tournoi, &tournee_genetique_effectuer_croisement_ordonne);
+}
+
+Permutation tournee_genetique_dpx(MatriceDistance matrice, size_t nombre_individus, size_t nombre_generations, double taux_mutation, size_t taille_tournoi)
 {
     /* TODO */
-    return tournee_genetique_light(matrice, nombre_individus, nombre_generations, taux_mutation, nombre_individus / 2);
+    return tournee_genetique(matrice, nombre_individus, nombre_generations, taux_mutation, taille_tournoi, &tournee_genetique_effectuer_croisement_dpx);
 }

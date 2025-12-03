@@ -11,6 +11,8 @@
 
 #include <signal.h>
 
+/* TODO : Rendre l'interruption générique, c'est-à-dire de ne pas avoir à la déclarer dans la partie générique du code. */
+
 extern volatile sig_atomic_t interruption;
 
 void interruption_proteger_signal(int signal, void (*traiter_signal)(int signal));

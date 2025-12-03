@@ -46,7 +46,7 @@ Permutation tournee_force_brute_naive(MatriceDistance matrice)
     return permutation_minimale;
 }
 
-Permutation tournee_force_brute_elagage(MatriceDistance matrice)
+Permutation tournee_force_brute_avec_elagage(MatriceDistance matrice)
 {
     size_t nombre_points = matrice_obtenir_nombre_points(matrice);
     size_t taille_distance = matrice_obtenir_taille_distance(matrice);

@@ -1,5 +1,5 @@
 /*
- * structure.c
+ * structure_permutation.c
  */
 
 #include "structure_permutation.h"

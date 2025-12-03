@@ -1,5 +1,16 @@
 /*
  * structure_matrice.h
+ *
+ * Matrice :
+ * Définition et opérations du type abstrait de demi-matrice de distance.
+ *
+ * Pour économiser de la mémoire,
+ * seule la partie triangulaire inférieure de la matrice
+ * est stockée dans le tableau de distance (sans la diagonale, car nulle).
+ *
+ * Remarque : pour alléger le code et les noms des fonctions,
+ * nous utilisons le mot "matrice" pour désigner une demi-matrice.
+ * En pratique, toutes les matrices manipulées ici sont des demi-matrices.
  */
 
 #ifndef STRUCTURE_MATRICE_H
@@ -21,19 +32,6 @@ typedef void (*DistanceSoustraire)(void *distance_A, void *distance_B, void *dif
  * retourne 0 si distance_A == distance_B,
  * retourne une valeur supérieure à 0 si distance_A > distance_B. */
 typedef int (*DistanceComparer)(void *distance_A, void *distance_B);
-
-/*
- * Matrice :
- * Définition et opérations du type abstrait de demi-matrice de distance.
- *
- * Pour économiser de la mémoire,
- * seule la partie triangulaire inférieure de la matrice
- * est stockée dans le tableau de distance (sans la diagonale, car nulle).
- *
- * Remarque : pour alléger le code et les noms des fonctions,
- * nous utilisons le mot "matrice" pour désigner une demi-matrice.
- * En pratique, toutes les matrices manipulées ici sont des demi-matrices.
- */
 
 typedef struct matrice_distance *MatriceDistance;
 

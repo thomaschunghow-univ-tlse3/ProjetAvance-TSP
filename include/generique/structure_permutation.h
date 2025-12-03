@@ -1,16 +1,6 @@
 /*
  * structure_permutation.h
- */
-
-#ifndef STRUCTURE_PERMUTATION_H
-#define STRUCTURE_PERMUTATION_H
-
-#include "structure_matrice.h"
-
-#include <stdbool.h>
-#include <stddef.h>
-
-/*
+ *
  * Permutation :
  * Définition et opérations du type abstrait de permutation.
  *
@@ -24,6 +14,14 @@
  * Il faut porter attention à initialiser correctement la longueur,
  * et à la mettre à jour après une opération qui modifie la permutation.
  */
+
+#ifndef STRUCTURE_PERMUTATION_H
+#define STRUCTURE_PERMUTATION_H
+
+#include "structure_matrice.h"
+
+#include <stdbool.h>
+#include <stddef.h>
 
 typedef struct permutation *Permutation;
 

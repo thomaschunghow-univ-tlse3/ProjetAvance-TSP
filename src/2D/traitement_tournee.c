@@ -8,12 +8,11 @@
 #include "options.h"
 #include "structure_matrice.h"
 #include "structure_permutation.h"
-#include "traitement_interruption.h"
-
 #include "tournee_2_optimisation.h"
 #include "tournee_canonique.h"
 #include "tournee_force_brute.h"
 #include "tournee_genetique.h"
+#include "traitement_interruption.h"
 
 #include <math.h>
 #include <stdlib.h>
@@ -53,18 +52,21 @@ void tournee_gestionnaire(FILE *sortie, Arguments options, MatriceDistance matri
         break;
 
     case GENETIQUE_LIGHT:
-        resultat = tournee_genetique_light(matrice,
-                                           options.arguments_genetique.nombre_individus,
-                                           options.arguments_genetique.nombre_generations,
-                                           options.arguments_genetique.taux_mutation,
-                                           options.arguments_genetique.nombre_individus / 2);
+        resultat = tournee_genetique_light(
+            matrice,
+            options.arguments_genetique.nombre_individus,
+            options.arguments_genetique.nombre_generations,
+            options.arguments_genetique.taux_mutation,
+            options.arguments_genetique.nombre_individus / 2);
         break;
 
     case GENETIQUE_DPX:
-        resultat = tournee_genetique_dpx(matrice,
-                                         options.arguments_genetique.nombre_individus,
-                                         options.arguments_genetique.nombre_generations,
-                                         options.arguments_genetique.taux_mutation);
+        resultat = tournee_genetique_dpx(
+            matrice,
+            options.arguments_genetique.nombre_individus,
+            options.arguments_genetique.nombre_generations,
+            options.arguments_genetique.taux_mutation,
+            options.arguments_genetique.nombre_individus / 2);
         break;
 
     case TOUTES:

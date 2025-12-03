@@ -1,5 +1,5 @@
 /*
- * structure.c
+ * structure_tableau_permutation.c
  */
 
 #include "structure_tableau_permutation.h"
