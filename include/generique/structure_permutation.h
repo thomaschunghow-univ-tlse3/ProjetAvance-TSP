@@ -30,8 +30,13 @@ void permutation_supprimer(Permutation *);
 
 void permutation_initialiser(Permutation);
 void permutation_melanger(Permutation);
+
 void permutation_inverser(Permutation, Permutation inverse);
+
+void permutation_renverser_morceau(Permutation, size_t sommet_A, size_t sommet_B);
+
 void permutation_decaler(Permutation, size_t nombre_decalage_gauche);
+void permutation_decaler_morceau(Permutation, size_t nombre_decalage_gauche, size_t sommet_A, size_t sommet_B);
 
 void permutation_copier(Permutation destination, Permutation source);
 

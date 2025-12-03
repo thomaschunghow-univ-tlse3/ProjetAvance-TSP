@@ -129,39 +129,13 @@ DirectionVoisin tournee_genetique_verifier_voisins(Permutation permutation, size
 
 void tournee_genetique_effectuer_croisement_dpx(Permutation pere, Permutation mere, Permutation enfant, Permutation inverse, size_t sommet_A, size_t sommet_B)
 {
+    /* Ces deux variables ne servent que pour le croisement ordonné. */
+    (void)sommet_A;
+    (void)sommet_B;
+
     size_t nombre_sommets = permutation_obtenir_nombre_sommets(pere);
 
-    if (sommet_B < sommet_A)
-    {
-        size_t_echanger(&sommet_A, &sommet_B);
-    }
-    size_t nombre_sommets_pere_herite = sommet_B + 1 - sommet_A;
-
-    /* Le segment copié du père est placé au début de l'enfant. */
     permutation_copier(enfant, pere);
-    permutation_decaler(enfant, sommet_A);
-
-    /* On utilise l'inverse (fonctionnel/mathématique, ie. on ne parle pas de renversement de liste)
-     * pour avoir accès en O(1) à la position de chaque sommet,
-     * en sachant la valeur du sommet de l'enfant.
-     * Sinon, il faudrait parcourir la permutation
-     * pour retrouver la position d'un sommet, ce qui coûte O(n). */
-    permutation_inverser(enfant, inverse);
-
-    /* On remplit le reste de l'enfant avec les sommets restants dans l'ordre de la mère. */
-    size_t indice_enfant = nombre_sommets_pere_herite;
-    for (size_t indice_mere = 0; indice_mere < nombre_sommets; indice_mere++)
-    {
-        size_t sommet_mere = permutation_obtenir_sommet(mere, indice_mere);
-        size_t indice_sommet_a_echanger = permutation_obtenir_sommet(inverse, sommet_mere);
-
-        if (indice_sommet_a_echanger >= nombre_sommets_pere_herite)
-        {
-            permutation_echanger_sommets(enfant, indice_sommet_a_echanger, indice_enfant);
-            permutation_echanger_sommets(inverse, permutation_obtenir_sommet(enfant, indice_sommet_a_echanger), permutation_obtenir_sommet(enfant, indice_enfant));
-            indice_enfant++;
-        }
-    }
 }
 
 Permutation tournee_genetique(MatriceDistance matrice, size_t nombre_individus, size_t nombre_generations, double taux_mutation, size_t taille_tournoi, EffectuerCroisement croiser)

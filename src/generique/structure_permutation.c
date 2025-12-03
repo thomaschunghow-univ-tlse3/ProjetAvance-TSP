@@ -100,6 +100,28 @@ void permutation_inverser(Permutation permutation, Permutation inverse)
     }
 }
 
+/* Renversement de la permutation entre les sommets A et B (inclus). */
+void permutation_renverser_morceau(Permutation permutation, size_t sommet_A, size_t sommet_B)
+{
+    assert(permutation != NULL);
+    assert(sommet_A < permutation_obtenir_nombre_sommets(permutation));
+    assert(sommet_B < permutation_obtenir_nombre_sommets(permutation));
+
+    size_t nombre_sommets = permutation_obtenir_nombre_sommets(permutation);
+
+    if (sommet_A > sommet_B)
+    {
+        size_t_echanger(&sommet_A, &sommet_B);
+    }
+
+    while (sommet_A < sommet_B)
+    {
+        permutation_echanger_sommets(permutation, sommet_A, sommet_B);
+        sommet_A++;
+        sommet_B--;
+    }
+}
+
 size_t size_t_plus_grand_commun_diviseur(size_t a, size_t b)
 {
     size_t temp;
@@ -134,6 +156,42 @@ void permutation_decaler(Permutation permutation, size_t nombre_decalage_gauche)
         {
             suivant = (sommet + nombre_decalage_gauche) % nombre_sommets;
             if (suivant == debut_cycle)
+            {
+                break;
+            }
+            permutation_echanger_sommets(permutation, sommet, suivant);
+            sommet = suivant;
+        }
+    }
+}
+
+/* Décalage de la permutation entre les sommets A et B (inclus). */
+void permutation_decaler_morceau(Permutation permutation, size_t nombre_decalage_gauche, size_t sommet_A, size_t sommet_B)
+{
+    assert(permutation != NULL);
+    assert(sommet_A < permutation_obtenir_nombre_sommets(permutation));
+    assert(sommet_B < permutation_obtenir_nombre_sommets(permutation));
+
+    if (sommet_A > sommet_B)
+    {
+        size_t_echanger(&sommet_A, &sommet_B);
+    }
+
+    size_t nombre_sommets = sommet_B - sommet_A + 1;
+    nombre_decalage_gauche = nombre_decalage_gauche % nombre_sommets;
+
+    size_t pgcd = size_t_plus_grand_commun_diviseur(nombre_sommets, nombre_decalage_gauche);
+
+    /* Algorithme de décalage du « jongleur ». */
+    for (size_t debut_cycle = 0; debut_cycle < pgcd; debut_cycle++)
+    {
+        size_t sommet = debut_cycle + sommet_A;
+        size_t suivant;
+
+        while (true)
+        {
+            suivant = sommet_A + (sommet - sommet_A + nombre_decalage_gauche) % (nombre_sommets);
+            if (suivant == debut_cycle + sommet_A)
             {
                 break;
             }
