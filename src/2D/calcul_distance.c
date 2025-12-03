@@ -8,7 +8,7 @@
 #include <math.h>
 #include <float.h>
 
-#define DIFFERENCE_MINIMALE 1e-5
+#define DIFFERENCE_MINIMALE 1e-9
 #define RACINE_10 3.16227766016837952279
 #define RAYON_TERRE 6378.388
 

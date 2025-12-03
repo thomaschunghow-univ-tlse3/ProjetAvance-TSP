@@ -62,7 +62,7 @@ Permutation tournee_marche_aleatoire(MatriceDistance matrice)
     return permutation;
 }
 
-Permutation tournee_2_optimisation(MatriceDistance matrice, Permutation permutation)
+void tournee_2_optimisation(MatriceDistance matrice, Permutation permutation)
 {
 #ifdef AFFICHAGE_INTERACTIF_2_OPT
     fprintf(sortie, "2-optimisation\n");
@@ -120,20 +120,22 @@ Permutation tournee_2_optimisation(MatriceDistance matrice, Permutation permutat
     }
 
     permutation_supprimer(&permutation_decroisee);
-
-    return permutation;
 }
 
 Permutation tournee_2_optimisation_plus_proche_voisin(MatriceDistance matrice)
 {
     Permutation permutation = tournee_plus_proche_voisin(matrice);
 
-    return tournee_2_optimisation(matrice, permutation);
+    tournee_2_optimisation(matrice, permutation);
+
+    return permutation;
 }
 
 Permutation tournee_2_optimisation_marche_aleatoire(MatriceDistance matrice)
 {
     Permutation permutation = tournee_marche_aleatoire(matrice);
 
-    return tournee_2_optimisation(matrice, permutation);
+    tournee_2_optimisation(matrice, permutation);
+
+    return permutation;
 }
