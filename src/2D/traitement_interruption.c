@@ -5,14 +5,20 @@
 #include "traitement_interruption.h"
 
 #include "affichage.h"
+#include "options.h"
 #include "structure_permutation.h"
 
 #include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
-volatile sig_atomic_t interruption = false; /* Drapeau pour indiquer la réception du signal. */
+Permutation permutation_courante;
+Permutation permutation_minimale;
+clock_t temps_initial;
+Arguments arguments;
+MatriceDistance matrice;
 
 void interruption_proteger_signal(int signal, void (*traiter_signal)(int signal))
 {
@@ -35,20 +41,14 @@ void interruption_proteger_signal(int signal, void (*traiter_signal)(int signal)
     }
 }
 
-void interruption_receptionner_signal(int signal)
+void interruption_force_brute_traiter_signal(int signal)
 {
-    interruption = true;
     (void)signal;
-}
-
-bool interruption_traiter_signal(Permutation permutation, Permutation permutation_minimale)
-{
-    interruption = false; /* Réinitialisation du drapeau. */
 
     printf(ROUGE "\n");
 
     printf("Tournée courante                 : ");
-    afficher_permutation(stdout, permutation, 20);
+    afficher_permutation(stdout, permutation_courante, 20);
     printf("\n");
 
     printf("Meilleure tournée trouvée        : ");
@@ -60,7 +60,6 @@ bool interruption_traiter_signal(Permutation permutation, Permutation permutatio
     printf("\n\n");
 
     int reponse = ' ';
-    int vidange;
 
     while (reponse != 'y' && reponse != 'Y' && reponse != 'n' && reponse != 'N')
     {
@@ -68,20 +67,35 @@ bool interruption_traiter_signal(Permutation permutation, Permutation permutatio
 
         reponse = getchar();
 
+        int vidange;
         while ((vidange = getchar()) != '\n' && vidange != EOF)
             ;
     }
 
-    if (reponse == 'n' || reponse == 'N')
+    if (reponse == 'y' || reponse == 'Y')
     {
-        printf("Arrêt du calcul.");
+        printf("Reprise du calcul.");
         printf(RESET "\n");
 
-        return true;
+        return;
     }
 
-    printf("Reprise du calcul.");
+    printf("Arrêt du calcul.");
     printf(RESET "\n");
 
-    return false;
+    clock_t temps_total = clock() - temps_initial;
+    double temps_en_secondes = (double)temps_total;
+    temps_en_secondes /= CLOCKS_PER_SEC;
+
+    afficher_tournee(sortie, arguments.nom_fichier_entree, FORCE_BRUTE, temps_en_secondes, permutation_minimale);
+
+    permutation_supprimer(&permutation_courante);
+    permutation_supprimer(&permutation_minimale);
+
+    matrice_supprimer(&matrice);
+
+    fichier_fermer_entree(arguments);
+    fichier_fermer_sortie(arguments);
+
+    exit(EXIT_SUCCESS);
 }

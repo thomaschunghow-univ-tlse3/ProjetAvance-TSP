@@ -8,19 +8,20 @@
 #include "lecture_tsp.h"
 #include "options.h"
 #include "traitement_tournee.h"
+#include "traitement_interruption.h"
 
 #include <stdlib.h>
 
 int main(int argc, char **argv)
 {
-    Arguments options = options_traiter_arguments(argc, argv);
+    arguments = options_traiter_arguments(argc, argv);
 
-    fichier_ouvrir_entree(options);
-    fichier_ouvrir_sortie(options);
+    fichier_ouvrir_entree(arguments);
+    fichier_ouvrir_sortie(arguments);
 
     Specification specification = lecture_tsp_lire_specification(entree);
 
-    MatriceDistance matrice = matrice_creer(
+    matrice = matrice_creer(
         specification.nombre_points, sizeof(Point), sizeof(distance),
         specification.distance_calculer, &distance_additionner, &distance_soustraire, &distance_comparer);
 
@@ -28,12 +29,12 @@ int main(int argc, char **argv)
 
     matrice_remplir(matrice);
 
-    tournee_traitement(sortie, options, matrice);
+    tournee_traiter_methode(sortie, arguments, matrice);
 
     matrice_supprimer(&matrice);
 
-    fichier_fermer_entree(options);
-    fichier_fermer_sortie(options);
+    fichier_fermer_entree(arguments);
+    fichier_fermer_sortie(arguments);
 
     exit(EXIT_SUCCESS);
 }

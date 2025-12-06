@@ -18,49 +18,50 @@
 #include <stdlib.h>
 #include <time.h>
 
-void tournee_gestionnaire(FILE *sortie, Arguments options, MatriceDistance matrice, Methode methode)
+void tournee_gerer_algorithme(FILE *sortie, Arguments options, MatriceDistance matrice, Methode methode)
 {
     size_t nombre_points = matrice_obtenir_nombre_points(matrice);
     size_t taille_distance = matrice_obtenir_taille_distance(matrice);
 
-    clock_t temps = clock();
+    temps_initial = clock();
 
-    interruption_proteger_signal(SIGINT, interruption_receptionner_signal);
-
-    Permutation resultat = permutation_creer(nombre_points, taille_distance);
+    permutation_minimale = permutation_creer(nombre_points, taille_distance);
 
     switch (methode)
     {
     case CANONIQUE:
-        resultat = tournee_canonique(matrice);
+        permutation_minimale = tournee_canonique(matrice);
         break;
 
     case FORCE_BRUTE:
-        Permutation permutation_courante = permutation_creer(nombre_points, taille_distance);
 
-        tournee_force_brute_incrementale(matrice, permutation_courante, resultat);
+        permutation_courante = permutation_creer(nombre_points, taille_distance);
+
+        interruption_proteger_signal(SIGINT, interruption_force_brute_traiter_signal);
+
+        tournee_force_brute_incrementale(matrice, permutation_courante, permutation_minimale);
 
         permutation_supprimer(&permutation_courante);
         break;
 
     case PLUS_PROCHE_VOISIN:
-        resultat = tournee_plus_proche_voisin(matrice);
+        permutation_minimale = tournee_plus_proche_voisin(matrice);
         break;
 
     case MARCHE_ALEATOIRE:
-        resultat = tournee_marche_aleatoire(matrice);
+        permutation_minimale = tournee_marche_aleatoire(matrice);
         break;
 
     case PLUS_PROCHE_VOISIN_2_OPTIMISATION:
-        resultat = tournee_2_optimisation_plus_proche_voisin(matrice);
+        permutation_minimale = tournee_2_optimisation_plus_proche_voisin(matrice);
         break;
 
     case MARCHE_ALEATOIRE_2_OPTIMISATION:
-        resultat = tournee_2_optimisation_marche_aleatoire(matrice);
+        permutation_minimale = tournee_2_optimisation_marche_aleatoire(matrice);
         break;
 
     case GENETIQUE_LIGHT:
-        resultat = tournee_genetique_light(
+        permutation_minimale = tournee_genetique_light(
             matrice,
             options.arguments_genetique.nombre_individus,
             options.arguments_genetique.nombre_generations,
@@ -69,7 +70,7 @@ void tournee_gestionnaire(FILE *sortie, Arguments options, MatriceDistance matri
         break;
 
     case GENETIQUE_DPX:
-        resultat = tournee_genetique_dpx(
+        permutation_minimale = tournee_genetique_dpx(
             matrice,
             options.arguments_genetique.nombre_individus,
             options.arguments_genetique.nombre_generations,
@@ -82,28 +83,28 @@ void tournee_gestionnaire(FILE *sortie, Arguments options, MatriceDistance matri
         break;
     }
 
-    temps = clock() - temps;
-    double temps_total = (double)temps;
-    temps_total /= CLOCKS_PER_SEC;
+    clock_t temps_ecoule = clock() - temps_initial;
+    double secondes_ecoulees = (double)temps_ecoule;
+    secondes_ecoulees /= CLOCKS_PER_SEC;
 
 #ifdef AFFICHAGE_INTERACTIF_2_OPT
     (void)sortie;
-    (void)temps_total;
+    (void)secondes_ecoulees;
     (void)options;
 #else
 #ifdef AFFICHAGE_INTERACTIF_GA
     (void)sortie;
-    (void)temps_total;
+    (void)secondes_ecoulees;
     (void)options;
 #else
-    afficher_tournee(sortie, options.nom_fichier_entree, methode, temps_total, resultat);
+    afficher_tournee(sortie, options.nom_fichier_entree, methode, secondes_ecoulees, permutation_minimale);
 #endif // AFFICHAGE_INTERACTIF_GA
 #endif // AFFICHAGE_INTERACTIF_2_OPT
 
-    permutation_supprimer(&resultat);
+    permutation_supprimer(&permutation_minimale);
 }
 
-void tournee_traitement(FILE *sortie, Arguments options, MatriceDistance matrice)
+void tournee_traiter_methode(FILE *sortie, Arguments options, MatriceDistance matrice)
 {
     srand((unsigned int)time(NULL)); /* Initialisation de la graine pour la génération de nombres aléatoires. */
 
@@ -119,46 +120,46 @@ void tournee_traitement(FILE *sortie, Arguments options, MatriceDistance matrice
 
     if (options.canonique)
     {
-        tournee_gestionnaire(sortie, options, matrice, CANONIQUE);
+        tournee_gerer_algorithme(sortie, options, matrice, CANONIQUE);
     }
 
     switch (options.methode_calcul)
     {
     case FORCE_BRUTE:
-        tournee_gestionnaire(sortie, options, matrice, FORCE_BRUTE);
+        tournee_gerer_algorithme(sortie, options, matrice, FORCE_BRUTE);
         break;
 
     case PLUS_PROCHE_VOISIN:
-        tournee_gestionnaire(sortie, options, matrice, PLUS_PROCHE_VOISIN);
+        tournee_gerer_algorithme(sortie, options, matrice, PLUS_PROCHE_VOISIN);
         break;
 
     case MARCHE_ALEATOIRE:
-        tournee_gestionnaire(sortie, options, matrice, MARCHE_ALEATOIRE);
+        tournee_gerer_algorithme(sortie, options, matrice, MARCHE_ALEATOIRE);
         break;
 
     case PLUS_PROCHE_VOISIN_2_OPTIMISATION:
-        tournee_gestionnaire(sortie, options, matrice, PLUS_PROCHE_VOISIN_2_OPTIMISATION);
+        tournee_gerer_algorithme(sortie, options, matrice, PLUS_PROCHE_VOISIN_2_OPTIMISATION);
         break;
 
     case MARCHE_ALEATOIRE_2_OPTIMISATION:
-        tournee_gestionnaire(sortie, options, matrice, MARCHE_ALEATOIRE_2_OPTIMISATION);
+        tournee_gerer_algorithme(sortie, options, matrice, MARCHE_ALEATOIRE_2_OPTIMISATION);
         break;
 
     case GENETIQUE_LIGHT:
-        tournee_gestionnaire(sortie, options, matrice, GENETIQUE_LIGHT);
+        tournee_gerer_algorithme(sortie, options, matrice, GENETIQUE_LIGHT);
         break;
 
     case GENETIQUE_DPX:
-        tournee_gestionnaire(sortie, options, matrice, GENETIQUE_DPX);
+        tournee_gerer_algorithme(sortie, options, matrice, GENETIQUE_DPX);
         break;
 
     case TOUTES:
-        tournee_gestionnaire(sortie, options, matrice, PLUS_PROCHE_VOISIN);
-        tournee_gestionnaire(sortie, options, matrice, MARCHE_ALEATOIRE);
-        tournee_gestionnaire(sortie, options, matrice, PLUS_PROCHE_VOISIN_2_OPTIMISATION);
-        tournee_gestionnaire(sortie, options, matrice, MARCHE_ALEATOIRE_2_OPTIMISATION);
-        tournee_gestionnaire(sortie, options, matrice, GENETIQUE_LIGHT);
-        tournee_gestionnaire(sortie, options, matrice, GENETIQUE_DPX);
+        tournee_gerer_algorithme(sortie, options, matrice, PLUS_PROCHE_VOISIN);
+        tournee_gerer_algorithme(sortie, options, matrice, MARCHE_ALEATOIRE);
+        tournee_gerer_algorithme(sortie, options, matrice, PLUS_PROCHE_VOISIN_2_OPTIMISATION);
+        tournee_gerer_algorithme(sortie, options, matrice, MARCHE_ALEATOIRE_2_OPTIMISATION);
+        tournee_gerer_algorithme(sortie, options, matrice, GENETIQUE_LIGHT);
+        tournee_gerer_algorithme(sortie, options, matrice, GENETIQUE_DPX);
         break;
 
     default:

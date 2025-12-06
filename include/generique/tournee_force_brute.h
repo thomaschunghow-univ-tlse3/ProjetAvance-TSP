@@ -18,7 +18,7 @@ void tournee_force_brute_naive(MatriceDistance, Permutation permutation_courante
  * A l'ajout de chaque distance, si la valeur de la somme partielle
  * dépasse celle de la longueur de la meilleure tournée,
  * alors on abandonne et on passe à la prochaine permutation. */
-void tournee_force_brute_avec_elagage(MatriceDistance, Permutation permutation_courante, Permutation permutation_minimale);
+void incremental(MatriceDistance, Permutation permutation_courante, Permutation permutation_minimale);
 
 /* Méthode incrémentale :
  * A chaque permutation, à la longueur de l'ancienne tournée,

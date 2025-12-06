@@ -7,18 +7,21 @@
 #ifndef TRAITEMENT_INTERRUPTION_H
 #define TRAITEMENT_INTERRUPTION_H
 
+#include "options.h"
 #include "structure_permutation.h"
 
 #include <signal.h>
+#include <time.h>
 
 /* TODO : Rendre l'interruption générique, c'est-à-dire de ne pas avoir à la déclarer dans la partie générique du code. */
-
-extern volatile sig_atomic_t interruption;
+extern Permutation permutation_courante;
+extern Permutation permutation_minimale;
+extern clock_t temps_initial;
+extern Arguments arguments;
+extern MatriceDistance matrice;
 
 void interruption_proteger_signal(int signal, void (*traiter_signal)(int signal));
 
-void interruption_receptionner_signal(int signal);
-
-bool interruption_traiter_signal(Permutation permutation, Permutation permutation_minimale);
+void interruption_force_brute_traiter_signal(int signal);
 
 #endif // TRAITEMENT_INTERRUPTION_H

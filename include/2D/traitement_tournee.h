@@ -13,6 +13,6 @@
 
 typedef Permutation (*AlgorithmeTournee)(MatriceDistance);
 
-void tournee_traitement(FILE *sortie, Arguments, MatriceDistance);
+void tournee_traiter_methode(FILE *sortie, Arguments, MatriceDistance);
 
 #endif // TRAITEMENT_TOURNEE_H
