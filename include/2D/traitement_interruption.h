@@ -15,7 +15,7 @@
 
 /* TODO : Rendre l'interruption générique, c'est-à-dire de ne pas avoir à la déclarer dans la partie générique du code. */
 extern Permutation permutation_courante;
-extern Permutation permutation_minimale;
+extern Permutation permutation_resultat;
 extern clock_t temps_initial;
 extern Arguments arguments;
 extern MatriceDistance matrice;
@@ -23,5 +23,7 @@ extern MatriceDistance matrice;
 void interruption_proteger_signal(int signal, void (*traiter_signal)(int signal));
 
 void interruption_force_brute_traiter_signal(int signal);
+
+void interruption_2_optimisation_traiter_signal(int signal);
 
 #endif // TRAITEMENT_INTERRUPTION_H

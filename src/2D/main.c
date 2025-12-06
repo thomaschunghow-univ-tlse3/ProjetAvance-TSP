@@ -14,6 +14,8 @@
 
 int main(int argc, char **argv)
 {
+    srand((unsigned int)time(NULL)); /* Initialisation de la graine pour la génération de nombres aléatoires. */
+
     arguments = options_traiter_arguments(argc, argv);
 
     fichier_ouvrir_entree(arguments);

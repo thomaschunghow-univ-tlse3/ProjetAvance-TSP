@@ -397,7 +397,9 @@ void tournee_genetique_effectuer_croisement_dpx(Permutation pere, Permutation me
 
     tournee_genetique_raccorder_morceaux(matrice, enfant, morceaux, nombre_morceaux);
 
-    tournee_2_optimisation(matrice, enfant);
+    /* Par souci d'optimisation, on passe l'inverse dans la 2-optimisation pour éviter d'avoir à allouer de la mémoire puis de la libérer.
+     * Cela ne pose pas de problème car l'inverse a terminé son rôle et sera recalculé à la prochaine boucle. */
+    tournee_2_optimisation(matrice, inverse, enfant);
 }
 
 Permutation tournee_genetique(MatriceDistance matrice, size_t nombre_individus, size_t nombre_generations, double taux_mutation, size_t taille_tournoi, GenetiqueVariante variante)
@@ -579,8 +581,6 @@ Permutation tournee_genetique_light(MatriceDistance matrice, size_t nombre_indiv
 Permutation tournee_genetique_dpx(MatriceDistance matrice, size_t nombre_individus, size_t nombre_generations, double taux_mutation, size_t taille_tournoi)
 {
     Permutation permutation = tournee_genetique(matrice, nombre_individus, nombre_generations, taux_mutation, taille_tournoi, DPX);
-
-    tournee_2_optimisation(matrice, permutation);
 
     return permutation;
 }

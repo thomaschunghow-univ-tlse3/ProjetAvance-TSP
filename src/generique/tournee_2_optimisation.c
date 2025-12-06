@@ -16,22 +16,20 @@
 #include <stdio.h>
 #endif // AFFICHAGE_INTERACTIF_2_OPT
 
-Permutation tournee_plus_proche_voisin(MatriceDistance matrice)
+void tournee_plus_proche_voisin(MatriceDistance matrice, Permutation permutation_resultat)
 {
     size_t nombre_points = matrice_obtenir_nombre_points(matrice);
 
-    Permutation permutation = permutation_creer(nombre_points, matrice_obtenir_taille_distance(matrice));
-
     for (size_t sommet_fixe = 0; sommet_fixe < nombre_points - 1; sommet_fixe++)
     {
-        size_t valeur_sommet_fixe = permutation_obtenir_sommet(permutation, sommet_fixe);
+        size_t valeur_sommet_fixe = permutation_obtenir_sommet(permutation_resultat, sommet_fixe);
 
         size_t voisin_plus_proche = sommet_fixe + 1;
-        size_t valeur_voisin_plus_proche = permutation_obtenir_sommet(permutation, voisin_plus_proche);
+        size_t valeur_voisin_plus_proche = permutation_obtenir_sommet(permutation_resultat, voisin_plus_proche);
 
         for (size_t voisin = sommet_fixe + 2; voisin < nombre_points; voisin++)
         {
-            size_t valeur_voisin = permutation_obtenir_sommet(permutation, voisin);
+            size_t valeur_voisin = permutation_obtenir_sommet(permutation_resultat, voisin);
 
             if (matrice_comparer_distances(matrice, valeur_sommet_fixe, valeur_voisin, valeur_sommet_fixe, valeur_voisin_plus_proche) < 0)
             {
@@ -40,28 +38,20 @@ Permutation tournee_plus_proche_voisin(MatriceDistance matrice)
             }
         }
 
-        permutation_echanger_sommets(permutation, sommet_fixe + 1, voisin_plus_proche);
+        permutation_echanger_sommets(permutation_resultat, sommet_fixe + 1, voisin_plus_proche);
     }
 
-    permutation_calculer_longueur(permutation, matrice);
-
-    return permutation;
+    permutation_calculer_longueur(permutation_resultat, matrice);
 }
 
-Permutation tournee_marche_aleatoire(MatriceDistance matrice)
+void tournee_marche_aleatoire(MatriceDistance matrice, Permutation permutation_resultat)
 {
-    size_t nombre_points = matrice_obtenir_nombre_points(matrice);
+    permutation_melanger(permutation_resultat);
 
-    Permutation permutation = permutation_creer(nombre_points, matrice_obtenir_taille_distance(matrice));
-
-    permutation_melanger(permutation);
-
-    permutation_calculer_longueur(permutation, matrice);
-
-    return permutation;
+    permutation_calculer_longueur(permutation_resultat, matrice);
 }
 
-void tournee_2_optimisation(MatriceDistance matrice, Permutation permutation)
+void tournee_2_optimisation(MatriceDistance matrice, Permutation permutation_courante, Permutation permutation_resultat)
 {
 #ifdef AFFICHAGE_INTERACTIF_2_OPT
     fprintf(sortie, "2-optimisation\n");
@@ -69,18 +59,15 @@ void tournee_2_optimisation(MatriceDistance matrice, Permutation permutation)
 
     size_t nombre_points = matrice_obtenir_nombre_points(matrice);
 
-    permutation_calculer_longueur(permutation, matrice);
-
-    Permutation permutation_decroisee = permutation_creer(nombre_points, matrice_obtenir_taille_distance(matrice));
+    permutation_calculer_longueur(permutation_resultat, matrice);
 
     bool amelioration_trouvee = true;
-    bool demande_stop = false;
 
-    while (amelioration_trouvee && !demande_stop)
+    while (amelioration_trouvee)
     {
         amelioration_trouvee = false;
 
-        permutation_copier(permutation_decroisee, permutation);
+        permutation_copier(permutation_courante, permutation_resultat);
 
 #ifdef AFFICHAGE_INTERACTIF_2_OPT
         afficher_permutation(sortie, permutation, 0);
@@ -92,7 +79,7 @@ void tournee_2_optimisation(MatriceDistance matrice, Permutation permutation)
             for (size_t sommet_B = sommet_A + 1; sommet_B < nombre_points; sommet_B++)
             {
                 amelioration_trouvee = permutation_decroiser(
-                    matrice, permutation, sommet_A, sommet_B, permutation_decroisee);
+                    matrice, permutation_resultat, sommet_A, sommet_B, permutation_courante);
 
                 if (amelioration_trouvee)
                 {
@@ -106,24 +93,18 @@ void tournee_2_optimisation(MatriceDistance matrice, Permutation permutation)
             }
         }
     }
-
-    permutation_supprimer(&permutation_decroisee);
 }
 
-Permutation tournee_2_optimisation_plus_proche_voisin(MatriceDistance matrice)
+void tournee_2_optimisation_plus_proche_voisin(MatriceDistance matrice, Permutation permutation_courante, Permutation permutation_resultat)
 {
-    Permutation permutation = tournee_plus_proche_voisin(matrice);
+    tournee_plus_proche_voisin(matrice, permutation_resultat);
 
-    tournee_2_optimisation(matrice, permutation);
-
-    return permutation;
+    tournee_2_optimisation(matrice, permutation_courante, permutation_resultat);
 }
 
-Permutation tournee_2_optimisation_marche_aleatoire(MatriceDistance matrice)
+void tournee_2_optimisation_marche_aleatoire(MatriceDistance matrice, Permutation permutation_courante, Permutation permutation_resultat)
 {
-    Permutation permutation = tournee_marche_aleatoire(matrice);
+    tournee_marche_aleatoire(matrice, permutation_resultat);
 
-    tournee_2_optimisation(matrice, permutation);
-
-    return permutation;
+    tournee_2_optimisation(matrice, permutation_courante, permutation_resultat);
 }

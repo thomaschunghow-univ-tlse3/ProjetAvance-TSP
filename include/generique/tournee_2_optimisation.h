@@ -10,14 +10,14 @@
 #include "structure_matrice.h"
 #include "structure_permutation.h"
 
-Permutation tournee_plus_proche_voisin(MatriceDistance);
+void tournee_plus_proche_voisin(MatriceDistance, Permutation permutation_resultat);
 
-Permutation tournee_marche_aleatoire(MatriceDistance);
+void tournee_marche_aleatoire(MatriceDistance, Permutation permutation_resultat);
 
-void tournee_2_optimisation(MatriceDistance, Permutation);
+void tournee_2_optimisation(MatriceDistance, Permutation permutation_courante, Permutation permutation_resultat);
 
-Permutation tournee_2_optimisation_plus_proche_voisin(MatriceDistance);
+void tournee_2_optimisation_plus_proche_voisin(MatriceDistance, Permutation permutation_courante, Permutation permutation_resultat);
 
-Permutation tournee_2_optimisation_marche_aleatoire(MatriceDistance);
+void tournee_2_optimisation_marche_aleatoire(MatriceDistance, Permutation permutation_courante, Permutation permutation_resultat);
 
 #endif // TOURNEE_2_OPTIMISATION_H
