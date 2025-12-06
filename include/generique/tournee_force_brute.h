@@ -11,14 +11,14 @@
 #include "structure_permutation.h"
 
 /* Méthode classique. */
-Permutation tournee_force_brute_naive(MatriceDistance matrice);
+void tournee_force_brute_naive(MatriceDistance, Permutation permutation_courante, Permutation permutation_minimale);
 
 /* Méthode avec élagage :
  * A chaque permutation, on calcule la longueur de la nouvelle tournée.
  * A l'ajout de chaque distance, si la valeur de la somme partielle
  * dépasse celle de la longueur de la meilleure tournée,
  * alors on abandonne et on passe à la prochaine permutation. */
-Permutation tournee_force_brute_avec_elagage(MatriceDistance matrice);
+void tournee_force_brute_avec_elagage(MatriceDistance, Permutation permutation_courante, Permutation permutation_minimale);
 
 /* Méthode incrémentale :
  * A chaque permutation, à la longueur de l'ancienne tournée,
@@ -26,6 +26,6 @@ Permutation tournee_force_brute_avec_elagage(MatriceDistance matrice);
  * Ainsi, pour passer de la longueur de l'ancienne tournée à la longueur de la tournée courante,
  * on réalise au maximum cinq soustractions puis cinq additions,
  * donc au maximum dix opérations par permutation. */
-Permutation tournee_force_brute_incrementale(MatriceDistance matrice);
+void tournee_force_brute_incrementale(MatriceDistance, Permutation permutation_courante, Permutation permutation_minimale);
 
 #endif // TOURNEE_FORCE_BRUTE_H

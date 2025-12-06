@@ -20,11 +20,15 @@
 
 void tournee_gestionnaire(FILE *sortie, Arguments options, MatriceDistance matrice, Methode methode)
 {
+    size_t nombre_points = matrice_obtenir_nombre_points(matrice);
+    size_t taille_distance = matrice_obtenir_taille_distance(matrice);
+
     clock_t temps = clock();
 
     interruption_proteger_signal(SIGINT, interruption_receptionner_signal);
 
-    Permutation resultat;
+    Permutation resultat = permutation_creer(nombre_points, taille_distance);
+
     switch (methode)
     {
     case CANONIQUE:
@@ -32,7 +36,11 @@ void tournee_gestionnaire(FILE *sortie, Arguments options, MatriceDistance matri
         break;
 
     case FORCE_BRUTE:
-        resultat = tournee_force_brute_incrementale(matrice);
+        Permutation permutation_courante = permutation_creer(nombre_points, taille_distance);
+
+        tournee_force_brute_incrementale(matrice, permutation_courante, resultat);
+
+        permutation_supprimer(&permutation_courante);
         break;
 
     case PLUS_PROCHE_VOISIN:

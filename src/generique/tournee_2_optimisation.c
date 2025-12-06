@@ -6,7 +6,6 @@
 
 #include "structure_matrice.h"
 #include "structure_permutation.h"
-#include "traitement_interruption.h"
 
 #include <stdlib.h>
 
@@ -92,17 +91,6 @@ void tournee_2_optimisation(MatriceDistance matrice, Permutation permutation)
         {
             for (size_t sommet_B = sommet_A + 1; sommet_B < nombre_points; sommet_B++)
             {
-                /* Gestion des interruptions. */
-                if (interruption)
-                {
-                    demande_stop = interruption_traiter_signal(permutation, permutation_decroisee);
-
-                    if (demande_stop)
-                    {
-                        break;
-                    }
-                }
-
                 amelioration_trouvee = permutation_decroiser(
                     matrice, permutation, sommet_A, sommet_B, permutation_decroisee);
 

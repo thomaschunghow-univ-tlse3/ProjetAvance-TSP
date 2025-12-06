@@ -10,7 +10,6 @@
 #include "structure_point.h"
 #include "structure_tableau_permutation.h"
 #include "tournee_2_optimisation.h"
-#include "traitement_interruption.h"
 
 #include <math.h>
 #include <stdlib.h>
@@ -397,6 +396,8 @@ void tournee_genetique_effectuer_croisement_dpx(Permutation pere, Permutation me
     size_t nombre_morceaux = tournee_genetique_calculer_morceaux(enfant, mere, inverse, morceaux);
 
     tournee_genetique_raccorder_morceaux(matrice, enfant, morceaux, nombre_morceaux);
+
+    tournee_2_optimisation(matrice, enfant);
 }
 
 Permutation tournee_genetique(MatriceDistance matrice, size_t nombre_individus, size_t nombre_generations, double taux_mutation, size_t taille_tournoi, GenetiqueVariante variante)
@@ -528,7 +529,6 @@ Permutation tournee_genetique(MatriceDistance matrice, size_t nombre_individus, 
         /* Comparaison du meilleur individu de cette génération au meilleur individu historique. */
         indice_meilleur_individu = 0;
         meilleur_individu = tableau_permutation_obtenir_permutation(enfants, indice_meilleur_individu);
-        // permutation_calculer_longueur(meilleur_individu, matrice);
 
         if (permutation_comparer_longueurs(meilleur_individu, meilleur_individu_historique, distance_comparer) < 0)
         {
@@ -553,15 +553,6 @@ Permutation tournee_genetique(MatriceDistance matrice, size_t nombre_individus, 
             fprintf(sortie, "\n");
         }
 #endif // AFFICHAGE_INTERACTIF_GA
-
-        /* Gestion des interruptions. */
-        if (interruption)
-        {
-            if (interruption_traiter_signal(meilleur_individu, meilleur_individu_historique))
-            {
-                break;
-            }
-        }
     }
 
     tableau_permutation_supprimer(&population);

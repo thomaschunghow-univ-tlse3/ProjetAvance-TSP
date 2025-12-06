@@ -16,7 +16,7 @@ from enum import Enum
 nom_fichier = "./bin/donnees.txt"
 
 # Nombre de générations ignorées entre deux générations.
-intervalle_generations = 0
+intervalle_generations = 99
 
 # Délai entre deux générations en millisecondes.
 # Remarque : le traitement de chaque ligne n'est pas instantanné,
