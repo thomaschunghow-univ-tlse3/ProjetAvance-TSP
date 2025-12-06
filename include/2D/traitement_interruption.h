@@ -20,7 +20,8 @@ extern clock_t temps_initial;
 extern Arguments arguments;
 extern MatriceDistance matrice;
 
-void interruption_proteger_signal(int signal, void (*traiter_signal)(int signal));
+void interruption_proteger_signal(int signal, void (*traiter_signal)(int signal), struct sigaction *ancienne_action);
+void interruption_retablir_masque(int signal, struct sigaction *action);
 
 void interruption_force_brute_traiter_signal(int signal);
 

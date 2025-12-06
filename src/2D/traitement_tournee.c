@@ -38,6 +38,8 @@ void tournee_gerer_algorithme(FILE *sortie, Arguments arguments, MatriceDistance
 
     permutation_resultat = permutation_creer(nombre_points, taille_distance);
 
+    struct sigaction ancienne_action;
+
     switch (methode)
     {
     case CANONIQUE:
@@ -47,9 +49,11 @@ void tournee_gerer_algorithme(FILE *sortie, Arguments arguments, MatriceDistance
     case FORCE_BRUTE:
         permutation_courante = permutation_creer(nombre_points, taille_distance);
 
-        interruption_proteger_signal(SIGINT, interruption_force_brute_traiter_signal);
+        interruption_proteger_signal(SIGINT, interruption_force_brute_traiter_signal, &ancienne_action);
 
         tournee_force_brute_incrementale(matrice, permutation_courante, permutation_resultat);
+
+        interruption_retablir_masque(SIGINT, &ancienne_action);
 
         permutation_supprimer(&permutation_courante);
         break;
@@ -65,9 +69,11 @@ void tournee_gerer_algorithme(FILE *sortie, Arguments arguments, MatriceDistance
     case PLUS_PROCHE_VOISIN_2_OPTIMISATION:
         permutation_courante = permutation_creer(nombre_points, taille_distance);
 
-        interruption_proteger_signal(SIGINT, interruption_2_optimisation_traiter_signal);
+        interruption_proteger_signal(SIGINT, interruption_2_optimisation_traiter_signal, &ancienne_action);
 
         tournee_2_optimisation_plus_proche_voisin(matrice, permutation_courante, permutation_resultat);
+
+        interruption_retablir_masque(SIGINT, &ancienne_action);
 
         permutation_supprimer(&permutation_courante);
         break;
@@ -75,15 +81,19 @@ void tournee_gerer_algorithme(FILE *sortie, Arguments arguments, MatriceDistance
     case MARCHE_ALEATOIRE_2_OPTIMISATION:
         permutation_courante = permutation_creer(nombre_points, taille_distance);
 
-        interruption_proteger_signal(SIGINT, interruption_2_optimisation_traiter_signal);
+        interruption_proteger_signal(SIGINT, interruption_2_optimisation_traiter_signal, &ancienne_action);
 
         tournee_2_optimisation_marche_aleatoire(matrice, permutation_courante, permutation_resultat);
+
+        interruption_retablir_masque(SIGINT, &ancienne_action);
 
         permutation_supprimer(&permutation_courante);
         break;
 
     case GENETIQUE_LIGHT:
-        permutation_resultat = tournee_genetique_light(
+        permutation_courante = permutation_creer(nombre_points, taille_distance);
+
+        tournee_genetique_light(
             matrice,
             arguments.arguments_genetique.nombre_individus,
             arguments.arguments_genetique.nombre_generations,
@@ -92,7 +102,7 @@ void tournee_gerer_algorithme(FILE *sortie, Arguments arguments, MatriceDistance
         break;
 
     case GENETIQUE_DPX:
-        permutation_resultat = tournee_genetique_dpx(
+        tournee_genetique_dpx(
             matrice,
             arguments.arguments_genetique.nombre_individus,
             arguments.arguments_genetique.nombre_generations,

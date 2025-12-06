@@ -20,7 +20,7 @@ clock_t temps_initial;
 Arguments arguments;
 MatriceDistance matrice;
 
-void interruption_proteger_signal(int signal, void (*traiter_signal)(int signal))
+void interruption_proteger_signal(int signal, void (*traiter_signal)(int signal), struct sigaction *ancienne_action)
 {
     struct sigaction action;
 
@@ -34,7 +34,16 @@ void interruption_proteger_signal(int signal, void (*traiter_signal)(int signal)
         exit(EXIT_FAILURE);
     };
 
-    if (sigaction(signal, &action, NULL) == -1)
+    if (sigaction(signal, &action, ancienne_action) == -1)
+    {
+        perror("Erreur sigaction ");
+        exit(EXIT_FAILURE);
+    }
+}
+
+void interruption_retablir_masque(int signal, struct sigaction *action)
+{
+    if (sigaction(signal, action, NULL) == -1)
     {
         perror("Erreur sigaction ");
         exit(EXIT_FAILURE);
