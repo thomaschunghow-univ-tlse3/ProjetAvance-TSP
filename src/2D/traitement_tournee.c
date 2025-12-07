@@ -27,7 +27,19 @@ void tournee_conclure(FILE *sortie, Arguments arguments, Methode methode, Permut
     double secondes_ecoulees = (double)temps_ecoule;
     secondes_ecoulees /= CLOCKS_PER_SEC;
 
+#ifdef AFFICHAGE_INTERACTIF_2_OPT
+    (void)sortie;
+    (void)arguments;
+    (void)methode;
+#else // AFFICHAGE_INTERACTIF_2_OPT
+#ifdef AFFICHAGE_INTERACTIF_GA
+    (void)sortie;
+    (void)arguments;
+    (void)methode;
+#else  // AFFICHAGE_INTERACTIF_GA
     afficher_tournee(sortie, arguments.nom_fichier_entree, methode, secondes_ecoulees, permutation_resultat);
+#endif // AFFICHAGE_INTERACTIF_GA
+#endif // AFFICHAGE_INTERACTIF_2_OPT
 
     permutation_supprimer(&permutation_resultat);
 }
