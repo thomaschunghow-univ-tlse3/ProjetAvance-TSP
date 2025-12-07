@@ -18,17 +18,12 @@
 
 Permutation permutation_creer(size_t nombre_sommets, size_t taille_distance)
 {
-    Permutation permutation = malloc(
-        sizeof(struct permutation) +
-        nombre_sommets * sizeof(size_t) +
-        taille_distance);
+    Permutation permutation = malloc(sizeof(struct permutation) + nombre_sommets * sizeof(size_t) + taille_distance);
 
     if (permutation == NULL)
     {
-        fprintf(
-            stderr,
-            "Erreur permutation_creer :\n"
-            "Échec de l'allocation mémoire de la permutation.\n");
+        fprintf(stderr, "Erreur permutation_creer :\n"
+                        "Échec de l'allocation mémoire de la permutation.\n");
         exit(EXIT_FAILURE);
     }
 
@@ -164,16 +159,24 @@ void permutation_decaler(Permutation permutation, size_t nombre_decalage_gauche)
 }
 
 /* Décalage de la permutation entre les sommets A et B (inclus). */
-void permutation_decaler_morceau(Permutation permutation, size_t nombre_decalage_gauche, size_t sommet_A, size_t sommet_B)
+void permutation_decaler_morceau(Permutation permutation, size_t nombre_decalage_gauche, size_t sommet_A,
+                                 size_t sommet_B)
 {
     assert(permutation != NULL);
-    assert(sommet_A < permutation_obtenir_nombre_sommets(permutation));
-    assert(sommet_B < permutation_obtenir_nombre_sommets(permutation));
 
     if (sommet_A > sommet_B)
     {
         size_t_echanger(&sommet_A, &sommet_B);
     }
+
+    if (sommet_A >= permutation_obtenir_nombre_sommets(permutation) ||
+        sommet_B >= permutation_obtenir_nombre_sommets(permutation))
+    {
+        return;
+    }
+
+    assert(sommet_A < permutation_obtenir_nombre_sommets(permutation));
+    assert(sommet_B < permutation_obtenir_nombre_sommets(permutation));
 
     size_t nombre_sommets = sommet_B - sommet_A + 1;
     nombre_decalage_gauche = nombre_decalage_gauche % nombre_sommets;
@@ -274,13 +277,13 @@ void permutation_modifier_longueur(Permutation permutation, void *longueur_sourc
     memcpy(permutation->longueur, longueur_source, taille_distance);
 }
 
-int permutation_comparer_longueurs(Permutation permutation_A, Permutation permutation_B, DistanceComparer distance_comparer)
+int permutation_comparer_longueurs(Permutation permutation_A, Permutation permutation_B,
+                                   DistanceComparer distance_comparer)
 {
     return distance_comparer(permutation_A->longueur, permutation_B->longueur);
 }
 
-void permutation_calculer_longueur(
-    Permutation permutation, MatriceDistance matrice)
+void permutation_calculer_longueur(Permutation permutation, MatriceDistance matrice)
 {
     assert(permutation != NULL);
     assert(matrice != NULL);
@@ -300,15 +303,12 @@ void permutation_calculer_longueur(
         size_t indice = matrice_calculer_indice(sommets[i + 1], sommets[i]);
         char *distance = matrice->tableau_distance.distances + indice * taille_distance;
 
-        distance_additionner(
-            permutation->longueur,
-            distance,
-            permutation->longueur);
+        distance_additionner(permutation->longueur, distance, permutation->longueur);
     }
 }
 
-void permutation_calculer_longueur_avec_elagage(
-    Permutation permutation, MatriceDistance matrice, Permutation permutation_minimale)
+void permutation_calculer_longueur_avec_elagage(Permutation permutation, MatriceDistance matrice,
+                                                Permutation permutation_minimale)
 {
     assert(permutation != NULL);
     assert(matrice != NULL);
@@ -338,10 +338,7 @@ void permutation_calculer_longueur_avec_elagage(
         size_t indice = matrice_calculer_indice(sommets[i + 1], sommets[i]);
         char *distance = matrice->tableau_distance.distances + indice * taille_distance;
 
-        distance_additionner(
-            permutation->longueur,
-            distance,
-            permutation->longueur);
+        distance_additionner(permutation->longueur, distance, permutation->longueur);
     }
 }
 
@@ -394,8 +391,7 @@ bool permutation_avancer(Permutation permutation)
     return true;
 }
 
-bool permutation_avancer_et_incrementer_longueur(
-    Permutation permutation, MatriceDistance matrice)
+bool permutation_avancer_et_incrementer_longueur(Permutation permutation, MatriceDistance matrice)
 {
     assert(permutation != NULL);
 
@@ -522,9 +518,8 @@ void permutation_echanger_aretes(Permutation permutation, size_t sommet_A, size_
     }
 }
 
-bool permutation_decroiser(
-    MatriceDistance matrice, Permutation permutation,
-    size_t sommet_A, size_t sommet_B, Permutation permutation_decroisee)
+bool permutation_decroiser(MatriceDistance matrice, Permutation permutation, size_t sommet_A, size_t sommet_B,
+                           Permutation permutation_decroisee)
 {
     assert(permutation != NULL);
 

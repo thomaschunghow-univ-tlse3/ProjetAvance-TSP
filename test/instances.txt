@@ -1,1 +1,1 @@
-data/tsp/burma10.tsp
+data/tsp/att10.tsp
