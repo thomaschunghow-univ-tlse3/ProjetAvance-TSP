@@ -6,7 +6,9 @@
 
 #include "affichage.h"
 #include "options.h"
+#include "structure_matrice.h"
 #include "structure_permutation.h"
+#include "structure_tableau_permutation.h"
 
 #include <signal.h>
 #include <stdbool.h>
@@ -14,11 +16,16 @@
 #include <stdlib.h>
 #include <time.h>
 
-Permutation permutation_courante;
-Permutation permutation_resultat;
-clock_t temps_initial;
-Arguments arguments;
-MatriceDistance matrice;
+Permutation global_permutation_courante;
+Permutation global_permutation_resultat;
+clock_t global_temps_initial;
+Arguments global_arguments;
+MatriceDistance global_matrice;
+TableauPermutation global_population;
+TableauPermutation global_enfants;
+TableauPermutation global_parents;
+Permutation global_inverse;
+TableauMorceau global_morceaux;
 
 void interruption_proteger_signal(int signal, void (*traiter_signal)(int signal), struct sigaction *ancienne_action)
 {
@@ -57,15 +64,15 @@ void interruption_force_brute_traiter_signal(int signal)
     printf(ROUGE "\n");
 
     printf("Tournée courante                 : ");
-    afficher_permutation(stdout, permutation_courante, 20);
+    afficher_permutation(stdout, global_permutation_courante, 20);
     printf("\n");
 
     printf("Meilleure tournée trouvée        : ");
-    afficher_permutation(stdout, permutation_resultat, 20);
+    afficher_permutation(stdout, global_permutation_resultat, 20);
     printf("\n");
 
     printf("Longueur de la meilleure tournée : ");
-    afficher_longueur(stdout, permutation_resultat);
+    afficher_longueur(stdout, global_permutation_resultat);
     printf("\n\n");
 
     int reponse = ' ';
@@ -92,19 +99,20 @@ void interruption_force_brute_traiter_signal(int signal)
     printf("Arrêt du calcul.");
     printf(RESET "\n");
 
-    clock_t temps_total = clock() - temps_initial;
+    clock_t temps_total = clock() - global_temps_initial;
     double temps_en_secondes = (double)temps_total;
     temps_en_secondes /= CLOCKS_PER_SEC;
 
-    afficher_tournee(sortie, arguments.nom_fichier_entree, FORCE_BRUTE, temps_en_secondes, permutation_resultat);
+    afficher_tournee(sortie, global_arguments.nom_fichier_entree, FORCE_BRUTE, temps_en_secondes,
+                     global_permutation_resultat);
 
-    permutation_supprimer(&permutation_courante);
-    permutation_supprimer(&permutation_resultat);
+    permutation_supprimer(&global_permutation_courante);
+    permutation_supprimer(&global_permutation_resultat);
 
-    matrice_supprimer(&matrice);
+    matrice_supprimer(&global_matrice);
 
-    fichier_fermer_entree(arguments);
-    fichier_fermer_sortie(arguments);
+    fichier_fermer_entree(global_arguments);
+    fichier_fermer_sortie(global_arguments);
 
     exit(EXIT_SUCCESS);
 }
@@ -116,11 +124,11 @@ void interruption_2_optimisation_traiter_signal(int signal)
     printf(ROUGE "\n");
 
     printf("Tournée courante                 : ");
-    afficher_permutation(stdout, permutation_courante, 20);
+    afficher_permutation(stdout, global_permutation_courante, 20);
     printf("\n");
 
     printf("Longueur de la tournée           : ");
-    afficher_longueur(stdout, permutation_resultat);
+    afficher_longueur(stdout, global_permutation_resultat);
     printf("\n\n");
 
     int reponse = ' ';
@@ -147,19 +155,141 @@ void interruption_2_optimisation_traiter_signal(int signal)
     printf("Arrêt du calcul.");
     printf(RESET "\n");
 
-    clock_t temps_total = clock() - temps_initial;
+    clock_t temps_total = clock() - global_temps_initial;
     double temps_en_secondes = (double)temps_total;
     temps_en_secondes /= CLOCKS_PER_SEC;
 
-    afficher_tournee(sortie, arguments.nom_fichier_entree, FORCE_BRUTE, temps_en_secondes, permutation_resultat);
+    afficher_tournee(sortie, global_arguments.nom_fichier_entree, FORCE_BRUTE, temps_en_secondes,
+                     global_permutation_resultat);
 
-    permutation_supprimer(&permutation_courante);
-    permutation_supprimer(&permutation_resultat);
+    permutation_supprimer(&global_permutation_courante);
+    permutation_supprimer(&global_permutation_resultat);
 
-    matrice_supprimer(&matrice);
+    matrice_supprimer(&global_matrice);
 
-    fichier_fermer_entree(arguments);
-    fichier_fermer_sortie(arguments);
+    fichier_fermer_entree(global_arguments);
+    fichier_fermer_sortie(global_arguments);
+
+    exit(EXIT_SUCCESS);
+}
+
+void interruption_genetique_light_traiter_signal(int signal)
+{
+    (void)signal;
+
+    printf(ROUGE "\n");
+
+    printf("Meilleure tournée historique     : ");
+    afficher_permutation(stdout, global_permutation_resultat, 20);
+    printf("\n");
+
+    printf("Longueur de la tournée           : ");
+    afficher_longueur(stdout, global_permutation_resultat);
+    printf("\n\n");
+
+    int reponse = ' ';
+
+    while (reponse != 'y' && reponse != 'Y' && reponse != 'n' && reponse != 'N')
+    {
+        printf("Continuer ? [Y/n] : ");
+
+        reponse = getchar();
+
+        int vidange;
+        while ((vidange = getchar()) != '\n' && vidange != EOF)
+            ;
+    }
+
+    if (reponse == 'y' || reponse == 'Y')
+    {
+        printf("Reprise du calcul.");
+        printf(RESET "\n");
+
+        return;
+    }
+
+    printf("Arrêt du calcul.");
+    printf(RESET "\n");
+
+    clock_t temps_total = clock() - global_temps_initial;
+    double temps_en_secondes = (double)temps_total;
+    temps_en_secondes /= CLOCKS_PER_SEC;
+
+    afficher_tournee(sortie, global_arguments.nom_fichier_entree, GENETIQUE_LIGHT, temps_en_secondes,
+                     global_permutation_resultat);
+
+    permutation_supprimer(&global_permutation_resultat);
+
+    matrice_supprimer(&global_matrice);
+
+    tableau_permutation_supprimer(&global_population);
+    tableau_permutation_supprimer(&global_enfants);
+    tableau_permutation_supprimer(&global_parents);
+    permutation_supprimer(&global_inverse);
+
+    fichier_fermer_entree(global_arguments);
+    fichier_fermer_sortie(global_arguments);
+
+    exit(EXIT_SUCCESS);
+}
+
+void interruption_genetique_dpx_traiter_signal(int signal)
+{
+    (void)signal;
+
+    printf(ROUGE "\n");
+
+    printf("Meilleure tournée historique     : ");
+    afficher_permutation(stdout, global_permutation_resultat, 20);
+    printf("\n");
+
+    printf("Longueur de la tournée           : ");
+    afficher_longueur(stdout, global_permutation_resultat);
+    printf("\n\n");
+
+    int reponse = ' ';
+
+    while (reponse != 'y' && reponse != 'Y' && reponse != 'n' && reponse != 'N')
+    {
+        printf("Continuer ? [Y/n] : ");
+
+        reponse = getchar();
+
+        int vidange;
+        while ((vidange = getchar()) != '\n' && vidange != EOF)
+            ;
+    }
+
+    if (reponse == 'y' || reponse == 'Y')
+    {
+        printf("Reprise du calcul.");
+        printf(RESET "\n");
+
+        return;
+    }
+
+    printf("Arrêt du calcul.");
+    printf(RESET "\n");
+
+    clock_t temps_total = clock() - global_temps_initial;
+    double temps_en_secondes = (double)temps_total;
+    temps_en_secondes /= CLOCKS_PER_SEC;
+
+    afficher_tournee(sortie, global_arguments.nom_fichier_entree, GENETIQUE_DPX, temps_en_secondes,
+                     global_permutation_resultat);
+
+    permutation_supprimer(&global_permutation_resultat);
+
+    matrice_supprimer(&global_matrice);
+
+    tableau_permutation_supprimer(&global_population);
+    tableau_permutation_supprimer(&global_enfants);
+    tableau_permutation_supprimer(&global_parents);
+    permutation_supprimer(&global_inverse);
+    tableau_morceau_supprimer(&global_morceaux);
+
+    fichier_fermer_entree(global_arguments);
+    fichier_fermer_sortie(global_arguments);
 
     exit(EXIT_SUCCESS);
 }
