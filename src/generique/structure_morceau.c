@@ -148,45 +148,14 @@ void tableau_morceau_echanger_morceaux(TableauMorceau tableau, size_t indice_A, 
     tableau->morceaux[indice_B] = temp;
 }
 
-/* Décalage des morceaux entre les sommets A et B (inclus). */
-void tableau_morceau_decaler_morceau(TableauMorceau tableau, size_t nombre_decalage_gauche, size_t sommet_A,
-                                     size_t sommet_B)
+void tableau_morceau_decaler_morceau(TableauMorceau morceaux, size_t indice_morceau_A, size_t indice_morceau_B,
+                                     size_t nombre_decalage_gauche_permutation, size_t sommet_A, size_t sommet_B,
+                                     size_t nombre_decalage_gauche_morceau)
 {
-    if (sommet_A > sommet_B)
-    {
-        size_t_echanger(&sommet_A, &sommet_B);
-    }
+    assert(morceaux != NULL);
+    assert(indice_morceau_A < tableau_morceau_obtenir_nombre_morceaux(morceaux));
+    assert(indice_morceau_B < tableau_morceau_obtenir_nombre_morceaux(morceaux));
 
-    size_t nombre_sommets = sommet_B - sommet_A + 1;
-    nombre_decalage_gauche = nombre_decalage_gauche % nombre_sommets;
-
-    size_t pgcd = size_t_plus_grand_commun_diviseur(nombre_sommets, nombre_decalage_gauche);
-
-    /* Algorithme de décalage du « jongleur ». */
-    for (size_t debut_cycle = 0; debut_cycle < pgcd; debut_cycle++)
-    {
-        size_t sommet = debut_cycle + sommet_A;
-        size_t suivant;
-
-        while (true)
-        {
-            suivant = sommet_A + (sommet + nombre_sommets - sommet_A + nombre_decalage_gauche) % (nombre_sommets);
-
-            if (suivant == debut_cycle + sommet_A)
-            {
-                break;
-            }
-
-            tableau_morceau_echanger_morceaux(tableau, sommet, suivant);
-
-            sommet = suivant;
-        }
-    }
-}
-
-void tableau_morceau_decaler_sommets_morceau(TableauMorceau morceaux, size_t indice_morceau_A, size_t indice_morceau_B,
-                                             size_t nombre_decalage_gauche, size_t sommet_A, size_t sommet_B)
-{
     if (sommet_A > sommet_B)
     {
         size_t_echanger(&sommet_A, &sommet_B);
@@ -196,23 +165,46 @@ void tableau_morceau_decaler_sommets_morceau(TableauMorceau morceaux, size_t ind
     {
         size_t_echanger(&indice_morceau_A, &indice_morceau_B);
     }
+    size_t nombre_morceaux_a_decaler = indice_morceau_B - indice_morceau_A + 1;
+    size_t pgcd = size_t_plus_grand_commun_diviseur(nombre_morceaux_a_decaler, nombre_decalage_gauche_morceau);
+
+    /* Algorithme de décalage du « jongleur ». */
+    for (size_t debut_cycle = 0; debut_cycle < pgcd; debut_cycle++)
+    {
+        size_t sommet = debut_cycle + indice_morceau_A;
+        size_t suivant;
+
+        while (true)
+        {
+            suivant = indice_morceau_A +
+                      (sommet - indice_morceau_A + nombre_decalage_gauche_morceau) % (nombre_morceaux_a_decaler);
+            if (suivant == debut_cycle + indice_morceau_A)
+            {
+                break;
+            }
+            tableau_morceau_echanger_morceaux(morceaux, sommet, suivant);
+            sommet = suivant;
+        }
+    }
 
     for (size_t i = indice_morceau_A; i <= indice_morceau_B; i++)
     {
-        size_t nombre_sommets = sommet_B - sommet_A + 1;
-        nombre_decalage_gauche = nombre_decalage_gauche % nombre_sommets;
+        size_t sommet_gauche = tableau_morceau_obtenir_sommet_gauche(morceaux, i);
+        size_t sommet_droit = tableau_morceau_obtenir_sommet_droit(morceaux, i);
 
-        size_t morceau_sommet_gauche = tableau_morceau_obtenir_sommet_gauche(morceaux, i);
-        size_t morceau_sommet_droit = tableau_morceau_obtenir_sommet_droit(morceaux, i);
+        size_t taille = (sommet_B - sommet_A + 1);
+        // sommet_gauche = sommet_A + (sommet_gauche + taille - nombre_decalage_gauche_permutation) % taille;
+        // sommet_droit = sommet_A + (sommet_droit + taille - nombre_decalage_gauche_permutation) % taille;
+        // calcul relatif à sommet_A
+        size_t relatif_gauche = (sommet_gauche - sommet_A + taille) % taille;
+        size_t relatif_droit = (sommet_droit - sommet_A + taille) % taille;
 
-        printf("Pour indice = %lu\n", i);
-        morceau_sommet_gauche =
-            sommet_A + (morceau_sommet_gauche - sommet_A - nombre_decalage_gauche) % (nombre_sommets);
-        morceau_sommet_droit = sommet_A + (morceau_sommet_droit - sommet_A - nombre_decalage_gauche) % (nombre_sommets);
+        // appliquer le décalage
+        relatif_gauche = (relatif_gauche + (taille - nombre_decalage_gauche_permutation)) % taille;
+        relatif_droit = (relatif_droit + (taille - nombre_decalage_gauche_permutation)) % taille;
 
-        tableau_morceau_modifier_sommet_gauche(morceaux, i, morceau_sommet_gauche);
-        tableau_morceau_modifier_sommet_droit(morceaux, i, morceau_sommet_droit);
-
-        afficher_morceaux(stdout, morceaux);
+        // revenir aux indices globaux
+        tableau_morceau_modifier_sommet_gauche(morceaux, i, sommet_A + relatif_gauche);
+        tableau_morceau_modifier_sommet_droit(morceaux, i, sommet_A + relatif_droit);
     }
 }

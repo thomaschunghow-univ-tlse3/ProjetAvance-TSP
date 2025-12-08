@@ -40,10 +40,8 @@ void tableau_morceau_modifier_morceau(TableauMorceau, size_t indice, size_t nomb
 
 void tableau_morceau_echanger_sommets_gauche_et_droit(TableauMorceau, size_t indice);
 
-void tableau_morceau_decaler_morceau(TableauMorceau tableau, size_t nombre_decalage_gauche, size_t sommet_A,
-                                     size_t sommet_B);
-
-void tableau_morceau_decaler_sommets_morceau(TableauMorceau morceaux, size_t indice_morceau_A, size_t indice_morceau_B,
-                                             size_t nombre_decalage_gauche, size_t sommet_A, size_t sommet_B);
+void tableau_morceau_decaler_morceau(TableauMorceau morceaux, size_t indice_morceau_A, size_t indice_morceau_B,
+                                     size_t nombre_decalage_gauche, size_t sommet_A, size_t sommet_B,
+                                     size_t nombre_decalage_gauche_morceau);
 
 #endif // STRUCTURE_MORCEAU_H

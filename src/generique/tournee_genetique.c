@@ -218,12 +218,6 @@ void tournee_genetique_calculer_morceaux(Permutation permutation_A, Permutation 
     }
 
     tableau_morceau_modifier_nombre_morceaux(morceaux, nombre_morceaux);
-
-    // afficher_morceaux(stdout, morceaux);
-    // afficher_permutation(stdout, permutation_A, 0);
-    // printf("\n");
-    // afficher_permutation(stdout, permutation_B, 0);
-    // printf("\n");
 }
 
 void tournee_genetique_raccorder_morceaux(MatriceDistance matrice, Permutation permutation, TableauMorceau morceaux)
@@ -231,10 +225,6 @@ void tournee_genetique_raccorder_morceaux(MatriceDistance matrice, Permutation p
     size_t nombre_morceaux = tableau_morceau_obtenir_nombre_morceaux(morceaux);
 
     size_t nombre_sommets = permutation_obtenir_nombre_sommets(permutation);
-
-    afficher_morceaux(stdout, morceaux);
-    afficher_permutation(stdout, permutation, 0);
-    printf("\n");
 
     for (size_t indice_morceau = 0; indice_morceau < nombre_morceaux - 1; indice_morceau++)
     {
@@ -272,63 +262,23 @@ void tournee_genetique_raccorder_morceaux(MatriceDistance matrice, Permutation p
             }
         }
 
-        // printf("DEBUG 1\n");
-        // afficher_morceaux(stdout, morceaux);
+        size_t nombre_decalages_gauches =
+            tableau_morceau_obtenir_sommet_gauche(morceaux, indice_morceau_plus_proche) - (sommet_a_raccorder + 1);
 
-        size_t indice_morceau_suivant = indice_morceau + 1;
+        permutation_decaler_morceau(permutation, nombre_decalages_gauches, sommet_a_raccorder + 1, nombre_sommets - 1);
 
-        /* On ramène le morceau le plus proche au morceau à raccorder, dans la permutation. */
-        size_t nombre_decalages_gauches_permutation =
-            (nombre_sommets + tableau_morceau_obtenir_sommet_gauche(morceaux, indice_morceau_plus_proche) -
-             sommet_a_raccorder - 1) %
-            nombre_sommets;
-        permutation_decaler_morceau(permutation, nombre_decalages_gauches_permutation, sommet_a_raccorder + 1,
-                                    nombre_sommets - 1);
-
-        printf("Sommet plus proche = %lu\n", voisin_plus_proche);
-        printf("Nombre décalages = %lu\n", nombre_decalages_gauches_permutation);
-
-        // printf("DEBUG 2\n");
-        // afficher_morceaux(stdout, morceaux);
-
-        /* On met à jour les morceaux pour prendre en compte le décalage. */
-        size_t nombre_decalages_gauches_morceaux = indice_morceau_plus_proche - indice_morceau - 1;
-        // tableau_morceau_decaler_morceau(morceaux, nombre_decalages_gauches_morceaux, indice_morceau_suivant,
-        //                                 nombre_morceaux - 1);
-
-        // printf("DEBUG 3\n");
-        // afficher_morceaux(stdout, morceaux);
-
-        // tableau_morceau_decaler_sommets_morceau(morceaux, indice_morceau_suivant, nombre_morceaux - 1,
-        //                                         nombre_decalages_gauches_permutation, sommet_a_raccorder + 1,
-        //                                         nombre_sommets - 1);
-
-        // printf("DEBUG 4\n");
-        // afficher_morceaux(stdout, morceaux);
+        tableau_morceau_decaler_morceau(morceaux, indice_morceau + 1, nombre_morceaux - 1, nombre_decalages_gauches,
+                                        sommet_a_raccorder + 1, nombre_sommets - 1,
+                                        indice_morceau_plus_proche - indice_morceau - 1);
 
         if (direction == DROITE)
         {
-            /* Si le morceau le plus proche était le plus proche du sommet à raccorder de par son sommet droit
-             * (au lieu de son sommet gauche), alors on renverse le morceau, dans la permutation. */
-            size_t sommet_gauche = tableau_morceau_obtenir_sommet_gauche(morceaux, indice_morceau_suivant);
-            size_t sommet_droit = tableau_morceau_obtenir_sommet_droit(morceaux, indice_morceau_suivant);
+            size_t sommet_droit_morceau =
+                sommet_a_raccorder + tableau_morceau_obtenir_nombre_sommets(morceaux, indice_morceau_plus_proche);
 
-            permutation_renverser_morceau(permutation, sommet_gauche, sommet_droit);
-
-            // tableau_morceau_echanger_sommets_gauche_et_droit(morceaux, indice_morceau_suivant);
+            permutation_renverser_morceau(permutation, sommet_a_raccorder + 1, sommet_droit_morceau);
         }
-
-        // printf("DEBUG 5\n");
-        // afficher_morceaux(stdout, morceaux);
-
-        afficher_morceaux(stdout, morceaux);
-        afficher_permutation(stdout, permutation, 0);
-        printf("\n");
     }
-
-    afficher_morceaux(stdout, morceaux);
-    afficher_permutation(stdout, permutation, 0);
-    printf("\n");
 }
 
 void tournee_genetique_effectuer_croisement_dpx(Permutation pere, Permutation mere, Permutation enfant,
@@ -356,7 +306,7 @@ void tournee_genetique_effectuer_croisement_dpx(Permutation pere, Permutation me
      * éviter d'avoir à allouer de la mémoire puis de la libérer. Cela ne pose
      * pas de problème car l'inverse a terminé son rôle et sera recalculé à la
      * prochaine boucle. */
-    // tournee_2_optimisation(matrice, inverse, enfant);
+    tournee_2_optimisation(matrice, inverse, enfant);
 }
 
 void tournee_genetique(MatriceDistance matrice, size_t nombre_individus, size_t nombre_generations,

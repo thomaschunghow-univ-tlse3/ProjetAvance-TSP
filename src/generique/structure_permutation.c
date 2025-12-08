@@ -169,12 +169,6 @@ void permutation_decaler_morceau(Permutation permutation, size_t nombre_decalage
         size_t_echanger(&sommet_A, &sommet_B);
     }
 
-    if (sommet_A >= permutation_obtenir_nombre_sommets(permutation) ||
-        sommet_B >= permutation_obtenir_nombre_sommets(permutation))
-    {
-        return;
-    }
-
     assert(sommet_A < permutation_obtenir_nombre_sommets(permutation));
     assert(sommet_B < permutation_obtenir_nombre_sommets(permutation));
 
