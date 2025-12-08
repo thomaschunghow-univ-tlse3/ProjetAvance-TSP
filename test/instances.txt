@@ -1,1 +1,1 @@
-data/tsp/att10.tsp
+data/tsp/a280.tsp

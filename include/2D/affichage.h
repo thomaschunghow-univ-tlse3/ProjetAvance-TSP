@@ -25,4 +25,10 @@ void afficher_longueur(FILE *sortie, Permutation);
 
 void afficher_tournee(FILE *sortie, char *nom_fichier, Methode, double temps, Permutation);
 
+/* DEBUG */
+
+#include "structure_morceau.h"
+
+void afficher_morceaux(FILE *sortie, TableauMorceau);
+
 #endif // AFFICHAGE_H

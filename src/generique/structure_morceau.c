@@ -12,6 +12,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* DEBUG */
+#include "affichage.h"
+
 struct morceau
 {
     size_t nombre_sommets;
@@ -85,10 +88,16 @@ size_t tableau_morceau_obtenir_sommet_droit(TableauMorceau tableau, size_t indic
     return tableau->morceaux[indice].sommet_droit;
 }
 
+void tableau_morceau_modifier_nombre_morceaux(TableauMorceau tableau, size_t nombre_morceaux)
+{
+    assert(tableau != NULL);
+
+    tableau->nombre_morceaux = nombre_morceaux;
+}
+
 void tableau_morceau_modifier_nombre_sommets(TableauMorceau tableau, size_t indice, size_t nombre_sommets)
 {
     assert(tableau != NULL);
-    assert(indice < tableau_morceau_obtenir_nombre_morceaux(tableau));
 
     tableau->morceaux[indice].nombre_sommets = nombre_sommets;
 }
@@ -134,10 +143,9 @@ void tableau_morceau_echanger_morceaux(TableauMorceau tableau, size_t indice_A, 
     assert(indice_A < tableau_morceau_obtenir_nombre_morceaux(tableau));
     assert(indice_B < tableau_morceau_obtenir_nombre_morceaux(tableau));
 
-    struct morceau morceau_temp;
-    memcpy(&morceau_temp, tableau->morceaux + indice_A, sizeof(struct morceau));
-    memcpy(tableau->morceaux + indice_A, tableau->morceaux + indice_B, sizeof(struct morceau));
-    memcpy(tableau->morceaux + indice_B, &morceau_temp, sizeof(struct morceau));
+    struct morceau temp = tableau->morceaux[indice_A];
+    tableau->morceaux[indice_A] = tableau->morceaux[indice_B];
+    tableau->morceaux[indice_B] = temp;
 }
 
 /* Décalage des morceaux entre les sommets A et B (inclus). */
@@ -162,7 +170,7 @@ void tableau_morceau_decaler_morceau(TableauMorceau tableau, size_t nombre_decal
 
         while (true)
         {
-            suivant = sommet_A + (sommet - sommet_A + nombre_decalage_gauche) % (nombre_sommets);
+            suivant = sommet_A + (sommet + nombre_sommets - sommet_A + nombre_decalage_gauche) % (nombre_sommets);
 
             if (suivant == debut_cycle + sommet_A)
             {
@@ -191,14 +199,20 @@ void tableau_morceau_decaler_sommets_morceau(TableauMorceau morceaux, size_t ind
 
     for (size_t i = indice_morceau_A; i <= indice_morceau_B; i++)
     {
+        size_t nombre_sommets = sommet_B - sommet_A + 1;
+        nombre_decalage_gauche = nombre_decalage_gauche % nombre_sommets;
+
         size_t morceau_sommet_gauche = tableau_morceau_obtenir_sommet_gauche(morceaux, i);
         size_t morceau_sommet_droit = tableau_morceau_obtenir_sommet_droit(morceaux, i);
 
-        size_t taille = sommet_B - sommet_A + 1;
+        printf("Pour indice = %lu\n", i);
+        morceau_sommet_gauche =
+            sommet_A + (morceau_sommet_gauche - sommet_A - nombre_decalage_gauche) % (nombre_sommets);
+        morceau_sommet_droit = sommet_A + (morceau_sommet_droit - sommet_A - nombre_decalage_gauche) % (nombre_sommets);
 
-        tableau_morceau_modifier_sommet_gauche(
-            morceaux, i, sommet_A + ((morceau_sommet_gauche - sommet_A - nombre_decalage_gauche + taille) % taille));
-        tableau_morceau_modifier_sommet_droit(
-            morceaux, i, sommet_A + ((morceau_sommet_droit - sommet_A - nombre_decalage_gauche + taille) % taille));
+        tableau_morceau_modifier_sommet_gauche(morceaux, i, morceau_sommet_gauche);
+        tableau_morceau_modifier_sommet_droit(morceaux, i, morceau_sommet_droit);
+
+        afficher_morceaux(stdout, morceaux);
     }
 }

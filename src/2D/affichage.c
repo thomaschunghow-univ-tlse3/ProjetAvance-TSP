@@ -14,14 +14,12 @@
 
 void afficher_noms_champs(FILE *sortie)
 {
-    fprintf(
-        sortie,
-        "Instance ; "
-        "Méthode ; "
-        "Temps CPU (s) ; "
-        "Longueur ; "
-        "Tour ; "
-        "\n");
+    fprintf(sortie, "Instance ; "
+                    "Méthode ; "
+                    "Temps CPU (s) ; "
+                    "Longueur ; "
+                    "Tour ; "
+                    "\n");
 }
 
 void afficher_points(FILE *sortie, MatriceDistance matrice)
@@ -97,9 +95,8 @@ void afficher_methode_calcul(FILE *sortie, Methode methode)
         fprintf(sortie, "gadpx    ");
         break;
     default:
-        fprintf(stderr,
-                "Erreur afficher_methode_calcul :\n"
-                "La méthode choisie n'est pas une méthode affichable.\n");
+        fprintf(stderr, "Erreur afficher_methode_calcul :\n"
+                        "La méthode choisie n'est pas une méthode affichable.\n");
         exit(EXIT_FAILURE);
     }
 }
@@ -130,4 +127,14 @@ void afficher_tournee(FILE *sortie, char *nom_fichier, Methode methode, double t
     fprintf(sortie, " ; ");
 
     fprintf(sortie, "\n");
+}
+
+void afficher_morceaux(FILE *sortie, TableauMorceau morceaux)
+{
+    for (size_t i = 0; i < tableau_morceau_obtenir_nombre_morceaux(morceaux); i++)
+    {
+        fprintf(sortie, "Morceau %lu : Nombre sommets = %lu, Sommet gauche  = %lu, Sommet droit   = %lu\n", i,
+                tableau_morceau_obtenir_nombre_sommets(morceaux, i), tableau_morceau_obtenir_sommet_gauche(morceaux, i),
+                tableau_morceau_obtenir_sommet_droit(morceaux, i));
+    }
 }

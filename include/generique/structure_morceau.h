@@ -27,6 +27,8 @@ size_t tableau_morceau_obtenir_sommet_gauche(TableauMorceau, size_t indice);
 
 size_t tableau_morceau_obtenir_sommet_droit(TableauMorceau, size_t indice);
 
+void tableau_morceau_modifier_nombre_morceaux(TableauMorceau tableau, size_t nombre_morceaux);
+
 void tableau_morceau_modifier_nombre_sommets(TableauMorceau, size_t indice, size_t nombre_sommets);
 
 void tableau_morceau_modifier_sommet_gauche(TableauMorceau, size_t indice, size_t sommet_gauche);
