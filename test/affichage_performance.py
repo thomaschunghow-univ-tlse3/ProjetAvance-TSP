@@ -5,7 +5,9 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-ANALYSE_PERFORMANCE = "cache/analyse_performance_une_minute.csv"
+ANALYSE_PERFORMANCE = "cache/analyse_performance_une_seconde.csv"
+# ANALYSE_PERFORMANCE = "cache/analyse_performance_dix_seconde.csv"
+# ANALYSE_PERFORMANCE = "cache/analyse_performance_une_minute.csv"
 
 
 df = pd.read_csv(ANALYSE_PERFORMANCE, sep=";", engine="python")

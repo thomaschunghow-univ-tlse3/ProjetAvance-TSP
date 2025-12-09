@@ -19,6 +19,7 @@ RESULT_FILE_TOUR = "bin/resultats_tour.txt"
 
 NOMBRE_SECONDES_MAX_CALCUL = 60
 
+RESULT_FILE_CSV = "bin/analyse_performance.csv"
 
 def main():
 
@@ -145,7 +146,7 @@ def main():
                                row[("Différence (%)", "<lambda_1>")]]
         })], ignore_index=True)
 
-    df.to_csv("bin/analyse_performance.csv", sep=";", index=False)
+    df.to_csv("RESULT_FILE_CSV", sep=";", index=False)
 
     pd.set_option("display.max_rows", None)
     print(df)
