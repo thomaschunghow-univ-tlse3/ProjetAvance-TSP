@@ -17,10 +17,6 @@ df_clean = df[~df["Instance"].str.contains("Moyenne|Q1|Médiane|Q3")]
 
 methods = df_clean["Méthode"].unique()
 
-############################################
-# 1️⃣ AFFICHAGE POUR LA DIFFÉRENCE (%)
-############################################
-
 fig, axes = plt.subplots(2, 3, figsize=(18, 12))
 axes = axes.flatten()
 
@@ -40,18 +36,13 @@ for ax, method in zip(axes, methods):
     ax.set_ylabel("Nombre d'instances")
     ax.legend()
 
-# cases inutilisées
 for i in range(len(methods), len(axes)):
     axes[i].axis('off')
 
 plt.tight_layout()
-plt.savefig("bin/affichage_performance.png", dpi=300)
+plt.savefig("bin/performance_longueur.png", dpi=300)
 plt.show()
 
-
-############################################
-# 2️⃣ AFFICHAGE POUR LES TEMPS CPU
-############################################
 
 fig, axes = plt.subplots(2, 3, figsize=(18, 12))
 axes = axes.flatten()
@@ -77,5 +68,5 @@ for i in range(len(methods), len(axes)):
     axes[i].axis('off')
 
 plt.tight_layout()
-plt.savefig("bin/affichage_temps.png", dpi=300)
+plt.savefig("bin/performance_temps.png", dpi=300)
 plt.show()

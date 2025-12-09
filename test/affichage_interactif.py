@@ -30,8 +30,8 @@ FICHIER_TSP = "data/att48.tsp"
 
 # METHODE = "2optnn"
 # METHODE = "2optrw"
-# METHODE = "ga"
-METHODE = "gadpx"
+METHODE = "ga"
+# METHODE = "gadpx"
 
 NB_INDIVIDUS = 10
 NB_GENERATIONS = 100
@@ -184,7 +184,16 @@ def traiter_parametres_genetique(fichier):
     return nombre_individus, nombre_generations, taux_mutation, taille_tournoi
 
 
+def calculer_nombre_lignes(fichier):
+    with open(fichier) as f:
+        lignes = f.readlines()
+        nb_lignes = len(lignes)
+    return nb_lignes
+
+
 # Main.
+
+nombre_lignes = calculer_nombre_lignes(FICHIER_SORTIE)
 
 fichier = open(FICHIER_SORTIE)
 
@@ -214,6 +223,7 @@ if methode == Methode.GENETIQUE:
         update_genetique,
         interval=DELAI_GENERATIONS,
         blit=False,
+        frames=nombre_generations
     )
 
 elif methode == Methode.DEUXOPTIMISATION:
@@ -222,7 +232,7 @@ elif methode == Methode.DEUXOPTIMISATION:
     fig, ax = plt.subplots()
 
     animation = FuncAnimation(
-        fig, update_2opt, interval=DELAI_GENERATIONS, blit=False)
+        fig, update_2opt, interval=DELAI_GENERATIONS, blit=False, frames=nombre_lignes)
 
 
 plt.show()
