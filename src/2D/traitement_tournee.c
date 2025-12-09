@@ -84,7 +84,8 @@ void tournee_gerer_algorithme(FILE *sortie, Arguments arguments, MatriceDistance
     case PLUS_PROCHE_VOISIN_2_OPTIMISATION:
         global_permutation_courante = permutation_creer(nombre_points, taille_distance);
 
-        interruption_proteger_signal(SIGINT, &interruption_2_optimisation_traiter_signal, &ancienne_action);
+        interruption_proteger_signal(SIGINT, &interruption_2_optimisation_plus_proche_voisin_traiter_signal,
+                                     &ancienne_action);
 
         tournee_2_optimisation_plus_proche_voisin(matrice, global_permutation_courante, global_permutation_resultat);
 
@@ -96,7 +97,8 @@ void tournee_gerer_algorithme(FILE *sortie, Arguments arguments, MatriceDistance
     case MARCHE_ALEATOIRE_2_OPTIMISATION:
         global_permutation_courante = permutation_creer(nombre_points, taille_distance);
 
-        interruption_proteger_signal(SIGINT, &interruption_2_optimisation_traiter_signal, &ancienne_action);
+        interruption_proteger_signal(SIGINT, &interruption_2_optimisation_marche_aleatoire_traiter_signal,
+                                     &ancienne_action);
 
         tournee_2_optimisation_marche_aleatoire(matrice, global_permutation_courante, global_permutation_resultat);
 

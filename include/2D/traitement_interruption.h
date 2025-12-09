@@ -34,10 +34,10 @@ void interruption_retablir_masque(int signal, struct sigaction *action);
 
 void interruption_force_brute_traiter_signal(int signal);
 
-void interruption_2_optimisation_traiter_signal(int signal);
+void interruption_2_optimisation_plus_proche_voisin_traiter_signal(int signal);
+void interruption_2_optimisation_marche_aleatoire_traiter_signal(int signal);
 
 void interruption_genetique_light_traiter_signal(int signal);
-
 void interruption_genetique_dpx_traiter_signal(int signal);
 
 #endif // TRAITEMENT_INTERRUPTION_H

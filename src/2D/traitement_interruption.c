@@ -117,7 +117,7 @@ void interruption_force_brute_traiter_signal(int signal)
     exit(EXIT_SUCCESS);
 }
 
-void interruption_2_optimisation_traiter_signal(int signal)
+void interruption_2_optimisation_plus_proche_voisin_traiter_signal(int signal)
 {
     (void)signal;
 
@@ -159,7 +159,63 @@ void interruption_2_optimisation_traiter_signal(int signal)
     double temps_en_secondes = (double)temps_total;
     temps_en_secondes /= CLOCKS_PER_SEC;
 
-    afficher_tournee(sortie, global_arguments.nom_fichier_entree, FORCE_BRUTE, temps_en_secondes,
+    afficher_tournee(sortie, global_arguments.nom_fichier_entree, PLUS_PROCHE_VOISIN_2_OPTIMISATION, temps_en_secondes,
+                     global_permutation_resultat);
+
+    permutation_supprimer(&global_permutation_courante);
+    permutation_supprimer(&global_permutation_resultat);
+
+    matrice_supprimer(&global_matrice);
+
+    fichier_fermer_entree(global_arguments);
+    fichier_fermer_sortie(global_arguments);
+
+    exit(EXIT_SUCCESS);
+}
+
+void interruption_2_optimisation_marche_aleatoire_traiter_signal(int signal)
+{
+    (void)signal;
+
+    printf(ROUGE "\n");
+
+    printf("Tournée courante                 : ");
+    afficher_permutation(stdout, global_permutation_courante, 20);
+    printf("\n");
+
+    printf("Longueur de la tournée           : ");
+    afficher_longueur(stdout, global_permutation_resultat);
+    printf("\n\n");
+
+    int reponse = ' ';
+
+    while (reponse != 'y' && reponse != 'Y' && reponse != 'n' && reponse != 'N')
+    {
+        printf("Continuer ? [Y/n] : ");
+
+        reponse = getchar();
+
+        int vidange;
+        while ((vidange = getchar()) != '\n' && vidange != EOF)
+            ;
+    }
+
+    if (reponse == 'y' || reponse == 'Y')
+    {
+        printf("Reprise du calcul.");
+        printf(RESET "\n");
+
+        return;
+    }
+
+    printf("Arrêt du calcul.");
+    printf(RESET "\n");
+
+    clock_t temps_total = clock() - global_temps_initial;
+    double temps_en_secondes = (double)temps_total;
+    temps_en_secondes /= CLOCKS_PER_SEC;
+
+    afficher_tournee(sortie, global_arguments.nom_fichier_entree, MARCHE_ALEATOIRE_2_OPTIMISATION, temps_en_secondes,
                      global_permutation_resultat);
 
     permutation_supprimer(&global_permutation_courante);
