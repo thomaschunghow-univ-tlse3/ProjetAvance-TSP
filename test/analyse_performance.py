@@ -12,8 +12,7 @@ import pandas as pd
 DATA_DIR = "./data"
 BIN = "./bin/main"
 
-METHODS = ["nn", "rw", "2optnn", "2optrw",
-           "ga 10 10000 0", "gadpx 10 100 0"]
+METHODS = ["nn", "rw", "2optnn", "2optrw", "ga 10 10000 0", "gadpx 10 100 0"]
 
 RESULT_FILE_TSP = "bin/resultats_tsp.txt"
 RESULT_FILE_TOUR = "bin/resultats_tour.txt"

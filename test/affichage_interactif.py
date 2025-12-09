@@ -3,6 +3,8 @@
 #
 
 
+import subprocess
+import os
 import numpy as np
 import re
 import matplotlib.pyplot as plt
@@ -13,16 +15,54 @@ from enum import Enum
 # Paramètres.
 
 # Adresse du fichier.
-nom_fichier = "./bin/donnees.txt"
+FICHIER_SORTIE = "./bin/donnees.txt"
 
 # Nombre de générations ignorées entre deux générations.
-intervalle_generations = 0
+INTERVALLE_GENERATIONS = 0
 
 # Délai entre deux générations en millisecondes.
 # Remarque : le traitement de chaque ligne n'est pas instantanné,
 # ainsi il existe une valeur minimale tel que
 # l'affichage ne peut pas être plus rapide que cette valeur.
-delai_generations = 1
+DELAI_GENERATIONS = 1
+
+FICHIER_TSP = "data/att48.tsp"
+
+# METHODE = "2optnn"
+# METHODE = "2optrw"
+# METHODE = "ga"
+METHODE = "gadpx"
+
+NB_INDIVIDUS = 10
+NB_GENERATIONS = 100
+MUTATION = 0.08
+
+
+subprocess.run(["make", "clean"])
+
+
+if METHODE in ("2optnn", "2optrw"):
+    subprocess.run(["make", "interactive_2opt"])
+
+    subprocess.run([
+        "bin/main",
+        "-f", FICHIER_TSP,
+        "-m", METHODE,
+        "-o", "bin/donnees.txt"
+    ])
+
+elif METHODE in ("ga", "gadpx"):
+    subprocess.run(["make", "interactive_ga"])
+
+    subprocess.run([
+        "bin/main",
+        "-f", FICHIER_TSP,
+        "-m", METHODE,
+        str(NB_INDIVIDUS),
+        str(NB_GENERATIONS),
+        str(MUTATION),
+        "-o", "bin/donnees.txt"
+    ])
 
 
 def traiter_coordonnees(ligne):
@@ -71,7 +111,7 @@ def ignorer_generation(fichier, intervalle_generations, nombre_individus):
 
 
 def update_genetique(frame):
-    ignorer_generation(fichier, intervalle_generations, nombre_individus)
+    ignorer_generation(fichier, INTERVALLE_GENERATIONS, nombre_individus)
 
     for i in range(nombre_individus):
         ligne = fichier.readline()
@@ -87,7 +127,8 @@ def update_genetique(frame):
         ax = axs[i]
         ax.clear()
 
-        fig.suptitle(f"Génétique\nGénération {frame * (intervalle_generations + 1)}")
+        fig.suptitle(
+            f"Génétique\nGénération {frame * (INTERVALLE_GENERATIONS + 1)}")
         ax.set_title(f"Individu {i + 1}")
 
         (artists[i],) = ax.plot(permutation_x, permutation_y, marker="o")
@@ -96,7 +137,7 @@ def update_genetique(frame):
 
 
 def update_2opt(frame):
-    ignorer_generation(fichier, intervalle_generations, 1)
+    ignorer_generation(fichier, INTERVALLE_GENERATIONS, 1)
 
     ligne = fichier.readline()
     if not ligne:
@@ -110,7 +151,8 @@ def update_2opt(frame):
 
     ax.clear()
 
-    ax.set_title(f"2-optimisation\nGénération {frame * (intervalle_generations + 1)}")
+    ax.set_title(
+        f"2-optimisation\nGénération {frame * (INTERVALLE_GENERATIONS + 1)}")
     ax.plot(permutation_x, permutation_y, marker="o")
 
     return
@@ -144,7 +186,7 @@ def traiter_parametres_genetique(fichier):
 
 # Main.
 
-fichier = open(nom_fichier)
+fichier = open(FICHIER_SORTIE)
 
 coordonnees_x, coordonnees_y = traiter_points(fichier)
 
@@ -170,7 +212,7 @@ if methode == Methode.GENETIQUE:
     animation = FuncAnimation(
         fig,
         update_genetique,
-        interval=delai_generations,
+        interval=DELAI_GENERATIONS,
         blit=False,
     )
 
@@ -179,7 +221,8 @@ elif methode == Methode.DEUXOPTIMISATION:
 
     fig, ax = plt.subplots()
 
-    animation = FuncAnimation(fig, update_2opt, interval=delai_generations, blit=False)
+    animation = FuncAnimation(
+        fig, update_2opt, interval=DELAI_GENERATIONS, blit=False)
 
 
 plt.show()
