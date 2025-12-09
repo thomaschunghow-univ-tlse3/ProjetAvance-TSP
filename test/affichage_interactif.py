@@ -24,14 +24,14 @@ INTERVALLE_GENERATIONS = 0
 # Remarque : le traitement de chaque ligne n'est pas instantanné,
 # ainsi il existe une valeur minimale tel que
 # l'affichage ne peut pas être plus rapide que cette valeur.
-DELAI_GENERATIONS = 1
+DELAI_GENERATIONS = 1000
 
 FICHIER_TSP = "data/att48.tsp"
 
 # METHODE = "2optnn"
 # METHODE = "2optrw"
-METHODE = "ga"
-# METHODE = "gadpx"
+# METHODE = "ga"
+METHODE = "gadpx"
 
 NB_INDIVIDUS = 10
 NB_GENERATIONS = 100
@@ -48,7 +48,7 @@ if METHODE in ("2optnn", "2optrw"):
         "bin/main",
         "-f", FICHIER_TSP,
         "-m", METHODE,
-        "-o", "bin/donnees.txt"
+        "-o",FICHIER_SORTIE
     ])
 
 elif METHODE in ("ga", "gadpx"):
@@ -58,10 +58,10 @@ elif METHODE in ("ga", "gadpx"):
         "bin/main",
         "-f", FICHIER_TSP,
         "-m", METHODE,
+        "-o", FICHIER_SORTIE,
         str(NB_INDIVIDUS),
         str(NB_GENERATIONS),
-        str(MUTATION),
-        "-o", "bin/donnees.txt"
+        str(MUTATION)
     ])
 
 
