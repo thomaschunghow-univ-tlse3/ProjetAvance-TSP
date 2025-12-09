@@ -36,26 +36,19 @@ size_t matrice_calculer_indice(size_t ligne, size_t colonne)
     return matrice_calculer_nombre_distances(ligne) + colonne;
 }
 
-MatriceDistance matrice_creer(
-    size_t nombre_points, size_t taille_point, size_t taille_distance,
-    DistanceCalculer distance_calculer,
-    DistanceAdditionner distance_additionner,
-    DistanceSoustraire distance_soustraire,
-    DistanceComparer distance_comparer)
+MatriceDistance matrice_creer(size_t nombre_points, size_t taille_point, size_t taille_distance,
+                              DistanceCalculer distance_calculer, DistanceAdditionner distance_additionner,
+                              DistanceSoustraire distance_soustraire, DistanceComparer distance_comparer)
 {
     size_t nombre_distances = matrice_calculer_nombre_distances(nombre_points);
 
-    MatriceDistance matrice = malloc(
-        sizeof(struct matrice_distance) +
-        nombre_points * taille_point +
-        nombre_distances * taille_distance);
+    MatriceDistance matrice =
+        malloc(sizeof(struct matrice_distance) + nombre_points * taille_point + nombre_distances * taille_distance);
 
     if (matrice == NULL)
     {
-        fprintf(
-            stderr,
-            "Erreur matrice_creer :\n"
-            "Échec de l'allocation mémoire de la matrice.\n");
+        fprintf(stderr, "Erreur matrice_creer :\n"
+                        "Échec de l'allocation mémoire de la matrice.\n");
         exit(EXIT_FAILURE);
     }
 
@@ -160,8 +153,7 @@ void matrice_modifier_point(MatriceDistance matrice, size_t indice, void *point_
     memcpy(matrice->tableau_point.points + indice * taille_point, point_source, taille_point);
 }
 
-void matrice_obtenir_distance(
-    MatriceDistance matrice, size_t ligne, size_t colonne, void *distance_destination)
+void matrice_obtenir_distance(MatriceDistance matrice, size_t ligne, size_t colonne, void *distance_destination)
 {
     assert(matrice != NULL);
     assert(ligne < matrice_obtenir_nombre_points(matrice));
@@ -169,10 +161,8 @@ void matrice_obtenir_distance(
 
     if (ligne == colonne)
     {
-        fprintf(
-            stderr,
-            "Erreur matrice_obtenir_distance :\n"
-            "La distance d'un point à lui-même est nulle.\n");
+        fprintf(stderr, "Erreur matrice_obtenir_distance :\n"
+                        "La distance d'un point à lui-même est nulle.\n");
         exit(EXIT_FAILURE);
         /* Remarque : on ne connaît pas l'élément neutre du type de distance,
          * c'est pour cela qu'on ne peut pas renvoyer 0. */
@@ -233,7 +223,8 @@ void matrice_remplir(MatriceDistance matrice)
     }
 }
 
-int matrice_comparer_distances(MatriceDistance matrice, size_t ligne_A, size_t colonne_A, size_t ligne_B, size_t colonne_B)
+int matrice_comparer_distances(MatriceDistance matrice, size_t ligne_A, size_t colonne_A, size_t ligne_B,
+                               size_t colonne_B)
 {
     assert(matrice != NULL);
     assert(ligne_A < matrice_obtenir_nombre_points(matrice));
@@ -247,5 +238,6 @@ int matrice_comparer_distances(MatriceDistance matrice, size_t ligne_A, size_t c
     size_t indice_A = matrice_calculer_indice(ligne_A, colonne_A);
     size_t indice_B = matrice_calculer_indice(ligne_B, colonne_B);
 
-    return distance_comparer(matrice->tableau_distance.distances + indice_A * taille_distance, matrice->tableau_distance.distances + indice_B * taille_distance);
+    return distance_comparer(matrice->tableau_distance.distances + indice_A * taille_distance,
+                             matrice->tableau_distance.distances + indice_B * taille_distance);
 }

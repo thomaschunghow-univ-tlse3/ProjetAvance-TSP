@@ -35,12 +35,9 @@ typedef int (*DistanceComparer)(void *distance_A, void *distance_B);
 
 typedef struct matrice_distance *MatriceDistance;
 
-MatriceDistance matrice_creer(
-    size_t nombre_points, size_t taille_point, size_t taille_distance,
-    DistanceCalculer distance_calculer,
-    DistanceAdditionner distance_additionner,
-    DistanceSoustraire distance_soustraire,
-    DistanceComparer distance_comparer);
+MatriceDistance matrice_creer(size_t nombre_points, size_t taille_point, size_t taille_distance,
+                              DistanceCalculer distance_calculer, DistanceAdditionner distance_additionner,
+                              DistanceSoustraire distance_soustraire, DistanceComparer distance_comparer);
 void matrice_supprimer(MatriceDistance *);
 
 size_t matrice_obtenir_nombre_points(MatriceDistance);
