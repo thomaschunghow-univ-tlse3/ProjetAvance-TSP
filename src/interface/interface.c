@@ -11,25 +11,14 @@
 
 #include <stdlib.h>
 
-MatriceDistance interface_importer_matrice(
-    size_t nombre_points,
-    size_t taille_point,
-    void *tableau_point,
+MatriceDistance interface_importer_matrice(size_t nombre_points, size_t taille_point, void *tableau_point,
 
-    size_t taille_distance,
-    DistanceCalculer distance_calculer,
-    DistanceAdditionner distance_additionner,
-    DistanceSoustraire distance_soustraire,
-    DistanceComparer distance_comparer)
+                                           size_t taille_distance, DistanceCalculer distance_calculer,
+                                           DistanceAdditionner distance_additionner,
+                                           DistanceSoustraire distance_soustraire, DistanceComparer distance_comparer)
 {
-    MatriceDistance matrice = matrice_creer(
-        nombre_points,
-        taille_point,
-        taille_distance,
-        distance_calculer,
-        distance_additionner,
-        distance_soustraire,
-        distance_comparer);
+    MatriceDistance matrice = matrice_creer(nombre_points, taille_point, taille_distance, distance_calculer,
+                                            distance_additionner, distance_soustraire, distance_comparer);
 
     for (size_t i = 0; i < nombre_points; i++)
     {
@@ -41,10 +30,7 @@ MatriceDistance interface_importer_matrice(
     return matrice;
 }
 
-void interface_exporter_permutation(
-    Permutation permutation,
-    size_t *meilleure_permutation,
-    void *meilleure_longueur)
+void interface_exporter_permutation(Permutation permutation, size_t *meilleure_permutation, void *meilleure_longueur)
 {
     size_t nombre_sommets = permutation_obtenir_nombre_sommets(permutation);
 
@@ -56,36 +42,21 @@ void interface_exporter_permutation(
     permutation_obtenir_longueur(permutation, meilleure_longueur);
 }
 
-void interface_tournee_canonique(
-    size_t nombre_points,
-    size_t taille_point,
-    void *tableau_points,
+void interface_tournee_canonique(size_t nombre_points, size_t taille_point, void *tableau_points,
 
-    size_t taille_distance,
-    DistanceCalculer distance_calculer,
-    DistanceAdditionner distance_additionner,
-    DistanceSoustraire distance_soustraire,
-    DistanceComparer distance_comparer,
+                                 size_t taille_distance, DistanceCalculer distance_calculer,
+                                 DistanceAdditionner distance_additionner, DistanceSoustraire distance_soustraire,
+                                 DistanceComparer distance_comparer,
 
-    size_t *meilleure_permutation,
-    void *meilleure_longueur)
+                                 size_t *meilleure_permutation, void *meilleure_longueur)
 {
-    MatriceDistance matrice = interface_importer_matrice(
-        nombre_points,
-        taille_point,
-        tableau_points,
-        taille_distance,
-        distance_calculer,
-        distance_additionner,
-        distance_soustraire,
-        distance_comparer);
+    MatriceDistance matrice =
+        interface_importer_matrice(nombre_points, taille_point, tableau_points, taille_distance, distance_calculer,
+                                   distance_additionner, distance_soustraire, distance_comparer);
 
-    Permutation permutation = tournee_canonique(matrice);
+    tournee_canonique(matrice);
 
-    interface_exporter_permutation(
-        permutation,
-        meilleure_permutation,
-        meilleure_longueur);
+    interface_exporter_permutation(permutation, meilleure_permutation, meilleure_longueur);
 
     matrice_supprimer(&matrice);
     permutation_supprimer(&permutation);

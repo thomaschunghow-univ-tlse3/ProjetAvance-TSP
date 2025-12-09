@@ -10,7 +10,14 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-void tournee_force_brute_naive(MatriceDistance matrice, Permutation permutation_courante, Permutation permutation_minimale)
+void tournee_canonique(MatriceDistance matrice, Permutation permutation)
+{
+    permutation_initialiser(permutation);
+    permutation_calculer_longueur(permutation, matrice);
+}
+
+void tournee_force_brute_naive(MatriceDistance matrice, Permutation permutation_courante,
+                               Permutation permutation_minimale)
 {
     DistanceComparer distance_comparer = matrice_obtenir_distance_comparer(matrice);
 
@@ -48,7 +55,8 @@ void incremental(MatriceDistance matrice, Permutation permutation_courante, Perm
     }
 }
 
-void tournee_force_brute_incrementale(MatriceDistance matrice, Permutation permutation_courante, Permutation permutation_minimale)
+void tournee_force_brute_incrementale(MatriceDistance matrice, Permutation permutation_courante,
+                                      Permutation permutation_minimale)
 {
     DistanceComparer distance_comparer = matrice_obtenir_distance_comparer(matrice);
 

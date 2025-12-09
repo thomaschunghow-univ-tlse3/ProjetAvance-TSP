@@ -11,7 +11,6 @@
 #include "structure_permutation.h"
 #include "structure_tableau_permutation.h"
 #include "tournee_2_optimisation.h"
-#include "tournee_canonique.h"
 #include "tournee_force_brute.h"
 #include "tournee_genetique.h"
 #include "traitement_interruption.h"
@@ -60,7 +59,7 @@ void tournee_gerer_algorithme(FILE *sortie, Arguments arguments, MatriceDistance
     switch (methode)
     {
     case CANONIQUE:
-        global_permutation_resultat = tournee_canonique(matrice);
+        tournee_canonique(matrice, global_permutation_resultat);
         break;
 
     case FORCE_BRUTE:

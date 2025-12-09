@@ -10,6 +10,8 @@
 #include "structure_matrice.h"
 #include "structure_permutation.h"
 
+void tournee_canonique(MatriceDistance, Permutation permutation_canonique);
+
 /* Méthode classique. */
 void tournee_force_brute_naive(MatriceDistance, Permutation permutation_courante, Permutation permutation_minimale);
 
@@ -26,6 +28,7 @@ void incremental(MatriceDistance, Permutation permutation_courante, Permutation 
  * Ainsi, pour passer de la longueur de l'ancienne tournée à la longueur de la tournée courante,
  * on réalise au maximum cinq soustractions puis cinq additions,
  * donc au maximum dix opérations par permutation. */
-void tournee_force_brute_incrementale(MatriceDistance, Permutation permutation_courante, Permutation permutation_minimale);
+void tournee_force_brute_incrementale(MatriceDistance, Permutation permutation_courante,
+                                      Permutation permutation_minimale);
 
 #endif // TOURNEE_FORCE_BRUTE_H
