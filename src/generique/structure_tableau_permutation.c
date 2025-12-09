@@ -17,19 +17,14 @@
 
 TableauPermutation tableau_permutation_creer(size_t nombre_permutations, size_t nombre_sommets, size_t taille_distance)
 {
-    TableauPermutation tableau = malloc(
-        sizeof(struct tableau_permutation) +
-        nombre_permutations *
-            (sizeof(struct permutation) +
-             nombre_sommets * sizeof(size_t) +
-             taille_distance));
+    TableauPermutation tableau =
+        malloc(sizeof(struct tableau_permutation) +
+               nombre_permutations * (sizeof(struct permutation) + nombre_sommets * sizeof(size_t) + taille_distance));
 
     if (tableau == NULL)
     {
-        fprintf(
-            stderr,
-            "Erreur tableau_permutation_creer :\n"
-            "Échec de l'allocation mémoire de la permutation.\n");
+        fprintf(stderr, "Erreur tableau_permutation_creer :\n"
+                        "Échec de l'allocation mémoire de la permutation.\n");
         exit(EXIT_FAILURE);
     }
 
@@ -136,13 +131,14 @@ void tableau_permutation_echanger_tableaux(TableauPermutation *tableau_A, Tablea
     *tableau_B = temp;
 }
 
-int tableau_permutation_comparer(const void *A, const void *B, void *argument)
+DistanceComparer distance_comparer_pour_qsort;
+
+int tableau_permutation_comparer(const void *A, const void *B)
 {
     Permutation permutation_A = (Permutation)A;
     Permutation permutation_B = (Permutation)B;
-    DistanceComparer *distance_comparer = argument;
 
-    return (*distance_comparer)(permutation_A->longueur, permutation_B->longueur);
+    return distance_comparer_pour_qsort(permutation_A->longueur, permutation_B->longueur);
 }
 
 void tableau_permutation_trier(TableauPermutation tableau, DistanceComparer distance_comparer)
@@ -151,10 +147,9 @@ void tableau_permutation_trier(TableauPermutation tableau, DistanceComparer dist
 
     size_t nombre_permutations = tableau_permutation_obtenir_nombre_permutations(tableau);
 
-    /* TODO : qsort_r n'est pas portable entre Linux et Mac... */
-    qsort_r(
-        tableau->permutations, nombre_permutations, sizeof(struct permutation),
-        tableau_permutation_comparer, &distance_comparer);
+    distance_comparer_pour_qsort = distance_comparer;
+
+    qsort(tableau->permutations, nombre_permutations, sizeof(struct permutation), tableau_permutation_comparer);
 }
 
 void tableau_permutation_obtenir_longueur(TableauPermutation tableau, size_t indice, void *longueur_destination)
