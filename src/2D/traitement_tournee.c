@@ -31,11 +31,13 @@ void tournee_conclure(FILE *sortie, Arguments arguments, Methode methode, Permut
     (void)sortie;
     (void)arguments;
     (void)methode;
+    (void)secondes_ecoulees;
 #else // AFFICHAGE_INTERACTIF_2_OPT
 #ifdef AFFICHAGE_INTERACTIF_GA
     (void)sortie;
     (void)arguments;
     (void)methode;
+    (void)secondes_ecoulees;
 #else  // AFFICHAGE_INTERACTIF_GA
     afficher_tournee(sortie, arguments.nom_fichier_entree, methode, secondes_ecoulees, permutation_resultat);
 #endif // AFFICHAGE_INTERACTIF_GA
