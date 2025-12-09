@@ -116,14 +116,14 @@ deactivate
 
 ### Affichage avec Python
 
-```bash
-python3 ./test/affichage_interactif.py
-```
-
 L’affichage interactif représente graphiquement le déroulement des algorithmes en :
 
 - montrant les décroisements à chaque itération pour l’algorithme 2-opt,
 - affichant l’ensemble des individus d’une génération (y compris le meilleur) pour l’algorithme génétique.
+
+```bash
+python3 ./test/affichage_interactif.py
+```
 
 ### Analyse statistique des performances de chaque algorithme
 
