@@ -15,6 +15,27 @@ Le code principal se trouve dans `/src/main.c`.
 
 Le code en Python pour les tests se trouve dans `/test`.
 
+## Correspondance aux exigences et qualité de conception
+
+Le programme respecte pleinement les exigences demandées en proposant une approche générique du problème du voyageur de commerce.
+En effet, non seulement les points sont génériques, mais les distances le sont également, ce qui permet de travailler non seulement avec des distances numériques classiques, mais aussi avec d’autres formes de distances telles que, par exemple :
+
+- distances lexicographiques,
+- distances polaires,
+- distances complexes,
+- distances multidimensionnelles,
+- ...
+
+Une interface générique a été mise en place et est directement accessible à l’utilisateur. Celle-ci est réutilisable, indépendante de toute implémentation concrète des points et des distances, et peut être adaptée ou étendue sans modifier le cœur du programme.
+
+Le projet respecte les principes du Clean Code :
+
+- utilisation correcte du tas (heap) avec une gestion rigoureuse de l’allocation et de la libération de la mémoire,
+- prise en compte de la libération de la mémoire même en cas d’interruption du programme,
+- respect de l’encapsulation et d’une séparation claire des responsabilités.
+
+Le code peut être analysé à l’aide de Valgrind et ne présente aucune fuite mémoire.
+
 ### Compilation
 
 ```bash
@@ -91,18 +112,35 @@ python3 ./test/test_tsp_c.py
 deactivate
 ```
 
-## Affichage interactif des données
-
-### Récupération des données pour l'affichage
-
-```bash
-make clean
-make interactive
-./bin/main -o ./bin/donnees.txt ...
-```
+## Utilisation des fichiers python
 
 ### Affichage avec Python
 
 ```bash
 python3 ./test/affichage_interactif.py
+```
+
+L’affichage interactif représente graphiquement le déroulement des algorithmes en :
+
+- montrant les décroisements à chaque itération pour l’algorithme 2-opt,
+- affichant l’ensemble des individus d’une génération (y compris le meilleur) pour l’algorithme génétique.
+
+### Analyse statistique des performances de chaque algorithme
+
+Cette commande exécute, pour tous les fichiers ayant un opt.tour correspondant (solution optimale prouvée), l’ensemble des algorithmes de recherche de la meilleure permutation (à l’exception de l’algorithme de force brute) et génère un fichier au format .csv contenant :
+
+- les temps d’exécution,
+- les distances obtenues,
+- les différences en pourcentage entre la meilleure distance théorique et le résultat trouvé.
+
+```bash
+python3 ./test/analyse_performance.py
+```
+
+### Affichage des résultats de l’analyse de performance
+
+Après avoir lancé la commande précédante, cette commande permet d’afficher des histogrammes représentant les performances de l’ensemble des algorithmes implémentés, notamment en termes de temps d’exécution et de qualité des solutions.
+
+```bash
+python3 ./test/analyse_performance.py
 ```
