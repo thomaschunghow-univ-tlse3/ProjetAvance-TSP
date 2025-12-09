@@ -146,7 +146,7 @@ void tournee_gerer_algorithme(FILE *sortie, Arguments arguments, MatriceDistance
             tableau_permutation_creer(arguments.arguments_genetique.nombre_individus,
                                       matrice_obtenir_nombre_points(matrice), matrice_obtenir_taille_distance(matrice));
         global_inverse = permutation_creer(nombre_points, matrice_obtenir_taille_distance(matrice));
-        global_morceaux = tableau_morceau_creer(nombre_points);
+        global_morceaux = tableau_morceau_creer(nombre_points + 1);
 
         interruption_proteger_signal(SIGINT, &interruption_genetique_dpx_traiter_signal, &ancienne_action);
 

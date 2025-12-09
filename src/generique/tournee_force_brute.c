@@ -36,7 +36,7 @@ void tournee_force_brute_naive(MatriceDistance matrice, Permutation permutation_
     }
 }
 
-void incremental(MatriceDistance matrice, Permutation permutation_courante, Permutation permutation_minimale)
+void tournee_force_brute_avec_elagage(MatriceDistance matrice, Permutation permutation_courante, Permutation permutation_minimale)
 {
     DistanceComparer distance_comparer = matrice_obtenir_distance_comparer(matrice);
 
