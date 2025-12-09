@@ -13,7 +13,6 @@ ANALYSE_PERFORMANCE = "bin/analyse_performance.csv"
 df = pd.read_csv(ANALYSE_PERFORMANCE, sep=";", engine="python")
 df.columns = df.columns.str.strip()
 df_clean = df[~df["Instance"].str.contains("Moyenne|Q1|Médiane|Q3")]
-df_clean = df_clean[df_clean["Méthode"] != "rw"]
 methods = df_clean["Méthode"].unique()
 
 fig, axes = plt.subplots(2, 3, figsize=(18, 12))
@@ -39,5 +38,5 @@ for i in range(len(methods), len(axes)):
     axes[i].axis('off')
 
 plt.tight_layout()
-plt.savefig("bin/histogram_diff_stats_subplots_2x3.png", dpi=300)
+plt.savefig("bin/affichage_performance.png", dpi=300)
 plt.show()
