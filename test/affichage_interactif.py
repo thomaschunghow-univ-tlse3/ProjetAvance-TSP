@@ -26,7 +26,8 @@ INTERVALLE_GENERATIONS = 0
 # l'affichage ne peut pas être plus rapide que cette valeur.
 DELAI_GENERATIONS = 1000
 
-FICHIER_TSP = "data/att48.tsp"
+# FICHIER_TSP = "data/att48.tsp"
+FICHIER_TSP = "data/ch130.tsp"
 
 # METHODE = "2optnn"
 # METHODE = "2optrw"
