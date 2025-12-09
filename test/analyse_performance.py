@@ -2,10 +2,12 @@
 # test_tous_fichiers.py
 #
 
+
 import os
 import subprocess
 import signal
 import pandas as pd
+
 
 DATA_DIR = "./data"
 BIN = "./bin/main"
@@ -44,12 +46,10 @@ def main():
             )
             output, _ = p.communicate()
 
-            # sortie éventuelle
             if output:
-                # Récupérer la dernière ligne non vide
                 lines = [l for l in output.splitlines() if l.strip() != ""]
                 if lines:
-                    last = lines[-1]  # la dernière ligne
+                    last = lines[-1]
                     with open(RESULT_FILE_TOUR, "a") as f:
                         f.write(last + "\n")
 
@@ -82,69 +82,54 @@ def main():
                     p.wait(timeout=NOMBRE_SECONDES_MAX_CALCUL)
 
                 except subprocess.TimeoutExpired:
-                    # envoyer Ctrl-C
                     p.send_signal(signal.SIGINT)
-
-                    # envoyer "n" à ton programme
                     try:
                         p.stdin.write("n\n")
                         p.stdin.flush()
                     except:
                         pass
 
-                # récupérer tout ce qui a été écrit
                 output, _ = p.communicate()
 
-                # sortie éventuelle
                 if output:
-                    # Récupérer la dernière ligne non vide
                     lines = [l for l in output.splitlines() if l.strip() != ""]
                     if lines:
-                        last = lines[-1]  # la dernière ligne
+                        last = lines[-1]
                         with open(RESULT_FILE_TSP, "a") as f:
                             f.write(last + "\n")
 
-    # --- Lecture des fichiers générés ---
     df_tsp = pd.read_csv(RESULT_FILE_TSP, sep=";", engine="python")
     df_tour = pd.read_csv(RESULT_FILE_TOUR, sep=";", engine="python")
 
-    # Nettoyage : enlever les espaces autour des noms de colonnes et valeurs
     df_tsp = df_tsp.apply(lambda col: col.str.strip()
                           if col.dtype == "object" else col)
     df_tour = df_tour.apply(lambda col: col.str.strip()
                             if col.dtype == "object" else col)
 
-    # Renommer les colonnes
     df_tsp.columns = ["Instance", "Méthode",
                       "Temps CPU (s)", "Longueur", "Tour"]
     df_tour.columns = ["Instance", "Longueur minimale théorique", "Tour"]
 
-    # On supprime la colonne inutile
     df_tsp = df_tsp.drop(columns=["Tour"])
     df_tour = df_tour.drop(columns=["Tour"])
 
-    # Convertir les colonnes numériques
     df_tsp["Temps CPU (s)"] = pd.to_numeric(
         df_tsp["Temps CPU (s)"], errors="coerce")
     df_tsp["Longueur"] = pd.to_numeric(df_tsp["Longueur"], errors="coerce")
     df_tour["Longueur minimale théorique"] = pd.to_numeric(
         df_tour["Longueur minimale théorique"], errors="coerce")
 
-    # Fusion des DataFrames sur l’instance
     df = df_tsp.merge(
         df_tour[["Instance", "Longueur minimale théorique"]], on="Instance", how="left")
 
-    # Calcul de la différence
     df["Différence (%)"] = ((df["Longueur"] - df["Longueur minimale théorique"]
                              ) / df["Longueur minimale théorique"] * 100).round(2)
 
-    # --- Calcul des statistiques complètes par méthode ---
     stats = df.groupby("Méthode").agg({
         "Temps CPU (s)": ["mean", "median", lambda x: x.quantile(0.25), lambda x: x.quantile(0.75)],
         "Différence (%)": ["mean", "median", lambda x: x.quantile(0.25), lambda x: x.quantile(0.75)]
     })
 
-    # Pour chaque méthode, ajouter Moyenne, Q1, Médiane et Q3
     for method, row in stats.iterrows():
         df = pd.concat([df, pd.DataFrame({
             "Instance": [f"Moyenne {method}", f"Q1 {method}", f"Médiane {method}", f"Q3 {method}"],
@@ -161,7 +146,6 @@ def main():
                                row[("Différence (%)", "<lambda_1>")]]
         })], ignore_index=True)
 
-    # Sauvegarde en CSV final
     df.to_csv("bin/analyse_performance.csv", sep=";", index=False)
 
     pd.set_option("display.max_rows", None)

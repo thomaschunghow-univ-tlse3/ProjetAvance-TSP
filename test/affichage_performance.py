@@ -1,0 +1,43 @@
+#
+# affichage_performance.py
+#
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+ANALYSE_PERFORMANCE = "bin/analyse_performance.csv"
+
+
+df = pd.read_csv(ANALYSE_PERFORMANCE, sep=";", engine="python")
+df.columns = df.columns.str.strip()
+df_clean = df[~df["Instance"].str.contains("Moyenne|Q1|Médiane|Q3")]
+df_clean = df_clean[df_clean["Méthode"] != "rw"]
+methods = df_clean["Méthode"].unique()
+
+fig, axes = plt.subplots(2, 3, figsize=(18, 12))
+axes = axes.flatten()
+
+for ax, method in zip(axes, methods):
+    data = df_clean[df_clean["Méthode"] == method]["Différence (%)"]
+    ax.hist(data, bins=len(data), color='skyblue', edgecolor='black')
+    moyenne = data.mean()
+    mediane = data.median()
+    q1 = data.quantile(0.25)
+    q3 = data.quantile(0.75)
+    ax.axvline(moyenne, color='red', label=f'Moyenne = {moyenne:.2f}')
+    ax.axvline(mediane, color='green', label=f'Médiane = {mediane:.2f}')
+    ax.axvline(q1, color='orange', label=f'Q1 = {q1:.2f}')
+    ax.axvline(q3, color='purple', label=f'Q3 = {q3:.2f}')
+    ax.set_title(f"Différence (%) - {method}")
+    ax.set_xlabel("Différence (%)")
+    ax.set_ylabel("Nombre d'instances")
+    ax.legend()
+
+for i in range(len(methods), len(axes)):
+    axes[i].axis('off')
+
+plt.tight_layout()
+plt.savefig("bin/histogram_diff_stats_subplots_2x3.png", dpi=300)
+plt.show()
