@@ -76,13 +76,13 @@ make
 ### Exemple 1 — Résolution de `att12.tsp` par la méthode de force brute :
 
 ```bash
-./bin/main -f data/tsp/att12.tsp -c -m bf
+./bin/main -f data/att12.tsp -c -m bf
 ```
 
 ### Exemple 2 — Résolution de `gr431.tsp` par la méthode génétique générique :
 
 ```bash
-./bin/main -f data/tsp/gr431.tsp -c -m ga 20 20 .3
+./bin/main -f data/gr431.tsp -c -m ga 20 20 .3
 ```
 
 ## Lancement des tests Python
@@ -142,5 +142,5 @@ python3 ./test/analyse_performance.py
 Après avoir lancé la commande précédante, cette commande permet d’afficher des histogrammes représentant les performances de l’ensemble des algorithmes implémentés, notamment en termes de temps d’exécution et de qualité des solutions.
 
 ```bash
-python3 ./test/analyse_performance.py
+python3 ./test/affichage_performance.py
 ```
