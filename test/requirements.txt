@@ -2,3 +2,4 @@ tsplib95
 matplotlib
 pyproj
 PyQt6
+pandas

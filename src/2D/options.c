@@ -12,15 +12,15 @@
 
 void options_afficher_aide(char *nom_programme)
 {
-    printf(
-        "Usage : %s -f <fichier d'entrée> -m <méthode> [-o <fichier de sortie>] [-c]\n"
-        "   -f <fichier>   Fichier d'entrée (obligatoire)\n"
-        "   -m <méthode>   Méthode de calcul (obligatoire)\n"
-        "                  Méthodes disponibles : bf, nn, rw, 2optnn, 2optrw, \n"
-        "                                         ga, gadpx, all <nombre d'individus> <nombre de générations> <taux de mutation>\n"
-        "   -o <fichier>   Fichier de sortie (optionnel)\n"
-        "   -c             Tournée canonique (optionnel)\n",
-        nom_programme);
+    printf("Usage : %s -f <fichier d'entrée> -m <méthode> [-o <fichier de sortie>] [-c]\n"
+           "   -f <fichier>   Fichier d'entrée (obligatoire)\n"
+           "   -m <méthode>   Méthode de calcul (obligatoire)\n"
+           "                  Méthodes disponibles : bf, nn, rw, 2optnn, 2optrw, \n"
+           "                                         ga, gadpx, all <nombre d'individus> <nombre de générations> <taux "
+           "de mutation>\n"
+           "   -o <fichier>   Fichier de sortie (optionnel)\n"
+           "   -c             Tournée canonique (optionnel)\n",
+           nom_programme);
 }
 
 Methode options_traiter_methode(char *nom)
@@ -58,10 +58,8 @@ Methode options_traiter_methode(char *nom)
         return TOUTES;
     }
 
-    fprintf(
-        stderr,
-        "Erreur options_traiter_methode :\n"
-        "Méthode de calcul non-reconnue.\n");
+    fprintf(stderr, "Erreur options_traiter_methode :\n"
+                    "Méthode de calcul non-reconnue.\n");
     exit(EXIT_FAILURE);
 }
 
@@ -74,10 +72,8 @@ size_t options_convertir_chaine_en_size_t(char **argv)
 
     if (fin == argv[optind] || errno)
     {
-        fprintf(
-            stderr,
-            "Erreur options_convertir_chaine_en_size_t :\n"
-            "Le nombre d'individus et le nombre de générations sont des nombres entiers positifs.\n\n");
+        fprintf(stderr, "Erreur options_convertir_chaine_en_size_t :\n"
+                        "Le nombre d'individus et le nombre de générations sont des nombres entiers positifs.\n\n");
         options_afficher_aide(argv[0]);
         exit(EXIT_FAILURE);
     }
@@ -94,10 +90,8 @@ double options_convertir_chaine_en_double(char **argv)
 
     if (fin == argv[optind] || errno || valeur < 0 || valeur > 1)
     {
-        fprintf(
-            stderr,
-            "Erreur options_convertir_chaine_en_double :\n"
-            "Le taux de mutation est un nombre réel compris entre 0 et 1.\n\n");
+        fprintf(stderr, "Erreur options_convertir_chaine_en_double :\n"
+                        "Le taux de mutation est un nombre réel compris entre 0 et 1.\n\n");
         options_afficher_aide(argv[0]);
         exit(EXIT_FAILURE);
     }
@@ -149,10 +143,8 @@ Arguments options_traiter_arguments(int argc, char **argv)
             break;
 
         default:
-            fprintf(
-                stderr,
-                "Erreur options_traiter_arguments :\n"
-                "Option non-reconnue.\n\n");
+            fprintf(stderr, "Erreur options_traiter_arguments :\n"
+                            "Option non-reconnue.\n\n");
             options_afficher_aide(argv[0]);
             exit(EXIT_FAILURE);
         }
@@ -160,24 +152,19 @@ Arguments options_traiter_arguments(int argc, char **argv)
 
     if (!fichier_entree_fourni || !methode_calcul_fourni)
     {
-        fprintf(
-            stderr,
-            "Erreur options_traiter_arguments :\n"
-            "Paramètres obligatoires manquants.\n\n");
+        fprintf(stderr, "Erreur options_traiter_arguments :\n"
+                        "Paramètres obligatoires manquants.\n\n");
         options_afficher_aide(argv[0]);
         exit(EXIT_FAILURE);
     }
 
-    if (options.methode_calcul == GENETIQUE_LIGHT ||
-        options.methode_calcul == GENETIQUE_DPX ||
+    if (options.methode_calcul == GENETIQUE_LIGHT || options.methode_calcul == GENETIQUE_DPX ||
         options.methode_calcul == TOUTES)
     {
         if (optind != argc - 3)
         {
-            fprintf(
-                stderr,
-                "Erreur options_traiter_arguments :\n"
-                "Trois arguments sont nécessaires pour la méthode génétique.\n\n");
+            fprintf(stderr, "Erreur options_traiter_arguments :\n"
+                            "Trois arguments sont nécessaires pour la méthode génétique.\n\n");
             options_afficher_aide(argv[0]);
             exit(EXIT_FAILURE);
         }
@@ -188,24 +175,20 @@ Arguments options_traiter_arguments(int argc, char **argv)
         optind++;
         options.arguments_genetique.taux_mutation = options_convertir_chaine_en_double(argv);
 
-        if (options.arguments_genetique.nombre_individus < 3 ||
-            options.arguments_genetique.taux_mutation < 0 ||
+        if (options.arguments_genetique.nombre_individus < 3 || options.arguments_genetique.taux_mutation < 0 ||
             options.arguments_genetique.taux_mutation > 1)
         {
-            fprintf(
-                stderr,
-                "Erreur options_traiter_arguments :\n"
-                "Il faut au moins trois individus, et le taux de mutation doit être compris entre 0 et 1.\n\n");
+            fprintf(stderr,
+                    "Erreur options_traiter_arguments :\n"
+                    "Il faut au moins trois individus, et le taux de mutation doit être compris entre 0 et 1.\n\n");
             options_afficher_aide(argv[0]);
             exit(EXIT_FAILURE);
         }
     }
     else if (optind < argc)
     {
-        fprintf(
-            stderr,
-            "Erreur options_traiter_arguments :\n"
-            "Trop d'arguments utilisés.\n\n");
+        fprintf(stderr, "Erreur options_traiter_arguments :\n"
+                        "Trop d'arguments utilisés.\n\n");
         options_afficher_aide(argv[0]);
         exit(EXIT_FAILURE);
     }
@@ -221,17 +204,34 @@ Arguments options_traiter_arguments(int argc, char **argv)
 FILE *entree;
 FILE *sortie;
 
-void fichier_ouvrir_entree(Arguments options)
+void fichier_ouvrir_entree_tsp(Arguments options)
 {
     entree = fopen(options.nom_fichier_entree, "r");
 
     if (entree == NULL)
     {
-        fprintf(
-            stderr,
-            "Erreur fichier_ouvrir_entree :\n"
-            "Échec d'ouverture du fichier '%s'.\n",
-            options.nom_fichier_entree);
+        fprintf(stderr,
+                "Erreur fichier_ouvrir_entree_tsp :\n"
+                "Échec d'ouverture du fichier '%s'.\n",
+                options.nom_fichier_entree);
+        exit(EXIT_FAILURE);
+    }
+}
+
+void fichier_ouvrir_entree_tour(Arguments options)
+{
+    options.nom_fichier_entree[strlen(options.nom_fichier_entree) - 4] = '\0';
+
+    strcat(options.nom_fichier_entree, ".opt.tour");
+
+    entree = fopen(options.nom_fichier_entree, "r");
+
+    if (entree == NULL)
+    {
+        fprintf(stderr,
+                "Erreur fichier_ouvrir_entree_tour :\n"
+                "Échec d'ouverture du fichier '%s'.\n",
+                options.nom_fichier_entree);
         exit(EXIT_FAILURE);
     }
 }
@@ -246,11 +246,10 @@ void fichier_ouvrir_sortie(Arguments options)
 
         if (sortie == NULL)
         {
-            fprintf(
-                stderr,
-                "Erreur fichier_ouvrir_sortie :\n"
-                "Échec d'ouverture du fichier '%s'.\n",
-                options.nom_fichier_sortie);
+            fprintf(stderr,
+                    "Erreur fichier_ouvrir_sortie :\n"
+                    "Échec d'ouverture du fichier '%s'.\n",
+                    options.nom_fichier_sortie);
             exit(EXIT_FAILURE);
         }
     }
@@ -260,11 +259,10 @@ void fichier_fermer_entree(Arguments options)
 {
     if (fclose(entree) == EOF)
     {
-        fprintf(
-            stderr,
-            "Erreur fichier_fermer_entree :\n"
-            "Échec de fermeture du fichier '%s'.\n",
-            options.nom_fichier_entree);
+        fprintf(stderr,
+                "Erreur fichier_fermer_entree :\n"
+                "Échec de fermeture du fichier '%s'.\n",
+                options.nom_fichier_entree);
         exit(EXIT_FAILURE);
     }
 }
@@ -277,11 +275,10 @@ void fichier_fermer_sortie(Arguments options)
 
     if (fclose(sortie) == EOF)
     {
-        fprintf(
-            stderr,
-            "Erreur fichier_fermer_sortie :\n"
-            "Échec de fermeture du fichier '%s'.\n",
-            options.nom_fichier_sortie);
+        fprintf(stderr,
+                "Erreur fichier_fermer_sortie :\n"
+                "Échec de fermeture du fichier '%s'.\n",
+                options.nom_fichier_sortie);
         exit(EXIT_FAILURE);
     }
 }

@@ -18,7 +18,7 @@ void afficher_noms_champs(FILE *sortie)
                     "Méthode ; "
                     "Temps CPU (s) ; "
                     "Longueur ; "
-                    "Tour ; "
+                    "Tour "
                     "\n");
 }
 
@@ -112,7 +112,7 @@ void afficher_longueur(FILE *sortie, Permutation permutation)
 
 void afficher_tournee(FILE *sortie, char *nom_fichier, Methode methode, double temps, Permutation permutation)
 {
-    fprintf(sortie, "%s ; ", nom_fichier);
+    fprintf(sortie, "%-25s ; ", nom_fichier);
 
     afficher_methode_calcul(sortie, methode);
     fprintf(sortie, " ; ");
@@ -123,8 +123,6 @@ void afficher_tournee(FILE *sortie, char *nom_fichier, Methode methode, double t
     fprintf(sortie, " ; ");
 
     afficher_permutation(sortie, permutation, 0);
-
-    fprintf(sortie, " ; ");
 
     fprintf(sortie, "\n");
 }

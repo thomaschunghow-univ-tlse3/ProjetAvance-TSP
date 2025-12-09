@@ -234,6 +234,13 @@ size_t permutation_obtenir_sommet(Permutation permutation, size_t indice)
     return permutation->sommets[indice];
 }
 
+void permutation_modifier_sommet(Permutation permutation, size_t indice, size_t nouveau_sommet)
+{
+    assert(permutation != NULL);
+
+    permutation->sommets[indice] = nouveau_sommet;
+}
+
 void permutation_echanger_sommets(Permutation permutation, size_t sommet_A, size_t sommet_B)
 {
     assert(permutation != NULL);

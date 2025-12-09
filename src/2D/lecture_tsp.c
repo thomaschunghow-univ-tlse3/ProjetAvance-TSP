@@ -6,6 +6,7 @@
 
 #include "calcul_distance.h"
 #include "structure_matrice.h"
+#include "structure_permutation.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -27,16 +28,12 @@ Specification lecture_tsp_initialiser_specification()
 
 void lecture_tsp_verifier_specification_valide(Specification specification)
 {
-    if (strcmp(specification.nom, "") == 0 ||
-        strcmp(specification.nom, "") == 0 ||
-        strcmp(specification.nom, "") == 0 ||
-        specification.nombre_points == 0 ||
+    if (strcmp(specification.nom, "") == 0 || strcmp(specification.nom, "") == 0 ||
+        strcmp(specification.nom, "") == 0 || specification.nombre_points == 0 ||
         specification.distance_calculer == NULL)
     {
-        fprintf(
-            stderr,
-            "Erreur lecture_tsp_verifier_specification_valide :\n"
-            "Un des champs de la spécification n'a pas été initialisé.\n");
+        fprintf(stderr, "Erreur lecture_tsp_verifier_specification_valide :\n"
+                        "Un des champs de la spécification n'a pas été initialisé.\n");
         exit(EXIT_FAILURE);
     }
 }
@@ -55,10 +52,8 @@ DistanceCalculer lecture_tsp_obtenir_methode_depuis_nom(char *nom)
     {
         return &calculer_distance_euclidienne_modifiee_generique;
     }
-    fprintf(
-        stderr,
-        "Erreur lecture_tsp_obtenir_methode_depuis_nom :\n"
-        "Méthode de calcul non reconnue.\n");
+    fprintf(stderr, "Erreur lecture_tsp_obtenir_methode_depuis_nom :\n"
+                    "Méthode de calcul non reconnue.\n");
     exit(EXIT_FAILURE);
 }
 
@@ -74,10 +69,8 @@ Specification lecture_tsp_lire_specification(FILE *entree)
     {
         if (strlen(ligne) >= LECTURE_TSP_TAILLE_MAX)
         {
-            fprintf(
-                stderr,
-                "Erreur lecture_donnees_lire_specification_tsp :\n"
-                "Ligne trop longue pour le champ de taille statique.\n");
+            fprintf(stderr, "Erreur lecture_donnees_lire_specification_tsp :\n"
+                            "Ligne trop longue pour le champ de taille statique.\n");
         }
         if (strstr(ligne, "NAME"))
         {
@@ -130,5 +123,29 @@ void lecture_tsp_lire_points(FILE *entree, MatriceDistance matrice)
         Point point;
         fscanf(entree, "%*d%lf%lf", &(point.x), &(point.y));
         matrice_modifier_point(matrice, i, &point);
+    }
+}
+
+void lecture_tour_lire_points(FILE *entree, Permutation permutation)
+{
+    rewind(entree);
+
+    char ligne[LECTURE_TSP_TAILLE_MAX];
+
+    while (fgets(ligne, LECTURE_TSP_TAILLE_MAX, entree) != NULL)
+    {
+        if (strstr(ligne, "TOUR_SECTION"))
+        {
+            break;
+        }
+    }
+
+    size_t nombre_points = permutation_obtenir_nombre_sommets(permutation);
+
+    for (size_t i = 0; i < nombre_points; i++)
+    {
+        size_t sommet;
+        fscanf(entree, "%lu", &sommet);
+        permutation_modifier_sommet(permutation, i, sommet - 1);
     }
 }

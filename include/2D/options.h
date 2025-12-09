@@ -48,7 +48,8 @@ Arguments options_traiter_arguments(int argc, char **argv);
 extern FILE *entree;
 extern FILE *sortie;
 
-void fichier_ouvrir_entree(Arguments options);
+void fichier_ouvrir_entree_tsp(Arguments options);
+void fichier_ouvrir_entree_tour(Arguments options);
 void fichier_ouvrir_sortie(Arguments options);
 
 void fichier_fermer_entree(Arguments options);

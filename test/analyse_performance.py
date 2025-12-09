@@ -1,0 +1,158 @@
+#
+# test_tous_fichiers.py
+#
+
+import os
+import subprocess
+import signal
+import pandas as pd
+
+DATA_DIR = "./data"
+BIN = "./bin/main"
+
+METHODS = ["nn", "rw", "2optnn", "2optrw", "ga 10 10000000000000 .1", "gadpx 10 10000000000000 .05"]
+
+RESULT_FILE_TSP = "bin/resultats_tsp.txt"
+RESULT_FILE_TOUR = "bin/resultats_tour.txt"
+
+NOMBRE_SECONDES_MAX_CALCUL = 10
+
+def main():
+
+    subprocess.run(["make", "clean"])
+    subprocess.run(["make", "comparaison_resultat"])
+
+    with open(RESULT_FILE_TOUR, "w") as f:
+        f.write("Instance ; Longueur ; Tour\n")
+
+    resultats_tsp = ""
+
+    for filename in sorted(os.listdir(DATA_DIR)):
+        if filename.endswith(".opt.tour"):
+            resultats_tsp = os.path.join(DATA_DIR, filename)
+            resultats_tsp = resultats_tsp[:-8] + "tsp"
+            cmd = [BIN, "-f", resultats_tsp, "-m", "bf"]
+
+            p = subprocess.Popen(
+                cmd,
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True
+            )
+            output, _ = p.communicate()
+
+            # sortie éventuelle
+            if output:
+                # Récupérer la dernière ligne non vide
+                lines = [l for l in output.splitlines() if l.strip() != ""]
+                if lines:
+                    last = lines[-1]  # la dernière ligne
+                    with open(RESULT_FILE_TOUR, "a") as f:
+                        f.write(last + "\n")
+
+    subprocess.run(["make", "clean"])
+    subprocess.run(["make", "all"])
+
+    with open(RESULT_FILE_TSP, "w") as f:
+        f.write("Instance ; Méthode ; Temps CPU (s) ; Longueur ; Tour\n")
+
+    resultats_tour = "" 
+
+    for filename in sorted(os.listdir(DATA_DIR)):
+        if filename.endswith(".opt.tour"):
+            resultats_tour = os.path.join(DATA_DIR, filename)
+            resultats_tour = resultats_tour[:-8] + "tsp"
+
+            for method in METHODS:
+
+                cmd = [BIN, "-f", resultats_tour, "-m"] + method.split()
+
+                p = subprocess.Popen(
+                    cmd,
+                    stdin=subprocess.PIPE,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True
+                )
+
+                try:
+                    p.wait(timeout=NOMBRE_SECONDES_MAX_CALCUL)
+
+                except subprocess.TimeoutExpired:
+                    # envoyer Ctrl-C
+                    p.send_signal(signal.SIGINT)
+
+                    # envoyer "n" à ton programme
+                    try:
+                        p.stdin.write("n\n")
+                        p.stdin.flush()
+                    except:
+                        pass
+
+                # récupérer tout ce qui a été écrit
+                output, _ = p.communicate()
+
+                # sortie éventuelle
+                if output:
+                    # Récupérer la dernière ligne non vide
+                    lines = [l for l in output.splitlines() if l.strip() != ""]
+                    if lines:
+                        last = lines[-1]  # la dernière ligne
+                        with open(RESULT_FILE_TSP, "a") as f:
+                            f.write(last + "\n")
+    
+    # --- Lecture des fichiers générés ---
+    df_tsp = pd.read_csv(RESULT_FILE_TSP, sep=";", engine="python")
+    df_tour = pd.read_csv(RESULT_FILE_TOUR, sep=";", engine="python")
+
+    # Nettoyage : enlever les espaces autour des noms de colonnes et valeurs
+    df_tsp = df_tsp.apply(lambda col: col.str.strip() if col.dtype == "object" else col)
+    df_tour = df_tour.apply(lambda col: col.str.strip() if col.dtype == "object" else col)
+
+    # Renommer les colonnes
+    df_tsp.columns = ["Instance", "Méthode", "Temps CPU (s)", "Longueur", "Tour"]
+    df_tour.columns = ["Instance", "Longueur minimale théorique", "Tour"]
+
+    # On supprime la colonne inutile
+    df_tsp = df_tsp.drop(columns=["Tour"])
+    df_tour = df_tour.drop(columns=["Tour"])
+
+    # Convertir les colonnes numériques
+    df_tsp["Temps CPU (s)"] = pd.to_numeric(df_tsp["Temps CPU (s)"], errors="coerce")
+    df_tsp["Longueur"] = pd.to_numeric(df_tsp["Longueur"], errors="coerce")
+    df_tour["Longueur minimale théorique"] = pd.to_numeric(df_tour["Longueur minimale théorique"], errors="coerce")
+
+    # Fusion des DataFrames sur l’instance
+    df = df_tsp.merge(df_tour[["Instance", "Longueur minimale théorique"]], on="Instance", how="left")
+
+    # Calcul de la différence
+    df["Différence (%)"] = ((df["Longueur"] - df["Longueur minimale théorique"]) / df["Longueur minimale théorique"] * 100).round(2)
+
+    # --- Calcul des moyennes par méthode ---
+    moyennes = df.groupby("Méthode").agg({
+        "Temps CPU (s)": "mean",
+        "Différence (%)": "mean"
+    })
+
+    # Ajouter ces moyennes comme lignes supplémentaires dans le DataFrame final
+    for method, row in moyennes.iterrows():
+        df = pd.concat([df, pd.DataFrame({
+            "Instance": [f"Moyenne {method}"],
+            "Méthode": [method],
+            "Temps CPU (s)": [row["Temps CPU (s)"]],
+            "Longueur": [None],
+            "Longueur minimale théorique": [None],
+            "Différence (%)": [row["Différence (%)"]]
+        })], ignore_index=True)
+
+    # Sauvegarde en CSV final
+    df.to_csv("bin/analyse_performance.csv", sep=",", index=False)
+
+    print(df)
+
+
+
+
+if __name__ == "__main__":
+    main()

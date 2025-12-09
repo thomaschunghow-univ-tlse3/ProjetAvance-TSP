@@ -5,6 +5,7 @@ CFLAGS := -Wall -Wextra -pedantic $(foreach dir,$(INCLUDES),-I$(dir)) -D_GNU_SOU
 LDFLAGS := -lm
 AFFICHAGE_INTERACTIF_2_OPT := -DAFFICHAGE_INTERACTIF_2_OPT
 AFFICHAGE_INTERACTIF_GA := -DAFFICHAGE_INTERACTIF_GA
+COMPARAISON_RESULTAT := -DCOMPARAISON_RESULTAT
 
 SRC_DIR := src
 OBJ_DIR := bin/obj
@@ -22,6 +23,9 @@ interactive_2opt: $(TARGET)
 
 interactive_ga: CFLAGS += $(AFFICHAGE_INTERACTIF_GA)
 interactive_ga: $(TARGET)
+
+comparaison_resultat: CFLAGS +=  $(COMPARAISON_RESULTAT)
+comparaison_resultat:  $(TARGET)
 
 debug: CFLAGS += -g 
 debug: $(TARGET)

@@ -9,6 +9,7 @@
 #define LECTURE_TSP_H
 
 #include "structure_matrice.h"
+#include "structure_permutation.h"
 
 #include <stdio.h>
 
@@ -29,5 +30,7 @@ typedef struct
 Specification lecture_tsp_lire_specification(FILE *fichier);
 
 void lecture_tsp_lire_points(FILE *fichier, MatriceDistance);
+
+void lecture_tour_lire_points(FILE *entree, Permutation permutation);
 
 #endif // LECTURE_TSP_H
