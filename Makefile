@@ -1,7 +1,7 @@
 INCLUDES := $(wildcard include/*)
 
 CC := gcc
-CFLAGS := -Wall -Wextra -pedantic $(foreach dir,$(INCLUDES),-I$(dir)) -D_GNU_SOURCE -std=gnu2x 
+CFLAGS := -Wall -Wextra -pedantic $(foreach dir,$(INCLUDES),-I$(dir)) -D_GNU_SOURCE -std=gnu2x -DNDEBUG
 LDFLAGS := -lm
 AFFICHAGE_INTERACTIF_2_OPT := -DAFFICHAGE_INTERACTIF_2_OPT
 AFFICHAGE_INTERACTIF_GA := -DAFFICHAGE_INTERACTIF_GA
